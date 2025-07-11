@@ -1,0 +1,3192 @@
+# Copyright (C) 2025 uicore-elements
+# This file is distributed under the same license as the uicore-elements package.
+msgid ""
+msgstr ""
+"Project-Id-Version: uicore-elements\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-06-20 13:19+0000\n"
+"Project-Id-Version: undefined\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../includes/class-animate.php:28
+msgid "Split Text Animation"
+msgstr ""
+
+#: ../includes/class-animate.php:35
+msgid "UiCore Animate required"
+msgstr ""
+
+#. translators: %s: link to Uicore Animate
+#: ../includes/class-animate.php:40
+msgid "Download and instal %s for more advanced animations control"
+msgstr ""
+
+#: ../includes/class-elementor.php:110
+msgid "UiCore"
+msgstr ""
+
+#: ../includes/class-helper.php:52, ../includes/utils/meta-component.php:40
+msgid "Custom Meta"
+msgstr ""
+
+#. translators: item number
+#. translators: %d: Item number
+#: ../includes/class-nested-widget-base.php:46, ../includes/widgets/custom-carousel.php:88
+msgid "Item #%d"
+msgstr ""
+
+#. translators: 1: opening url tags 2: closing url tag
+#: ../includes/class-nested-widget-base.php:155
+msgid "Please, %1$s click here %2$s and enable the Nested Elements experiment in Elementor settings"
+msgstr ""
+
+#: ../includes/class-nested-widget-base.php:168, ../includes/widgets/tabs.php:31, ../includes/widgets/tabs.php:103, ../includes/widgets/tabs.php:500
+msgid "Tabs"
+msgstr ""
+
+#: ../includes/class-nested-widget-base.php:178
+msgid "Feature Disabled."
+msgstr ""
+
+#: ../includes/controls/class-lightbox-button.php:43
+msgid "Lightbox"
+msgstr ""
+
+#: ../includes/controls/class-lightbox-button.php:50, ../includes/widgets/contact-form.php:586, ../includes/widgets/highlighted-text.php:86
+msgid "Type"
+msgstr ""
+
+#: ../includes/controls/class-lightbox-button.php:54
+msgid "Video"
+msgstr ""
+
+#: ../includes/controls/class-lightbox-button.php:58, ../includes/controls/class-lightbox-button.php:70, ../includes/utils/gallery-component.php:48, ../includes/utils/gallery-component.php:548, ../includes/utils/post-component.php:60, ../includes/widgets/counter.php:106, ../includes/widgets/highlighted-text.php:92, ../includes/widgets/icon-box.php:104, ../includes/widgets/icon-list.php:115, ../includes/widgets/icon-list.php:1127
+msgid "Image"
+msgstr ""
+
+#: ../includes/controls/class-lightbox-button.php:81
+msgid "Video URL"
+msgstr ""
+
+#: ../includes/controls/class-post-filter-control.php:51
+msgid "Source"
+msgstr ""
+
+#: ../includes/controls/class-post-filter-control.php:127, ../includes/utils/carousel-component.php:276, ../includes/utils/carousel-component.php:454, ../includes/utils/carousel-component.php:618, ../includes/utils/carousel-component.php:744, ../includes/utils/meta-component.php:87, ../includes/utils/testimonial-component.php:500, ../includes/utils/testimonial-component.php:619, ../includes/widgets/counter.php:417
+msgid "Custom"
+msgstr ""
+
+#: ../includes/controls/class-post-filter-control.php:128, ../includes/controls/class-post-filter-control.php:157
+msgid "Current"
+msgstr ""
+
+#: ../includes/controls/class-post-filter-control.php:129, ../includes/controls/class-post-filter-control.php:158
+msgid "Related"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:58
+msgid "Animate each Item"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:69, ../includes/utils/carousel-component.php:830, ../includes/utils/form-component.php:1091, ../includes/utils/gallery-component.php:889, ../includes/widgets/contact-form.php:1980, ../includes/widgets/highlighted-text.php:386
+msgid "Animation"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:73
+msgid "Fade In Up"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:74
+msgid "Fade In Down"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:75
+msgid "Fade In Left"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:76
+msgid "Fade In Right"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:77
+msgid "Fade In"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:78
+msgid "Zoom In"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:89
+msgid "Speed"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:113, ../includes/widgets/highlighted-text.php:400
+msgid "Animation Delay"
+msgstr ""
+
+#: ../includes/utils/animation-component.php:137
+msgid "Stagger"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:131, ../includes/utils/carousel-component.php:138, ../includes/utils/carousel-component.php:1149
+msgid "Navigation"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:142, ../includes/utils/carousel-component.php:171, ../includes/utils/carousel-component.php:1166
+msgid "Arrows"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:143, ../includes/utils/carousel-component.php:680, ../includes/utils/carousel-component.php:1336
+msgid "Dots"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:144, ../includes/utils/carousel-component.php:1664
+msgid "Fractions"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:145
+msgid "Arrows and Dots"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:146
+msgid "Arrows and Fraction"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:147, ../includes/utils/logo-component.php:164, ../includes/utils/meta-component.php:19, ../includes/utils/post-component.php:832, ../includes/utils/post-component.php:846, ../includes/utils/post-component.php:872, ../includes/utils/post-component.php:886, ../includes/utils/post-component.php:903, ../includes/utils/testimonial-component.php:499, ../includes/utils/testimonial-component.php:618, ../includes/widgets/accordion.php:1269, ../includes/widgets/accordion.php:1288, ../includes/widgets/advanced-product-grid.php:268, ../includes/widgets/highlighted-text.php:120, ../includes/widgets/icon-box.php:96, ../includes/widgets/icon-box.php:1976, ../includes/widgets/icon-box.php:2032, ../includes/widgets/icon-box.php:2053, ../includes/widgets/icon-box.php:2087, ../includes/widgets/tabs.php:448
+msgid "None"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:161
+msgid "Marquee animation does not support navigation."
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:184
+msgid "Previous"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:192, ../includes/utils/carousel-component.php:370
+msgid "Previous Arrow Icon"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:221, ../includes/utils/carousel-component.php:399, ../includes/utils/carousel-component.php:563, ../includes/utils/carousel-component.php:689
+msgid "Horizontal Orientation"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:225, ../includes/utils/carousel-component.php:403, ../includes/utils/carousel-component.php:567, ../includes/utils/carousel-component.php:693, ../includes/utils/form-component.php:479, ../includes/utils/gallery-component.php:300, ../includes/utils/pagination-component.php:144, ../includes/utils/post-component.php:534, ../includes/utils/post-component.php:730, ../includes/utils/post-filter-component.php:103, ../includes/utils/testimonial-component.php:328, ../includes/widgets/accordion.php:576, ../includes/widgets/accordion.php:1234, ../includes/widgets/contact-form.php:1073, ../includes/widgets/counter.php:271, ../includes/widgets/counter.php:301, ../includes/widgets/counter.php:388, ../includes/widgets/highlighted-text.php:274, ../includes/widgets/icon-box.php:202, ../includes/widgets/icon-box.php:305, ../includes/widgets/icon-box.php:437, ../includes/widgets/icon-list.php:273, ../includes/widgets/icon-list.php:350, ../includes/widgets/icon-list.php:371, ../includes/widgets/theme-builder/page-description.php:143, ../includes/widgets/theme-builder/post-meta.php:74, ../includes/widgets/theme-builder/the-content.php:62, ../includes/widgets/theme-builder/the-title.php:144
+msgid "Left"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:229, ../includes/utils/carousel-component.php:255, ../includes/utils/carousel-component.php:407, ../includes/utils/carousel-component.php:433, ../includes/utils/carousel-component.php:571, ../includes/utils/carousel-component.php:597, ../includes/utils/carousel-component.php:697, ../includes/utils/carousel-component.php:723, ../includes/utils/form-component.php:483, ../includes/utils/gallery-component.php:247, ../includes/utils/gallery-component.php:304, ../includes/utils/pagination-component.php:148, ../includes/utils/post-component.php:538, ../includes/utils/post-component.php:734, ../includes/utils/post-filter-component.php:107, ../includes/utils/testimonial-component.php:293, ../includes/utils/testimonial-component.php:332, ../includes/utils/testimonial-component.php:363, ../includes/widgets/accordion.php:580, ../includes/widgets/accordion.php:1238, ../includes/widgets/contact-form.php:1077, ../includes/widgets/counter.php:331, ../includes/widgets/counter.php:362, ../includes/widgets/counter.php:392, ../includes/widgets/gallery-slider.php:90, ../includes/widgets/highlighted-text.php:278, ../includes/widgets/icon-box.php:309, ../includes/widgets/icon-box.php:1705, ../includes/widgets/icon-list.php:229, ../includes/widgets/icon-list.php:299, ../includes/widgets/icon-list.php:375, ../includes/widgets/tabs.php:271, ../includes/widgets/tabs.php:310, ../includes/widgets/tabs.php:381, ../includes/widgets/tabs.php:416, ../includes/widgets/theme-builder/page-description.php:147, ../includes/widgets/theme-builder/post-meta.php:78, ../includes/widgets/theme-builder/the-content.php:66, ../includes/widgets/theme-builder/the-title.php:148
+msgid "Center"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:233, ../includes/utils/carousel-component.php:411, ../includes/utils/carousel-component.php:575, ../includes/utils/carousel-component.php:701, ../includes/utils/form-component.php:487, ../includes/utils/gallery-component.php:308, ../includes/utils/post-component.php:738, ../includes/utils/post-filter-component.php:111, ../includes/utils/testimonial-component.php:336, ../includes/widgets/accordion.php:584, ../includes/widgets/accordion.php:1242, ../includes/widgets/contact-form.php:1081, ../includes/widgets/counter.php:279, ../includes/widgets/counter.php:305, ../includes/widgets/counter.php:396, ../includes/widgets/highlighted-text.php:282, ../includes/widgets/icon-box.php:210, ../includes/widgets/icon-box.php:313, ../includes/widgets/icon-box.php:438, ../includes/widgets/icon-list.php:277, ../includes/widgets/icon-list.php:354, ../includes/widgets/icon-list.php:379, ../includes/widgets/theme-builder/page-description.php:151, ../includes/widgets/theme-builder/the-content.php:70, ../includes/widgets/theme-builder/the-title.php:152
+msgid "Right"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:247, ../includes/utils/carousel-component.php:425, ../includes/utils/carousel-component.php:589, ../includes/utils/carousel-component.php:715
+msgid "Vertical Orientation"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:251, ../includes/utils/carousel-component.php:429, ../includes/utils/carousel-component.php:593, ../includes/utils/carousel-component.php:719, ../includes/utils/gallery-component.php:246, ../includes/utils/post-component.php:784, ../includes/utils/testimonial-component.php:289, ../includes/utils/testimonial-component.php:359, ../includes/widgets/counter.php:275, ../includes/widgets/counter.php:327, ../includes/widgets/counter.php:358, ../includes/widgets/icon-box.php:206, ../includes/widgets/icon-box.php:274, ../includes/widgets/icon-list.php:225, ../includes/widgets/icon-list.php:295
+msgid "Top"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:259, ../includes/utils/carousel-component.php:437, ../includes/utils/carousel-component.php:601, ../includes/utils/carousel-component.php:727, ../includes/utils/gallery-component.php:248, ../includes/utils/post-component.php:811, ../includes/utils/testimonial-component.php:297, ../includes/utils/testimonial-component.php:367, ../includes/widgets/counter.php:335, ../includes/widgets/counter.php:366, ../includes/widgets/gallery-slider.php:94, ../includes/widgets/icon-box.php:214, ../includes/widgets/icon-box.php:282, ../includes/widgets/icon-list.php:233, ../includes/widgets/icon-list.php:303
+msgid "Bottom"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:273, ../includes/utils/carousel-component.php:451
+msgid "Arrow Offset"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:275, ../includes/utils/carousel-component.php:453, ../includes/utils/carousel-component.php:617, ../includes/utils/carousel-component.php:743, ../includes/utils/carousel-component.php:837, ../includes/utils/form-component.php:1200, ../includes/utils/gallery-component.php:148, ../includes/utils/meta-component.php:82, ../includes/widgets/advanced-post-carousel.php:195, ../includes/widgets/contact-form.php:778, ../includes/widgets/contact-form.php:1049, ../includes/widgets/counter.php:416, ../includes/widgets/gallery-carousel.php:230, ../includes/widgets/post-grid.php:152, ../includes/widgets/post-grid.php:171, ../includes/widgets/post-grid.php:189
+msgid "Default"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:286, ../includes/utils/carousel-component.php:463, ../includes/utils/carousel-component.php:627, ../includes/utils/carousel-component.php:753, ../includes/widgets/counter.php:1002, ../includes/widgets/counter.php:1061, ../includes/widgets/icon-box.php:480, ../includes/widgets/icon-box.php:1721
+msgid "Horizontal Offset"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:311, ../includes/utils/carousel-component.php:488, ../includes/utils/carousel-component.php:652, ../includes/utils/carousel-component.php:778, ../includes/widgets/counter.php:1025, ../includes/widgets/counter.php:1084, ../includes/widgets/highlighted-text.php:361, ../includes/widgets/icon-box.php:506, ../includes/widgets/icon-box.php:1748
+msgid "Vertical Offset"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:336, ../includes/utils/carousel-component.php:513, ../includes/utils/carousel-component.php:803
+msgid "Rotation"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:362
+msgid "Next"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:541
+msgid "Hide arrows on Mobile"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:554
+msgid "Fraction"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:615
+msgid "Fraction Offset"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:741
+msgid "Dots Offset"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:834, ../includes/widgets/advanced-post-carousel.php:193
+msgid "Circular"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:835, ../includes/widgets/advanced-post-carousel.php:194
+msgid "Fade Blur"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:836
+msgid "Marquee"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:847
+msgid "Slides per View"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:895
+msgid "Show Hidden Items"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:899, ../includes/widgets/contact-form.php:109, ../includes/widgets/contact-form.php:831, ../includes/widgets/newsletter.php:416
+msgid "Hidden"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:900
+msgid "Show Left"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:901
+msgid "Show Right"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:913
+msgid "Marquee Speed"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:928
+msgid "Center Slides"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:940
+msgid "Vertical Scroll"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:957
+msgid "Carousel Height"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:987
+msgid "Fade Edges"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:998
+msgid "Fade opacity"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1015
+msgid "Fade deepening"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1032
+msgid "Autoplay"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1045
+msgid "Autoplay Speed"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1061
+msgid "Reverse Direction"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1086
+msgid "Pause on Hover"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1100
+msgid "Grab Cursor"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1112
+msgid "Loop"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1125
+msgid "Overflow Container"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1134
+msgid "Observer"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1135
+msgid "Use it when the carousel is placed in a hidden place (ex: tab, accordion)."
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1177, ../includes/utils/carousel-component.php:1347, ../includes/utils/form-component.php:742, ../includes/utils/form-component.php:975, ../includes/utils/gallery-component.php:352, ../includes/utils/item-style-component.php:24, ../includes/utils/logo-component.php:143, ../includes/utils/pagination-component.php:274, ../includes/utils/post-component.php:360, ../includes/utils/post-filter-component.php:137, ../includes/widgets/accordion.php:415, ../includes/widgets/accordion.php:603, ../includes/widgets/accordion.php:801, ../includes/widgets/accordion.php:934, ../includes/widgets/contact-form.php:1636, ../includes/widgets/contact-form.php:1864, ../includes/widgets/counter.php:609, ../includes/widgets/counter.php:912, ../includes/widgets/counter.php:1129, ../includes/widgets/icon-box.php:648, ../includes/widgets/icon-box.php:1241, ../includes/widgets/icon-box.php:1329, ../includes/widgets/icon-box.php:1413, ../includes/widgets/icon-box.php:1494, ../includes/widgets/icon-box.php:1805, ../includes/widgets/icon-list.php:405, ../includes/widgets/icon-list.php:588, ../includes/widgets/icon-list.php:730, ../includes/widgets/icon-list.php:896, ../includes/widgets/logo-carousel.php:104, ../includes/widgets/tabs.php:554, ../includes/widgets/tabs.php:824, ../includes/widgets/tabs.php:931, ../includes/widgets/tabs.php:1075, ../includes/widgets/theme-builder/page-description.php:231, ../includes/widgets/theme-builder/the-title.php:233
+msgid "Normal"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1185, ../includes/utils/carousel-component.php:1281, ../includes/utils/carousel-component.php:1355, ../includes/utils/carousel-component.php:1526, ../includes/utils/carousel-component.php:1715, ../includes/utils/gallery-component.php:366, ../includes/utils/gallery-component.php:408, ../includes/utils/gallery-component.php:450, ../includes/utils/gallery-component.php:660, ../includes/utils/gallery-component.php:723, ../includes/utils/gallery-component.php:779, ../includes/utils/gallery-component.php:809, ../includes/utils/pagination-component.php:292, ../includes/utils/pagination-component.php:338, ../includes/utils/pagination-component.php:387, ../includes/utils/testimonial-component.php:702, ../includes/utils/testimonial-component.php:769, ../includes/utils/testimonial-component.php:832, ../includes/utils/testimonial-component.php:927, ../includes/utils/testimonial-component.php:897, ../includes/utils/testimonial-component.php:942, ../includes/utils/testimonial-component.php:1077, ../includes/widgets/contact-form.php:1598, ../includes/widgets/counter.php:973, ../includes/widgets/highlighted-text.php:165, ../includes/widgets/highlighted-text.php:326, ../includes/widgets/icon-box.php:1248, ../includes/widgets/icon-box.php:1268, ../includes/widgets/icon-box.php:1336, ../includes/widgets/icon-box.php:1356, ../includes/widgets/icon-box.php:1420, ../includes/widgets/icon-box.php:1440, ../includes/widgets/icon-box.php:1509, ../includes/widgets/icon-box.php:1580, ../includes/widgets/icon-box.php:1631, ../includes/widgets/icon-box.php:2066, ../includes/widgets/icon-list.php:595, ../includes/widgets/icon-list.php:679, ../includes/widgets/icon-list.php:745, ../includes/widgets/icon-list.php:773, ../includes/widgets/icon-list.php:903, ../includes/widgets/icon-list.php:986, ../includes/widgets/post-grid.php:275, ../includes/widgets/post-grid.php:321, ../includes/widgets/tabs.php:831, ../includes/widgets/tabs.php:851, ../includes/widgets/tabs.php:871, ../includes/widgets/tabs.php:938, ../includes/widgets/tabs.php:958, ../includes/widgets/tabs.php:978, ../includes/widgets/tabs.php:1080, ../includes/widgets/tabs.php:1109, ../includes/widgets/tabs.php:1138
+msgid "Color"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1197, ../includes/utils/carousel-component.php:1293, ../includes/utils/pagination-component.php:280, ../includes/utils/pagination-component.php:328, ../includes/utils/pagination-component.php:375
+msgid "Background"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1216, ../includes/utils/carousel-component.php:1486, ../includes/utils/carousel-component.php:1623, ../includes/utils/carousel-component.php:1695, ../includes/utils/form-component.php:912, ../includes/utils/form-component.php:1103, ../includes/utils/gallery-component.php:494, ../includes/utils/gallery-component.php:613, ../includes/utils/gallery-component.php:840, ../includes/utils/item-style-component.php:64, ../includes/utils/logo-component.php:222, ../includes/utils/meta-component.php:202, ../includes/utils/post-component.php:462, ../includes/utils/post-component.php:505, ../includes/utils/post-filter-component.php:282, ../includes/utils/testimonial-component.php:402, ../includes/utils/testimonial-component.php:992, ../includes/widgets/accordion.php:440, ../includes/widgets/accordion.php:546, ../includes/widgets/accordion.php:640, ../includes/widgets/accordion.php:770, ../includes/widgets/accordion.php:969, ../includes/widgets/accordion.php:1168, ../includes/widgets/contact-form.php:1806, ../includes/widgets/contact-form.php:1992, ../includes/widgets/counter.php:735, ../includes/widgets/icon-box.php:761, ../includes/widgets/icon-box.php:1159, ../includes/widgets/icon-box.php:1539, ../includes/widgets/icon-box.php:1863, ../includes/widgets/icon-list.php:511, ../includes/widgets/icon-list.php:626, ../includes/widgets/icon-list.php:937, ../includes/widgets/icon-list.php:1144, ../includes/widgets/post-grid.php:372, ../includes/widgets/tabs.php:780, ../includes/widgets/tabs.php:1053, ../includes/widgets/tabs.php:1202
+msgid "Border Radius"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1228, ../includes/utils/carousel-component.php:1683, ../includes/utils/form-component.php:925, ../includes/utils/gallery-component.php:505, ../includes/utils/gallery-component.php:857, ../includes/utils/item-style-component.php:84, ../includes/utils/logo-component.php:246, ../includes/utils/meta-component.php:220, ../includes/utils/post-component.php:446, ../includes/utils/post-filter-component.php:294, ../includes/utils/testimonial-component.php:413, ../includes/utils/testimonial-component.php:1003, ../includes/widgets/accordion.php:452, ../includes/widgets/accordion.php:652, ../includes/widgets/accordion.php:981, ../includes/widgets/accordion.php:1180, ../includes/widgets/contact-form.php:1819, ../includes/widgets/counter.php:698, ../includes/widgets/icon-box.php:802, ../includes/widgets/icon-box.php:1551, ../includes/widgets/icon-box.php:1883, ../includes/widgets/icon-list.php:523, ../includes/widgets/icon-list.php:638, ../includes/widgets/icon-list.php:949, ../includes/widgets/tabs.php:792, ../includes/widgets/tabs.php:1041, ../includes/widgets/tabs.php:1222
+msgid "Padding"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1240, ../includes/utils/carousel-component.php:1388, ../includes/utils/carousel-component.php:1537, ../includes/utils/testimonial-component.php:424, ../includes/utils/testimonial-component.php:454, ../includes/utils/testimonial-component.php:580, ../includes/utils/testimonial-component.php:1025, ../includes/widgets/accordion.php:820, ../includes/widgets/highlighted-text.php:223, ../includes/widgets/icon-box.php:868, ../includes/widgets/icon-box.php:893, ../includes/widgets/icon-list.php:1169, ../includes/widgets/tabs.php:1001
+msgid "Size"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1273, ../includes/utils/form-component.php:809, ../includes/utils/form-component.php:1027, ../includes/utils/gallery-component.php:401, ../includes/utils/item-style-component.php:119, ../includes/utils/logo-component.php:294, ../includes/utils/pagination-component.php:322, ../includes/utils/post-component.php:390, ../includes/utils/post-filter-component.php:188, ../includes/widgets/accordion.php:482, ../includes/widgets/accordion.php:682, ../includes/widgets/accordion.php:854, ../includes/widgets/accordion.php:1042, ../includes/widgets/contact-form.php:1703, ../includes/widgets/contact-form.php:1916, ../includes/widgets/counter.php:643, ../includes/widgets/counter.php:933, ../includes/widgets/counter.php:1149, ../includes/widgets/icon-box.php:1082, ../includes/widgets/icon-box.php:1261, ../includes/widgets/icon-box.php:1349, ../includes/widgets/icon-box.php:1433, ../includes/widgets/icon-box.php:1914, ../includes/widgets/icon-list.php:440, ../includes/widgets/icon-list.php:672, ../includes/widgets/icon-list.php:806, ../includes/widgets/icon-list.php:979, ../includes/widgets/logo-carousel.php:114, ../includes/widgets/tabs.php:607, ../includes/widgets/tabs.php:844, ../includes/widgets/tabs.php:951, ../includes/widgets/tabs.php:1104
+msgid "Hover"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1305, ../includes/utils/form-component.php:1009, ../includes/utils/form-component.php:1059, ../includes/utils/item-style-component.php:134, ../includes/utils/item-style-component.php:178, ../includes/utils/logo-component.php:208, ../includes/utils/logo-component.php:310, ../includes/widgets/accordion.php:497, ../includes/widgets/accordion.php:709, ../includes/widgets/accordion.php:1069, ../includes/widgets/accordion.php:1112, ../includes/widgets/contact-form.php:1898, ../includes/widgets/contact-form.php:1948, ../includes/widgets/counter.php:676, ../includes/widgets/icon-box.php:1144, ../includes/widgets/icon-box.php:1600, ../includes/widgets/icon-box.php:1651, ../includes/widgets/icon-list.php:455, ../includes/widgets/icon-list.php:701, ../includes/widgets/icon-list.php:1010, ../includes/widgets/tabs.php:583, ../includes/widgets/tabs.php:642, ../includes/widgets/tabs.php:727, ../includes/widgets/tabs.php:1190
+msgid "Border Color"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1366
+msgid "Space Between Dots"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1418
+msgid "Advanced Size"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1426, ../includes/utils/carousel-component.php:1563, ../includes/widgets/highlighted-text.php:340
+msgid "Width"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1456, ../includes/utils/carousel-component.php:1593, ../includes/widgets/icon-list.php:535
+msgid "Height"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1518, ../includes/utils/form-component.php:866, ../includes/utils/gallery-component.php:443, ../includes/utils/item-style-component.php:163, ../includes/utils/pagination-component.php:368, ../includes/utils/post-component.php:421, ../includes/utils/post-filter-component.php:234, ../includes/widgets/accordion.php:513, ../includes/widgets/accordion.php:725, ../includes/widgets/accordion.php:875, ../includes/widgets/accordion.php:1085, ../includes/widgets/contact-form.php:1760, ../includes/widgets/logo-carousel.php:124, ../includes/widgets/tabs.php:692, ../includes/widgets/tabs.php:864, ../includes/widgets/tabs.php:971, ../includes/widgets/tabs.php:1133
+msgid "Active"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1672, ../includes/utils/form-component.php:785, ../includes/utils/form-component.php:842, ../includes/utils/form-component.php:886, ../includes/utils/form-component.php:982, ../includes/utils/form-component.php:1034, ../includes/utils/gallery-component.php:819, ../includes/utils/logo-component.php:150, ../includes/utils/logo-component.php:300, ../includes/utils/meta-component.php:191, ../includes/utils/testimonial-component.php:955, ../includes/utils/testimonial-component.php:968, ../includes/widgets/contact-form.php:1679, ../includes/widgets/contact-form.php:1736, ../includes/widgets/contact-form.php:1780, ../includes/widgets/contact-form.php:1871, ../includes/widgets/contact-form.php:1923, ../includes/widgets/icon-list.php:606, ../includes/widgets/icon-list.php:690, ../includes/widgets/icon-list.php:917, ../includes/widgets/icon-list.php:999, ../includes/widgets/tabs.php:567, ../includes/widgets/tabs.php:626, ../includes/widgets/tabs.php:711, ../includes/widgets/tabs.php:1091, ../includes/widgets/tabs.php:1120, ../includes/widgets/tabs.php:1149, ../includes/widgets/tabs.php:1177
+msgid "Background Color"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1726, ../includes/utils/testimonial-component.php:913
+msgid "Active Color"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1738, ../includes/utils/pagination-component.php:84
+msgid "Typography"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1756, ../includes/widgets/accordion.php:393
+msgid "Item Gap"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1773
+msgid "Match Item Height"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1812
+msgid "Slide Height"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1842
+msgid "Coverflow"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1843, ../includes/widgets/accordion.php:1289
+msgid "Fade"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1844
+msgid "Cards"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1845
+msgid "Flip"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1847
+msgid "Stacked"
+msgstr ""
+
+#: ../includes/utils/carousel-component.php:1852
+msgid "Circular Avatar"
+msgstr ""
+
+#: ../includes/utils/form-component.php:25, ../includes/widgets/contact-form.php:137
+msgid "To"
+msgstr ""
+
+#: ../includes/utils/form-component.php:33, ../includes/utils/form-component.php:140, ../includes/utils/form-component.php:157, ../includes/widgets/contact-form.php:145, ../includes/widgets/contact-form.php:252, ../includes/widgets/contact-form.php:269
+msgid "Separate emails with commas"
+msgstr ""
+
+#. translators: %s: Site title.
+#: ../includes/utils/form-component.php:42, ../includes/widgets/contact-form.php:154
+msgid "New message from \"%s\""
+msgstr ""
+
+#: ../includes/utils/form-component.php:47, ../includes/widgets/contact-form.php:159
+msgid "Subject"
+msgstr ""
+
+#: ../includes/utils/form-component.php:65, ../includes/widgets/contact-form.php:177, ../includes/widgets/contact-form.php:999, ../includes/widgets/contact-form.php:1000
+msgid "Message"
+msgstr ""
+
+#. translators: %s: The [all-fields] shortcode.
+#: ../includes/utils/form-component.php:74, ../includes/widgets/contact-form.php:186
+msgid "By default, all form fields are sent via %s shortcode. To customize sent fields, copy the shortcode that appears inside each field and paste it above."
+msgstr ""
+
+#: ../includes/utils/form-component.php:89, ../includes/widgets/contact-form.php:201
+msgid "From Email"
+msgstr ""
+
+#: ../includes/utils/form-component.php:105, ../includes/widgets/contact-form.php:217
+msgid "From Name"
+msgstr ""
+
+#: ../includes/utils/form-component.php:121, ../includes/widgets/contact-form.php:233
+msgid "Reply-To"
+msgstr ""
+
+#: ../includes/utils/form-component.php:134, ../includes/widgets/contact-form.php:246
+msgid "Cc"
+msgstr ""
+
+#: ../includes/utils/form-component.php:151, ../includes/widgets/contact-form.php:263
+msgid "Bcc"
+msgstr ""
+
+#: ../includes/utils/form-component.php:168, ../includes/widgets/contact-form.php:280, ../includes/widgets/theme-builder/post-meta.php:55
+msgid "Meta Data"
+msgstr ""
+
+#: ../includes/utils/form-component.php:181, ../includes/widgets/contact-form.php:101, ../includes/widgets/contact-form.php:293, ../includes/widgets/post-grid.php:215
+msgid "Date"
+msgstr ""
+
+#: ../includes/utils/form-component.php:182, ../includes/widgets/contact-form.php:102, ../includes/widgets/contact-form.php:294
+msgid "Time"
+msgstr ""
+
+#: ../includes/utils/form-component.php:183, ../includes/widgets/contact-form.php:295
+msgid "Page URL"
+msgstr ""
+
+#: ../includes/utils/form-component.php:184, ../includes/widgets/contact-form.php:296
+msgid "User Agent"
+msgstr ""
+
+#: ../includes/utils/form-component.php:185, ../includes/widgets/contact-form.php:297
+msgid "Remote IP"
+msgstr ""
+
+#: ../includes/utils/form-component.php:194, ../includes/widgets/contact-form.php:306
+msgid "Send As"
+msgstr ""
+
+#: ../includes/utils/form-component.php:199, ../includes/widgets/contact-form.php:108, ../includes/widgets/contact-form.php:311, ../includes/widgets/contact-form.php:737
+msgid "HTML"
+msgstr ""
+
+#: ../includes/utils/form-component.php:200, ../includes/widgets/contact-form.php:312
+msgid "Plain"
+msgstr ""
+
+#: ../includes/utils/form-component.php:210, ../includes/widgets/contact-form.php:1247
+msgid "Redirect To"
+msgstr ""
+
+#: ../includes/utils/form-component.php:212, ../includes/widgets/contact-form.php:1249, ../includes/widgets/icon-box.php:382
+msgid "https://your-link.com"
+msgstr ""
+
+#: ../includes/utils/form-component.php:245
+msgid "You haven't set your Mailchimp API key yet."
+msgstr ""
+
+#: ../includes/utils/form-component.php:246, ../includes/widgets/contact-form.php:850, ../includes/widgets/newsletter.php:435
+msgid "Click here to configure your API keys."
+msgstr ""
+
+#: ../includes/utils/form-component.php:254
+msgid "Audience ID"
+msgstr ""
+
+#: ../includes/utils/form-component.php:256
+msgid "Enter the Audience ID to subscribe the user to."
+msgstr ""
+
+#: ../includes/utils/form-component.php:273
+msgid "Field Mapping"
+msgstr ""
+
+#: ../includes/utils/form-component.php:275
+msgid "You need to set the \"ID\" of the field you want to map."
+msgstr ""
+
+#: ../includes/utils/form-component.php:283
+msgid "Email*"
+msgstr ""
+
+#: ../includes/utils/form-component.php:294
+msgid "Birthday"
+msgstr ""
+
+#: ../includes/utils/form-component.php:296
+msgid "Expects the format MM/DD."
+msgstr ""
+
+#: ../includes/utils/form-component.php:306
+msgid "First Name"
+msgstr ""
+
+#: ../includes/utils/form-component.php:317
+msgid "Last Name"
+msgstr ""
+
+#: ../includes/utils/form-component.php:328
+msgid "Phone"
+msgstr ""
+
+#: ../includes/utils/form-component.php:346, ../includes/widgets/contact-form.php:1292
+msgid "Form ID"
+msgstr ""
+
+#: ../includes/utils/form-component.php:352, ../includes/utils/form-component.php:576, ../includes/widgets/contact-form.php:1168, ../includes/widgets/contact-form.php:1298
+msgid "Please make sure the ID is unique and not used elsewhere on the page this form is displayed. This field allows `A-z 0-9` & underscore chars without spaces."
+msgstr ""
+
+#: ../includes/utils/form-component.php:362, ../includes/widgets/contact-form.php:1308
+msgid "Form Validation"
+msgstr ""
+
+#: ../includes/utils/form-component.php:365, ../includes/widgets/contact-form.php:1311
+msgid "Browser Default"
+msgstr ""
+
+#: ../includes/utils/form-component.php:366, ../includes/widgets/contact-form.php:1312
+msgid "No validation"
+msgstr ""
+
+#: ../includes/utils/form-component.php:374, ../includes/widgets/contact-form.php:1320
+msgid "Custom Messages"
+msgstr ""
+
+#: ../includes/utils/form-component.php:384, ../includes/widgets/contact-form.php:1330
+msgid "Success Message"
+msgstr ""
+
+#: ../includes/utils/form-component.php:401, ../includes/widgets/contact-form.php:1347
+msgid "Form Error"
+msgstr ""
+
+#: ../includes/utils/form-component.php:418, ../includes/widgets/contact-form.php:1364
+msgid "Email Sending Error"
+msgstr ""
+
+#: ../includes/utils/form-component.php:435, ../includes/widgets/contact-form.php:1404
+msgid "Sucessfull Redirect"
+msgstr ""
+
+#: ../includes/utils/form-component.php:466, ../includes/widgets/contact-form.php:775, ../includes/widgets/contact-form.php:1046, ../includes/widgets/newsletter.php:281, ../includes/widgets/newsletter.php:356
+msgid "Column Width"
+msgstr ""
+
+#: ../includes/utils/form-component.php:475, ../includes/utils/gallery-component.php:296, ../includes/utils/post-component.php:726, ../includes/utils/post-filter-component.php:99, ../includes/widgets/accordion.php:572, ../includes/widgets/accordion.php:911, ../includes/widgets/accordion.php:1230, ../includes/widgets/contact-form.php:1069, ../includes/widgets/highlighted-text.php:270, ../includes/widgets/icon-box.php:301, ../includes/widgets/icon-list.php:366, ../includes/widgets/theme-builder/page-description.php:139, ../includes/widgets/theme-builder/the-content.php:58, ../includes/widgets/theme-builder/the-title.php:140
+msgid "Alignment"
+msgstr ""
+
+#: ../includes/utils/form-component.php:491, ../includes/utils/post-component.php:542, ../includes/utils/post-component.php:742, ../includes/utils/testimonial-component.php:340, ../includes/widgets/contact-form.php:1085, ../includes/widgets/icon-box.php:317, ../includes/widgets/theme-builder/page-description.php:155, ../includes/widgets/theme-builder/the-content.php:74, ../includes/widgets/theme-builder/the-title.php:156
+msgid "Justified"
+msgstr ""
+
+#: ../includes/utils/form-component.php:502, ../includes/widgets/contact-form.php:1096, ../includes/widgets/contact-form.php:2253, ../includes/widgets/contact-form.php:2499, ../includes/widgets/newsletter.php:674
+msgid "Submit"
+msgstr ""
+
+#: ../includes/utils/form-component.php:519, ../includes/utils/meta-component.php:135, ../includes/widgets/accordion.php:166, ../includes/widgets/contact-form.php:1111, ../includes/widgets/counter.php:102, ../includes/widgets/highlighted-text.php:91, ../includes/widgets/highlighted-text.php:140, ../includes/widgets/icon-box.php:100, ../includes/widgets/icon-box.php:114, ../includes/widgets/icon-box.php:420, ../includes/widgets/icon-box.php:2034, ../includes/widgets/icon-list.php:101, ../includes/widgets/icon-list.php:864, ../includes/widgets/tabs.php:135, ../includes/widgets/tabs.php:995
+msgid "Icon"
+msgstr ""
+
+#: ../includes/utils/form-component.php:528, ../includes/widgets/contact-form.php:1120, ../includes/widgets/icon-box.php:196, ../includes/widgets/icon-box.php:433, ../includes/widgets/icon-list.php:268, ../includes/widgets/tabs.php:344
+msgid "Icon Position"
+msgstr ""
+
+#: ../includes/utils/form-component.php:532, ../includes/widgets/contact-form.php:1124, ../includes/widgets/tabs.php:217, ../includes/widgets/tabs.php:348, ../includes/widgets/tabs.php:352
+msgid "Before"
+msgstr ""
+
+#: ../includes/utils/form-component.php:533, ../includes/widgets/contact-form.php:1125, ../includes/widgets/tabs.php:213, ../includes/widgets/tabs.php:356
+msgid "After"
+msgstr ""
+
+#: ../includes/utils/form-component.php:543, ../includes/widgets/accordion.php:1015, ../includes/widgets/contact-form.php:1135, ../includes/widgets/icon-box.php:456
+msgid "Icon Spacing"
+msgstr ""
+
+#: ../includes/utils/form-component.php:569, ../includes/widgets/contact-form.php:1161, ../includes/widgets/icon-box.php:535
+msgid "Button ID"
+msgstr ""
+
+#: ../includes/utils/form-component.php:575, ../includes/widgets/contact-form.php:1167, ../includes/widgets/tabs.php:169
+msgid "Add your custom id WITHOUT the Pound key. e.g: my-id"
+msgstr ""
+
+#: ../includes/utils/form-component.php:592, ../includes/widgets/contact-form.php:1435
+msgid "Form"
+msgstr ""
+
+#: ../includes/utils/form-component.php:600, ../includes/widgets/contact-form.php:1443
+msgid "Columns Gap"
+msgstr ""
+
+#: ../includes/utils/form-component.php:626, ../includes/widgets/contact-form.php:1469
+msgid "Rows Gap"
+msgstr ""
+
+#: ../includes/utils/form-component.php:652, ../includes/widgets/contact-form.php:595, ../includes/widgets/contact-form.php:1010, ../includes/widgets/contact-form.php:1495, ../includes/widgets/newsletter.php:179, ../includes/widgets/newsletter.php:250, ../includes/widgets/newsletter.php:325
+msgid "Label"
+msgstr ""
+
+#: ../includes/utils/form-component.php:660, ../includes/utils/gallery-component.php:322, ../includes/utils/gallery-component.php:590, ../includes/utils/gallery-component.php:680, ../includes/utils/gallery-component.php:733, ../includes/utils/testimonial-component.php:477, ../includes/utils/testimonial-component.php:600, ../includes/utils/testimonial-component.php:722, ../includes/utils/testimonial-component.php:789, ../includes/utils/testimonial-component.php:859, ../includes/utils/testimonial-component.php:1087, ../includes/widgets/accordion.php:832, ../includes/widgets/accordion.php:1192, ../includes/widgets/contact-form.php:1503, ../includes/widgets/contact-form.php:1573, ../includes/widgets/icon-box.php:830, ../includes/widgets/icon-box.php:1284, ../includes/widgets/icon-box.php:1371, ../includes/widgets/icon-box.php:1455, ../includes/widgets/post-grid.php:304, ../includes/widgets/tabs.php:1021
+msgid "Spacing"
+msgstr ""
+
+#: ../includes/utils/form-component.php:685, ../includes/utils/form-component.php:759, ../includes/utils/form-component.php:816, ../includes/utils/form-component.php:873, ../includes/utils/form-component.php:996, ../includes/utils/form-component.php:1046, ../includes/utils/meta-component.php:159, ../includes/utils/post-filter-component.php:143, ../includes/utils/post-filter-component.php:194, ../includes/utils/post-filter-component.php:240, ../includes/widgets/accordion.php:1140, ../includes/widgets/contact-form.php:1528, ../includes/widgets/contact-form.php:1653, ../includes/widgets/contact-form.php:1710, ../includes/widgets/contact-form.php:1767, ../includes/widgets/contact-form.php:1885, ../includes/widgets/contact-form.php:1935, ../includes/widgets/counter.php:1136, ../includes/widgets/counter.php:1156, ../includes/widgets/highlighted-text.php:426, ../includes/widgets/icon-box.php:1834, ../includes/widgets/icon-box.php:1921, ../includes/widgets/theme-builder/page-description.php:187, ../includes/widgets/theme-builder/the-content.php:87, ../includes/widgets/theme-builder/the-title.php:189
+msgid "Text Color"
+msgstr ""
+
+#: ../includes/utils/form-component.php:698, ../includes/widgets/contact-form.php:1541
+msgid "Mark Color"
+msgstr ""
+
+#: ../includes/utils/form-component.php:729, ../includes/widgets/contact-form.php:1624, ../includes/widgets/newsletter.php:206
+msgid "Fields"
+msgstr ""
+
+#: ../includes/utils/form-component.php:772, ../includes/utils/form-component.php:829, ../includes/widgets/contact-form.php:1666, ../includes/widgets/contact-form.php:1723
+msgid "Placeholder Color"
+msgstr ""
+
+#: ../includes/utils/form-component.php:944, ../includes/utils/post-component.php:129, ../includes/widgets/contact-form.php:1039, ../includes/widgets/contact-form.php:1834, ../includes/widgets/newsletter.php:451
+msgid "Button"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1074, ../includes/utils/logo-component.php:369, ../includes/widgets/contact-form.php:1963, ../includes/widgets/icon-box.php:1056, ../includes/widgets/tabs.php:672
+msgid "Transition Duration"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1116, ../includes/widgets/contact-form.php:2005
+msgid "Text Padding"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1135, ../includes/widgets/contact-form.php:2019
+msgid "Messages"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1144, ../includes/widgets/contact-form.php:2027
+msgid "Show/Hide messages"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1147, ../includes/widgets/contact-form.php:2030
+msgid "Toggle"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1164, ../includes/widgets/contact-form.php:2047
+msgid "Success Message Color"
+msgstr ""
+
+#: ../includes/utils/form-component.php:1175, ../includes/widgets/contact-form.php:2058
+msgid "Error Message Color"
+msgstr ""
+
+#: ../includes/utils/form-service.php:41
+msgid "reCAPTCHA validation failed."
+msgstr ""
+
+#: ../includes/utils/form-service.php:112
+msgid "No submit action enabled."
+msgstr ""
+
+#: ../includes/utils/form-service.php:81
+msgid "Unknown submit action: "
+msgstr ""
+
+#: ../includes/utils/form-service.php:81
+msgid ". Check your settings."
+msgstr ""
+
+#: ../includes/utils/form-service.php:290
+msgid "Failed to upload file: "
+msgstr ""
+
+#: ../includes/utils/form-service.php:431
+msgid "reCAPTCHA API keys are not set."
+msgstr ""
+
+#: ../includes/utils/form-service.php:485
+msgid "Audience ID control is not set. Check your widget settings."
+msgstr ""
+
+#: ../includes/utils/form-service.php:483
+msgid "Mailchimp API key is not set. Check Uicore Elements settings."
+msgstr ""
+
+#: ../includes/utils/form-service.php:532
+msgid "Your submission was successful."
+msgstr ""
+
+#: ../includes/utils/form-service.php:533
+msgid "Your submission failed because of an error."
+msgstr ""
+
+#: ../includes/utils/form-service.php:534
+msgid "Failed to send email."
+msgstr ""
+
+#: ../includes/utils/form-service.php:535
+msgid "Fill all required fields."
+msgstr ""
+
+#: ../includes/utils/form-service.php:536
+msgid "Redirecting..."
+msgstr ""
+
+#: ../includes/utils/form-service.php:542
+msgid "Invalid status message."
+msgstr ""
+
+#: ../includes/utils/form-service.php:543
+msgid "Redirection failed. No URL set."
+msgstr ""
+
+#: ../includes/utils/form-service.php:544
+msgid "The following field is empty: "
+msgstr ""
+
+#. translators: 1: Mailchimp HTTP status code, 2: Mailchimp status response
+#: ../includes/utils/form-service.php:584
+msgid "Mailchimp HTTP \"%1$s,\" - \"%2$s,.\""
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:58, ../includes/widgets/icon-list.php:128
+msgid "Link"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:66, ../includes/utils/gallery-component.php:68, ../includes/utils/gallery-component.php:642, ../includes/utils/logo-component.php:35, ../includes/utils/post-component.php:82, ../includes/widgets/accordion.php:564, ../includes/widgets/counter.php:219, ../includes/widgets/custom-carousel.php:120, ../includes/widgets/custom-table.php:147, ../includes/widgets/icon-box.php:145, ../includes/widgets/icon-box.php:1231, ../includes/widgets/icon-list.php:74, ../includes/widgets/icon-list.php:737, ../includes/widgets/tabs.php:111, ../includes/widgets/theme-builder/the-title.php:113, ../includes/widgets/theme-builder/the-title.php:181
+msgid "Title"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:75, ../includes/utils/gallery-component.php:705, ../includes/widgets/icon-box.php:182, ../includes/widgets/icon-box.php:1403, ../includes/widgets/tabs.php:122, ../includes/widgets/tabs.php:888
+msgid "Description"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:83, ../includes/utils/gallery-component.php:794, ../includes/widgets/contact-form.php:827, ../includes/widgets/icon-box.php:551, ../includes/widgets/icon-box.php:604, ../includes/widgets/icon-box.php:1687, ../includes/widgets/newsletter.php:412
+msgid "Badge"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:91, ../includes/utils/gallery-component.php:761
+msgid "Tags"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:93
+msgid "Separate tags with commas"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:101, ../includes/widgets/accordion.php:132, ../includes/widgets/custom-carousel.php:110, ../includes/widgets/custom-carousel.php:173, ../includes/widgets/custom-table.php:90, ../includes/widgets/icon-list.php:65, ../includes/widgets/testimonial-carousel.php:113, ../includes/widgets/testimonial-grid.php:104
+msgid "Items"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:106, ../includes/widgets/custom-carousel.php:135
+msgid "Item #1"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:109, ../includes/widgets/custom-carousel.php:136
+msgid "Item #2"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:112, ../includes/widgets/custom-carousel.php:137
+msgid "Item #3"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:115
+msgid "Item #4"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:118
+msgid "Item #5"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:121
+msgid "Item #6"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:135, ../includes/widgets/accordion.php:233, ../includes/widgets/counter.php:1181, ../includes/widgets/icon-box.php:2152
+msgid "Additional"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:142, ../includes/utils/testimonial-component.php:1162, ../includes/widgets/post-grid.php:143
+msgid "Layout"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:149, ../includes/utils/post-component.php:51
+msgid "Overlay"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:157
+msgid "Hide overflow"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:161
+msgid "Useful if you have an animation, on an image, for example, that surpasses the item area and you want to hide it."
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:171
+msgid "Hide item tags"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:181
+msgid "Hide title"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:190
+msgid "Hide description"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:200
+msgid "Use filters"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:208
+msgid "Clear Text"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:210, ../includes/utils/post-filter-component.php:388, ../includes/utils/post-filter-component.php:385
+msgid "All"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:211
+msgid "Clear filter text"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:222
+msgid "Title Tag"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:232, ../includes/utils/logo-component.php:340, ../includes/utils/post-component.php:69, ../includes/widgets/counter.php:808
+msgid "Image Size"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:241, ../includes/widgets/icon-list.php:345
+msgid "Content Position"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:262
+msgid "Badge Position"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:268
+msgid "After title"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:269
+msgid "Image top left"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:270
+msgid "Image top right"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:271
+msgid "Image bottom left"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:272
+msgid "Image bottom right"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:285, ../includes/utils/post-filter-component.php:27, ../includes/utils/post-filter-component.php:35
+msgid "Filters"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:384, ../includes/utils/gallery-component.php:426, ../includes/utils/gallery-component.php:468, ../includes/utils/gallery-component.php:833, ../includes/utils/item-style-component.php:40, ../includes/widgets/accordion.php:1160, ../includes/widgets/icon-list.php:421, ../includes/widgets/icon-list.php:618, ../includes/widgets/icon-list.php:929, ../includes/widgets/icon-list.php:1136
+msgid "Border"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:557
+msgid "Image Height"
+msgstr ""
+
+#: ../includes/utils/gallery-component.php:670, ../includes/utils/testimonial-component.php:712, ../includes/utils/testimonial-component.php:779, ../includes/utils/testimonial-component.php:842
+msgid "Hover Color"
+msgstr ""
+
+#: ../includes/utils/grid-component.php:24, ../includes/widgets/icon-list.php:167
+msgid "Columns"
+msgstr ""
+
+#: ../includes/utils/grid-component.php:49, ../includes/utils/meta-component.php:265, ../includes/utils/pagination-component.php:187
+msgid "Items Gap"
+msgstr ""
+
+#: ../includes/utils/grid-component.php:72, ../includes/widgets/advanced-post-grid.php:194, ../includes/widgets/post-grid.php:156
+msgid "Masonry"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:42
+msgid "Logo Image"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:52
+msgid "Website URL"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:67
+msgid "Item 1"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:71
+msgid "Item 2"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:75
+msgid "Item 3"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:79
+msgid "Item 4"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:83
+msgid "Item 5"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:87
+msgid "Item 6"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:91
+msgid "Item 7"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:95
+msgid "Item 8"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:119
+msgid "Item Height"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:161
+msgid "Border Type"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:165
+msgid "Solid"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:166
+msgid "Double"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:167
+msgid "Dotted"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:168
+msgid "Dashed"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:169
+msgid "Groove"
+msgstr ""
+
+#: ../includes/utils/logo-component.php:180, ../includes/widgets/tabs.php:586, ../includes/widgets/tabs.php:645, ../includes/widgets/tabs.php:730, ../includes/widgets/tabs.php:1193
+msgid "Border Width"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:22, ../includes/widgets/post-grid.php:202
+msgid "Author"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:23
+msgid "Posted Date"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:24
+msgid "Updated Date"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:25
+msgid "Comments Count"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:26
+msgid "Reading Time"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:27, ../includes/widgets/post-grid.php:241
+msgid "Category"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:28
+msgid "Tag"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:31
+msgid "Product Price"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:32
+msgid "Product Rating"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:33
+msgid "Product Stock"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:34
+msgid "Product Category"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:35
+msgid "Product Tag"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:36
+msgid "Product Attribute"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:37
+msgid "Product Sale"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:41
+msgid "Custom Taxonomy"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:42, ../includes/utils/meta-component.php:70
+msgid "Custom HTML"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:45
+msgid "Portfolio Category"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:55, ../includes/utils/post-component.php:167
+msgid "Meta"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:62
+msgid "Custom Field Name"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:78
+msgid "Date Format"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:95
+msgid "Custom Format"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:97
+msgid "Documentation on date and time formatting"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:105
+msgid "Text Before"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:113
+msgid "Text After"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:121
+msgid "Display Type"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:125, ../includes/utils/testimonial-component.php:53, ../includes/utils/testimonial-component.php:691, ../includes/widgets/contact-form.php:974, ../includes/widgets/contact-form.php:975, ../includes/widgets/newsletter.php:213, ../includes/widgets/newsletter.php:315
+msgid "Name"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:126
+msgid "Avatar & Name"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:127, ../includes/utils/testimonial-component.php:39, ../includes/utils/testimonial-component.php:384
+msgid "Avatar"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:170
+msgid "Link Color"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:181
+msgid "Link Hover Color"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:213, ../includes/utils/post-component.php:520, ../includes/widgets/accordion.php:1222, ../includes/widgets/icon-list.php:430, ../includes/widgets/icon-list.php:470
+msgid "Box Shadow"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:242
+msgid "Meta Top Space"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:232, ../includes/utils/testimonial-component.php:1014, ../includes/widgets/icon-list.php:650, ../includes/widgets/icon-list.php:792, ../includes/widgets/icon-list.php:965, ../includes/widgets/icon-list.php:1156
+msgid "Margin"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:284
+msgid "Separator"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:290
+msgid "Items placement"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:294, ../includes/widgets/icon-box.php:1702
+msgid "Top Left"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:295, ../includes/widgets/icon-box.php:1704
+msgid "Top Right"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:296, ../includes/widgets/icon-box.php:1708
+msgid "Bottom Left"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:297, ../includes/widgets/icon-box.php:1710
+msgid "Bottom Right"
+msgstr ""
+
+#. translators: %s: Author's display name.
+#: ../includes/utils/meta-component.php:326
+msgid "View %s&#8217;s posts"
+msgstr ""
+
+#: ../includes/utils/meta-component.php:354
+msgid "Sale!"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:23
+msgid "Numbers"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:24
+msgid "Load More"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:33, ../includes/utils/pagination-component.php:41
+msgid "Pagination"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:50
+msgid "Pagination Type"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:71
+msgid "Pagination Style"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:91
+msgid "Previous/Next Icon Size"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:117
+msgid "Pagination Top Space"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:140
+msgid "Pagination Alignment"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:162
+msgid "Items Padding"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:212
+msgid "Items Border Radius"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:238
+msgid "Button Padding"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:252
+msgid "Button Radius"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:457
+msgctxt "Frontend - Pagination"
+msgid "Posts navigation"
+msgstr ""
+
+#: ../includes/utils/pagination-component.php:478
+msgctxt "Frontend - Pagination"
+msgid "Products navigation"
+msgstr ""
+
+#: ../includes/utils/post-component.php:38, ../includes/widgets/accordion.php:385, ../includes/widgets/gallery-carousel.php:100, ../includes/widgets/gallery-grid.php:108
+msgid "Item"
+msgstr ""
+
+#: ../includes/utils/post-component.php:45, ../includes/utils/post-component.php:347, ../includes/widgets/post-grid.php:148
+msgid "Item Style"
+msgstr ""
+
+#: ../includes/utils/post-component.php:49
+msgid "Classic"
+msgstr ""
+
+#: ../includes/utils/post-component.php:50
+msgid "Split"
+msgstr ""
+
+#: ../includes/utils/post-component.php:90, ../includes/widgets/post-grid.php:228, ../includes/widgets/post-grid.php:296
+msgid "Excerpt"
+msgstr ""
+
+#: ../includes/utils/post-component.php:98
+msgid "Excerpt Length (words)"
+msgstr ""
+
+#: ../includes/utils/post-component.php:113, ../includes/widgets/icon-box.php:593
+msgid "Read More Button"
+msgstr ""
+
+#: ../includes/utils/post-component.php:175
+msgid "Top Meta"
+msgstr ""
+
+#: ../includes/utils/post-component.php:191
+msgid "Before Title Meta"
+msgstr ""
+
+#: ../includes/utils/post-component.php:207
+msgid "After Title Meta"
+msgstr ""
+
+#: ../includes/utils/post-component.php:223
+msgid "Bottom Meta"
+msgstr ""
+
+#: ../includes/utils/post-component.php:252, ../includes/widgets/post-grid.php:103
+msgid "Query"
+msgstr ""
+
+#: ../includes/utils/post-component.php:261, ../includes/widgets/post-grid.php:108
+msgid "Posts"
+msgstr ""
+
+#: ../includes/utils/post-component.php:262, ../includes/widgets/advanced-product-grid.php:126
+msgid "Current Query Settings > Reading"
+msgstr ""
+
+#: ../includes/utils/post-component.php:268, ../includes/widgets/post-grid.php:112
+msgid "Item Limit"
+msgstr ""
+
+#: ../includes/utils/post-component.php:289
+msgid "Query Offset"
+msgstr ""
+
+#: ../includes/utils/post-component.php:312
+msgid "Offset is disabled with Load More pagination."
+msgstr ""
+
+#: ../includes/utils/post-component.php:322
+msgid "Sticky Posts"
+msgstr ""
+
+#: ../includes/utils/post-component.php:324, ../includes/utils/post-component.php:847, ../includes/utils/post-component.php:887, ../includes/utils/post-component.php:904, ../includes/widgets/advanced-product-grid.php:170, ../includes/widgets/advanced-product-grid.php:181, ../includes/widgets/contact-form.php:1012, ../includes/widgets/contact-form.php:1024, ../includes/widgets/counter.php:87, ../includes/widgets/icon-box.php:1977, ../includes/widgets/icon-box.php:2033, ../includes/widgets/newsletter.php:181, ../includes/widgets/newsletter.php:192, ../includes/widgets/tabs.php:488
+msgid "Show"
+msgstr ""
+
+#: ../includes/utils/post-component.php:325, ../includes/widgets/advanced-product-grid.php:171, ../includes/widgets/advanced-product-grid.php:182, ../includes/widgets/contact-form.php:1013, ../includes/widgets/contact-form.php:1025, ../includes/widgets/counter.php:88, ../includes/widgets/newsletter.php:182, ../includes/widgets/newsletter.php:193, ../includes/widgets/tabs.php:489
+msgid "Hide"
+msgstr ""
+
+#: ../includes/utils/post-component.php:326
+msgid "Sticky posts works only on the front-end."
+msgstr ""
+
+#: ../includes/utils/post-component.php:480, ../includes/widgets/post-grid.php:258
+msgid "Content Style"
+msgstr ""
+
+#: ../includes/utils/post-component.php:488
+msgid "Image Height (%)"
+msgstr ""
+
+#: ../includes/utils/post-component.php:530, ../includes/utils/testimonial-component.php:324, ../includes/widgets/tabs.php:373, ../includes/widgets/tabs.php:408, ../includes/widgets/theme-builder/post-meta.php:70
+msgid "Content Alignment"
+msgstr ""
+
+#: ../includes/utils/post-component.php:554, ../includes/widgets/accordion.php:610, ../includes/widgets/accordion.php:689, ../includes/widgets/accordion.php:732, ../includes/widgets/icon-list.php:813
+msgid "Title Color"
+msgstr ""
+
+#: ../includes/utils/post-component.php:566
+msgid "Title Hover Color"
+msgstr ""
+
+#: ../includes/utils/post-component.php:578
+msgid "Title Typography"
+msgstr ""
+
+#: ../includes/utils/post-component.php:585
+msgid "Title Top Space"
+msgstr ""
+
+#: ../includes/utils/post-component.php:608
+msgid "Excerpt Color"
+msgstr ""
+
+#: ../includes/utils/post-component.php:620
+msgid "Excerpt Typography"
+msgstr ""
+
+#: ../includes/utils/post-component.php:627
+msgid "Excerpt Top Space"
+msgstr ""
+
+#: ../includes/utils/post-component.php:657, ../includes/widgets/counter.php:1189, ../includes/widgets/post-grid.php:342
+msgid "Content Padding"
+msgstr ""
+
+#: ../includes/utils/post-component.php:668
+msgid "Content Border Radius"
+msgstr ""
+
+#: ../includes/utils/post-component.php:681
+msgid "Content Space"
+msgstr ""
+
+#: ../includes/utils/post-component.php:715
+msgid "Button Style"
+msgstr ""
+
+#: ../includes/utils/post-component.php:775
+msgid "Meta Style"
+msgstr ""
+
+#: ../includes/utils/post-component.php:793
+msgid "Before Title"
+msgstr ""
+
+#: ../includes/utils/post-component.php:802
+msgid "After Title"
+msgstr ""
+
+#: ../includes/utils/post-component.php:827
+msgid "Image Hover Animation"
+msgstr ""
+
+#: ../includes/utils/post-component.php:833, ../includes/widgets/advanced-product-grid.php:269, ../includes/widgets/icon-box.php:2088
+msgid "Zoom"
+msgstr ""
+
+#: ../includes/utils/post-component.php:841
+msgid "Meta Hover Animation"
+msgstr ""
+
+#: ../includes/utils/post-component.php:855
+msgid "Important Note"
+msgstr ""
+
+#: ../includes/utils/post-component.php:857
+msgid "This works only for Below Title Meta."
+msgstr ""
+
+#: ../includes/utils/post-component.php:867
+msgid "Title Hover Animation"
+msgstr ""
+
+#: ../includes/utils/post-component.php:873
+msgid "Underline"
+msgstr ""
+
+#: ../includes/utils/post-component.php:881
+msgid "Content Hover Animation"
+msgstr ""
+
+#: ../includes/utils/post-component.php:898, ../includes/widgets/icon-box.php:2028
+msgid "Button Hover Animation"
+msgstr ""
+
+#: ../includes/utils/post-component.php:927
+msgid "Button Top Space"
+msgstr ""
+
+#: ../includes/utils/post-component.php:1024, ../includes/utils/post-component.php:1041
+msgid "View Post:"
+msgstr ""
+
+#: ../includes/utils/post-filter-component.php:44
+msgid "Taxonomies"
+msgstr ""
+
+#: ../includes/utils/post-filter-component.php:58
+msgid "Meta Slug"
+msgstr ""
+
+#: ../includes/utils/post-filter-component.php:71
+msgid "When using `load more` pagination, filters are disabled on taxonomy archive pages, such as categories, tags, authors, etc. Blog, shop, or custom post-type archive pages are not affected."
+msgstr ""
+
+#: ../includes/utils/post-filter-component.php:89
+msgid "Filter Style"
+msgstr ""
+
+#: ../includes/utils/product-component.php:105, ../includes/utils/product-component.php:171
+msgid "View Product:"
+msgstr ""
+
+#: ../includes/utils/product-component.php:259
+msgid "Add to cart: “%s”"
+msgstr ""
+
+#: ../includes/utils/product-component.php:260
+msgid "“%s” has been added to your cart"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:58
+msgid "Adam Smith"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:59
+msgid "Enter reviewer name"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:66, ../includes/utils/testimonial-component.php:758
+msgid "Job Title"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:71, ../includes/utils/testimonial-component.php:133
+msgid "SEO Expert"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:72
+msgid "Enter reviewer job title"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:79, ../includes/utils/testimonial-component.php:884
+msgid "Rating"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:100
+msgid "Review Text"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:105
+msgid "Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:106
+msgid "Enter review text"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:112, ../includes/utils/testimonial-component.php:570
+msgid "Secondary Image"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:132
+msgid "Adam"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:136
+msgid "Karl"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:137
+msgid "Designer"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:140
+msgid "Maria"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:141
+msgid "Developer"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:144
+msgid "Michael"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:145
+msgid "Manager"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:148
+msgid "Lena"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:149
+msgid "CEO"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:152
+msgid "Jennifer"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:153
+msgid "Consultant"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:166
+msgid "Show Name"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:175
+msgid "Name HTML Tag"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:187
+msgid "Show Job Title"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:196
+msgid "Show Rating"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:205
+msgid "Rating Type"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:209
+msgid "Star"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:210, ../includes/widgets/contact-form.php:100, ../includes/widgets/counter.php:183, ../includes/widgets/counter.php:872
+msgid "Number"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:220
+msgid "Show Review Text"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:229
+msgid "Show Image"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:248
+msgid "Show Avatar"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:267
+msgid "Image Inline"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:283
+msgid "Image Alignment"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:312
+msgid "Show Divider"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:354, ../includes/widgets/gallery-slider.php:81
+msgid "Vertical Alignment"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:441
+msgid "Using `%` might make image height fits the available space, depending on layout and inline options, cutting the image. Using `px` althougt adjust the image."
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:497, ../includes/utils/testimonial-component.php:616
+msgid "Offset"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:509, ../includes/utils/testimonial-component.php:628, ../includes/widgets/post-grid.php:155
+msgid "Horizontal"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:538, ../includes/utils/testimonial-component.php:657
+msgid "Vertical"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:746
+msgid "Text Shadow"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:821, ../includes/widgets/contact-form.php:91, ../includes/widgets/counter.php:1117, ../includes/widgets/highlighted-text.php:78, ../includes/widgets/highlighted-text.php:90, ../includes/widgets/highlighted-text.php:104, ../includes/widgets/icon-box.php:366
+msgid "Text"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1040
+msgid "Space Between"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1065
+msgid "Divider"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1166
+msgid "Layout 1"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1167
+msgid "Layout 2"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1168
+msgid "Layout 3"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1169
+msgid "Layout 4"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1170
+msgid "Layout 5"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1171
+msgid "Layout 6"
+msgstr ""
+
+#: ../includes/utils/testimonial-component.php:1184, ../includes/widgets/icon-box.php:2083
+msgid "Item Hover Animation"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:33, ../includes/widgets/accordion.php:64
+msgid "Accordion"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:73
+msgid "Title & Content"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:76
+msgid "Accordion Title"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:84
+msgid "Select Source"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:88
+msgid "Custom Content"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:89, ../includes/widgets/accordion.php:109
+msgid "Section ID"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:97, ../includes/widgets/accordion.php:1132, ../includes/widgets/advanced-product-grid.php:92, ../includes/widgets/contact-form.php:579, ../includes/widgets/highlighted-text.php:245, ../includes/widgets/tabs.php:1164, ../includes/widgets/theme-builder/page-description.php:112, ../includes/widgets/theme-builder/page-description.php:179, ../includes/widgets/theme-builder/post-meta.php:50
+msgid "Content"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:100
+msgid "Accordion Content"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:111
+msgid "CSS ID from an element"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:122, ../includes/widgets/accordion.php:788
+msgid "Title Icon"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:137
+msgid "Accordion #1"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:138, ../includes/widgets/accordion.php:142, ../includes/widgets/accordion.php:146
+msgid "I am item content. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+msgstr ""
+
+#: ../includes/widgets/accordion.php:141
+msgid "Accordion #2"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:145
+msgid "Accordion #3"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:156, ../includes/widgets/icon-box.php:583, ../includes/widgets/icon-list.php:258
+msgid "Title HTML Tag"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:192, ../includes/widgets/tabs.php:146
+msgid "Active Icon"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:222
+msgid "Show Title Icon"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:240
+msgid "Collapse All Items"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:251
+msgid "Multiple Open"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:261
+msgid "Active Item"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:272
+msgid "Hash Location"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:282
+msgid "Scrollspy"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:296
+msgid "Top Offset "
+msgstr ""
+
+#: ../includes/widgets/accordion.php:322
+msgid "Scrollspy Delay"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:347
+msgid "Scrollspy Duration"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:372
+msgid "FAQ Schema"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:373
+msgid "Avoid activating schema for multiple Accordions on the same page to prevent errors in Google indexing. Activate schema only for the Accordion you intend to display in search results."
+msgstr ""
+
+#: ../includes/widgets/accordion.php:808, ../includes/widgets/accordion.php:861, ../includes/widgets/accordion.php:882
+msgid "Title Icon Color"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:900
+msgid "Open & Close Icon"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:915, ../includes/widgets/gallery-slider.php:86, ../includes/widgets/tabs.php:267, ../includes/widgets/tabs.php:306, ../includes/widgets/tabs.php:377, ../includes/widgets/tabs.php:412
+msgid "Start"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:919, ../includes/widgets/tabs.php:275, ../includes/widgets/tabs.php:314, ../includes/widgets/tabs.php:385, ../includes/widgets/tabs.php:420
+msgid "End"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:941, ../includes/widgets/accordion.php:1049, ../includes/widgets/accordion.php:1092
+msgid "Item Icon Color"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:994, ../includes/widgets/counter.php:840, ../includes/widgets/icon-list.php:872
+msgid "Icon Size"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1257, ../includes/widgets/advanced-post-carousel.php:157, ../includes/widgets/advanced-post-grid.php:178, ../includes/widgets/counter.php:1218, ../includes/widgets/icon-box.php:1964, ../includes/widgets/logo-carousel.php:140, ../includes/widgets/logo-grid.php:129, ../includes/widgets/testimonial-carousel.php:170, ../includes/widgets/testimonial-grid.php:118
+msgid "Animations"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1265
+msgid "Accordion Animation"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1270
+msgid "Basic"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1271
+msgid "Slow"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1272
+msgid "Expand"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1273
+msgid "Overshadow"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1284
+msgid "Icon Animation"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1290
+msgid "Spin"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1291
+msgid "Slide"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1301
+msgid "Icon Rotation"
+msgstr ""
+
+#: ../includes/widgets/accordion.php:1386
+msgid "You didn't define an ID."
+msgstr ""
+
+#: ../includes/widgets/advanced-post-carousel.php:35
+msgid "Advanced Post Carousel"
+msgstr ""
+
+#: ../includes/widgets/advanced-post-carousel.php:124
+msgid "Carousel"
+msgstr ""
+
+#: ../includes/widgets/advanced-post-carousel.php:133, ../includes/widgets/custom-carousel.php:160, ../includes/widgets/gallery-carousel.php:80, ../includes/widgets/logo-carousel.php:78, ../includes/widgets/testimonial-carousel.php:100
+msgid "Carousel Settings"
+msgstr ""
+
+#: ../includes/widgets/advanced-post-carousel.php:230, ../includes/widgets/advanced-post-grid.php:276
+msgid "No posts found."
+msgstr ""
+
+#: ../includes/widgets/advanced-post-grid.php:39
+msgid "Advanced Post Grid"
+msgstr ""
+
+#: ../includes/widgets/advanced-post-grid.php:154, ../includes/widgets/post-grid.php:154
+msgid "Grid"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:34
+msgid "Advanced Product Grid"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:100, ../includes/widgets/advanced-product-grid.php:426
+msgid "Please enable WooCommerce to use this widget."
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:125
+msgid "Products"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:147
+msgid "Placement"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:168
+msgid "Swatches"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:172
+msgid "Will only work if you have Uicore Framework plugin active at least on version 6.0.1"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:179
+msgid "Sale Badge"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:191
+msgid "If you can't see the Sale Badge after setting 'Show', you problably didn't set any Meta option as 'Product Sale', or you don't have products on sale."
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:208
+msgid "Hide out of stock"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:225
+msgid "Select Options Text"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:228
+msgid "Variable product purchase text."
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:229
+msgid "Select Options"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:235
+msgid "Unavailable Text"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:238
+msgid "Out of stock or not available purchase text."
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:239
+msgid "Read more"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:270
+msgid "Change image"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:307
+msgid "Product Summary"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:313
+msgid "Summary Length (words)"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:318
+msgid "Add to Cart Button"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:325
+msgid "Add to Cart Text"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:328
+msgid "Add to cart"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:333
+msgid "Summary Color"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:337
+msgid "Summary Typography"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:341
+msgid "Summary Top Space"
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:437
+msgid "This widget is set to display related products. To see the results, please preview the page, or customize your widget before setting \"current\" query."
+msgstr ""
+
+#: ../includes/widgets/advanced-product-grid.php:457
+msgid "No products found."
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:35
+msgid "Contact Form"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:92, ../includes/widgets/contact-form.php:985, ../includes/widgets/contact-form.php:986, ../includes/widgets/contact-form.php:1194, ../includes/widgets/contact-form.php:1209, ../includes/widgets/newsletter.php:474, ../includes/widgets/newsletter.php:489
+msgid "Email"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:93
+msgid "Textarea"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:94
+msgid "URL"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:95
+msgid "Tel"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:96
+msgid "Radio"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:97
+msgid "Select"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:98
+msgid "Checkbox"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:99
+msgid "Acceptance"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:103
+msgid "File Upload"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:104
+msgid "Password"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:105, ../includes/widgets/newsletter.php:230
+msgid "Honeypot"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:106
+msgid "reCAPTCHA"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:107
+msgid "reCAPTCHA V3"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:606, ../includes/widgets/newsletter.php:261, ../includes/widgets/newsletter.php:336
+msgid "Placeholder"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:634, ../includes/widgets/newsletter.php:272, ../includes/widgets/newsletter.php:347
+msgid "Required"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:657
+msgid "Options"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:660
+msgid "Enter each option in a separate line. To differentiate between label and value, separate them with a pipe char (\"|\"). For example: First Name|f_name"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:679
+msgid "Multiple Selection"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:695, ../includes/widgets/contact-form.php:811
+msgid "Rows"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:716
+msgid "Inline List"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:755
+msgid "Acceptance Text"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:765
+msgid "Checked by Default"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:832, ../includes/widgets/newsletter.php:417
+msgid "Visible"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:849, ../includes/widgets/newsletter.php:434
+msgid "You haven't set your reCAPTCHA API keys yet."
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:862
+msgid "Advanced"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:872
+msgid "Default Value"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:907
+msgid "ID"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:909
+msgid "Please make sure the ID is unique and not used elsewhere in this form. This field allows `A-z 0-9` & underscore chars without spaces."
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:923, ../includes/widgets/newsletter.php:290, ../includes/widgets/newsletter.php:365
+msgid "Custom Class"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:929, ../includes/widgets/newsletter.php:297, ../includes/widgets/newsletter.php:372
+msgid "e.g: my-class"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:936, ../includes/widgets/newsletter.php:303, ../includes/widgets/newsletter.php:378
+msgid "Shortcode"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:951
+msgid "Form Fields"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:959, ../includes/widgets/contact-form.php:962, ../includes/widgets/newsletter.php:170, ../includes/widgets/newsletter.php:173
+msgid "Form Name"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:961, ../includes/widgets/newsletter.php:172
+msgid "New Form"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:992
+msgid "address (honeypot)"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:993
+msgid "address"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1022, ../includes/widgets/newsletter.php:190
+msgid "Required Mark"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1098, ../includes/widgets/contact-form.php:1099
+msgid "Send"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1182, ../includes/widgets/newsletter.php:462
+msgid "Actions After Submit"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1189, ../includes/widgets/newsletter.php:469
+msgid "Submit Actions"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1195, ../includes/widgets/contact-form.php:1223, ../includes/widgets/newsletter.php:475, ../includes/widgets/newsletter.php:503
+msgid "Email 2"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1196, ../includes/widgets/contact-form.php:1237, ../includes/widgets/newsletter.php:476, ../includes/widgets/newsletter.php:517
+msgid "Redirect"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1197, ../includes/widgets/newsletter.php:477
+msgid "MailChimp"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1269, ../includes/widgets/newsletter.php:531
+msgid "Mailchimp"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1284, ../includes/widgets/counter.php:489, ../includes/widgets/icon-box.php:576, ../includes/widgets/newsletter.php:545
+msgid "Additional Options"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1381
+msgid "Required Fields"
+msgstr ""
+
+#: ../includes/widgets/contact-form.php:1565
+msgid "HTML Field"
+msgstr ""
+
+#: ../includes/widgets/counter.php:31, ../includes/widgets/counter.php:77
+msgid "Counter"
+msgstr ""
+
+#: ../includes/widgets/counter.php:85
+msgid "Show Icon"
+msgstr ""
+
+#: ../includes/widgets/counter.php:98, ../includes/widgets/icon-box.php:89
+msgid "Icon Type"
+msgstr ""
+
+#: ../includes/widgets/counter.php:122
+msgid "Choose icon"
+msgstr ""
+
+#: ../includes/widgets/counter.php:134, ../includes/widgets/highlighted-text.php:211
+msgid "Choose Image"
+msgstr ""
+
+#: ../includes/widgets/counter.php:149
+msgid "Starting number"
+msgstr ""
+
+#: ../includes/widgets/counter.php:166
+msgid "Ending number"
+msgstr ""
+
+#: ../includes/widgets/counter.php:200
+msgid "Number HTML class"
+msgstr ""
+
+#: ../includes/widgets/counter.php:204, ../includes/widgets/counter.php:238
+msgid "H1"
+msgstr ""
+
+#: ../includes/widgets/counter.php:205, ../includes/widgets/counter.php:239
+msgid "H2"
+msgstr ""
+
+#: ../includes/widgets/counter.php:206, ../includes/widgets/counter.php:240
+msgid "H3"
+msgstr ""
+
+#: ../includes/widgets/counter.php:207, ../includes/widgets/counter.php:241
+msgid "H4"
+msgstr ""
+
+#: ../includes/widgets/counter.php:208, ../includes/widgets/counter.php:242
+msgid "H5"
+msgstr ""
+
+#: ../includes/widgets/counter.php:209, ../includes/widgets/counter.php:243
+msgid "H6"
+msgstr ""
+
+#: ../includes/widgets/counter.php:210, ../includes/widgets/counter.php:244
+msgid "p"
+msgstr ""
+
+#: ../includes/widgets/counter.php:211, ../includes/widgets/counter.php:245
+msgid "span"
+msgstr ""
+
+#: ../includes/widgets/counter.php:221
+msgid "Awesome number"
+msgstr ""
+
+#: ../includes/widgets/counter.php:222
+msgid "Type your title here"
+msgstr ""
+
+#: ../includes/widgets/counter.php:234
+msgid "Title HTML tag"
+msgstr ""
+
+#: ../includes/widgets/counter.php:253
+msgid "Text inline"
+msgstr ""
+
+#: ../includes/widgets/counter.php:255, ../includes/widgets/counter.php:499, ../includes/widgets/counter.php:791, ../includes/widgets/counter.php:1338
+msgid "True"
+msgstr ""
+
+#: ../includes/widgets/counter.php:256, ../includes/widgets/counter.php:500, ../includes/widgets/counter.php:792, ../includes/widgets/counter.php:1339
+msgid "False"
+msgstr ""
+
+#: ../includes/widgets/counter.php:267, ../includes/widgets/counter.php:297
+msgid "Icon position"
+msgstr ""
+
+#: ../includes/widgets/counter.php:323, ../includes/widgets/counter.php:354
+msgid "Vertical position"
+msgstr ""
+
+#: ../includes/widgets/counter.php:384
+msgid "Text Align"
+msgstr ""
+
+#: ../includes/widgets/counter.php:414
+msgid "Icon Offset"
+msgstr ""
+
+#: ../includes/widgets/counter.php:431
+msgid "Vertical offset"
+msgstr ""
+
+#: ../includes/widgets/counter.php:458
+msgid "Horizontal offset"
+msgstr ""
+
+#: ../includes/widgets/counter.php:497
+msgid "Use Grouping"
+msgstr ""
+
+#: ../includes/widgets/counter.php:513
+msgid "Thousand symbol"
+msgstr ""
+
+#: ../includes/widgets/counter.php:515
+msgid ","
+msgstr ""
+
+#: ../includes/widgets/counter.php:530
+msgid "Decimal Places"
+msgstr ""
+
+#: ../includes/widgets/counter.php:549
+msgid "Decimal Symbol"
+msgstr ""
+
+#: ../includes/widgets/counter.php:551
+msgid "."
+msgstr ""
+
+#: ../includes/widgets/counter.php:565
+msgid "Counter Prefix"
+msgstr ""
+
+#: ../includes/widgets/counter.php:568
+msgid "$"
+msgstr ""
+
+#: ../includes/widgets/counter.php:578
+msgid "Counter Suffix"
+msgstr ""
+
+#: ../includes/widgets/counter.php:581
+msgid "+"
+msgstr ""
+
+#: ../includes/widgets/counter.php:594, ../includes/widgets/icon-box.php:635
+msgid "Icon/Image"
+msgstr ""
+
+#: ../includes/widgets/counter.php:616, ../includes/widgets/counter.php:650
+msgid "Icon color"
+msgstr ""
+
+#: ../includes/widgets/counter.php:761
+msgid "Icon Space"
+msgstr ""
+
+#: ../includes/widgets/counter.php:789
+msgid "Image fullwidth"
+msgstr ""
+
+#: ../includes/widgets/counter.php:880
+msgid "Number space"
+msgstr ""
+
+#: ../includes/widgets/counter.php:919, ../includes/widgets/counter.php:940
+msgid "Number Color"
+msgstr ""
+
+#: ../includes/widgets/counter.php:965
+msgid "Suffix/Prefix"
+msgstr ""
+
+#: ../includes/widgets/counter.php:995
+msgid "Prefix"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1054
+msgid "Suffix"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1226
+msgid "Number animation"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1230
+msgid "Simple"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1231
+msgid "Odometer"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1232
+msgid "Motion Blur"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1242
+msgid "Duration (in seconds)"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1257
+msgid "Motion Durations (in ms)"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1268
+msgid "Numbers translate"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1285
+msgid "Numbers opacity"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1302
+msgid "Blur effect"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1319
+msgid "Delay between numbers"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1336
+msgid "Animate suffix"
+msgstr ""
+
+#: ../includes/widgets/counter.php:1342
+msgid "Add the suffix to the Odometer animation, but removes any suffix custom styling."
+msgstr ""
+
+#: ../includes/widgets/custom-carousel.php:32
+msgid "Custom Carousel"
+msgstr ""
+
+#. translators: %s: Item number
+#: ../includes/widgets/custom-carousel.php:69
+msgid "Item #%s"
+msgstr ""
+
+#: ../includes/widgets/custom-carousel.php:148, ../includes/widgets/tabs.php:442, ../includes/widgets/testimonial-carousel.php:86, ../includes/widgets/testimonial-grid.php:90
+msgid "Additional Settings"
+msgstr ""
+
+#: ../includes/widgets/custom-carousel.php:198
+msgid "Loop preview is disabled here on the editor, due to compatibility issues. But you can test on the front-end, since it works outside the editor."
+msgstr ""
+
+#: ../includes/widgets/custom-slider.php:22
+msgid "Custom Slider"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:22
+msgid "Custom Table"
+msgstr ""
+
+#. translators: %s: Item index
+#: ../includes/widgets/custom-table.php:54
+msgid "Cel #%s"
+msgstr ""
+
+#. translators: %d: Item index
+#: ../includes/widgets/custom-table.php:74
+msgid "Cel #%d"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:101
+msgid "Column Size"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:160
+msgid "Cel #1"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:161
+msgid "Cel #2"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:162
+msgid "Cel #3"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:174
+msgid "Table Style"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:193, ../includes/widgets/custom-table.php:238
+msgid "Row background"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:204, ../includes/widgets/custom-table.php:249
+msgid "Row Padding"
+msgstr ""
+
+#: ../includes/widgets/custom-table.php:216, ../includes/widgets/custom-table.php:261
+msgid "Row Border Radius"
+msgstr ""
+
+#: ../includes/widgets/gallery-carousel.php:35
+msgid "Gallery Carousel"
+msgstr ""
+
+#: ../includes/widgets/gallery-carousel.php:226
+msgid "Main image"
+msgstr ""
+
+#: ../includes/widgets/gallery-carousel.php:231
+msgid "Scale"
+msgstr ""
+
+#: ../includes/widgets/gallery-carousel.php:232
+msgid "Show Info"
+msgstr ""
+
+#: ../includes/widgets/gallery-carousel.php:233
+msgid "Show Info & Scale"
+msgstr ""
+
+#: ../includes/widgets/gallery-carousel.php:235
+msgid "Works best with centered slides."
+msgstr ""
+
+#: ../includes/widgets/gallery-grid.php:35
+msgid "Gallery Grid"
+msgstr ""
+
+#: ../includes/widgets/gallery-grid.php:96, ../includes/widgets/logo-grid.php:76
+msgid "Grid Settings"
+msgstr ""
+
+#: ../includes/widgets/gallery-slider.php:25
+msgid "Gallery Slider"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:37
+msgid "Highlighted Text"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:107, ../includes/widgets/highlighted-text.php:108
+msgid "Some Text"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:116
+msgid "Highlight Style"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:121
+msgid "No Stroke"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:122
+msgid "Stroke 1"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:123
+msgid "Stroke 2"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:124
+msgid "Stroke 3"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:125
+msgid "Stroke 4"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:126
+msgid "Stroke 5"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:127
+msgid "Stroke 6"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:128
+msgid "Stroke 7"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:129
+msgid "Stroke 8"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:130
+msgid "Stroke 9"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:185
+msgid "Use Background Color as Text Color"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:198, ../includes/widgets/icon-box.php:696, ../includes/widgets/icon-box.php:1120
+msgid "Stroke Color"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:250
+msgid "This is my awesome "
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:254
+msgid "highlight"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:258
+msgid " text."
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:296, ../includes/widgets/theme-builder/page-description.php:119, ../includes/widgets/theme-builder/the-title.php:120
+msgid "HTML Tag"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:318
+msgid "Shape"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:388
+msgid "On"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:389
+msgid "Off"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:418
+msgid "Headline"
+msgstr ""
+
+#: ../includes/widgets/highlighted-text.php:446
+msgid "Highlighted Text Color"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:32, ../includes/widgets/icon-box.php:82
+msgid "Icon Box"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:130
+msgid "Image Icon"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:150
+msgid "Icon Box Title"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:151
+msgid "Enter your title"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:159
+msgid "Title Link URL"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:168, ../includes/widgets/icon-box.php:1316, ../includes/widgets/icon-list.php:88, ../includes/widgets/icon-list.php:91, ../includes/widgets/icon-list.php:764
+msgid "Subtitle"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:173
+msgid "Icon Box Subtitle"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:174
+msgid "Enter your sub title"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:187
+msgid "This serves as the explanatory text for the icon box. Use it to provide additional context or details that elaborate on the title's content."
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:188
+msgid "Enter your description"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:243
+msgid "Icon Inline"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:257
+msgid "Icon Top on Mobile"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:270, ../includes/widgets/icon-list.php:290
+msgid "Icon Vertical Alignment"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:278
+msgid "Middle"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:337
+msgid "Readmore Animation Alignment"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:356, ../includes/widgets/icon-box.php:369, ../includes/widgets/icon-box.php:370, ../includes/widgets/icon-box.php:1481
+msgid "Read More"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:377
+msgid "Link to"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:541
+msgid "Add your custom id WITHOUT hash (#) key. e.g: my-id"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:561
+msgid "Badge Text"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:612
+msgid "Global Link"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:620
+msgid "Global Link URL"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:655, ../includes/widgets/icon-box.php:1089
+msgid "Icon Color"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:670
+msgid "Svg Icon Color"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:681, ../includes/widgets/icon-box.php:1105
+msgid "Fill Color"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:711
+msgid "Blur Filter"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:719
+msgid "Blur Level"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:776
+msgid "Advanced Radius"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:784
+msgid "Radius"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:851
+msgid "Image Fullwidth"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:930, ../includes/widgets/icon-box.php:1775
+msgid "Rotate"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:951
+msgid "Background Rotate"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:972
+msgid "Icon Vertical Offset"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:992
+msgid "Icon Horizontal Offset"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1012, ../includes/widgets/icon-box.php:1181
+msgid "Image Effect"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1035, ../includes/widgets/icon-box.php:1204
+msgid "Opacity"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1573
+msgid "Box hover"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1624
+msgid "Button hover"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1673, ../includes/widgets/tabs.php:664
+msgid "Hover Animation"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1698
+msgid "Position"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1703
+msgid "Top Center"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1706
+msgid "Center Left"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1707
+msgid "Center Right"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1709
+msgid "Bottom Center"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:1972
+msgid "Description Hover Animation"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2014
+msgid "Prefix Class for Description with Readmore"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2048
+msgid "Icon Hover Animation"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2054
+msgid "Icon Float"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2055
+msgid "Background Circle"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2056
+msgid "Background Slide"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2089
+msgid "Translate"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2098
+msgid "Zoom scale"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2124
+msgid "Translate value"
+msgstr ""
+
+#: ../includes/widgets/icon-box.php:2160
+msgid "Content Inner Padding"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:33
+msgid "Icon List"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:77, ../includes/widgets/icon-list.php:78, ../includes/widgets/icon-list.php:393
+msgid "List Item"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:151
+msgid "List Item #1"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:154
+msgid "List Item #2"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:157
+msgid "List Item #3"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:190
+msgid "Grid Gap"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:211
+msgid "Show Number Count"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:219
+msgid "Number Vertical Alignment"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:249, ../includes/widgets/icon-list.php:1030
+msgid "Connector Line"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:317
+msgid "Vertical Alignment Offset"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:478
+msgid "Transition"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:552
+msgid "Space between elements"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:575
+msgid "Number Count"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:721
+msgid "Title / Subtitle"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:824
+msgid "Linked Title Color"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:835
+msgid "Subtitle Color"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:847
+msgid "Linked Subtitle Color"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:1041
+msgid "Line Color"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:1056
+msgid "Line Thickness"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:1079
+msgid "Line Horizontal Offset"
+msgstr ""
+
+#: ../includes/widgets/icon-list.php:1102
+msgid "Line Vertical Offset"
+msgstr ""
+
+#: ../includes/widgets/logo-carousel.php:33, ../includes/widgets/logo-carousel.php:94
+msgid "Logo Carousel"
+msgstr ""
+
+#: ../includes/widgets/logo-grid.php:24, ../includes/widgets/logo-grid.php:117
+msgid "Logo Grid"
+msgstr ""
+
+#: ../includes/widgets/logo-grid.php:84
+msgid "Grid Layout"
+msgstr ""
+
+#: ../includes/widgets/logo-grid.php:87
+msgid "Inner Border"
+msgstr ""
+
+#: ../includes/widgets/logo-grid.php:88
+msgid "Outer Border"
+msgstr ""
+
+#: ../includes/widgets/logo-grid.php:89
+msgid "Inner Divider"
+msgstr ""
+
+#: ../includes/widgets/logo-grid.php:105
+msgid "Logo Settings"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:30
+msgid "Newsletter"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:163
+msgid "Form Settings"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:222, ../includes/widgets/newsletter.php:390
+msgid "Recaptcha"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:232
+msgid "Adds a hidden field to trap and identify bots by capturing automated form submissions."
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:243
+msgid "E-mail"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:263
+msgid "Your e-mail"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:338
+msgid "Your name"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:400
+msgid "Recaptcha Version"
+msgstr ""
+
+#: ../includes/widgets/newsletter.php:661
+msgid "Address"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:43
+msgid "Post Grid"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:126
+msgid "Columns Number"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:153
+msgid "classic"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:167
+msgid "layout"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:172
+msgid "Boxed"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:173
+msgid "Boxed Creative"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:174
+msgid "Cover"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:185
+msgid "Image Ratio"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:190
+msgid "Square"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:191
+msgid "Landscape"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:192
+msgid "Portrait"
+msgstr ""
+
+#: ../includes/widgets/post-grid.php:266
+msgid "Post Title"
+msgstr ""
+
+#. translators: %s: Tab index
+#: ../includes/widgets/tabs.php:62
+msgid "Tab #%s"
+msgstr ""
+
+#. translators: %d: Tab index
+#: ../includes/widgets/tabs.php:79
+msgid "Tab #%d"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:113, ../includes/widgets/tabs.php:114, ../includes/widgets/tabs.php:125
+msgid "Tab Title"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:160
+msgid "CSS ID"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:176
+msgid "Tabs Items"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:181
+msgid "Tab #1"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:184
+msgid "Tab #2"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:187
+msgid "Tab #3"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:201
+msgid "Tabs Direction"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:205
+msgid "Above"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:209
+msgid "Below"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:235
+msgid "Tabs Width"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:263, ../includes/widgets/tabs.php:389
+msgid "Justify"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:279, ../includes/widgets/tabs.php:318
+msgid "Stretch"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:302
+msgid "Tabs alignment"
+msgstr ""
+
+#. translators: 1: Breakpoint label, 2: `>` character, 3: Breakpoint value.
+#: ../includes/widgets/tabs.php:464
+msgid "%1$s (%2$s %3$dpx)"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:474
+msgid "Breakpoint"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:476
+msgid "Note: Choose the breakpoint where tabs automatically switch to a vertical (“accordion”) layout."
+msgstr ""
+
+#: ../includes/widgets/tabs.php:486
+msgid "Toggle Description"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:490
+msgid "Show descriptions only for active items."
+msgstr ""
+
+#: ../includes/widgets/tabs.php:506
+msgid "Gap between tabs"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:530
+msgid "Distance from content"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:596, ../includes/widgets/tabs.php:655, ../includes/widgets/tabs.php:740
+msgid "Shadow"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:752
+msgid "Pill Style"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:806
+msgid "Titles"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:904
+msgid "Top Spacing"
+msgstr ""
+
+#: ../includes/widgets/tabs.php:1364, ../includes/widgets/tabs.php:1498
+msgid "Tabs. Open items with Enter or Space, close with Escape and navigate using the Arrow keys."
+msgstr ""
+
+#: ../includes/widgets/testimonial-carousel.php:33
+msgid "Testimonial Carousel"
+msgstr ""
+
+#: ../includes/widgets/testimonial-carousel.php:122
+msgid "Inner Content Spacing"
+msgstr ""
+
+#: ../includes/widgets/testimonial-grid.php:34
+msgid "Testimonial Grid"
+msgstr ""
+
+#: ../includes/widgets/testimonial-slider.php:23
+msgid "Testimonial Slider"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/page-description.php:48
+msgid "Page Description"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/page-description.php:168
+msgid "Fallback text"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/page-description.php:169
+msgid "If is empty and page does not have any description nothing will be displayed."
+msgstr ""
+
+#: ../includes/widgets/theme-builder/page-description.php:228, ../includes/widgets/theme-builder/the-title.php:230
+msgid "Blend Mode"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/page-description.php:276
+msgid "This is the page description. You can change this text by editing the page using the default WordPress editor."
+msgstr ""
+
+#: ../includes/widgets/theme-builder/post-meta.php:23
+msgid "Post Meta"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/post-meta.php:92, ../includes/widgets/theme-builder/the-content.php:50
+msgid "Style"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/post-meta.php:107, ../includes/widgets/theme-builder/the-title.php:282
+msgid "This is a dummy title."
+msgstr ""
+
+#: ../includes/widgets/theme-builder/the-content.php:23
+msgid "Post Content"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/the-title.php:49
+msgid "The Title"
+msgstr ""
+
+#: ../includes/widgets/theme-builder/the-title.php:170
+msgid "View"
+msgstr ""

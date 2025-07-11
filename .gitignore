@@ -1,0 +1,15 @@
+# Ignorer les fichiers sensibles ou lourds
+wp-content/debug.log
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+
+# Node / build (si applicable)
+node_modules/
+dist/
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

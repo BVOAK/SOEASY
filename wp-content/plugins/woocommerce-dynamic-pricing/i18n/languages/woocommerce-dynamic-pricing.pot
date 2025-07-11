@@ -1,0 +1,981 @@
+# Copyright (C) 2025 Element Stark
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Dynamic Pricing 3.3.2\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/woocommerce-dynamic-pricing\n"
+"POT-Creation-Date: 2025-03-15 08:29:12+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: admin/classes/category_pricing_rules_admin.class.php:21
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:33
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:21
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:33
+msgid "A title for this rule set to indentify it in the dashboard"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:22
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:34
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:22
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:34
+msgid "The quantity the user must purchase at full price"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:23
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:35
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:23
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:35
+msgid "The quantity the user will receive at the discount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:24
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:36
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:24
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:36
+msgid "The type of discount to apply"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:25
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:37
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:25
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:37
+msgid "The amount of discount to be applied"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:26
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:38
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:26
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:38
+msgid ""
+"If the discount will apply to multiples of the receive amount or if the "
+"discount will only be applied to exactly the number of receive items"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:27
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:27
+msgid "Items from the selected categories will be eligible for the discount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:28
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:28
+msgid ""
+"Items from the selected categories will contribute to the total required "
+"before the discount will be applied"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:29
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:41
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:29
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:41
+msgid ""
+"(optional) Choose the roles customers must be in to be eligible for the "
+"discount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:30
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:42
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:30
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:42
+msgid ""
+"Bulk rules allow you to configure a bulk discount based on specific "
+"quantities the user purchases, such as buy 5 items receive a 10% discount.  "
+"Special offers allow you to configure rules such as buy one get one free."
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:59
+#: admin/classes/membership_pricing_rules_admin.class.php:24
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:64
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:59
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:24
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:64
+msgid "Enabled"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:61
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:61
+msgid "Category"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:64
+#: admin/classes/category_pricing_rules_admin.class.php:368
+#: admin/classes/membership_pricing_rules_admin.class.php:29
+#: admin/classes/product_pricing_rules_admin.class.php:182
+#: admin/classes/product_pricing_rules_admin.class.php:222
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:69
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:334
+#: admin/classes/totals_pricing_rules_admin.class.php:155
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:64
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:368
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:29
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:182
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:222
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:69
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:334
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:155
+msgid "Type"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:67
+#: admin/classes/category_pricing_rules_admin.class.php:371
+#: admin/classes/membership_pricing_rules_admin.class.php:32
+#: admin/classes/product_pricing_rules_admin.class.php:185
+#: admin/classes/product_pricing_rules_admin.class.php:225
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:72
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:337
+#: admin/classes/totals_pricing_rules_admin.class.php:156
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:67
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:371
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:32
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:185
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:225
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:72
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:337
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:156
+msgid "Amount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:75
+#: admin/classes/category_pricing_rules_admin.class.php:171
+#: admin/classes/group_pricing_rules_admin.class.php:92
+#: admin/classes/membership_pricing_rules_admin.class.php:89
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:81
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:165
+#: admin/classes/totals_pricing_rules_admin.class.php:27
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:75
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:171
+#: dist/woocommerce-dynamic-pricing/admin/classes/group_pricing_rules_admin.class.php:92
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:89
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:81
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:165
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:27
+msgid "Save Changes"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:78
+#: admin/classes/category_pricing_rules_admin.class.php:174
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:78
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:174
+msgid "You need to create product categories first"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:124
+#: admin/classes/category_pricing_rules_admin.class.php:551
+#: admin/classes/category_pricing_rules_admin.class.php:690
+#: admin/classes/category_pricing_rules_admin.class.php:723
+#: admin/classes/membership_pricing_rules_admin.class.php:77
+#: admin/classes/product_pricing_rules_admin.class.php:423
+#: admin/classes/product_pricing_rules_admin.class.php:456
+#: admin/classes/product_pricing_rules_admin.class.php:624
+#: admin/classes/product_pricing_rules_admin.class.php:657
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:126
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:489
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:521
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:661
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:694
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:124
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:551
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:690
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:723
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:77
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:423
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:456
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:624
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:657
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:126
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:489
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:521
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:661
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:694
+msgid "Price Discount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:125
+#: admin/classes/category_pricing_rules_admin.class.php:552
+#: admin/classes/category_pricing_rules_admin.class.php:691
+#: admin/classes/category_pricing_rules_admin.class.php:724
+#: admin/classes/membership_pricing_rules_admin.class.php:78
+#: admin/classes/product_pricing_rules_admin.class.php:424
+#: admin/classes/product_pricing_rules_admin.class.php:457
+#: admin/classes/product_pricing_rules_admin.class.php:625
+#: admin/classes/product_pricing_rules_admin.class.php:658
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:127
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:490
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:522
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:662
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:695
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:125
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:552
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:691
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:724
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:78
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:424
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:457
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:625
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:658
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:127
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:490
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:522
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:662
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:695
+msgid "Percentage Discount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:155
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:149
+#: admin/classes/totals_pricing_rules_admin.class.php:13
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:155
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:149
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:13
+msgid "Advanced Rules"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:169
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:169
+msgid "Add Category Pricing"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:199
+#: admin/classes/store_pricing_rules_admin.class.php:112
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:199
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:112
+msgid "Category Pricing"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:202
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:197
+#: admin/classes/totals_pricing_rules_admin.class.php:60
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:202
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:197
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:60
+msgid "Admin Title"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:265
+#: admin/classes/product_pricing_rules_admin.class.php:130
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:233
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:265
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:130
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:233
+msgid "Rule Processing Mode:"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:267
+#: admin/classes/product_pricing_rules_admin.class.php:132
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:235
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:267
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:132
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:235
+msgid "Bulk"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:268
+#: admin/classes/product_pricing_rules_admin.class.php:133
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:236
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:268
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:133
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:236
+msgid "Special Offer"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:275
+#: admin/classes/product_pricing_rules_admin.class.php:138
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:252
+#: admin/classes/totals_pricing_rules_admin.class.php:115
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:275
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:138
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:252
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:115
+msgid "Dates: (Inclusive)"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:276
+#: admin/classes/category_pricing_rules_admin.class.php:277
+#: admin/classes/product_pricing_rules_admin.class.php:139
+#: admin/classes/product_pricing_rules_admin.class.php:140
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:253
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:254
+#: admin/classes/totals_pricing_rules_admin.class.php:116
+#: admin/classes/totals_pricing_rules_admin.class.php:117
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:276
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:277
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:139
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:140
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:253
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:254
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:116
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:117
+msgid "Leave both fields blank to not restrict this pricing group to a date range"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:312
+#: admin/classes/product_pricing_rules_admin.class.php:216
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:289
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:312
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:216
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:289
+msgid "Purchase"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:315
+#: admin/classes/product_pricing_rules_admin.class.php:219
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:292
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:315
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:219
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:292
+msgid "Receive"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:318
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:295
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:318
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:295
+msgid "Discount Type"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:321
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:298
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:321
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:298
+msgid "Discount Amount"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:324
+#: admin/classes/product_pricing_rules_admin.class.php:228
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:301
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:324
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:228
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:301
+msgid "Repeating"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:358
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:324
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:358
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:324
+msgid "Quantity Pricing"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:362
+#: admin/classes/product_pricing_rules_admin.class.php:176
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:328
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:362
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:176
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:328
+msgid "Minimum Quantity"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:365
+#: admin/classes/product_pricing_rules_admin.class.php:179
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:331
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:365
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:179
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:331
+msgid "Max Quantity"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:409
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:409
+msgid "Rule Set "
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:434
+#: admin/classes/product_pricing_rules_admin.class.php:289
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:390
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:434
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:289
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:390
+msgid "Applies To:"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:438
+#: admin/classes/product_pricing_rules_admin.class.php:293
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:394
+#: admin/classes/totals_pricing_rules_admin.class.php:224
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:438
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:293
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:394
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:224
+msgid "Everyone"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:439
+#: admin/classes/product_pricing_rules_admin.class.php:294
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:395
+#: admin/classes/totals_pricing_rules_admin.class.php:225
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:439
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:294
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:395
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:225
+msgid "Guests"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:440
+#: admin/classes/product_pricing_rules_admin.class.php:295
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:396
+#: admin/classes/totals_pricing_rules_admin.class.php:226
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:440
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:295
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:396
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:226
+msgid "Specific Roles"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:445
+#: admin/classes/product_pricing_rules_admin.class.php:301
+#: admin/classes/totals_pricing_rules_admin.class.php:233
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:445
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:301
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:233
+msgid "Roles:"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:466
+#: admin/classes/product_pricing_rules_admin.class.php:385
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:426
+#: admin/classes/totals_pricing_rules_admin.class.php:258
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:466
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:385
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:426
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:258
+msgid "Quantities based on:"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:468
+#: admin/classes/product_pricing_rules_admin.class.php:389
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:428
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:468
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:389
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:428
+msgid "Cart Line Item Quantity"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:469
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:469
+msgid "Sum of Category"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:494
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:494
+msgid "Categories to Adjust:"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:543
+#: admin/classes/product_pricing_rules_admin.class.php:416
+#: admin/classes/product_pricing_rules_admin.class.php:448
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:513
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:543
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:416
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:448
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:513
+msgid ""
+"Apply this adjustment when the quantity in the cart starts at this value.  "
+"Use * for any."
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:546
+#: admin/classes/product_pricing_rules_admin.class.php:451
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:516
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:546
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:451
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:516
+msgid "Apply the discount to this many items"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:550
+#: admin/classes/product_pricing_rules_admin.class.php:422
+#: admin/classes/product_pricing_rules_admin.class.php:455
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:520
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:550
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:422
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:455
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:520
+msgid "The type of adjustment to apply"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:553
+#: admin/classes/category_pricing_rules_admin.class.php:692
+#: admin/classes/category_pricing_rules_admin.class.php:725
+#: admin/classes/product_pricing_rules_admin.class.php:425
+#: admin/classes/product_pricing_rules_admin.class.php:458
+#: admin/classes/product_pricing_rules_admin.class.php:626
+#: admin/classes/product_pricing_rules_admin.class.php:659
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:491
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:523
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:663
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:696
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:553
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:692
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:725
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:425
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:458
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:626
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:659
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:491
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:523
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:663
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:696
+msgid "Fixed Price"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:558
+#: admin/classes/product_pricing_rules_admin.class.php:429
+#: admin/classes/product_pricing_rules_admin.class.php:463
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:528
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:558
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:429
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:463
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:528
+msgid ""
+"The value of the adjustment. Currency and percentage symbols are not "
+"required"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:563
+#: admin/classes/product_pricing_rules_admin.class.php:468
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:533
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:563
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:468
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:533
+msgid "If the rule is repeating"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:564
+#: admin/classes/category_pricing_rules_admin.class.php:733
+#: admin/classes/product_pricing_rules_admin.class.php:469
+#: admin/classes/product_pricing_rules_admin.class.php:667
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:534
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:704
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:564
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:733
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:469
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:667
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:534
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:704
+msgid "No"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:565
+#: admin/classes/category_pricing_rules_admin.class.php:734
+#: admin/classes/product_pricing_rules_admin.class.php:470
+#: admin/classes/product_pricing_rules_admin.class.php:668
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:535
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:705
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:565
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:734
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:470
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:668
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:535
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:705
+msgid "Yes"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:748
+#: admin/classes/category_pricing_rules_admin.class.php:761
+#: admin/classes/product_pricing_rules_admin.class.php:682
+#: admin/classes/product_pricing_rules_admin.class.php:695
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:719
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:732
+#: admin/classes/totals_pricing_rules_admin.class.php:465
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:748
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:761
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:682
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:695
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:719
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:732
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:465
+msgid "Are you sure you would like to remove this price adjustment?"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:774
+#: admin/classes/product_pricing_rules_admin.class.php:708
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:745
+#: admin/classes/totals_pricing_rules_admin.class.php:478
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:774
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:708
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:745
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:478
+msgid "Are you sure you would like to remove this price set?"
+msgstr ""
+
+#: admin/classes/membership_pricing_rules_admin.class.php:26
+#: dist/woocommerce-dynamic-pricing/admin/classes/membership_pricing_rules_admin.class.php:26
+msgid "Role"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:19
+#: admin/classes/product_pricing_rules_admin.class.php:24
+#: admin/classes/product_pricing_rules_admin.class.php:28
+#: admin/classes/store_pricing_rules_admin.class.php:76
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:19
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:24
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:28
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:76
+msgid "Dynamic Pricing"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:54
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:54
+msgid ""
+"Allows you to configure another Price Adjustment.  Useful if you have "
+"different sets of conditions and pricing adjustments which need to be "
+"applied to this product."
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:54
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:54
+msgid "Add Pricing Group"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:76
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:76
+msgid "Delete this Price Adjustment"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:292
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:292
+msgid ""
+"Choose if this rule should apply to everyone, or to specific roles.  Useful "
+"if you only give discounts to existing customers, or if you have tiered "
+"pricing based on the users role."
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:348
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:348
+msgid "Product / Variations:"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:349
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:349
+msgid "Choose what you would like to apply this pricing rule set to"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:350
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:350
+msgid "All Variations"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:351
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:351
+msgid "Specific Variations"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:358
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:358
+msgid "Variations:"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:386
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:386
+msgid ""
+"Choose how to calculate the quantity.  This tallied amount is used in "
+"determining the min and max quantities used below in the Quantity Pricing "
+"section."
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:387
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:387
+msgid "Calculate quantity based on the Product ID"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:387
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:387
+msgid "Product Quantity"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:388
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:388
+msgid "Calculate quantity based on the Variation ID"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:388
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:388
+msgid "Variation Quantity"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:389
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:389
+msgid "Calculate quantity based on the Cart Line Item"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:390
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:390
+msgid "Calculate quantity based on total amount of a category in the cart"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:390
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:390
+msgid "Quantity of Category"
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:419
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:419
+msgid ""
+"Apply this adjustment when the quantity in the cart is less than this "
+"value.  Use * for any."
+msgstr ""
+
+#: admin/classes/product_pricing_rules_admin.class.php:434
+#: admin/classes/product_pricing_rules_admin.class.php:437
+#: admin/classes/product_pricing_rules_admin.class.php:477
+#: admin/classes/product_pricing_rules_admin.class.php:480
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:434
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:437
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:477
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:480
+msgid "add another rule"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:94
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:94
+msgid "Order Totals Pricing"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:95
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:95
+msgid ""
+"Order Totals pricing allows you to configure price adjustments for the "
+"entire store based on the total order amount.  This is the last discount "
+"rule that will be applied.  If other discounts have been applied to cart "
+"items, these rules will not be applied to the cart."
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:103
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:103
+msgid "Role Pricing"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:104
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:104
+msgid ""
+"Role pricing allows you to configure price adjustments for the entire store "
+"based on a users role."
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:113
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:113
+msgid ""
+"Use bulk category pricing to configure bulk price adjustments based on a "
+"product's category. Category pricing rules will apply before Membership "
+"(role-based pricing discounts), and will be cumulative with any Membership "
+"rules by default.   The cumulative filter can be used to change this "
+"behavior."
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:117
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:117
+msgid "Advanced Category Pricing"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:118
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:118
+msgid ""
+"Use advanced category pricing to configure price adjustments on items in a "
+"customers cart based on quantities.  Adjustments are calculated when the "
+"rule matches the configured quantities and will be applied to all items in "
+"the cart matching the selected category / categories.   Advanced category "
+"adjustments take precedence over bulk category adjustments."
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:129
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:129
+msgid "Group Pricing"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:141
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:141
+msgid "Brand Pricing"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:142
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:142
+msgid ""
+"Use bulk brand pricing to configure bulk price adjustments based on a "
+"product's brand. Brand pricing rules will apply before Membership "
+"(role-based pricing discounts), and will be cumulative with any Membership "
+"rules by default.   The cumulative filter can be used to change this "
+"behavior."
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:146
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:146
+msgid "Advanced Brand Pricing"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:147
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:147
+msgid ""
+"Use advanced brand pricing to configure price adjustments on items in a "
+"customers cart based on quantities.  Adjustments are calculated when the "
+"rule matches the configured quantities and will be applied to all items in "
+"the cart matching the selected brand.   \n"
+"\t\t\t\t\t     Advanced category adjustments take precedence over bulk "
+"brand adjustments."
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:386
+#: admin/classes/store_pricing_rules_admin.class.php:459
+#: admin/classes/store_pricing_rules_admin.class.php:513
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:386
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:459
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:513
+msgid "You must enter values for all quantity and amount fields"
+msgstr ""
+
+#: admin/classes/store_pricing_rules_admin.class.php:509
+#: dist/woocommerce-dynamic-pricing/admin/classes/store_pricing_rules_admin.class.php:509
+msgid "Invalid totals configured"
+msgstr ""
+
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:84
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:168
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:84
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:168
+msgid "You need to create %s first"
+msgstr ""
+
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:194
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:194
+msgid "%s Pricing"
+msgstr ""
+
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:429
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:429
+msgid "Sum of %s"
+msgstr ""
+
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:458
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:458
+msgid "%s to apply adjustment to:"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:53
+#: admin/classes/totals_pricing_rules_admin.class.php:149
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:53
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:149
+msgid "Order Total Pricing"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:55
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:55
+msgid "delete this set"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:153
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:153
+msgid "Minimum Order Total"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:154
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:154
+msgid "Max Order Total"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:260
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:260
+msgid "Cart Total"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:261
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:261
+msgid "Category Total"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:264
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:264
+msgid "Required Categories"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:288
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:288
+msgid "Categories to apply adjustment to:"
+msgstr ""
+
+#: admin/classes/totals_pricing_rules_admin.class.php:315
+#: admin/classes/totals_pricing_rules_admin.class.php:447
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:315
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:447
+msgid "Percentage Adjustment"
+msgstr ""
+
+#: classes/class-wc-dynamic-pricing-installer.php:20
+#: dist/woocommerce-dynamic-pricing/classes/class-wc-dynamic-pricing-installer.php:20
+msgid ""
+"<strong>Update for Dynamic Pricing</strong> Percentage discounts are now "
+"calculated using the exact amount you enter.  Previously you could enter in "
+"50 or .5 in the amount box and the result would be 50% discount.\n"
+"\n"
+"Now if you enter in .5 or 0.5 you will actually be getting a half a percent "
+"discount.\n"
+"\n"
+"Please review your rules if you have previously entered in amounts such as "
+".5 for a 50% discount.   If you now want to have a 50% discount the amount "
+"must read 50, not the previously allowed value of .5"
+msgstr ""
+
+#: dist/woocommerce-dynamic-pricing/integrations/groups/groups.php:15
+#: integrations/groups/groups.php:15
+msgid "Groups"
+msgstr ""
+
+#: dist/woocommerce-dynamic-pricing/integrations/memberships/memberships.php:16
+#: integrations/memberships/memberships.php:16
+msgid "Membership Plan"
+msgstr ""
+
+#: dist/woocommerce-dynamic-pricing/integrations/memberships/memberships.php:30
+#: integrations/memberships/memberships.php:30
+msgid "Membership Plans:"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Dynamic Pricing"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://woocommerce.com/products/dynamic-pricing/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"WooCommerce Dynamic Pricing lets you configure dynamic pricing rules for "
+"products, categories and members."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Element Stark"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://elementstark.com"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:276
+#: admin/classes/product_pricing_rules_admin.class.php:139
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:253
+#: admin/classes/totals_pricing_rules_admin.class.php:116
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:276
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:139
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:253
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:116
+msgctxt "placeholder"
+msgid "From&hellip;"
+msgstr ""
+
+#: admin/classes/category_pricing_rules_admin.class.php:277
+#: admin/classes/product_pricing_rules_admin.class.php:140
+#: admin/classes/taxonomy_pricing_rules_admin.class.php:254
+#: admin/classes/totals_pricing_rules_admin.class.php:117
+#: dist/woocommerce-dynamic-pricing/admin/classes/category_pricing_rules_admin.class.php:277
+#: dist/woocommerce-dynamic-pricing/admin/classes/product_pricing_rules_admin.class.php:140
+#: dist/woocommerce-dynamic-pricing/admin/classes/taxonomy_pricing_rules_admin.class.php:254
+#: dist/woocommerce-dynamic-pricing/admin/classes/totals_pricing_rules_admin.class.php:117
+msgctxt "placeholder"
+msgid "To&hellip;"
+msgstr ""

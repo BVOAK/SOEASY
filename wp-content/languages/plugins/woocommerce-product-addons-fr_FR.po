@@ -1,0 +1,1246 @@
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-03-13 09:54:03+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: fr\n"
+"Project-Id-Version: WooCommerce - Extensions - WooCommerce Product Add-ons\n"
+
+#. translators: %s Selected add-on option label
+#. translators: %s Selected add-on option name
+#: includes/fields/class-wc-product-addons-field-list.php:30
+#: includes/fields/class-wc-product-addons-field-list.php:39
+#: includes/fields/class-wc-product-addons-field-select.php:34
+msgid "\"%s\" is not available for purchase."
+msgstr "« %s » n’est pas disponible à l’achat."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:780
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:870
+msgid "In required add-ons, there must be at least one visible option."
+msgstr "Dans les modules obligatoires, au moins une option doit être visible."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:424
+msgid "Visibility of the add-on option"
+msgstr "Visibilité de l’option du module"
+
+#: includes/admin/class-wc-product-addons-admin.php:436
+#: includes/admin/views/html-addon-option.php:64
+msgid "Click to hide this option"
+msgstr "Cliquer pour masquer cette option"
+
+#: includes/admin/class-wc-product-addons-admin.php:435
+#: includes/admin/views/html-addon-option.php:64
+msgid "Click to make this option visible"
+msgstr "Cliquer pour rendre cette option visible"
+
+#: includes/admin/class-wc-product-addons-admin.php:421
+msgid "There must be at least 1 visible option for required add-ons."
+msgstr "Au moins 1 option doit être visible pour les modules obligatoires."
+
+#. translators: 1: default index, 2: max index.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:664
+msgid "Provided default option index (%1$s) does not exist. The index of the last option is (%2$d)."
+msgstr "L’index d’option par défaut fourni (%1$s) n’existe pas. L’index de la dernière option est (%2$d)."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:641
+msgid "The default value for \"Checkboxes\" add-ons must be a comma separated string of default option indexes"
+msgstr "La valeur par défaut des modules « cases à cocher » doit être une chaîne d’index d’options par défaut séparées par des virgules."
+
+#. translators: 1: default index, 2: max index.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:619
+msgid "Provided default option index (%1$d) does not exist. The index of the last option is (%2$d)."
+msgstr "L’index d’option par défaut fourni (%1$d) n’existe pas. L’index de la dernière option est (%2$d)."
+
+#. translators: 1: default index.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:608
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:654
+msgid "Provided default option index (%1$s) does not exist."
+msgstr "L’index d’option par défaut fourni (%1$s) n’existe pas."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:599
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:632
+msgid "At least one option is required to set a default."
+msgstr "Au moins une option est requise pour définir une valeur par défaut."
+
+#. translators: 1: default value, 2: max value.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:586
+msgid "Provided default value (%1$g) must be less than or equal to the max value (%2$g)."
+msgstr "La valeur par défaut fournie (%1$g) doit être inférieure ou égale à la valeur max. (%2$g)."
+
+#. translators: 1: default value, 2: min value.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:573
+msgid "Provided default value (%1$g) must be greater than or equal to the min value (%2$g)."
+msgstr "La valeur par défaut fournie (%1$g) doit être supérieure ou égale à la valeur min. (%2$g)."
+
+#. translators: 1: default value, 2: max value.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:540
+msgid "Provided default value (%1$d) must be less than or equal to the max value (%2$d)."
+msgstr "La valeur par défaut fournie (%1$d) doit être inférieure ou égale à la valeur max. (%2$d)."
+
+#. translators: 1: default value, 2: min value.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:527
+msgid "Provided default value (%1$d) must be greater than or equal to the min value (%2$d)."
+msgstr "La valeur par défaut fournie (%1$d) doit être supérieure ou égale à la valeur min. (%2$d)."
+
+#. translators: 1: default qty.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:507
+msgid "Provided default quantity (%1$s) is not a positive number."
+msgstr "La quantité par défaut fournie (%1$s) n’est pas un nombre positif."
+
+#. translators: 1: default qty.
+#. translators: 1: default price.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:496
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:553
+msgid "Provided default quantity (%1$s) is not a numeric string."
+msgstr "La quantité par défaut fournie (%1$s) n’est pas une chaîne numérique."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:480
+msgid "Default values can only be defined/set for \"Multiple Choice\", \"Checkboxes\", \"Quantity\" and \"Price\" add-on types."
+msgstr "Des valeurs par défaut ne peuvent être définies que pour les types de module « choix multiple », « cases à cocher », « quantité » et « prix »."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:383
+msgid "Min/max values must be integers for \"Quantity\", \"Short Text\" and \"Long Text\" add-on types."
+msgstr "Les valeurs min. et max. doivent être des nombres entiers pour les types de module « quantité », « texte court » et « texte long »."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:362
+msgid "Min/max values can only be defined/set for \"Quantity\", \"Price\", \"Short Text\" and \"Long Text\" add-on types."
+msgstr "Des valeurs min. et max. ne peuvent être définies que pour les types de module « quantité », « prix », « texte court » et « texte long »."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:219
+msgid "Default add-on value"
+msgstr "Valeur de module par défaut"
+
+#: includes/admin/views/html-addon.php:252
+msgid "Choose which options are pre-selected by default."
+msgstr "Choisissez les options présélectionnées par défaut."
+
+#: includes/admin/views/html-addon.php:251
+msgid "Default"
+msgstr "Valeur par défaut"
+
+#: includes/admin/views/html-addon.php:166
+msgid "Pre-filled price"
+msgstr "Prix prérempli"
+
+#: includes/admin/views/html-addon.php:164
+msgid "Pre-filled quantity"
+msgstr "Quantité préremplie"
+
+#: includes/admin/views/html-addon.php:122
+msgid "Default selection"
+msgstr "Sélection par défaut"
+
+#: includes/admin/views/html-addon-option.php:54
+msgid "Pre-selected by default"
+msgstr "Présélectionné par défaut"
+
+#. translators: %1$s decimal separator
+#: includes/admin/class-wc-product-addons-admin.php:470
+#: includes/class-wc-product-addons-display.php:139
+msgid "Please enter a price with one monetary decimal point (%1$s) without thousand separators."
+msgstr "Veuillez saisir un prix avec une décimale monétaire (%1$s) sans séparateur de milliers."
+
+#: includes/admin/class-wc-product-addons-admin-ajax.php:427
+msgid "Invalid item"
+msgstr "Élément non valide"
+
+#: includes/admin/class-wc-product-addons-admin-ajax.php:421
+msgid "Invalid order"
+msgstr "Commande non valide"
+
+#: includes/admin/class-wc-product-addons-admin-ajax.php:414
+msgid "Missing order_id or item_id"
+msgstr "order_id ou item_id manquant"
+
+#: woocommerce-product-addons.php:119
+msgid "Please update WooCommerce."
+msgstr "Veuillez mettre WooCommerce à jour."
+
+#: woocommerce-product-addons.php:117
+msgid "Please install and activate WooCommerce."
+msgstr "Veuillez installer et activer WooCommerce."
+
+#: woocommerce-product-addons.php:115
+msgid "WooCommerce Product Add-Ons requires at least WooCommerce version <strong>%1$s</strong>. %2$s"
+msgstr "WooCommerce Product Add-Ons nécessite au moins la version <strong>%1$s</strong> de WooCommerce. %2$s"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:761
+msgid "Each \"option\" must have a \"label\" property defined."
+msgstr "Chaque « option » doit comporter une propriété « étiquette » définie."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:747
+msgid "\"Multiple Choice\" and \"Checkboxes\" add-on types require at lease one option."
+msgstr "Les types de modules « choix multiple » et « cases à cocher » nécessitent au moins une option."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:739
+msgid "Options can only be defined/set for \"Multiple Choice\" and \"Checkboxes\" add-on types."
+msgstr "Des options ne peuvent être définies que pour les types de modules « choix multiple » et « cases à cocher »"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:328
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:437
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:698
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:808
+msgid "Type must be defined when creating an Add-on."
+msgstr "Le type doit être défini lors de la création du module."
+
+#. translators: 1: min value, 2: max value.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:400
+msgid "Provided min value (%1$d) must be less than or equal to the max value (%2$d)."
+msgstr "La valeur min. fournie (%1$d) doit être inférieure ou égale à la valeur max. (%2$d)."
+
+#. translators: %s field name.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:292
+msgid "Float (or empty string) expected for \"%s\""
+msgstr "Valeur flottante (ou chaîne vide) attendue pour « %s »"
+
+#. translators: %s field name.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:203
+msgid "\"%s\" is required"
+msgstr "« %s » est obligatoire."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:182
+msgid "Array expected for fields."
+msgstr "Tableau attendu pour les champs."
+
+#. translators: %s object type.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:151
+msgid "%s name can be maximum 255 characters long."
+msgstr "Le nom de l’objet « %s » ne doit pas dépasser 255 caractères."
+
+#. translators: %s object type.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:137
+msgid "%s name must be a string."
+msgstr "Le nom de l’objet « %s » doit être une chaîne."
+
+#. translators: %s object type.
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:124
+msgid "Name required when creating %s."
+msgstr "Nom obligatoire lors de la création de l’objet « %s »."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:99
+msgid "Global group"
+msgstr "Groupe global"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-validation.php:83
+msgid "Add-on"
+msgstr "Add-on"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-product-rest-api.php:164
+msgid "Product not found."
+msgstr "Produit introuvable."
+
+#. translators: %d product id.
+#: includes/api/v2/class-wc-product-addons-api-v2-product-rest-api.php:139
+msgid "Product with ID \"%d\" not found."
+msgstr "Produit avec l’ID « %d » introuvable."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-product-rest-api.php:97
+msgid "Add-ons assigned to this product"
+msgstr "Modules assignés à ce produit"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-product-rest-api.php:87
+msgid "Status indicating if the global add-on are excluded from this product"
+msgstr "État indiquant si les modules globaux sont exclus de ce produit"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-global-group.php:166
+msgid "Unable to delete group. Invalid global add-on group ID."
+msgstr "Impossible de supprimer le groupe. ID de groupe de modules globaux non valide."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:526
+msgid "Invalid add-on ID provided."
+msgstr "ID de module fourni non valide."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:494
+msgid "Add-on Group's Name parameter is required when creating Add-on Group."
+msgstr "Le paramètre Nom du groupe de modules est obligatoire lors de la création du groupe de modules."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:418
+msgid "Image ID for the add-on option for image display type, or 0"
+msgstr "ID image pour l’option du module pour le type d’affichage de l’image ou 0"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:411
+msgid "Type of price adjustment for the add-on option"
+msgstr "Type d’ajustement du prix pour l’option du module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:401
+msgid "Price of the add-on option, if applicable (numeric string)"
+msgstr "Prix de l’option du module, le cas échéant (chaîne numérique)"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:395
+msgid "Label for the add-on option"
+msgstr "Étiquette pour l’option du module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:384
+msgid "List of options for multiple_choice and checkbox type add-ons"
+msgstr "Liste d’options pour les modules de type multiple_choice et checkbox"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:373
+msgid "Maximum allowed input for custom_text, custom_textarea, custom_price, and input_multiplier add-ons"
+msgstr "Saisie maximum autorisée pour les modules custom_text, custom_textarea, custom_price et input_multiplier"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:362
+msgid "Minimum allowed input for custom_text, custom_textarea, custom_price, and input_multiplier add-ons"
+msgstr "Saisie minimum autorisée pour les modules custom_text, custom_textarea, custom_price et input_multiplier"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:351
+msgid "Price of the add-on, if applicable (numeric string)"
+msgstr "Prix du module, le cas échéant (chaîne numérique)"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:342
+msgid "Type of price adjustment for the add-on"
+msgstr "Type d’ajustement du prix pour le module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:333
+msgid "Status indicating if the add-on adjusts the product price"
+msgstr "État indiquant si le module ajuste le prix du produit"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:317
+msgid "Input restrictions for custom_text type add-ons"
+msgstr "Restrictions de saisie pour les modules de type custom_text"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:308
+msgid "Status indicating if min/max limits for price or text length are enabled"
+msgstr "État indiquant si des limites min. / max. sont activées pour le prix ou la longueur du texte"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:299
+msgid "Status indicating if the add-on is required"
+msgstr "État indiquant si le module est obligatoire"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:290
+msgid "Position of the add-on in the product"
+msgstr "Position du module dans le produit"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:281
+msgid "Display options for multiple_choice type add-ons"
+msgstr "Options d’affichage pour les modules de type multiple_choice"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:265
+msgid "Type of the add-on"
+msgstr "Type du module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:256
+msgid "Placeholder text for the add-on, applicable for custom_text and custom_textarea add-on types"
+msgstr "Texte indicatif pour le module, applicable pour les types de module custom_text et custom_textarea"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:247
+msgid "Status indicating if the add-on placeholder is enabled"
+msgstr "État indiquant si le texte indicatif du module est obligatoire"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:238
+msgid "Description of the add-on"
+msgstr "Description du module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:229
+msgid "Status indicating if the add-on description is enabled"
+msgstr "État indiquant si la description du module est obligatoire"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:209
+msgid "Format of the add-on title"
+msgstr "Format du titre du module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:200
+msgid "Name of the product add-on"
+msgstr "Nom du module du produit"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:193
+msgid "Unique identifier for the add-on"
+msgstr "Identifiant unique pour le module"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:161
+msgid "Fields containing the add-ons and their options for the group."
+msgstr "Champs contenant les modules et leurs options pour le groupe."
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:147
+msgid "Product categories this group applies to, or an empty array if it applies to all products"
+msgstr "Catégories de produits auxquelles s’applique ce groupe ou un tableau vide s’il s’applique à tous les produits"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:138
+msgid "Priority of the group"
+msgstr "Priorité du groupe"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:129
+msgid "Name of the global group"
+msgstr "Nom du groupe global"
+
+#: includes/api/v2/class-wc-product-addons-api-v2-controller.php:123
+msgid "Global group ID"
+msgstr "ID du groupe global"
+
+#. translators: %s existing filename.
+#: includes/admin/views/addons/file_upload.php:34
+#: templates/addons/file-upload.php:60
+msgid "Existing file: %s"
+msgstr "Fichier existant : %s"
+
+#: includes/admin/class-wc-product-addons-admin.php:452
+msgid "Failed to validate configuration. If this issue persists, please reload the page and try again."
+msgstr "Échec de la validation de la configuration. Si ce problème persiste, veuillez recharger la page et réessayer."
+
+#: includes/admin/class-wc-product-addons-admin.php:451
+msgid "Failed to initialize form. If this issue persists, please reload the page and try again."
+msgstr "Échec de l’initialisation du formulaire. Si ce problème persiste, veuillez recharger la page et réessayer."
+
+#: includes/admin/class-wc-product-addons-admin-order.php:140
+msgid "Done"
+msgstr "Terminé"
+
+#: includes/admin/class-wc-product-addons-admin-order.php:107
+#: includes/admin/class-wc-product-addons-admin.php:449
+msgid "Configure"
+msgstr "Configurer"
+
+#. translators: List of items
+#: includes/admin/class-wc-product-addons-admin-ajax.php:194
+msgid "Adjusted product addons: %s"
+msgstr "Modules de produit ajustés : %s"
+
+#. translators: %1$s: Addon title, %2$s: Before value, %3$s: After value
+#: includes/admin/class-wc-product-addons-admin-ajax.php:74
+msgctxt "addon value changed note format"
+msgid "%1$s changed from <em>(%2$s)</em> to <em>(%3$s)</em>"
+msgstr "%1$s passé de <em>(%2$s)</em> à <em>(%3$s)</em>."
+
+#: includes/admin/views/addons/datepicker.php:46
+#: templates/addons/datepicker.php:58 templates/addons/file-upload.php:82
+msgid "Clear"
+msgstr "Effacer"
+
+#: includes/admin/views/html-addon.php:217
+msgid "Add placeholder"
+msgstr "Ajouter un texte indicatif"
+
+#: includes/admin/class-wc-product-addons-admin.php:637
+#: includes/admin/views/html-addon-panel.php:89
+msgid "Date Picker"
+msgstr "Sélection de la date"
+
+#: includes/admin/class-wc-product-addons-admin.php:329
+msgid "Could not import add-ons, as the import string was created by an older plugin version. Please export your add-ons again and retry."
+msgstr "Impossible d’importer les modules, la chaîne d’importation a été créée par une version plus ancienne de l’extension. Veuillez réexporter vos modules et réessayer."
+
+#. Author of the plugin
+#: woocommerce-product-addons.php
+msgid "Woo"
+msgstr "Woo"
+
+#: includes/admin/views/html-addon.php:32
+msgid "Add-on title is too long. Please use up to 255 characters."
+msgstr "Le titre du module est trop long. Veuillez saisir 255 caractères maximum."
+
+#: includes/admin/class-wc-product-addons-admin.php:1010
+msgid "Some add-ons could not be saved correctly because their <strong>Title</strong> was longer than 255 characters. Please review your add-ons configuration and update this product."
+msgstr "Certains modules n’ont pas pu être enregistrés correctement car leur <strong>titre</strong> excédait 255 caractères. Veuillez revoir la configuration de vos modules et mettre à jour ce produit."
+
+#: includes/admin/class-wc-product-addons-admin.php:1006
+msgid "Some add-ons could not be saved correctly because their <strong>Title</strong> was not set. Please review your add-ons configuration and update this product."
+msgstr "Certains modules n’ont pas pu être enregistrés correctement car leur <strong>titre</strong> n’a pas été défini. Veuillez revoir la configuration de vos modules et mettre à jour ce produit."
+
+#. translators: %1$s: Product name
+#: includes/admin/class-wc-product-addons-admin.php:783
+msgid "<strong>%1$s</strong> has at least one add-on whose <strong>Title</strong> is longer than <strong>255</strong> characters. Please adjust its value and save your changes."
+msgstr "<strong>%1$s</strong> comporte au moins un module dont le <strong>titre</strong> excède <strong>255</strong> caractères. Veuillez ajuster sa valeur et enregistrer vos modifications."
+
+#: includes/admin/class-wc-product-addons-admin.php:420
+msgid "Add-on titles must have maximum 255 characters. Please update the titles of the highlighted add-ons."
+msgstr "Les titres de modules doivent comporter 255 caractères au maximum. Veuillez mettre à jour les titres des modules en surbrillance."
+
+#: woocommerce-product-addons.php:312
+msgid "add options to an existing product"
+msgstr "ajouter des options à un produit existant"
+
+#: woocommerce-product-addons.php:311
+msgid "or"
+msgstr "ou"
+
+#: woocommerce-product-addons.php:310
+msgid "Create a global add-on"
+msgstr "Créer un module global"
+
+#: woocommerce-product-addons.php:306
+msgid "Ready to make your products unique? Use <a href=\"%1$s\" target=\"_blank\">global add-ons</a> to add free or paid options to multiple products, or create custom <a href=\"%2$s\" target=\"_blank\">add-ons for individual products</a>."
+msgstr "Vous êtes prêt(e) à rendre vos produits uniques ? Utilisez les <a href=\"%1$s\" target=\"_blank\">modules globaux</a> pour ajouter des options gratuites ou payantes à plusieurs produits, ou pour créer des <a href=\"%2$s\" target=\"_blank\">modules personnalisés pour des produits individuels</a>."
+
+#: woocommerce-product-addons.php:304
+msgid "Thank you for installing WooCommerce Product Add-Ons."
+msgstr "Merci d’avoir installé WooCommerce Product Add-Ons."
+
+#: includes/admin/views/html-global-admin.php:35
+msgid "Learn more about add-ons"
+msgstr "En savoir plus sur les modules"
+
+#: includes/admin/views/html-global-admin.php:34
+msgid "Create your first add-on"
+msgstr "Créez votre premier module"
+
+#: includes/admin/views/html-global-admin.php:33
+msgid "Use global add-ons to add free or paid options to your products in bulk."
+msgstr "Utilisez les modules globaux pour ajouter des options gratuites ou payantes à plusieurs produits en même temps."
+
+#: includes/admin/views/html-global-admin.php:16
+msgid "Add new"
+msgstr "Ajouter"
+
+#: includes/admin/views/html-global-admin-add.php:63
+msgid "This number determines the position of this add-ons group relative to other groups in product pages. Groups with a lower <strong>Display Order</strong> are displayed higher in the product page. Add-ons <a href=\"%s\" target=\"_blank\">created for individual products</a> are displayed at order 10."
+msgstr "Ce nombre détermine la position de ce groupe de modules par rapport aux autres groupes dans les pages de produits. Les groupes dont l’<strong>ordre d’affichage</strong> est inférieur sont affichés plus haut dans la page du produit. Les modules <a href=\"%s\" target=\"_blank\">créés pour des produits individuels</a> sont affichés à l’ordre 10."
+
+#: includes/admin/views/html-global-admin-add.php:59
+msgid "Display Order"
+msgstr "Ordre d’affichage"
+
+#: includes/admin/views/html-global-admin-add.php:54
+msgid "Use this option to assign this global add-ons group to specific product categories."
+msgstr "Cette option permet d’affecter ce groupe de modules globaux à des catégories de produits spécifiques."
+
+#: includes/admin/views/html-global-admin-add.php:33
+msgid "Type a unique name to identify this global add-ons group. This will not be visible to customers."
+msgstr "Saisissez un nom unique pour identifier ce groupe de modules globaux. Les clients ne pourront pas le voir."
+
+#: includes/admin/views/html-global-admin-add.php:19
+msgid "To <a href=\"%s\" target=\"_blank\">create add-ons for individual products</a>, navigate to the <strong>Product Data > Add-ons</strong> tab in the product editor."
+msgstr "Pour <a href=\"%s\" target=\"_blank\">créer des modules pour des produits individuels</a>, accédez à l’onglet <strong>Données produit > Modules</strong> dans l’éditeur de produit."
+
+#: includes/admin/views/html-global-admin-add.php:18
+msgid "Create a group of global add-ons to add free or paid options to your products in bulk. You may optionally limit these add-ons to specific product categories."
+msgstr "Créez un groupe de modules globaux pour ajouter des options gratuites ou payantes à plusieurs produits en même temps. Si vous le souhaitez, vous pouvez limiter ces modules à des catégories de produits spécifiques."
+
+#: includes/admin/views/html-global-admin-add.php:6
+msgid "Create add-ons group"
+msgstr "Créer un groupe de modules"
+
+#: includes/admin/views/html-addon.php:327
+#: includes/admin/views/html-addon.php:333
+msgid "to"
+msgstr "pour"
+
+#: includes/admin/views/html-addon.php:194
+msgid "Require input"
+msgstr "Entrée nécessaire"
+
+#: includes/admin/views/html-addon.php:192
+msgid "Require upload"
+msgstr "Mise en ligne nécessaire"
+
+#: includes/admin/views/html-addon.php:190
+msgid "Require selection"
+msgstr "Sélection nécessaire"
+
+#: includes/admin/views/html-addon.php:93
+msgid "Title format"
+msgstr "Format du titre"
+
+#: includes/admin/views/html-addon-panel.php:80
+msgid "Add field&hellip;"
+msgstr "Ajout d’un champ…"
+
+#: includes/admin/views/html-addon-panel.php:71
+msgid "Choose a field type to add below, or <a href=\"#\" class=\"wc-pao-import-addons\">click here</a> to import data."
+msgstr "Choisissez un type de champ à ajouter ci-dessous, ou <a href=\"#\" class=\"wc-pao-import-addons\">cliquez ici</a> pour importer des données."
+
+#: includes/admin/views/html-addon-panel.php:67
+msgid "Use add-ons to add free or paid options to this product."
+msgstr "Utilisez les modules pour ajouter des options gratuites ou payantes à ce produit"
+
+#: includes/admin/views/html-addon-panel.php:65
+msgid "or <a href=\"#\" class=\"wc-pao-import-addons\">click here</a> to import data."
+msgstr "ou <a href=\"#\" class=\"wc-pao-import-addons\">cliquez ici</a> pour importer des données."
+
+#: includes/admin/views/html-addon-panel.php:61
+msgid "Choose an add-on field to add to this group,"
+msgstr "Choisissez un champ de module à ajouter à ce groupe,"
+
+#: includes/admin/views/html-addon-panel.php:31
+msgid "Product Add-Ons"
+msgstr "Modules produits"
+
+#. translators: %s link to global add-ons tab
+#: includes/admin/views/html-addon-panel.php:24
+msgid "Use this option to control if <a href=\"%s\">global add-ons</a> are assigned to this product."
+msgstr "Utilisez cette option pour vérifier si des <a href=\"%s\">modules globaux</a> sont attribués à ce produit."
+
+#: includes/admin/views/html-addon-panel.php:22
+msgid "Use Global Add-Ons?"
+msgstr "Utiliser des modules globaux ?"
+
+#: includes/admin/views/html-addon-option.php:74
+msgid "Delete option"
+msgstr "Supprimer l’option"
+
+#: includes/admin/class-wc-product-addons-admin.php:434
+msgid "Option title/image"
+msgstr "Image/titre de l’option"
+
+#: includes/admin/class-wc-product-addons-admin.php:433
+#: includes/admin/views/html-addon.php:234
+msgid "Option title"
+msgstr "Titre de l’option"
+
+#: includes/admin/class-wc-product-addons-admin.php:432
+msgid "The selected add-on groups will be deleted permanently. Are you sure?"
+msgstr "Les groupes de modules sélectionnés seront supprimés de manière permanente. Souhaitez-vous poursuivre ?"
+
+#: includes/admin/class-wc-product-addons-admin.php:431
+msgid "Add-ons successfully copied to your clipboard."
+msgstr "Les modules ont bien été copiés dans le presse-papiers."
+
+#: includes/admin/class-wc-product-addons-admin.php:430
+msgid "Use this field to paste the add-ons you previously exported."
+msgstr "Utilisez ce champ pour coller les modules que vous avez précédemment exportés."
+
+#: includes/admin/class-wc-product-addons-admin.php:427
+msgid "Delete this option?"
+msgstr "Supprimer cette option ?"
+
+#: includes/admin/class-wc-product-addons-admin.php:426
+msgid "Remove this add-on field?"
+msgstr "Enlever ce champ de module ?"
+
+#: includes/admin/class-wc-product-addons-admin.php:423
+#: includes/admin/views/html-addon.php:297
+msgid "Limit quantity"
+msgstr "Limiter la quantité"
+
+#: includes/admin/class-wc-product-addons-admin.php:422
+#: includes/admin/views/html-addon.php:293
+msgid "Limit price"
+msgstr "Limiter le prix"
+
+#: includes/admin/class-wc-product-addons-admin.php:419
+msgid "Please complete all highlighted fields before saving."
+msgstr "Veuillez remplir tous les champs mis en surbrillance avant de sauvegarder."
+
+#: includes/admin/class-wc-product-addons-admin.php:369
+msgid "%d add-ons were successfully imported."
+msgstr "%d modules ont bien été importés."
+
+#: includes/admin/class-wc-product-addons-admin.php:302
+msgid "Could not import add-ons. Please review the import string and try again."
+msgstr "Impossible d’importer des modules. Veuillez vérifier la chaîne d’importation et réessayer."
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:204
+msgid "Add-ons deleted."
+msgstr "Modules supprimés."
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:148
+msgctxt "column_name"
+msgid "Number of fields"
+msgstr "Nombre de champs"
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:147
+msgctxt "column_name"
+msgid "Product Categories"
+msgstr "Catégories de produits"
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:146
+msgctxt "column_name"
+msgid "Display Order"
+msgstr "Ordre d’affichage"
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:145
+msgctxt "column_name"
+msgid "Name"
+msgstr "Nom"
+
+#. translators: %s: Add-on title
+#: includes/admin/class-wc-product-addons-admin-list-table.php:91
+msgid "Select %s"
+msgstr "Sélectionner %s"
+
+#. translators: %s: Global add-on group name
+#: includes/admin/class-wc-product-addons-admin-list-table.php:74
+msgid "%s (Edit)"
+msgstr "%s (Modifier)"
+
+#. translators: %1$s: Plugin name, %2$s: Plugin URL, %3$s: Plugin name full,
+#. %4$s: Plugin version
+#: includes/class-wc-product-addons-compatibility.php:257
+msgid "The installed version of <strong>%1$s</strong> does not support <strong>Product Add-ons</strong>. Please update <a href=\"%2$s\" target=\"_blank\">%3$s</a> to version <strong>%4$s</strong> or higher."
+msgstr "La version installée de <strong>%1$s</strong> ne prend pas en charge <strong>Product Add-ons</strong>. Veuillez mettre à jour <a href=\"%2$s\" target=\"_blank\">%3$s</a> vers la version <strong>%4$s</strong> ou une version supérieure."
+
+#: includes/class-wc-product-addons-compatibility.php:254
+msgid "WooCommerce Blocks"
+msgstr "Blocs WooCommerce"
+
+#. translators: %1$s percentage based addon price in cart
+#: includes/class-wc-product-addons-cart.php:966
+msgctxt "percentage based addon price in cart"
+msgid " (%1$s)"
+msgstr " (%1$s)"
+
+#. translators: %1$s quantity based addon price in cart
+#: includes/class-wc-product-addons-cart.php:958
+msgctxt "quantity based addon price in cart"
+msgid " (%1$s)"
+msgstr " (%1$s)"
+
+#. translators: %1$s custom addon price in cart
+#: includes/class-wc-product-addons-cart.php:953
+msgctxt "custom price addon price in cart"
+msgid " (%1$s)"
+msgstr " (%1$s)"
+
+#. translators: %1$s flat fee addon price in cart
+#: includes/class-wc-product-addons-cart.php:947
+msgctxt "flat fee addon price in cart"
+msgid " (+ %1$s)"
+msgstr " (+ %1$s)"
+
+#. translators: %1$s custom addon price in order
+#: includes/class-wc-product-addons-cart.php:479
+msgctxt "custom addon price in order"
+msgid "%1$s"
+msgstr ""
+
+#. translators: %1$s addon price in order
+#: includes/class-wc-product-addons-cart.php:476
+msgctxt "addon price in order"
+msgid " (%1$s)"
+msgstr " (%1$s)"
+
+#. translators: %1$s flat fee addon price in order
+#: includes/class-wc-product-addons-cart.php:473
+msgctxt "flat fee addon price in order"
+msgid " (+ %1$s)"
+msgstr " (+ %1$s)"
+
+#: includes/api/class-wc-product-addons-store-api.php:104
+msgid "Addons data."
+msgstr "Données relatives aux modules."
+
+#: woocommerce-product-addons.php:103
+msgid "WooCommerce Product Add-Ons requires at least PHP <strong>%1$s</strong>. Learn <a href=\"%2$s\">how to update PHP</a>."
+msgstr "WooCommerce Product Add-Ons nécessite au moins le langage PHP <strong>%1$s</strong>. Apprenez <a href=\"%2$s\">comment mettre à jour PHP</a>."
+
+#. translators: %1$s max_input_vars size
+#: includes/admin/class-wc-product-addons-admin.php:530
+#: includes/admin/class-wc-product-addons-admin.php:798
+msgid " (currently %s)"
+msgstr " (actuellement %s)"
+
+#. translators: %1$s max_input_vars size
+#: includes/admin/class-wc-product-addons-admin.php:530
+#: includes/admin/class-wc-product-addons-admin.php:798
+msgid "Product Add-Ons has detected that your server may have failed to process and save some of the data on this page. Please get in touch with your server's host or administrator and (kindly) ask them to increase the number of variables that PHP scripts can post and process%1$s."
+msgstr "Product Add-Ons a détecté que votre serveur n’a peut-être pas réussi à traiter et à enregistrer certaines des données de cette page. Veuillez prendre contact avec l’hôte ou l’administrateur de votre serveur et lui demander (gentiment) d’augmenter le nombre de variables que les scripts PHP peuvent afficher et traiter%1$s."
+
+#. translators: %1$s key
+#: includes/class-wc-product-addons-tracker.php:434
+msgid "Invalid key &quot;%1$s&quot; passed to get_reusable_data."
+msgstr "Clé invalide « %1$s » basculée sur get_reusable_data."
+
+#: includes/admin/class-wc-product-addons-admin.php:457
+#: includes/class-wc-product-addons-display.php:126
+msgid "Please enter letters only."
+msgstr "Veuillez saisir des lettres uniquement."
+
+#. translators: %1$s max number
+#: includes/admin/class-wc-product-addons-admin.php:468
+#: includes/class-wc-product-addons-display.php:137
+msgid "Please enter %1$s or less."
+msgstr "Veuillez saisir %1$s ou moins."
+
+#. translators: %1$s min number
+#: includes/admin/class-wc-product-addons-admin.php:466
+#: includes/class-wc-product-addons-display.php:135
+msgid "Please enter %1$s or more."
+msgstr "Veuillez saisir %1$s ou plus."
+
+#. translators: %1$s max number of characters
+#: includes/admin/class-wc-product-addons-admin.php:464
+#: includes/class-wc-product-addons-display.php:133
+msgid "Please enter up to %1$s characters."
+msgstr "Veuillez saisir %1$s caractères maximum."
+
+#. translators: %1$s min number of characters
+#: includes/admin/class-wc-product-addons-admin.php:462
+#: includes/class-wc-product-addons-display.php:131
+msgid "Please enter at least %1$s characters."
+msgstr "Veuillez saisir au moins %1$s caractères."
+
+#: includes/admin/class-wc-product-addons-admin.php:460
+#: includes/class-wc-product-addons-display.php:129
+msgid "Please enter a valid email address."
+msgstr "Entrez une adresse e-mail valide."
+
+#: includes/admin/class-wc-product-addons-admin.php:459
+#: includes/class-wc-product-addons-display.php:128
+msgid "Please enter letters and numbers only."
+msgstr "Veuillez saisir des lettres et des chiffres uniquement."
+
+#: includes/admin/class-wc-product-addons-admin.php:456
+#: includes/class-wc-product-addons-display.php:125
+msgid "Please upload a file."
+msgstr "Merci de charger un fichier."
+
+#: includes/admin/class-wc-product-addons-admin.php:455
+#: includes/class-wc-product-addons-display.php:124
+msgid "Please enter a number in this field."
+msgstr "Veuillez saisir un numéro dans ce champ."
+
+#: includes/admin/class-wc-product-addons-admin.php:454
+#: includes/class-wc-product-addons-display.php:123
+msgid "Please enter some text in this field."
+msgstr "Veuillez saisir du texte dans ce champ."
+
+#: includes/admin/class-wc-product-addons-admin.php:453
+#: includes/class-wc-product-addons-display.php:122
+msgid "Please choose an option."
+msgstr "Veuillez choisir une option."
+
+#: includes/class-wc-product-addons-compatibility.php:236
+msgid "WooCommerce Composite Products"
+msgstr "WooCommerce Composite Products"
+
+#: includes/class-wc-product-addons-compatibility.php:235
+msgid "Composite Products"
+msgstr "Composite Products"
+
+#. translators: %1$s: Extension, %2$s: Extension URL, %3$s: Extension full
+#. name, %4$s: Required version.
+#: includes/class-wc-product-addons-compatibility.php:220
+#: includes/class-wc-product-addons-compatibility.php:238
+msgid "The installed version of <strong>%1$s</strong> is not supported by <strong>Product Add-ons</strong>. Please update <a href=\"%2$s\" target=\"_blank\">%3$s</a> to version <strong>%4$s</strong> or higher."
+msgstr "La version installée de <strong>%1$s</strong> n’est pas prise en charge par <strong>Modules produits</strong>. Veuillez mettre à jour <a href=\"%2$s\" target=\"_blank\">%3$s</a> vers la version <strong>%4$s</strong> ou supérieure."
+
+#: includes/class-wc-product-addons-compatibility.php:217
+msgid "WooCommerce Product Bundles"
+msgstr "WooCommerce Product Bundles"
+
+#: includes/class-wc-product-addons-compatibility.php:216
+msgid "Product Bundles"
+msgstr "Product Bundles"
+
+#: includes/class-wc-product-addons-compatibility.php:66
+#: includes/class-wc-product-addons-compatibility.php:75
+msgid "Foul!"
+msgstr "Faute !"
+
+#: includes/admin/class-wc-product-addons-admin.php:140
+msgid "Show running subtotal, even if not all required add-on choices have been made."
+msgstr "Affichez le sous-total actuel, même si tous les modules obligatoires n’ont pas été choisis."
+
+#: includes/admin/class-wc-product-addons-admin.php:139
+msgid "Show Incomplete subtotal"
+msgstr "Afficher le sous-total partiel"
+
+#: includes/admin/views/html-addon.php:328
+#: includes/admin/views/html-addon.php:334
+msgid "unlimited"
+msgstr "Illimité"
+
+#. translators: %s remaining characters
+#: includes/admin/class-wc-product-addons-admin.php:473
+#: includes/class-wc-product-addons-display.php:142
+msgid "%s characters remaining"
+msgstr "%s caractères restants"
+
+#. Author URI of the plugin
+#: woocommerce-product-addons.php
+msgid "https://woocommerce.com"
+msgstr "https://woocommerce.com"
+
+#. Description of the plugin
+#: woocommerce-product-addons.php
+msgid "Add extra options to products which your customers can select from, when adding to the cart, with an optional fee for each extra option. Add-ons can be checkboxes, a select box, or custom text input."
+msgstr "Ajoutez des options supplémentaires aux produits que vos clients peuvent sélectionner, lors de l’ajout au panier, avec des frais facultatifs pour chaque option supplémentaire. Les modules peuvent être des cases à cocher, une case de sélection ou une zone de texte personnalisée."
+
+#. Plugin URI of the plugin
+#: woocommerce-product-addons.php
+msgid "https://woocommerce.com/products/product-add-ons/"
+msgstr "https://woocommerce.com/products/product-add-ons/"
+
+#. Plugin Name of the plugin
+#: woocommerce-product-addons.php
+msgid "WooCommerce Product Add-Ons"
+msgstr "WooCommerce Product Add-ons"
+
+#: woocommerce-product-addons.php:288
+msgid "Documentation"
+msgstr "Documentation"
+
+#: woocommerce-product-addons.php:289
+msgid "Support"
+msgstr "Assistance"
+
+#. translators: %s WC download URL link.
+#: woocommerce-product-addons.php:43
+msgid "Product Add-ons requires WooCommerce to be installed and active. You can download %s here."
+msgstr "Product Add-ons requiert l’installation et l’activation de WooCommerce. Vous pouvez télécharger %s ici."
+
+#: includes/groups/class-wc-product-addons-groups.php:84
+msgid "Unable to delete group. Invalid global add ons group ID."
+msgstr "Impossible de supprimer le groupe. ID de groupe de modules globaux non valide."
+
+#: includes/groups/class-wc-product-addons-groups.php:52
+msgid "Unable to retrieve data. Invalid global add ons group or product ID."
+msgstr "Impossible de récupérer les données. ID de produit ou de groupe de modules globaux non valide."
+
+#: includes/fields/class-wc-product-addons-field-file-upload.php:39
+msgid "Filesize exceeds the limit."
+msgstr "La taille du fichier dépasse la limite."
+
+#. translators: %s Addon name
+#: includes/fields/class-wc-product-addons-field-custom.php:75
+msgid "Please enter a value greater than 0 for \"%s\"."
+msgstr "Veuillez saisir une valeur supérieure à 0 pour « %s »."
+
+#. translators: 1 Addon name 2 Maximum amount
+#: includes/fields/class-wc-product-addons-field-custom.php:62
+msgid "The maximum allowed amount for \"%1$s\" is %2$s."
+msgstr "Le montant maximum autorisé pour « %1$s » est de %2$s."
+
+#. translators: 1 Addon name 2 minimum amount
+#: includes/fields/class-wc-product-addons-field-custom.php:56
+msgid "The minimum amount required for \"%1$s\" is %2$s."
+msgstr "Le montant minimum obligatoire pour « %1$s » est de %2$s."
+
+#. translators: 1 Addon name 2 Maximum amount
+#: includes/fields/class-wc-product-addons-field-custom.php:44
+msgid "The maximum allowed characters for \"%1$s\" is %2$s."
+msgstr "Le nombre maximum de caractères autorisés pour « %1$s » est de %2$s."
+
+#. translators: 1 Addon name 2 Minimum amount
+#: includes/fields/class-wc-product-addons-field-custom.php:38
+msgid "The minimum characters required for \"%1$s\" is %2$s."
+msgstr "Le nombre minimum de caractères obligatoires pour « %1$s » est de %2$s."
+
+#: includes/admin/class-wc-product-addons-admin.php:471
+#: includes/class-wc-product-addons-display.php:140
+msgid "Subtotal"
+msgstr "Sous-total"
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:282
+msgid "No add-ons found"
+msgstr "Aucun module trouvé."
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:119
+msgid "No Products Assigned"
+msgstr "Aucun produit attribué"
+
+#: includes/admin/views/html-global-admin-add.php:43
+msgid "Product categories"
+msgstr "Catégories de produits"
+
+#: includes/admin/views/html-global-admin-add.php:41
+msgid "Choose categories&hellip;"
+msgstr "Choisir des catégories…"
+
+#: includes/admin/views/html-global-admin-add.php:38
+msgid "Product Categories"
+msgstr "Catégories du produit"
+
+#: includes/admin/views/html-global-admin-add.php:29
+msgid "Name"
+msgstr "Nom"
+
+#: includes/admin/views/html-global-admin-add.php:11
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: includes/admin/views/html-global-admin-add.php:10
+msgid "Edit Add-on"
+msgstr "Modifier le module"
+
+#: includes/admin/views/html-global-admin-add.php:7
+msgid "Publish"
+msgstr "Publier"
+
+#: includes/admin/views/html-addon.php:349
+msgid "Adjust price"
+msgstr "Ajuster le prix"
+
+#: includes/admin/views/html-addon.php:278
+msgid "Add Option"
+msgstr "Ajouter une option"
+
+#: includes/admin/views/html-addon.php:240
+#: includes/admin/views/html-addon.php:350
+msgid "Choose how to calculate the price of this add-on: Apply a flat fee regardless of quantity, charge per quantity ordered, or charge a percentage of the total."
+msgstr "Choisir comment calculer le prix de ce module : appliquer un tarif fixe quelle que soit la quantité, facturer par quantité commandée ou facturer un pourcentage du total."
+
+#: includes/admin/views/html-addon.php:203
+msgid "Add description"
+msgstr "Ajouter une description"
+
+#: includes/admin/views/html-addon.php:99
+msgid "Hide"
+msgstr "Masquer"
+
+#: includes/admin/views/html-addon.php:97
+msgid "Label"
+msgstr "Nom"
+
+#: includes/admin/views/html-addon.php:84
+msgid "Title"
+msgstr "Titre"
+
+#: includes/admin/views/html-addon.php:152
+msgid "Only Email Address"
+msgstr "Adresse e-mail uniquement"
+
+#: includes/admin/views/html-addon.php:151
+msgid "Only Letters and Numbers"
+msgstr "Lettres et nombres uniquement"
+
+#: includes/admin/views/html-addon.php:150
+msgid "Only Numbers"
+msgstr "Nombres uniquement"
+
+#: includes/admin/views/html-addon.php:149
+msgid "Only Letters"
+msgstr "Lettres uniquement"
+
+#: includes/admin/views/html-addon.php:148
+msgid "Any Text"
+msgstr "N’importe quel texte"
+
+#: includes/admin/views/html-addon.php:144
+msgid "Restriction"
+msgstr "Restriction"
+
+#: includes/admin/views/html-addon.php:113
+msgid "Images"
+msgstr "Images"
+
+#: includes/admin/views/html-addon.php:112
+msgid "Radio Buttons"
+msgstr "Boutons radio"
+
+#: includes/admin/views/html-addon.php:107
+msgid "Display as"
+msgstr "Afficher comme"
+
+#: includes/admin/class-wc-product-addons-admin.php:640
+#: includes/admin/views/html-addon-panel.php:88
+#: includes/admin/views/html-addon.php:98
+msgid "Heading"
+msgstr "Titre"
+
+#: includes/admin/views/html-addon-panel.php:86
+msgid "Customer Defined Price"
+msgstr "Prix défini par le client"
+
+#: includes/admin/views/html-addon.php:239
+msgid "Type"
+msgstr "Type"
+
+#: includes/admin/views/html-addon.php:9
+msgid "Multiple choice"
+msgstr "Choix multiple"
+
+#: includes/admin/views/html-addon-option.php:44
+#: includes/admin/views/html-addon.php:357
+msgid "Percentage Based"
+msgstr "Basé sur le pourcentage"
+
+#: includes/admin/views/html-addon-option.php:43
+#: includes/admin/views/html-addon.php:356
+msgid "Quantity Based"
+msgstr "Basé sur la quantité"
+
+#: includes/admin/views/html-addon-option.php:42
+#: includes/admin/views/html-addon.php:355
+msgid "Flat Fee"
+msgstr "Tarif fixe"
+
+#. translators: %1$s is the HTML for the opening tag of the link element. %2$s
+#. is the closing tag. The text between will be a hyperlink.
+#: includes/admin/class-wc-product-addons-privacy.php:34
+msgid "By using this extension, you may be storing personal data or sharing data with an external service. %1$sLearn more about how this works, including what you may want to include in your privacy policy.%2$s"
+msgstr "En utilisant cette extension, vous pouvez enregistrer des données personnelles ou partager des données avec un service externe. %1$sDécouvrez comment cela fonctionne, y compris ce que vous pouvez inclure dans votre politique de confidentialité.%2$s"
+
+#: includes/admin/class-wc-product-addons-privacy.php:24
+msgid "Product Add-ons"
+msgstr "Modules produits"
+
+#: includes/admin/class-wc-product-addons-admin.php:1152
+msgid "Variation ID:"
+msgstr "ID variation :"
+
+#. translators: %s ID of variation
+#: includes/admin/class-wc-product-addons-admin.php:1149
+msgid "%s (No longer exists)"
+msgstr "%s (n’existe plus)"
+
+#: includes/admin/class-wc-product-addons-admin.php:1140
+msgid "SKU:"
+msgstr "UGS :"
+
+#: includes/admin/class-wc-product-addons-admin.php:644
+#: includes/admin/views/html-addon-panel.php:81
+msgid "Multiple Choice"
+msgstr "Choix multiple"
+
+#: includes/admin/class-wc-product-addons-admin.php:634
+#: includes/admin/views/html-addon.php:111
+msgid "Dropdown"
+msgstr "Liste déroulante"
+
+#: includes/admin/class-wc-product-addons-admin.php:631
+#: includes/admin/views/html-addon-panel.php:85
+msgid "File Upload"
+msgstr "Chargement de fichiers"
+
+#: includes/admin/class-wc-product-addons-admin.php:628
+#: includes/admin/views/html-addon-panel.php:84
+msgid "Long Text"
+msgstr "Texte long"
+
+#: includes/admin/class-wc-product-addons-admin.php:625
+#: includes/admin/views/html-addon-panel.php:83
+msgid "Short Text"
+msgstr "Texte court"
+
+#: includes/admin/class-wc-product-addons-admin.php:622
+#: includes/admin/views/html-addon-panel.php:87
+msgid "Quantity"
+msgstr "Quantité"
+
+#: includes/admin/class-wc-product-addons-admin.php:619
+#: includes/admin/views/html-addon.php:248
+#: includes/admin/views/html-addon.php:258
+msgid "Price"
+msgstr "Prix"
+
+#: includes/admin/class-wc-product-addons-admin.php:584
+#: includes/admin/class-wc-product-addons-admin.php:668
+msgid "Add-ons Group"
+msgstr "Groupe de modules"
+
+#: includes/admin/class-wc-product-addons-admin.php:552
+#: includes/admin/class-wc-product-addons-admin.php:569
+msgid "Error: Add-on not found"
+msgstr "Erreur : module introuvable"
+
+#: includes/admin/class-wc-product-addons-admin.php:429
+msgid "Add Image"
+msgstr "Ajouter une image"
+
+#: includes/admin/class-wc-product-addons-admin.php:428
+msgid "Add Image Swatch"
+msgstr "Ajouter un échantillon d’image"
+
+#: includes/admin/class-wc-product-addons-admin.php:425
+#: includes/admin/views/html-addon.php:287
+msgid "Restrictions"
+msgstr "Restrictions"
+
+#: includes/admin/class-wc-product-addons-admin.php:424
+#: includes/admin/views/html-addon.php:300
+#: includes/admin/views/html-addon.php:303
+msgid "Limit character length"
+msgstr "Limiter le nombre de caractères"
+
+#: includes/admin/views/addons/image.php:72
+#: includes/admin/views/addons/select.php:27 templates/addons/image.php:94
+#: templates/addons/select.php:36
+msgid "Select an option..."
+msgstr "Sélectionner une option…"
+
+#: includes/admin/class-wc-product-addons-admin-ajax.php:67
+#: includes/admin/class-wc-product-addons-admin-ajax.php:70
+#: includes/admin/views/addons/image.php:21
+#: includes/admin/views/addons/image.php:22
+#: includes/admin/views/addons/image.php:70
+#: includes/admin/views/addons/radiobutton.php:32
+#: includes/admin/views/addons/select.php:25
+#: includes/admin/views/html-addon.php:125 templates/addons/image.php:28
+#: templates/addons/image.php:29 templates/addons/image.php:92
+#: templates/addons/radiobutton.php:39 templates/addons/select.php:34
+msgid "None"
+msgstr "Aucun"
+
+#. translators: %s file size.
+#: includes/admin/views/addons/file_upload.php:58
+#: templates/addons/file-upload.php:47
+msgid "(max file size %s)"
+msgstr "(taille de fichier max %s)"
+
+#: includes/admin/views/addons/addon-start.php:56
+#: templates/addons/addon-start.php:78 templates/addons/addon-start.php:98
+msgid "Required field"
+msgstr "Champ obligatoire"
+
+#. translators: %s Addon name
+#. translators: Add-on name
+#: includes/fields/class-wc-product-addons-field-custom.php:27
+#: includes/fields/class-wc-product-addons-field-datepicker.php:59
+#: includes/fields/class-wc-product-addons-field-file-upload.php:32
+#: includes/fields/class-wc-product-addons-field-list.php:20
+#: includes/fields/class-wc-product-addons-field-select.php:20
+msgid "\"%s\" is a required field."
+msgstr "« %s » est un champ obligatoire."
+
+#: includes/class-wc-product-addons-display.php:387
+msgid "Select options"
+msgstr "Sélectionner des options"
+
+#: includes/admin/class-wc-product-addons-admin.php:458
+#: includes/class-wc-product-addons-display.php:127
+msgid "Please enter numbers only."
+msgstr "Veuillez saisir des chiffres uniquement."
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:65
+#: includes/admin/class-wc-product-addons-admin-list-table.php:175
+msgid "Delete"
+msgstr "Supprimer"
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:64
+#: includes/admin/class-wc-product-addons-admin-order.php:109
+#: includes/admin/class-wc-product-addons-admin.php:450
+msgid "Edit"
+msgstr "Modifier"
+
+#: includes/admin/class-wc-product-addons-admin-list-table.php:117
+#: includes/admin/views/html-global-admin-add.php:42
+msgid "All Products"
+msgstr "Tous les produits"
+
+#: includes/admin/class-wc-product-addons-admin.php:616
+#: includes/admin/views/html-addon-panel.php:82
+msgid "Checkboxes"
+msgstr "Cases à cocher"
+
+#: includes/admin/views/html-addon.php:70
+msgid "Click to toggle"
+msgstr "Cliquer pour permuter"
+
+#: includes/admin/views/html-addon-panel.php:35
+msgid "Export"
+msgstr "Exporter"
+
+#: includes/admin/views/html-addon-panel.php:34
+msgid "Import"
+msgstr "Importer"
+
+#: includes/admin/views/html-addon-panel.php:37
+msgid "Expand all"
+msgstr "Tout déplier"
+
+#: includes/admin/views/html-addon-panel.php:36
+msgid "Close all"
+msgstr "Fermer tout"
+
+#: includes/admin/class-wc-product-addons-admin.php:78
+#: includes/admin/class-wc-product-addons-admin.php:79
+#: includes/admin/class-wc-product-addons-admin.php:110
+#: includes/admin/class-wc-product-addons-admin.php:124
+#: includes/admin/class-wc-product-addons-admin.php:742
+msgid "Add-ons"
+msgstr "Modules"
+
+#: includes/admin/class-wc-product-addons-admin.php:596
+msgid "Add-on deleted successfully"
+msgstr "Suppression du module réussie"
+
+#: includes/admin/class-wc-product-addons-admin.php:541
+msgid "Add-on saved successfully"
+msgstr "Module enregistré avec succès"
+
+#: includes/admin/class-wc-product-addons-admin.php:511
+#: includes/admin/views/html-global-admin.php:16
+msgid "Global Add-ons"
+msgstr "Modules globaux"
