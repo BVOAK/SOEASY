@@ -132,223 +132,34 @@ jQuery(document).ready(function ($) {
     }
   });
 
+
   // Rechargement automatique de l'étape mémorisée
   const currentStep = localStorage.getItem('soeasyCurrentStep') || '1';
   loadStep(currentStep);
 
-/**
- * Fonction globale de recalcul COMPLET des frais d'installation
- * Gère Internet + Centrex de manière unifiée
- */
-function recalculerTousLesFraisInstallation(index) {
-  console.log(`🔄 Recalcul complet des frais d'installation pour l'adresse ${index}`);
-  
-  const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-  if (!config[index]) {
-    console.log(`❌ Aucune config trouvée pour l'index ${index}`);
-    return;
-  }
-  
-  // Réinitialiser les frais d'installation
-  config[index].fraisInstallation = [];
-  
-  // 1. Recalculer les frais Internet
-  recalculerFraisInternet(index, config);
-  
-  // 2. Recalculer les frais Centrex
-  recalculerFraisCentrex(index, config);
-  
-  // Sauvegarder et envoyer
-  localStorage.setItem('soeasyConfig', JSON.stringify(config));
-  
-  $.post(soeasyVars.ajaxurl, {
-    action: 'soeasy_set_frais_installation',
-    index,
-    items: config[index].fraisInstallation
-  });
-  
-  console.log(`✅ Frais recalculés pour l'adresse ${index}:`, config[index].fraisInstallation);
-}
-
-/**
- * Recalcul spécifique des frais Internet
- */
-function recalculerFraisInternet(index, config) {
-  const data = config[index];
-  if (!data) return;
-
-  const equipementsIds = (data.materiels || [])
-    .filter(p => p.type === 'equipement-internet')
-    .map(p => p.id);
-    
-  const tousFrais = window.fraisInstallationInternetParProduit || {};
-  const fraisInternet = [];
-
-  equipementsIds.forEach(id => {
-    if (Array.isArray(tousFrais[id])) {
-      tousFrais[id].forEach(f => {
-        const existant = fraisInternet.find(fi => fi.id === f.id);
-        if (existant) {
-          existant.quantite += f.quantite || 1;
-        } else {
-          fraisInternet.push({ ...f, type: 'internet' });
-        }
-      });
-    }
-  });
-
-  // Ajouter les frais Internet à la liste globale
-  config[index].fraisInstallation = [
-    ...(config[index].fraisInstallation || []).filter(f => f.type !== 'internet'),
-    ...fraisInternet
-  ];
-  
-  console.log(`📡 Frais Internet recalculés:`, fraisInternet);
-}
-
-/**
- * Recalcul spécifique des frais Centrex
- */
-function recalculerFraisCentrex(index, config) {
-  const data = config[index];
-  if (!data) return;
-
-  // Construire le payload Centrex
-  const sessionPayload = {
-    licences_centrex: (data.abonnements || []).filter(p => p.type === 'licence-centrex'),
-    services_centrex: (data.materiels || []).filter(p => p.type === 'service-centrex'),
-    postes_centrex: (data.materiels || []).filter(p => p.type === 'poste-centrex'),
-    switchs_centrex: (data.materiels || []).filter(p => p.type === 'switch-centrex'),
-    accessoires_centrex: (data.materiels || []).filter(p => p.type === 'accessoire-centrex')
-  };
-
-  const tousFrais = window.fraisInstallationCentrexParProduit || {};
-  const fraisParId = {};
-  
-  const postesCentrex = sessionPayload.postes_centrex.reduce((sum, item) => sum + (item.quantite || item.qty || 1), 0);
-  const licencesCentrex = sessionPayload.licences_centrex.reduce((sum, item) => sum + (item.quantite || item.qty || 1), 0);
-
-  const idsLicences = sessionPayload.licences_centrex.map(p => p.id);
-  const idsPostes = sessionPayload.postes_centrex.map(p => p.id);
-  const idsMateriels = [
-    ...sessionPayload.services_centrex,
-    ...sessionPayload.switchs_centrex,
-    ...sessionPayload.accessoires_centrex
-  ].map(p => p.id);
-
-  const normalise = str => (str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
-
-  // a. FI licences
-  idsLicences.forEach(id => {
-    const fraisAssocies = tousFrais[id] || [];
-    fraisAssocies.forEach(f => {
-      const nomNorm = normalise(f.nom);
-      const isFraisLicence = nomNorm.includes('licence') && nomNorm.includes('centrex');
-      if (!isFraisLicence || fraisParId[f.id]) return;
-
-      const seuil = parseInt(f.offertAPartirDe) || 9999;
-      const fi = { ...f, type: 'centrex', quantite: 1 };
-
-      if (licencesCentrex >= seuil) {
-        fi.prixComptant = 0;
-        fi.prixLeasing24 = 0;
-        fi.prixLeasing36 = 0;
-        fi.prixLeasing48 = 0;
-        fi.prixLeasing63 = 0;
-      }
-
-      fraisParId[f.id] = fi;
-    });
-  });
-
-  // b. FI postes
-  let meilleurFraisPoste = null;
-  idsPostes.forEach(id => {
-    const fraisAssocies = tousFrais[id] || [];
-    fraisAssocies.forEach(f => {
-      const nomNorm = normalise(f.nom);
-      const isFraisPoste = nomNorm.includes('poste') && nomNorm.includes('centrex');
-      if (!isFraisPoste) return;
-
-      const min = parseInt(f.minPostes) || 0;
-      const max = parseInt(f.maxPostes) || Infinity;
-
-      if (postesCentrex >= min && postesCentrex <= max) {
-        if (!meilleurFraisPoste || max < meilleurFraisPoste.maxPostes) {
-          meilleurFraisPoste = { ...f, type: 'centrex', quantite: 1, maxPostes: max };
-        }
-      }
-    });
-  });
-  
-  if (meilleurFraisPoste) {
-    delete meilleurFraisPoste.maxPostes;
-    fraisParId[meilleurFraisPoste.id] = meilleurFraisPoste;
-  }
-
-  // c. FI matériel
-  const compteurFraisMateriel = {};
-  idsMateriels.forEach(id => {
-    const fraisAssocies = tousFrais[id] || [];
-    const equipement = [
-      ...sessionPayload.services_centrex,
-      ...sessionPayload.switchs_centrex,
-      ...sessionPayload.accessoires_centrex
-    ].find(e => e.id === id);
-
-    const qtyEquipement = equipement?.quantite || equipement?.qty || 1;
-
-    fraisAssocies.forEach(f => {
-      const nomNorm = normalise(f.nom);
-      const isLicence = nomNorm.includes('licence') && nomNorm.includes('centrex');
-      const isPoste = nomNorm.includes('poste') && nomNorm.includes('centrex');
-      if (isLicence || isPoste) return;
-
-      if (!compteurFraisMateriel[f.id]) {
-        compteurFraisMateriel[f.id] = 0;
-      }
-
-      compteurFraisMateriel[f.id] += qtyEquipement;
-
-      fraisParId[f.id] = {
-        ...f,
-        type: 'centrex',
-        quantite: compteurFraisMateriel[f.id]
-      };
-    });
-  });
-
-  // Ajouter les frais Centrex à la liste globale
-  config[index].fraisInstallation = [
-    ...(config[index].fraisInstallation || []).filter(f => f.type !== 'centrex'),
-    ...Object.values(fraisParId)
-  ];
-  
-  console.log(`📞 Frais Centrex recalculés:`, Object.values(fraisParId));
-}
-
-// ================================================================
-// 2. REMPLACER ta fonction loadStep() existante par celle-ci
-// ================================================================
-
+  // Fonction de chargement des étapes
+// Fonction de chargement des étapes - VERSION CORRIGÉE
+// Fonction de chargement des étapes - CORRECTION CIBLÉE
 function loadStep(step) {
   
-  // Cas particulier : FORCER le recalcul complet des FI avant l'étape 5
+  // Cas particulier : FORCER le recalcul complet des FI Centrex avant l'étape 5
   if (parseInt(step) === 5) {
     const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-    const ajaxCalls = [];
     
-    // Pour chaque adresse, recalculer complètement tous les frais
+    // Pour chaque adresse, forcer le recalcul des frais Centrex AVANT l'affichage
+    const recalculPromises = [];
+    
     Object.keys(config).forEach(index => {
-      console.log(`🔄 Recalcul forcé pour l'adresse ${index}`);
-      recalculerTousLesFraisInstallation(index);
+      // Appeler saveCentrexQuantites pour recalculer les FI Centrex
+      if (typeof saveCentrexQuantites === 'function') {
+        console.log(`Recalcul forcé des frais Centrex pour l'adresse ${index}`);
+        saveCentrexQuantites(index);
+      }
       
-      // Attendre un petit délai pour que les calculs se terminent
-      const configUpdated = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-      const frais = configUpdated[index]?.fraisInstallation || [];
-      
+      // Envoyer les frais vers la session PHP
+      const frais = config[index]?.fraisInstallation || [];
       if (frais.length > 0) {
-        ajaxCalls.push(
+        recalculPromises.push(
           $.post(soeasyVars.ajaxurl, {
             action: 'soeasy_set_frais_installation',
             index,
@@ -358,11 +169,12 @@ function loadStep(step) {
       }
     });
 
-    // Attendre que tous les AJAX soient terminés
-    Promise.all(ajaxCalls).then(() => {
+    // Attendre que tous les recalculs soient terminés
+    Promise.all(recalculPromises).then(() => {
       renderStep(step);
     }).catch((error) => {
       console.warn('Erreur lors du recalcul des frais:', error);
+      // Même en cas d'erreur, on affiche l'étape
       renderStep(step);
     });
 
@@ -378,7 +190,6 @@ function loadStep(step) {
       // Réinitialisation sélection engagement/financement
       initFinancementSelection();
       initEngagementSelection();
-      afficherVillesDansOnglets();
 
       // Appel des fonctions d'initialisation spécifiques à chaque étape
       const stepInitializers = {
@@ -400,7 +211,7 @@ function loadStep(step) {
           updatePrixProduits();
           updateSidebarProduitsRecap();
           updateSidebarTotauxRecap();
-        }, 300);
+        }, 200);
       }
 
       // Mise à jour des prix et totaux pour les autres étapes
@@ -416,7 +227,6 @@ function loadStep(step) {
     });
   }
 }
-
 
   // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
   $(document).on('change', '.forfait-checkbox:not(.step-3 *, .step-4 *), .equipement-checkbox:not(.step-3 *, .step-4 *), .centrex-checkbox:not(.step-3 *, .step-4 *), .mobile-checkbox:not(.step-3 *, .step-4 *)', function () {
@@ -1474,59 +1284,80 @@ function loadStep(step) {
 
 
   window.initStep5Events = function () {
-  console.log('🔧 Initialisation de l\'étape 5');
 
-  $(document).on('change', '.frais-checkbox', function () {
-    const index = $(this).data('index');
-    $(`#report_frais_${index}`).prop('checked', false);
+    $(document).on('change', '.frais-checkbox', function () {
+      const index = $(this).data('index');
+      $(`#report_frais_${index}`).prop('checked', false); // décocher case report
 
-    const frais = [];
+      const frais = [];
 
-    $(`.frais-installation-list[data-index="${index}"] .frais-checkbox:checked`).each(function () {
-      const $cb = $(this);
-      frais.push({
-        id: parseInt($cb.data('id')),
-        nom: $cb.closest('label').clone().children().remove().end().text().trim(),
-        quantite: parseInt($cb.data('quantite')) || 1,
-        type: 'internet',
-        prixComptant: parseFloat($cb.data('prix-comptant')) || 0,
-        prixLeasing24: parseFloat($cb.data('prix-leasing-24')) || 0,
-        prixLeasing36: parseFloat($cb.data('prix-leasing-36')) || 0,
-        prixLeasing48: parseFloat($cb.data('prix-leasing-48')) || 0,
-        prixLeasing63: parseFloat($cb.data('prix-leasing-63')) || 0
+      $(`.frais-installation-list[data-index="${index}"] .frais-checkbox:checked`).each(function () {
+        const $cb = $(this);
+        frais.push({
+          id: parseInt($cb.data('id')),
+          nom: $cb.closest('label').clone().children().remove().end().text().trim(),
+          quantite: parseInt($cb.data('quantite')) || 1,
+          prixComptant: parseFloat($cb.data('prix-comptant')) || 0,
+          prixLeasing24: parseFloat($cb.data('prix-leasing-24')) || 0,
+          prixLeasing36: parseFloat($cb.data('prix-leasing-36')) || 0,
+          prixLeasing48: parseFloat($cb.data('prix-leasing-48')) || 0,
+          prixLeasing63: parseFloat($cb.data('prix-leasing-63')) || 0
+        });
       });
+
+      saveToLocalConfig(index, 'fraisInstallation', frais, { replace: true });
+      updatePrices();
+      updateFraisTotal(index);
+      updateSidebarProduitsRecap();
+      updateSidebarTotauxRecap();
     });
 
-    saveToLocalConfig(index, 'fraisInstallation', frais);
-    updatePrices();
-    updateSidebarTotauxRecap();
-  });
+    $(document).on('change', '.report-frais-checkbox', function () {
+      const index = $(this).data('index');
+      const $fraisCheckboxes = $(`.frais-installation-list[data-index="${index}"] .frais-checkbox`);
 
-  // Restauration des états au chargement
-  setTimeout(() => {
+      if ($(this).is(':checked')) {
+        $fraisCheckboxes.prop('checked', false);
+        saveToLocalConfig(index, 'fraisInstallation', []); // ⬅️ rollback ici
+        $(`.frais-total[data-index="${index}"]`).text('0 €');
+      } else {
+        $fraisCheckboxes.first().trigger('change');
+      }
+
+      updateFraisTotal(index);
+      updateSidebarProduitsRecap();
+      updateSidebarTotauxRecap();
+    });
+
     $('.frais-installation-list').each(function () {
       const $list = $(this);
       const index = $list.data('index');
       const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-      const fraisChoisis = config[index]?.fraisInstallation || [];
+      const frais = config[index]?.fraisInstallation;
 
-      console.log(`📋 Restauration des frais pour l'adresse ${index}:`, fraisChoisis);
-
-      if (Array.isArray(fraisChoisis) && fraisChoisis.length > 0) {
-        fraisChoisis.forEach(frais => {
-          const $checkbox = $list.find(`.frais-checkbox[data-id="${frais.id}"]`);
-          if ($checkbox.length > 0) {
-            $checkbox.prop('checked', true);
-            console.log(`✅ Case cochée pour le frais ID ${frais.id}: ${frais.nom}`);
-          }
+      if (Array.isArray(frais) && frais.length > 0) {
+        frais.forEach(item => {
+          const $cb = $list.find(`.frais-checkbox[data-id="${item.id}"]`);
+          $cb.prop('checked', true);
+          $cb.data('quantite', item.quantite || 1);
+          $cb.data('prix-comptant', item.prixComptant || 0);
+          $cb.data('prix-leasing-24', item.prixLeasing24 || 0);
+          $cb.data('prix-leasing-36', item.prixLeasing36 || 0);
+          $cb.data('prix-leasing-48', item.prixLeasing48 || 0);
+          $cb.data('prix-leasing-63', item.prixLeasing63 || 0);
         });
+      } else {
+        $list.find('.frais-checkbox:checked').first().trigger('change');
       }
+
+      updateFraisTotal(index);
     });
-    
-    updatePrices();
-    updateSidebarTotauxRecap();
-  }, 300);
-};
+  };
+
+
+
+
+
 
   /**
    * Initialisation des événements de l'étape 6 (Récapitulatif final)
@@ -1652,7 +1483,5 @@ function loadStep(step) {
 
     console.log('✅ Step 6 initialisé avec succès');
   };
-
-  window.recalculerTousLesFraisInstallation = recalculerTousLesFraisInstallation;
 
 });
