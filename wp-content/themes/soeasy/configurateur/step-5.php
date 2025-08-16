@@ -159,13 +159,3 @@ $adresses = soeasy_get_adresses_configurateur();
     <div class="alert alert-warning">Aucune configuration trouvée.</div>
   <?php endif; ?>
 </div>
-
-<!-- Debug pour vérifier les données de session -->
-<?php if (WP_DEBUG): ?>
-<div class="mt-4 p-3 bg-light">
-  <small>
-    <strong>Debug - Session configurateur :</strong><br>
-    <pre><?php echo esc_html(print_r($config, true)); ?></pre>
-  </small>
-</div>
-<?php endif; ?>

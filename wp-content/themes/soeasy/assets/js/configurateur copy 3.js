@@ -137,135 +137,61 @@ jQuery(document).ready(function ($) {
   const currentStep = localStorage.getItem('soeasyCurrentStep') || '1';
   loadStep(currentStep);
 
-
-  /**
- * Affiche un loader dans le conteneur des étapes
- */
-function showStepLoader(message = 'Chargement en cours...') {
-  $('#config-step-content').html(`
-    <div class="step-loader-container d-flex flex-column align-items-center justify-content-center py-5" style="min-height: 400px;">
-      <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
-        <span class="visually-hidden">Chargement...</span>
-      </div>
-      <h5 class="text-muted mb-2">${message}</h5>
-      <p class="text-muted small">Veuillez patienter...</p>
-    </div>
-  `);
-}
-
-/**
- * Cache le loader (sera automatiquement remplacé par le contenu de l'étape)
- */
-function hideStepLoader() {
-  $('.step-loader-container').fadeOut(200);
-}
-
-/**
- * Vérifie si les données Centrex sont prêtes pour affichage
- */
-function checkCentrexDataReady() {
-  const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-  let allReady = true;
-  
-  Object.keys(config).forEach(index => {
-    const data = config[index];
-    
-    // Vérifier s'il y a des produits Centrex
-    const hasCentrexProducts = (data?.abonnements?.length > 0) || 
-                              (data?.materiels?.some(m => 
-                                ['licences_centrex', 'services_centrex', 'postes_centrex', 'switchs_centrex', 'accessoires_centrex']
-                                .includes(m.type)
-                              ));
-    
-    // Si il y a des produits Centrex, vérifier qu'il y a des frais correspondants
-    if (hasCentrexProducts) {
-      const hasCentrexFrais = data?.fraisInstallation?.some(f => f.type === 'centrex');
-      if (!hasCentrexFrais) {
-        allReady = false;
-      }
-    }
-  });
-  
-  return allReady;
-}
-
-
   // Fonction de chargement des étapes
+// Fonction de chargement des étapes - VERSION CORRIGÉE
+// Fonction de chargement des étapes - CORRECTION CIBLÉE
 function loadStep(step) {
-  localStorage.setItem('soeasyCurrentStep', step);
-
+  
+  // Cas particulier : FORCER le recalcul complet des FI Centrex avant l'étape 5
   if (parseInt(step) === 5) {
-    console.log('🔄 Préparation Step 5...');
-    
-    // 1. Afficher le loader et nav-pills
-    showStepLoader('Calcul des frais d\'installation...');
-    renderNavPills(parseInt(step));
-    
     const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-    const adressesKeys = Object.keys(config);
     
-    if (adressesKeys.length === 0) {
-      renderStep(step);
-      return;
-    }
-
-    // 2. Lancer les recalculs (avec ta fonction originale inchangée)
-    adressesKeys.forEach(index => {
+    // Pour chaque adresse, forcer le recalcul des frais Centrex AVANT l'affichage
+    const recalculPromises = [];
+    
+    Object.keys(config).forEach(index => {
+      // Appeler saveCentrexQuantites pour recalculer les FI Centrex
       if (typeof saveCentrexQuantites === 'function') {
-        console.log(`🔄 Recalcul pour adresse ${index}`);
-        saveCentrexQuantites(index); // TA fonction originale
+        console.log(`Recalcul forcé des frais Centrex pour l'adresse ${index}`);
+        saveCentrexQuantites(index);
+      }
+      
+      // Envoyer les frais vers la session PHP
+      const frais = config[index]?.fraisInstallation || [];
+      if (frais.length > 0) {
+        recalculPromises.push(
+          $.post(soeasyVars.ajaxurl, {
+            action: 'soeasy_set_frais_installation',
+            index,
+            items: frais
+          })
+        );
       }
     });
 
-    // 3. Attendre un délai fixe mais plus court + vérification
-    const maxWait = 3000; // 3 secondes max
-    const startTime = Date.now();
-    
-    function checkAndRender() {
-      const elapsedTime = Date.now() - startTime;
-      
-      // Timeout de sécurité
-      if (elapsedTime > maxWait) {
-        console.log('⏰ Timeout atteint, affichage forcé');
-        renderStep(step);
-        return;
-      }
-      
-      // Vérifier si on a des données dans localStorage
-      const updatedConfig = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-      let hasData = false;
-      
-      Object.keys(updatedConfig).forEach(index => {
-        if (updatedConfig[index]?.fraisInstallation?.length > 0) {
-          hasData = true;
-        }
-      });
-      
-      if (hasData) {
-        console.log('✅ Données détectées, affichage Step 5');
-        renderStep(step);
-      } else {
-        // Réessayer dans 200ms
-        setTimeout(checkAndRender, 200);
-      }
-    }
-    
-    // Lancer la vérification après 500ms
-    setTimeout(checkAndRender, 500);
+    // Attendre que tous les recalculs soient terminés
+    Promise.all(recalculPromises).then(() => {
+      renderStep(step);
+    }).catch((error) => {
+      console.warn('Erreur lors du recalcul des frais:', error);
+      // Même en cas d'erreur, on affiche l'étape
+      renderStep(step);
+    });
 
   } else {
     renderStep(step);
   }
 
   function renderStep(step) {
-    hideStepLoader();
     renderNavPills(parseInt(step));
 
     $('#config-step-content').load(soeasyVars.themeUrl + '/configurateur/step-' + step + '.php?step=' + step, function () {
 
+      // Réinitialisation sélection engagement/financement
       initFinancementSelection();
       initEngagementSelection();
 
+      // Appel des fonctions d'initialisation spécifiques à chaque étape
       const stepInitializers = {
         '1': window.initStep1Events,
         '2': window.initStep2Events,
@@ -274,20 +200,21 @@ function loadStep(step) {
         '5': window.initStep5Events,
         '6': window.initStep6Events
       };
-      
       if (stepInitializers[step]) {
         stepInitializers[step]();
       }
 
+      // Forcer la mise à jour après l'affichage de l'étape 5
       if (parseInt(step) === 5) {
         setTimeout(() => {
           updatePrices();
           updatePrixProduits();
           updateSidebarProduitsRecap();
           updateSidebarTotauxRecap();
-        }, 100);
+        }, 200);
       }
 
+      // Mise à jour des prix et totaux pour les autres étapes
       if (parseInt(step) !== 5) {
         updatePrices();
         $('.input-qty').each(function () {
@@ -1356,132 +1283,76 @@ function loadStep(step) {
 
 
 
-window.initStep5Events = function () {
-  console.log('🎯 Initialisation Step 5 - Frais d\'installation');
+  window.initStep5Events = function () {
 
-  // Gestionnaire pour les checkboxes de frais
-  $(document).on('change', '.frais-checkbox', function () {
-    const index = $(this).data('index');
-    $(`#report_frais_${index}`).prop('checked', false); // décocher case report
+    $(document).on('change', '.frais-checkbox', function () {
+      const index = $(this).data('index');
+      $(`#report_frais_${index}`).prop('checked', false); // décocher case report
 
-    const frais = [];
+      const frais = [];
 
-    $(`.frais-installation-list[data-index="${index}"] .frais-checkbox:checked`).each(function () {
-      const $cb = $(this);
-      frais.push({
-        id: parseInt($cb.data('id')),
-        nom: $cb.closest('label').clone().children().remove().end().text().trim(),
-        quantite: parseInt($cb.data('quantite')) || 1,
-        type: $cb.data('type') || 'internet',
-        prixComptant: parseFloat($cb.data('prix-comptant')) || 0,
-        prixLeasing24: parseFloat($cb.data('prix-leasing-24')) || 0,
-        prixLeasing36: parseFloat($cb.data('prix-leasing-36')) || 0,
-        prixLeasing48: parseFloat($cb.data('prix-leasing-48')) || 0,
-        prixLeasing63: parseFloat($cb.data('prix-leasing-63')) || 0
+      $(`.frais-installation-list[data-index="${index}"] .frais-checkbox:checked`).each(function () {
+        const $cb = $(this);
+        frais.push({
+          id: parseInt($cb.data('id')),
+          nom: $cb.closest('label').clone().children().remove().end().text().trim(),
+          quantite: parseInt($cb.data('quantite')) || 1,
+          prixComptant: parseFloat($cb.data('prix-comptant')) || 0,
+          prixLeasing24: parseFloat($cb.data('prix-leasing-24')) || 0,
+          prixLeasing36: parseFloat($cb.data('prix-leasing-36')) || 0,
+          prixLeasing48: parseFloat($cb.data('prix-leasing-48')) || 0,
+          prixLeasing63: parseFloat($cb.data('prix-leasing-63')) || 0
+        });
       });
-    });
 
-    // Mise à jour localStorage
-    saveToLocalConfig(index, 'fraisInstallation', frais, { replace: true });
-    
-    // Envoi AJAX avec gestion d'erreur
-    $.post(soeasyVars.ajaxurl, {
-      action: 'soeasy_set_frais_installation',
-      index: index,
-      items: frais
-    })
-    .done(function(response) {
-      console.log(`✅ Frais d'installation sauvegardés pour l'adresse ${index}:`, response);
-      // Mise à jour UI après succès
+      saveToLocalConfig(index, 'fraisInstallation', frais, { replace: true });
       updatePrices();
       updateFraisTotal(index);
       updateSidebarProduitsRecap();
       updateSidebarTotauxRecap();
-    })
-    .fail(function(xhr, status, error) {
-      console.error(`❌ Erreur AJAX pour l'adresse ${index}:`, error);
-      // Afficher un message d'erreur à l'utilisateur
-      showToastError('Erreur lors de la sauvegarde des frais d\'installation. Veuillez réessayer.');
     });
-  });
 
-  // Gestionnaire pour les checkboxes de report
-  $(document).on('change', '.report-frais-checkbox', function () {
-    const index = $(this).data('index');
-    const $fraisCheckboxes = $(`.frais-installation-list[data-index="${index}"] .frais-checkbox`);
+    $(document).on('change', '.report-frais-checkbox', function () {
+      const index = $(this).data('index');
+      const $fraisCheckboxes = $(`.frais-installation-list[data-index="${index}"] .frais-checkbox`);
 
-    if ($(this).is(':checked')) {
-      // Décocher tous les frais et sauvegarder
-      $fraisCheckboxes.prop('checked', false);
-      saveToLocalConfig(index, 'fraisInstallation', []);
-      
-      // Envoi AJAX pour vider les frais
-      $.post(soeasyVars.ajaxurl, {
-        action: 'soeasy_set_frais_installation',
-        index: index,
-        items: []
-      })
-      .done(function() {
-        console.log(`✅ Frais reportés pour l'adresse ${index}`);
+      if ($(this).is(':checked')) {
+        $fraisCheckboxes.prop('checked', false);
+        saveToLocalConfig(index, 'fraisInstallation', []); // ⬅️ rollback ici
         $(`.frais-total[data-index="${index}"]`).text('0 €');
-        updateFraisTotal(index);
-        updateSidebarProduitsRecap();
-        updateSidebarTotauxRecap();
-      })
-      .fail(function(xhr, status, error) {
-        console.error(`❌ Erreur lors du report des frais pour l'adresse ${index}:`, error);
-      });
-    } else {
-      // Réactiver le premier frais par défaut
-      $fraisCheckboxes.first().prop('checked', true).trigger('change');
-    }
-  });
+      } else {
+        $fraisCheckboxes.first().trigger('change');
+      }
 
-  // Restauration des états depuis localStorage
-  $('.frais-installation-list').each(function () {
-    const $list = $(this);
-    const index = $list.data('index');
-    const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-    const frais = config[index]?.fraisInstallation;
+      updateFraisTotal(index);
+      updateSidebarProduitsRecap();
+      updateSidebarTotauxRecap();
+    });
 
-    console.log(`🔄 Restauration frais pour adresse ${index}:`, frais);
+    $('.frais-installation-list').each(function () {
+      const $list = $(this);
+      const index = $list.data('index');
+      const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+      const frais = config[index]?.fraisInstallation;
 
-    if (Array.isArray(frais) && frais.length > 0) {
-      // Restaurer les frais depuis localStorage
-      frais.forEach(item => {
-        const $cb = $list.find(`.frais-checkbox[data-id="${item.id}"]`);
-        if ($cb.length > 0) {
+      if (Array.isArray(frais) && frais.length > 0) {
+        frais.forEach(item => {
+          const $cb = $list.find(`.frais-checkbox[data-id="${item.id}"]`);
           $cb.prop('checked', true);
           $cb.data('quantite', item.quantite || 1);
-          $cb.data('type', item.type || 'internet');
           $cb.data('prix-comptant', item.prixComptant || 0);
           $cb.data('prix-leasing-24', item.prixLeasing24 || 0);
           $cb.data('prix-leasing-36', item.prixLeasing36 || 0);
           $cb.data('prix-leasing-48', item.prixLeasing48 || 0);
           $cb.data('prix-leasing-63', item.prixLeasing63 || 0);
-        }
-      });
-      
-      // Synchroniser avec la session PHP
-      $.post(soeasyVars.ajaxurl, {
-        action: 'soeasy_set_frais_installation',
-        index: index,
-        items: frais
-      });
-      
-    } else {
-      // Aucun frais sauvegardé : cocher le premier par défaut si disponible
-      const $firstCheckbox = $list.find('.frais-checkbox').first();
-      if ($firstCheckbox.length > 0) {
-        $firstCheckbox.prop('checked', true).trigger('change');
+        });
+      } else {
+        $list.find('.frais-checkbox:checked').first().trigger('change');
       }
-    }
 
-    updateFraisTotal(index);
-  });
-
-  console.log('✅ Step 5 Events initialisés avec succès');
-};
+      updateFraisTotal(index);
+    });
+  };
 
 
 

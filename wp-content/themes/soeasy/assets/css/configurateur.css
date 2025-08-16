@@ -24,3 +24,42 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
 .icon-mobile { font-family: "Font Awesome 5 Free"; }
 .icon-centrex { font-family: "Font Awesome 5 Free"; }
 .icon-frais { font-family: "Font Awesome 5 Free"; }
+
+
+
+/* Loader pour les étapes du configurateur */
+.step-loader-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-loader-container .spinner-border {
+  border-width: 4px;
+}
+
+.step-loader-container h5 {
+  font-weight: 600;
+  color: #495057;
+}
+
+.step-loader-container .small {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* Animation d'apparition */
+.step-loader-container {
+  animation: fadeInLoader 0.3s ease-in-out;
+}
+
+@keyframes fadeInLoader {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

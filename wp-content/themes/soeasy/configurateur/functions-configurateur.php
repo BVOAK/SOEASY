@@ -232,17 +232,17 @@ function soeasy_set_frais_installation()
 
     $config = WC()->session->get('soeasy_configurateur', []);
 
-    // Initialiser l’index si besoin
+    // Initialiser l'index si besoin
     if (!isset($config[$index])) {
         $config[$index] = [];
     }
 
-    // Injecter les frais
+    // Injecter les frais avec validation
     $config[$index]['fraisInstallation'] = array_map(function ($item) {
         return [
             'id' => intval($item['id']),
             'nom' => sanitize_text_field($item['nom'] ?? ''),
-            'quantite' => intval($item['quantite']),
+            'quantite' => intval($item['quantite'] ?? 1),
             'type' => sanitize_text_field($item['type'] ?? 'internet'),
             'prixComptant' => floatval($item['prixComptant'] ?? 0),
             'prixLeasing24' => floatval($item['prixLeasing24'] ?? 0),
@@ -252,9 +252,17 @@ function soeasy_set_frais_installation()
         ];
     }, $items);
 
+    // Sauvegarder en session
     WC()->session->set('soeasy_configurateur', $config);
 
-    wp_send_json_success(['config' => $config[$index]]);
+    // Log pour debug
+    error_log("Frais installation sauvegardés pour index {$index}: " . print_r($config[$index]['fraisInstallation'], true));
+
+    wp_send_json_success([
+        'message' => 'Frais d\'installation mis à jour avec succès',
+        'config' => $config[$index],
+        'count' => count($config[$index]['fraisInstallation'])
+    ]);
 }
 
 
@@ -385,33 +393,34 @@ function soeasy_ajouter_au_panier()
 add_action('wp_ajax_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
 add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
 
-function soeasy_ajouter_au_panier_multi() {
+function soeasy_ajouter_au_panier_multi()
+{
     if (!function_exists('WC')) {
         wp_send_json_error(['message' => 'WooCommerce non disponible']);
         return;
     }
-    
+
     // 1. Récupération des données
     $config = $_POST['config'] ?? [];
     $adresses = $_POST['adresses'] ?? [];
-    
+
     if (empty($config)) {
         wp_send_json_error(['message' => 'Configuration vide']);
         return;
     }
-    
+
     // 2. Vider le panier existant
     WC()->cart->empty_cart();
-    
+
     // 3. Compteurs pour debug
     $produits_ajoutes = 0;
     $erreurs = [];
-    
+
     // 4. Traitement de chaque adresse
     foreach ($config as $adresse_index => $data_adresse) {
-        
+
         $nom_adresse = $adresses[$adresse_index]['adresse'] ?? "Adresse #" . ($adresse_index + 1);
-        
+
         // 4a. Abonnements
         if (!empty($data_adresse['abonnements'])) {
             foreach ($data_adresse['abonnements'] as $produit) {
@@ -423,7 +432,7 @@ function soeasy_ajouter_au_panier_multi() {
                 }
             }
         }
-        
+
         // 4b. Matériels
         if (!empty($data_adresse['materiels'])) {
             foreach ($data_adresse['materiels'] as $produit) {
@@ -435,7 +444,7 @@ function soeasy_ajouter_au_panier_multi() {
                 }
             }
         }
-        
+
         // 4c. Frais d'installation
         if (!empty($data_adresse['fraisInstallation'])) {
             foreach ($data_adresse['fraisInstallation'] as $frais) {
@@ -448,35 +457,35 @@ function soeasy_ajouter_au_panier_multi() {
             }
         }
     }
-    
+
     // 5. Résultat final
     if ($produits_ajoutes > 0) {
-        
+
         // Sauvegarder la config dans la session pour le checkout
         WC()->session->set('soeasy_configuration_complete', [
             'config' => $config,
             'adresses' => $adresses,
             'timestamp' => current_time('timestamp')
         ]);
-        
+
         $message = sprintf(
             '%d produit%s ajouté%s au panier',
             $produits_ajoutes,
             $produits_ajoutes > 1 ? 's' : '',
             $produits_ajoutes > 1 ? 's' : ''
         );
-        
+
         if (!empty($erreurs)) {
             $message .= '. Quelques erreurs : ' . implode(', ', array_slice($erreurs, 0, 3));
         }
-        
+
         wp_send_json_success([
             'message' => $message,
             'produits_ajoutes' => $produits_ajoutes,
             'erreurs' => $erreurs,
             'redirect_url' => wc_get_cart_url()
         ]);
-        
+
     } else {
         wp_send_json_error([
             'message' => 'Aucun produit n\'a pu être ajouté au panier.',
@@ -488,18 +497,19 @@ function soeasy_ajouter_au_panier_multi() {
 /**
  * Fonction helper pour ajouter un produit au panier WC
  */
-function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
-    
+function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie)
+{
+
     if (empty($produit_data['id']) || empty($produit_data['quantite'])) {
         return [
             'success' => false,
             'error' => "Données produit invalides (ID: {$produit_data['id']}, Qty: {$produit_data['quantite']})"
         ];
     }
-    
+
     $product_id = intval($produit_data['id']);
     $quantity = intval($produit_data['quantite']);
-    
+
     // Vérifier que le produit existe
     $product = wc_get_product($product_id);
     if (!$product) {
@@ -508,19 +518,19 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
             'error' => "Produit #{$product_id} introuvable"
         ];
     }
-    
+
     // Métadonnées pour identifier la configuration dans le panier
     $cart_item_data = [
         'soeasy_adresse' => $nom_adresse,
         'soeasy_categorie' => $categorie,
         'soeasy_config_id' => uniqid('soeasy_')
     ];
-    
+
     // Si prix custom (pour gestion engagement/leasing)
     if (!empty($produit_data['prixUnitaire'])) {
         $cart_item_data['soeasy_prix_custom'] = floatval($produit_data['prixUnitaire']);
     }
-    
+
     try {
         $cart_item_key = WC()->cart->add_to_cart(
             $product_id,
@@ -529,7 +539,7 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
             [], // variation
             $cart_item_data
         );
-        
+
         if ($cart_item_key) {
             return [
                 'success' => true,
@@ -541,7 +551,7 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
                 'error' => "Échec ajout produit #{$product_id} (WC error)"
             ];
         }
-        
+
     } catch (Exception $e) {
         return [
             'success' => false,
@@ -555,22 +565,23 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
  */
 add_filter('woocommerce_get_item_data', 'soeasy_display_cart_item_data', 10, 2);
 
-function soeasy_display_cart_item_data($cart_item_data, $cart_item) {
-    
+function soeasy_display_cart_item_data($cart_item_data, $cart_item)
+{
+
     if (isset($cart_item['soeasy_adresse'])) {
         $cart_item_data[] = [
             'name' => 'Adresse de service',
             'value' => esc_html($cart_item['soeasy_adresse'])
         ];
     }
-    
+
     if (isset($cart_item['soeasy_categorie'])) {
         $cart_item_data[] = [
             'name' => 'Type',
             'value' => esc_html($cart_item['soeasy_categorie'])
         ];
     }
-    
+
     return $cart_item_data;
 }
 
@@ -579,11 +590,14 @@ function soeasy_display_cart_item_data($cart_item_data, $cart_item) {
  */
 add_action('woocommerce_before_calculate_totals', 'soeasy_apply_custom_prices');
 
-function soeasy_apply_custom_prices($cart) {
-    
-    if (is_admin() && !defined('DOING_AJAX')) return;
-    if (did_action('woocommerce_before_calculate_totals') >= 2) return;
-    
+function soeasy_apply_custom_prices($cart)
+{
+
+    if (is_admin() && !defined('DOING_AJAX'))
+        return;
+    if (did_action('woocommerce_before_calculate_totals') >= 2)
+        return;
+
     foreach ($cart->get_cart() as $cart_item) {
         if (isset($cart_item['soeasy_prix_custom'])) {
             $custom_price = floatval($cart_item['soeasy_prix_custom']);
