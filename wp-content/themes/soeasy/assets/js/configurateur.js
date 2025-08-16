@@ -45,6 +45,40 @@ jQuery(document).ready(function ($) {
     $('.contenu-adresse[data-adresse="' + adresse + '"]').addClass('active');
   });
 
+
+  function extraireVille(adresseComplete) {
+    const parties = adresseComplete.split(',').map(p => p.trim());
+    
+    if (parties.length >= 3) {
+      // "Rue, Ville, Pays" → prendre la ville (avant-dernière)
+      return parties[parties.length - 2];
+    } else if (parties.length === 2) {
+      // "Rue, Ville" → prendre la ville (dernière)
+      return parties[parties.length - 1];
+    }
+    
+    // Fallback
+    return adresseComplete;
+  }
+
+  function afficherVillesDansOnglets() {
+    $('.nav-tabs .nav-link[data-bs-target^="#tab-"]').each(function() {
+      const $onglet = $(this);
+      
+      // Extraire l'index
+      const target = $onglet.attr('data-bs-target');
+      const index = parseInt(target.replace('#tab-', ''));
+      
+      // Récupérer l'adresse complète depuis localStorage
+      const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+      const adresseComplete = adresses[index]?.adresse || `Adresse ${index + 1}`;
+      
+      // Extraire et afficher seulement la ville
+      const ville = extraireVille(adresseComplete);
+      $onglet.text(ville);
+    });
+  }
+
   // === Désactivation du bouton précédent si étape 1
   function togglePrevButton(step) {
     if (step <= 1) {
@@ -98,77 +132,326 @@ jQuery(document).ready(function ($) {
     }
   });
 
-
-
   // Rechargement automatique de l'étape mémorisée
   const currentStep = localStorage.getItem('soeasyCurrentStep') || '1';
   loadStep(currentStep);
 
-  // Fonction de chargement des étapes
-  function loadStep(step) {
+/**
+ * Fonction globale de recalcul COMPLET des frais d'installation
+ * Gère Internet + Centrex de manière unifiée
+ */
+function recalculerTousLesFraisInstallation(index) {
+  console.log(`🔄 Recalcul complet des frais d'installation pour l'adresse ${index}`);
+  
+  const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+  if (!config[index]) {
+    console.log(`❌ Aucune config trouvée pour l'index ${index}`);
+    return;
+  }
+  
+  // Réinitialiser les frais d'installation
+  config[index].fraisInstallation = [];
+  
+  // 1. Recalculer les frais Internet
+  recalculerFraisInternet(index, config);
+  
+  // 2. Recalculer les frais Centrex
+  recalculerFraisCentrex(index, config);
+  
+  // Sauvegarder et envoyer
+  localStorage.setItem('soeasyConfig', JSON.stringify(config));
+  
+  $.post(soeasyVars.ajaxurl, {
+    action: 'soeasy_set_frais_installation',
+    index,
+    items: config[index].fraisInstallation
+  });
+  
+  console.log(`✅ Frais recalculés pour l'adresse ${index}:`, config[index].fraisInstallation);
+}
 
-    // Cas particulier : injection des FI AVANT affichage de l'étape 5
-    if (parseInt(step) === 5) {
-      const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-      const ajaxCalls = [];
+/**
+ * Recalcul spécifique des frais Internet
+ */
+function recalculerFraisInternet(index, config) {
+  const data = config[index];
+  if (!data) return;
 
-      Object.entries(config).forEach(([index, data]) => {
-        const frais = data.fraisInstallation || [];
-        if (frais.length > 0) {
-          ajaxCalls.push(
-            $.post(soeasyVars.ajaxurl, {
-              action: 'soeasy_set_frais_installation',
-              index,
-              items: frais
-            })
-          );
+  const equipementsIds = (data.materiels || [])
+    .filter(p => p.type === 'equipement-internet')
+    .map(p => p.id);
+    
+  const tousFrais = window.fraisInstallationInternetParProduit || {};
+  const fraisInternet = [];
+
+  equipementsIds.forEach(id => {
+    if (Array.isArray(tousFrais[id])) {
+      tousFrais[id].forEach(f => {
+        const existant = fraisInternet.find(fi => fi.id === f.id);
+        if (existant) {
+          existant.quantite += f.quantite || 1;
+        } else {
+          fraisInternet.push({ ...f, type: 'internet' });
         }
       });
-
-      Promise.all(ajaxCalls).then(() => {
-        renderStep(step);
-      });
-
-    } else {
-      renderStep(step);
     }
+  });
 
-    function renderStep(step) {
-      renderNavPills(parseInt(step));
+  // Ajouter les frais Internet à la liste globale
+  config[index].fraisInstallation = [
+    ...(config[index].fraisInstallation || []).filter(f => f.type !== 'internet'),
+    ...fraisInternet
+  ];
+  
+  console.log(`📡 Frais Internet recalculés:`, fraisInternet);
+}
 
-      $('#config-step-content').load(soeasyVars.themeUrl + '/configurateur/step-' + step + '.php?step=' + step, function () {
+/**
+ * Recalcul spécifique des frais Centrex
+ */
+function recalculerFraisCentrex(index, config) {
+  const data = config[index];
+  if (!data) return;
 
-        // Réinitialisation sélection engagement/financement
-        initFinancementSelection();
-        initEngagementSelection();
+  // Construire le payload Centrex
+  const sessionPayload = {
+    licences_centrex: (data.abonnements || []).filter(p => p.type === 'licence-centrex'),
+    services_centrex: (data.materiels || []).filter(p => p.type === 'service-centrex'),
+    postes_centrex: (data.materiels || []).filter(p => p.type === 'poste-centrex'),
+    switchs_centrex: (data.materiels || []).filter(p => p.type === 'switch-centrex'),
+    accessoires_centrex: (data.materiels || []).filter(p => p.type === 'accessoire-centrex')
+  };
 
-        // Appel des fonctions d'initialisation spécifiques à chaque étape
-        const stepInitializers = {
-          '1': window.initStep1Events,
-          '2': window.initStep2Events,
-          '3': window.initStep3Events,
-          '4': window.initStep4Events,
-          '5': window.initStep5Events,
-          '6': window.initStep6Events
-        };
-        if (stepInitializers[step]) {
-          stepInitializers[step](); // Appel de la fonction
+  const tousFrais = window.fraisInstallationCentrexParProduit || {};
+  const fraisParId = {};
+  
+  const postesCentrex = sessionPayload.postes_centrex.reduce((sum, item) => sum + (item.quantite || item.qty || 1), 0);
+  const licencesCentrex = sessionPayload.licences_centrex.reduce((sum, item) => sum + (item.quantite || item.qty || 1), 0);
+
+  const idsLicences = sessionPayload.licences_centrex.map(p => p.id);
+  const idsPostes = sessionPayload.postes_centrex.map(p => p.id);
+  const idsMateriels = [
+    ...sessionPayload.services_centrex,
+    ...sessionPayload.switchs_centrex,
+    ...sessionPayload.accessoires_centrex
+  ].map(p => p.id);
+
+  const normalise = str => (str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '');
+
+  // a. FI licences
+  idsLicences.forEach(id => {
+    const fraisAssocies = tousFrais[id] || [];
+    fraisAssocies.forEach(f => {
+      const nomNorm = normalise(f.nom);
+      const isFraisLicence = nomNorm.includes('licence') && nomNorm.includes('centrex');
+      if (!isFraisLicence || fraisParId[f.id]) return;
+
+      const seuil = parseInt(f.offertAPartirDe) || 9999;
+      const fi = { ...f, type: 'centrex', quantite: 1 };
+
+      if (licencesCentrex >= seuil) {
+        fi.prixComptant = 0;
+        fi.prixLeasing24 = 0;
+        fi.prixLeasing36 = 0;
+        fi.prixLeasing48 = 0;
+        fi.prixLeasing63 = 0;
+      }
+
+      fraisParId[f.id] = fi;
+    });
+  });
+
+  // b. FI postes
+  let meilleurFraisPoste = null;
+  idsPostes.forEach(id => {
+    const fraisAssocies = tousFrais[id] || [];
+    fraisAssocies.forEach(f => {
+      const nomNorm = normalise(f.nom);
+      const isFraisPoste = nomNorm.includes('poste') && nomNorm.includes('centrex');
+      if (!isFraisPoste) return;
+
+      const min = parseInt(f.minPostes) || 0;
+      const max = parseInt(f.maxPostes) || Infinity;
+
+      if (postesCentrex >= min && postesCentrex <= max) {
+        if (!meilleurFraisPoste || max < meilleurFraisPoste.maxPostes) {
+          meilleurFraisPoste = { ...f, type: 'centrex', quantite: 1, maxPostes: max };
         }
+      }
+    });
+  });
+  
+  if (meilleurFraisPoste) {
+    delete meilleurFraisPoste.maxPostes;
+    fraisParId[meilleurFraisPoste.id] = meilleurFraisPoste;
+  }
 
-        // Mise à jour des prix et totaux
+  // c. FI matériel
+  const compteurFraisMateriel = {};
+  idsMateriels.forEach(id => {
+    const fraisAssocies = tousFrais[id] || [];
+    const equipement = [
+      ...sessionPayload.services_centrex,
+      ...sessionPayload.switchs_centrex,
+      ...sessionPayload.accessoires_centrex
+    ].find(e => e.id === id);
+
+    const qtyEquipement = equipement?.quantite || equipement?.qty || 1;
+
+    fraisAssocies.forEach(f => {
+      const nomNorm = normalise(f.nom);
+      const isLicence = nomNorm.includes('licence') && nomNorm.includes('centrex');
+      const isPoste = nomNorm.includes('poste') && nomNorm.includes('centrex');
+      if (isLicence || isPoste) return;
+
+      if (!compteurFraisMateriel[f.id]) {
+        compteurFraisMateriel[f.id] = 0;
+      }
+
+      compteurFraisMateriel[f.id] += qtyEquipement;
+
+      fraisParId[f.id] = {
+        ...f,
+        type: 'centrex',
+        quantite: compteurFraisMateriel[f.id]
+      };
+    });
+  });
+
+  // Ajouter les frais Centrex à la liste globale
+  config[index].fraisInstallation = [
+    ...(config[index].fraisInstallation || []).filter(f => f.type !== 'centrex'),
+    ...Object.values(fraisParId)
+  ];
+  
+  console.log(`📞 Frais Centrex recalculés:`, Object.values(fraisParId));
+}
+
+// ================================================================
+// 2. REMPLACER ta fonction loadStep() existante par celle-ci
+// ================================================================
+
+function loadStep(step) {
+  
+  // Cas particulier : FORCER le recalcul complet des FI avant l'étape 5
+  if (parseInt(step) === 5) {
+    const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+    const ajaxCalls = [];
+    
+    // Pour chaque adresse, recalculer complètement tous les frais
+    Object.keys(config).forEach(index => {
+      console.log(`🔄 Recalcul forcé pour l'adresse ${index}`);
+      recalculerTousLesFraisInstallation(index);
+      
+      // Attendre un petit délai pour que les calculs se terminent
+      const configUpdated = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+      const frais = configUpdated[index]?.fraisInstallation || [];
+      
+      if (frais.length > 0) {
+        ajaxCalls.push(
+          $.post(soeasyVars.ajaxurl, {
+            action: 'soeasy_set_frais_installation',
+            index,
+            items: frais
+          })
+        );
+      }
+    });
+
+    // Attendre que tous les AJAX soient terminés
+    Promise.all(ajaxCalls).then(() => {
+      renderStep(step);
+    }).catch((error) => {
+      console.warn('Erreur lors du recalcul des frais:', error);
+      renderStep(step);
+    });
+
+  } else {
+    renderStep(step);
+  }
+
+  function renderStep(step) {
+    renderNavPills(parseInt(step));
+
+    $('#config-step-content').load(soeasyVars.themeUrl + '/configurateur/step-' + step + '.php?step=' + step, function () {
+
+      // Réinitialisation sélection engagement/financement
+      initFinancementSelection();
+      initEngagementSelection();
+      afficherVillesDansOnglets();
+
+      // Appel des fonctions d'initialisation spécifiques à chaque étape
+      const stepInitializers = {
+        '1': window.initStep1Events,
+        '2': window.initStep2Events,
+        '3': window.initStep3Events,
+        '4': window.initStep4Events,
+        '5': window.initStep5Events,
+        '6': window.initStep6Events
+      };
+      if (stepInitializers[step]) {
+        stepInitializers[step]();
+      }
+
+      // Forcer la mise à jour après l'affichage de l'étape 5
+      if (parseInt(step) === 5) {
+        setTimeout(() => {
+          updatePrices();
+          updatePrixProduits();
+          updateSidebarProduitsRecap();
+          updateSidebarTotauxRecap();
+        }, 300);
+      }
+
+      // Mise à jour des prix et totaux pour les autres étapes
+      if (parseInt(step) !== 5) {
         updatePrices();
         $('.input-qty').each(function () {
           updatePrixTotal($(this));
         });
-
         updatePrixProduits();
-        updateRecapitulatif();
-        updateSidebarProduitsRecap();
-        updateSidebarTotauxRecap();
-      });
-    }
+      }
+      
+      updateRecapitulatif();
+    });
   }
+}
 
+
+  // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
+  $(document).on('change', '.forfait-checkbox:not(.step-3 *, .step-4 *), .equipement-checkbox:not(.step-3 *, .step-4 *), .centrex-checkbox:not(.step-3 *, .step-4 *), .mobile-checkbox:not(.step-3 *, .step-4 *)', function () {
+    const $checkbox = $(this);
+    const $input = $checkbox.closest('.border').find('.input-qty');
+
+    if ($checkbox.is(':checked')) {
+      // Si coché et quantité = 0, mettre à 1
+      if (parseInt($input.val()) === 0) {
+        $input.val(1);
+      }
+    } else {
+      // Si décoché, remettre quantité à 0
+      $input.val(0);
+    }
+
+    updatePrixTotal($input);
+    updateSidebarTotauxRecap();
+  });
+
+  // 2. Input quantité modifiée → synchroniser checkbox et recalculer
+  $(document).on('input change', '.input-qty:not(.step-3 *, .step-4 *)', function () {
+    const $input = $(this);
+    const $checkbox = $input.closest('.border').find('.forfait-checkbox, .equipement-checkbox, .centrex-checkbox, .mobile-checkbox');
+    const quantity = parseInt($input.val()) || 0;
+
+    // Synchroniser checkbox avec quantité
+    $checkbox.prop('checked', quantity > 0);
+
+    // Recalculer le prix total de ce produit
+    updatePrixTotal($input);
+
+    // Recalculer les totaux globaux  
+    updateSidebarTotauxRecap();
+  });
 
 
   // Navigation entre les étapes
@@ -188,8 +471,15 @@ jQuery(document).ready(function ($) {
       action: 'soeasy_set_engagement',
       duree: duree
     }, function () {
-      const activeStep = localStorage.getItem('soeasyCurrentStep') || '1';
-      loadStep(activeStep);
+      // CORRECTION : Mettre à jour les prix sans recharger l'étape
+      updatePrices();
+      $('.input-qty').each(function () {
+        updatePrixTotal($(this));
+      });
+      updateSidebarTotauxRecap();
+      updateEngagementVisibility();
+      
+      console.log('✅ Engagement mis à jour sans navigation');
     });
   });
 
@@ -203,8 +493,15 @@ jQuery(document).ready(function ($) {
       action: 'soeasy_set_financement',
       mode: financement
     }, function () {
-      const activeStep = localStorage.getItem('soeasyCurrentStep') || '1';
-      loadStep(activeStep);
+      // CORRECTION : Mettre à jour les prix sans recharger l'étape
+      updatePrices();
+      $('.input-qty').each(function () {
+        updatePrixTotal($(this));
+      });
+      updateSidebarTotauxRecap();
+      updateEngagementVisibility();
+      
+      console.log('✅ Financement mis à jour sans navigation');
     });
   });
 
@@ -677,7 +974,7 @@ jQuery(document).ready(function ($) {
       if (qty === 0) {
         removeProductFromLocalStorage(index, id);
       } else {
-        if (typeof saveMobileQuantites === 'function') saveMobileQuantites(index);
+        saveMobileQuantites(index);
       }
     });
 
@@ -972,6 +1269,8 @@ jQuery(document).ready(function ($) {
     function saveCentrexQuantites(index) {
       if (typeof index === 'undefined') return;
 
+      console.log(`🔄 saveCentrexQuantites appelée pour l'index ${index}`);
+
       const sessionPayload = {
         licences_centrex: [],
         services_centrex: [],
@@ -1159,6 +1458,9 @@ jQuery(document).ready(function ($) {
         index,
         items: config[index].fraisInstallation
       });
+
+  console.log(`✅ Frais Centrex calculés pour l'adresse ${index}:`, Object.values(fraisParId));
+
     }
 
     // Forcer le recalcul des FI Centrex dès le chargement de Step-4
@@ -1171,11 +1473,12 @@ jQuery(document).ready(function ($) {
 
 
 
-window.initStep5Events = function () {
+  window.initStep5Events = function () {
+  console.log('🔧 Initialisation de l\'étape 5');
 
   $(document).on('change', '.frais-checkbox', function () {
     const index = $(this).data('index');
-    $(`#report_frais_${index}`).prop('checked', false); // décocher case report
+    $(`#report_frais_${index}`).prop('checked', false);
 
     const frais = [];
 
@@ -1185,6 +1488,7 @@ window.initStep5Events = function () {
         id: parseInt($cb.data('id')),
         nom: $cb.closest('label').clone().children().remove().end().text().trim(),
         quantite: parseInt($cb.data('quantite')) || 1,
+        type: 'internet',
         prixComptant: parseFloat($cb.data('prix-comptant')) || 0,
         prixLeasing24: parseFloat($cb.data('prix-leasing-24')) || 0,
         prixLeasing36: parseFloat($cb.data('prix-leasing-36')) || 0,
@@ -1193,130 +1497,162 @@ window.initStep5Events = function () {
       });
     });
 
-    saveToLocalConfig(index, 'fraisInstallation', frais, { replace: true });
+    saveToLocalConfig(index, 'fraisInstallation', frais);
     updatePrices();
-    updateFraisTotal(index);
-    updateSidebarProduitsRecap();
     updateSidebarTotauxRecap();
   });
 
-  $(document).on('change', '.report-frais-checkbox', function () {
-    const index = $(this).data('index');
-    const $fraisCheckboxes = $(`.frais-installation-list[data-index="${index}"] .frais-checkbox`);
+  // Restauration des états au chargement
+  setTimeout(() => {
+    $('.frais-installation-list').each(function () {
+      const $list = $(this);
+      const index = $list.data('index');
+      const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+      const fraisChoisis = config[index]?.fraisInstallation || [];
 
-    if ($(this).is(':checked')) {
-      $fraisCheckboxes.prop('checked', false);
-      saveToLocalConfig(index, 'fraisInstallation', []); // ⬅️ rollback ici
-      $(`.frais-total[data-index="${index}"]`).text('0 €');
-    } else {
-      $fraisCheckboxes.first().trigger('change');
-    }
+      console.log(`📋 Restauration des frais pour l'adresse ${index}:`, fraisChoisis);
 
-    updateFraisTotal(index);
-    updateSidebarProduitsRecap();
+      if (Array.isArray(fraisChoisis) && fraisChoisis.length > 0) {
+        fraisChoisis.forEach(frais => {
+          const $checkbox = $list.find(`.frais-checkbox[data-id="${frais.id}"]`);
+          if ($checkbox.length > 0) {
+            $checkbox.prop('checked', true);
+            console.log(`✅ Case cochée pour le frais ID ${frais.id}: ${frais.nom}`);
+          }
+        });
+      }
+    });
+    
+    updatePrices();
     updateSidebarTotauxRecap();
-  });
-
-  $('.frais-installation-list').each(function () {
-    const $list = $(this);
-    const index = $list.data('index');
-    const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-    const frais = config[index]?.fraisInstallation;
-
-    if (Array.isArray(frais) && frais.length > 0) {
-      frais.forEach(item => {
-        const $cb = $list.find(`.frais-checkbox[data-id="${item.id}"]`);
-        $cb.prop('checked', true);
-        $cb.data('quantite', item.quantite || 1);
-        $cb.data('prix-comptant', item.prixComptant || 0);
-        $cb.data('prix-leasing-24', item.prixLeasing24 || 0);
-        $cb.data('prix-leasing-36', item.prixLeasing36 || 0);
-        $cb.data('prix-leasing-48', item.prixLeasing48 || 0);
-        $cb.data('prix-leasing-63', item.prixLeasing63 || 0);
-      });
-    } else {
-      $list.find('.frais-checkbox:checked').first().trigger('change');
-    }
-
-    updateFraisTotal(index);
-  });
+  }, 300);
 };
 
-
-
-
-
-
+  /**
+   * Initialisation des événements de l'étape 6 (Récapitulatif final)
+   * À remplacer dans configurateur.js
+   */
   window.initStep6Events = function () {
+    console.log('🎯 Initialisation Step 6 - Récapitulatif final');
+
     const mode = getSelectedFinancementMode();
     const engagement = getSelectedEngagement();
 
-    // Mettre à jour les en-têtes des colonnes
-    $('[id^="th-prix-unitaire"]').text(mode === 'leasing' ? 'Prix unitaire / mois' : 'Prix unitaire');
-    $('[id^="th-prix-total"]').text(mode === 'leasing' ? 'Total / mois' : 'Total');
+    // 1. Mettre à jour les en-têtes des colonnes selon le mode
+    $('[id^="th-prix-unitaire"], .th-prix-unitaire').text(
+      mode === 'leasing' ? 'Prix unitaire / mois' : 'Prix unitaire'
+    );
+    $('[id^="th-prix-total"], .th-prix-total').text(
+      mode === 'leasing' ? 'Total / mois' : 'Total'
+    );
 
-    // Recharger le contenu des tableaux
+    // 2. Recharger le contenu des tableaux récapitulatifs
     updateRecapitulatif();
 
-    // Recalculer les totaux par adresse
+    // 3. Recalculer et afficher les totaux par adresse
     const config = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
+    const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
+
     Object.entries(config).forEach(([index, data]) => {
-      const $card = $(`#recapitulatif-final .card`).eq(index);
+
       let totalComptant = 0;
       let totalMensuel = 0;
 
-      // Abonnements
+      // 3a. Abonnements (toujours mensuels)
       (data.abonnements || []).forEach(item => {
-        totalMensuel += (item.prixUnitaire || 0) * item.quantite;
+        const prix = parseFloat(item.prixUnitaire) || 0;
+        const qty = parseInt(item.quantite) || 0;
+        totalMensuel += prix * qty;
       });
 
-      // Matériels
+      // 3b. Matériels
       (data.materiels || []).forEach(item => {
-        totalComptant += (item.prixComptant || 0) * item.quantite;
-        if (mode === 'leasing') {
-          totalMensuel += (item[`prixLeasing${engagement}`] || 0) * item.quantite;
+        const qty = parseInt(item.quantite) || 0;
+
+        // Prix comptant toujours calculé
+        const prixComptant = parseFloat(item.prixComptant) || 0;
+        totalComptant += prixComptant * qty;
+
+        // Prix leasing si mode leasing
+        if (mode === 'leasing' && engagement) {
+          const prixLeasing = parseFloat(item[`prixLeasing${engagement}`]) || 0;
+          totalMensuel += prixLeasing * qty;
         }
       });
 
-      // Frais d'installation
+      // 3c. Frais d'installation
       (data.fraisInstallation || []).forEach(item => {
-        totalComptant += (item.prixComptant || 0) * item.quantite;
-        if (mode === 'leasing') {
-          totalMensuel += (item[`prixLeasing${engagement}`] || 0) * item.quantite;
+        const qty = parseInt(item.quantite) || 0;
+
+        // Prix comptant toujours calculé
+        const prixComptant = parseFloat(item.prixComptant) || 0;
+        totalComptant += prixComptant * qty;
+
+        // Prix leasing si mode leasing
+        if (mode === 'leasing' && engagement) {
+          const prixLeasing = parseFloat(item[`prixLeasing${engagement}`]) || 0;
+          totalMensuel += prixLeasing * qty;
         }
       });
 
-      $card.find('.total-comptant')
-        .text(`Total comptant : ${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €`);
-      $card.find('.total-mensuel')
-        .text(`Total mensuel : ${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois`);
-    });
+      // 3d. Affichage des totaux dans l'accordion de l'adresse
+      const $accordionBody = $(`#collapse-${index} .accordion-body`);
 
-    // Bouton Commander
-    $('#btn-commander').on('click', function () {
-      const $btn = $(this).prop('disabled', true).text('Chargement...');
-      $.post(soeasyVars.ajaxurl, { action: 'soeasy_ajouter_au_panier' })
-        .done(response => {
-          if (response.success) {
-            window.location.href = '/panier';
-          } else {
-            showToastError(response.data?.message || 'Vérifiez votre configuration.');
-            $btn.prop('disabled', false).text('Commander');
-          }
-        })
-        .fail(() => {
-          showToastError('Erreur serveur. Veuillez réessayer.');
-          $btn.prop('disabled', false).text('Commander');
-        });
-    });
+      // Supprimer les anciens totaux s'ils existent
+      $accordionBody.find('.totaux-adresse').remove();
 
-    function showToastError(message) {
-      const toastEl = document.getElementById('toast-error');
-      if (toastEl) {
-        toastEl.querySelector('.toast-body').textContent = message;
-        new bootstrap.Toast(toastEl).show();
+      // Ajouter les nouveaux totaux
+      const $totauxDiv = $('<div class="totaux-adresse mt-4 p-3 bg-light rounded"></div>');
+
+      if (mode === 'comptant') {
+        $totauxDiv.append(`
+        <div class="row">
+          <div class="col-md-6">
+            <strong>Total mensuel (abonnements) : ${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</strong>
+          </div>
+          <div class="col-md-6">
+            <strong>Total comptant (équipements + frais) : ${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</strong>
+          </div>
+        </div>
+      `);
+      } else {
+        $totauxDiv.append(`
+        <div class="text-center">
+          <strong>Total mensuel : ${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</strong>
+        </div>
+      `);
       }
-    }
+
+      $accordionBody.append($totauxDiv);
+    });
+
+    // 4. Gestion du bouton "Valider ma configuration"
+    $('#btn-commander').off('click.step6').on('click.step6', function (e) {
+      e.preventDefault();
+
+      console.log('🛒 Clic sur bouton Commander');
+
+      // Validation basique
+      if (Object.keys(config).length === 0) {
+        showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
+        return;
+      }
+
+      if (adresses.length === 0) {
+        showToastError('Aucune adresse configurée. Retournez à l\'étape 1.');
+        return;
+      }
+
+      // Appeler la fonction sendToCart()
+      sendToCart();
+    });
+
+    // 5. Mise à jour des prix selon engagement/financement
+    updatePrices();
+
+    console.log('✅ Step 6 initialisé avec succès');
   };
+
+  window.recalculerTousLesFraisInstallation = recalculerTousLesFraisInstallation;
 
 });

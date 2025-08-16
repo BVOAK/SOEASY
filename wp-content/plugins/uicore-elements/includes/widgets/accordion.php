@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Repeater;
@@ -52,10 +53,11 @@ class Accordion extends UiCoreWidget
     {
         return ['accordion'];
     }
-    // TODO: remove or set as false, after 3.30, when the full deprecation of widget innet wrapper is ready
-    public function has_widget_inner_wrapper(): bool {
-		return true;
-	}
+    // TODO: remove after Optmized Markup experiment is merged to the core
+    public function has_widget_inner_wrapper(): bool
+    {
+        return true;
+    }
     protected function register_controls()
     {
         $this->start_controls_section(
@@ -104,17 +106,17 @@ class Accordion extends UiCoreWidget
         );
 
         $repeater->add_control(
-			'section_id',
-			[
-				'label'         => esc_html__( 'Section ID', 'uicore-elements' ),
-				'type'          => Controls_Manager::TEXT,
-				'placeholder'   => esc_html__( 'CSS ID from an element', 'uicore-elements' ),
+            'section_id',
+            [
+                'label'         => esc_html__('Section ID', 'uicore-elements'),
+                'type'          => Controls_Manager::TEXT,
+                'placeholder'   => esc_html__('CSS ID from an element', 'uicore-elements'),
                 'condition'     => [
                     'source'    => 'sectionId'
                 ],
                 'dynamic'     => ['active' => true],
-			]
-		);
+            ]
+        );
 
         $repeater->add_control(
             'repeater_icon',
@@ -387,7 +389,7 @@ class Accordion extends UiCoreWidget
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'item_spacing',
             [
                 'label'     => __('Item Gap', 'uicore-elements'),
@@ -409,152 +411,152 @@ class Accordion extends UiCoreWidget
 
         $this->start_controls_tabs('tabs_item_style');
 
-            $this->start_controls_tab(
-                'tab_item_normal',
-                [
-                    'label' => __('Normal', 'uicore-elements'),
-                ]
-            );
+        $this->start_controls_tab(
+            'tab_item_normal',
+            [
+                'label' => __('Normal', 'uicore-elements'),
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name'      => 'item_background',
-                    'selector'  => '{{WRAPPER}} .ui-e-accordion-item',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name'      => 'item_background',
+                'selector'  => '{{WRAPPER}} .ui-e-accordion-item',
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Border::get_type(),
-                [
-                    'name'        => 'item_border',
-                    'placeholder' => '1px',
-                    'default'     => '1px',
-                    'selector'    => '{{WRAPPER}} .ui-e-accordion-item',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name'        => 'item_border',
+                'placeholder' => '1px',
+                'default'     => '1px',
+                'selector'    => '{{WRAPPER}} .ui-e-accordion-item',
+            ]
+        );
 
-            $this->add_responsive_control(
-                'item_radius',
-                [
-                    'label'      => __('Border Radius', 'uicore-elements'),
-                    'type'       => Controls_Manager::DIMENSIONS,
-                    'size_units' => ['px', '%'],
-                    'selectors'  => [
-                        '{{WRAPPER}} .ui-e-accordion-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    ],
-                ]
-            );
+        $this->add_responsive_control(
+            'item_radius',
+            [
+                'label'      => __('Border Radius', 'uicore-elements'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors'  => [
+                    '{{WRAPPER}} .ui-e-accordion-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
-            $this->add_responsive_control(
-                'item_padding',
-                [
-                    'label'      => __('Padding', 'uicore-elements'),
-                    'type'       => Controls_Manager::DIMENSIONS,
-                    'size_units' => ['px', 'em', '%'],
-                    'default' => [
-                        'top' => 15,
-                        'right' => 15,
-                        'bottom' => 15,
-                        'left' => 15,
-                        'unit' => 'px',
-                        'isLinked' => true,
-                    ],
-                    'selectors'  => [
-                        '{{WRAPPER}} .ui-e-accordion-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    ],
-                ]
-            );
+        $this->add_responsive_control(
+            'item_padding',
+            [
+                'label'      => __('Padding', 'uicore-elements'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'default' => [
+                    'top' => 15,
+                    'right' => 15,
+                    'bottom' => 15,
+                    'left' => 15,
+                    'unit' => 'px',
+                    'isLinked' => true,
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ui-e-accordion-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Box_Shadow::get_type(),
-                [
-                    'name'     => 'item_shadow',
-                    'selector' => '{{WRAPPER}} .ui-e-accordion-item',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name'     => 'item_shadow',
+                'selector' => '{{WRAPPER}} .ui-e-accordion-item',
+            ]
+        );
 
-            $this->end_controls_tab();
+        $this->end_controls_tab();
 
-            $this->start_controls_tab(
-                'tab_item_hover',
-                [
-                    'label' => __('Hover', 'uicore-elements'),
-                ]
-            );
+        $this->start_controls_tab(
+            'tab_item_hover',
+            [
+                'label' => __('Hover', 'uicore-elements'),
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name'      => 'hover_item_background',
-                    'selector'  => '{{WRAPPER}} .ui-e-accordion-item:hover',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name'      => 'hover_item_background',
+                'selector'  => '{{WRAPPER}} .ui-e-accordion-item:hover',
+            ]
+        );
 
-            $this->add_control(
-                'item_hover_border_color',
-                [
-                    'label'     => __('Border Color', 'uicore-elements'),
-                    'type'      => Controls_Manager::COLOR,
-                    'condition' => [
-                        'item_border_border!' => '',
-                    ],
-                    'selectors' => [
-                        '{{WRAPPER}} .ui-e-accordion-item:hover' => 'border-color: {{VALUE}};',
-                    ],
-                ]
-            );
+        $this->add_control(
+            'item_hover_border_color',
+            [
+                'label'     => __('Border Color', 'uicore-elements'),
+                'type'      => Controls_Manager::COLOR,
+                'condition' => [
+                    'item_border_border!' => '',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-accordion-item:hover' => 'border-color: {{VALUE}};',
+                ],
+            ]
+        );
 
-            $this->end_controls_tab();
+        $this->end_controls_tab();
 
-            $this->start_controls_tab(
-                'tab_item_active',
-                [
-                    'label' => __('Active', 'uicore-elements'),
-                ]
-            );
+        $this->start_controls_tab(
+            'tab_item_active',
+            [
+                'label' => __('Active', 'uicore-elements'),
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name'      => 'active_item_background',
-                    'selector'  => '{{WRAPPER}} .ui-e-accordion-item.ui-open',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name'      => 'active_item_background',
+                'selector'  => '{{WRAPPER}} .ui-e-accordion-item.ui-open',
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Box_Shadow::get_type(),
-                [
-                    'name'     => 'active_item_shadow',
-                    'selector' => '{{WRAPPER}} .ui-e-accordion-item.ui-open',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name'     => 'active_item_shadow',
+                'selector' => '{{WRAPPER}} .ui-e-accordion-item.ui-open',
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Border::get_type(),
-                [
-                    'name'        => 'active_item_border',
-                    'placeholder' => '1px',
-                    'default'     => '1px',
-                    'selector'    => '{{WRAPPER}} .ui-e-accordion-item.ui-open',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name'        => 'active_item_border',
+                'placeholder' => '1px',
+                'default'     => '1px',
+                'selector'    => '{{WRAPPER}} .ui-e-accordion-item.ui-open',
+            ]
+        );
 
-            $this->add_responsive_control(
-                'active_item_radius',
-                [
-                    'label'      => __('Border Radius', 'uicore-elements'),
-                    'type'       => Controls_Manager::DIMENSIONS,
-                    'size_units' => ['px', '%'],
-                    'selectors'  => [
-                        '{{WRAPPER}} .ui-e-accordion-item.ui-open' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; overflow: hidden;',
-                    ],
-                ]
-            );
+        $this->add_responsive_control(
+            'active_item_radius',
+            [
+                'label'      => __('Border Radius', 'uicore-elements'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors'  => [
+                    '{{WRAPPER}} .ui-e-accordion-item.ui-open' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; overflow: hidden;',
+                ],
+            ]
+        );
 
-            $this->end_controls_tab();
+        $this->end_controls_tab();
 
-            $this->end_controls_tabs();
+        $this->end_controls_tabs();
 
         $this->end_controls_section();
 
@@ -837,9 +839,9 @@ class Accordion extends UiCoreWidget
                     ],
                 ],
                 'default' => [
-					'unit' => 'px',
-					'size' => 5,
-				],
+                    'unit' => 'px',
+                    'size' => 5,
+                ],
                 'selectors' => [
                     '{{WRAPPER}} .ui-e-custom-icon' => '--ui-e-margin-right:{{SIZE}}{{UNIT}};',
                 ],
@@ -1000,9 +1002,9 @@ class Accordion extends UiCoreWidget
                     ],
                 ],
                 'default' => [
-					'unit' => 'px',
-					'size' => 15,
-				],
+                    'unit' => 'px',
+                    'size' => 15,
+                ],
                 'selectors' => [
                     '{{WRAPPER}} .ui-e-accordion-title .ui-e-accordion-icon' => '--ui-e-icon-size: {{SIZE}}{{UNIT}};',
                 ],
@@ -1198,9 +1200,9 @@ class Accordion extends UiCoreWidget
                     ],
                 ],
                 'default' => [
-					'unit' => 'px',
-					'size' => 15,
-				],
+                    'unit' => 'px',
+                    'size' => 15,
+                ],
                 'selectors' => [
                     '{{WRAPPER}} .ui-e-accordion-content' => 'margin-top: {{SIZE}}{{UNIT}};',
                 ],
@@ -1252,76 +1254,76 @@ class Accordion extends UiCoreWidget
         $this->end_controls_section();
 
         $this->start_controls_section(
-			'section_animation',
-			[
-				'label' => esc_html__('Animations', 'uicore-elements'),
-				'tab'   => Controls_Manager::TAB_STYLE,
-			]
-		);
-
-		$this->add_control(
-			'accordion_animation',
-			[
-				'label' => esc_html__( 'Accordion Animation', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SELECT,
-				'default' => 'ui-e-animation-acc-basic',
-				'options' => [
-					'' => esc_html__( 'None', 'uicore-elements' ),
-                    'ui-e-animation-acc-basic' => esc_html__( 'Basic', 'uicore-elements' ),
-                    'ui-e-animation-acc-slow' => esc_html__( 'Slow', 'uicore-elements' ),
-                    'ui-e-animation-acc-expand' => esc_html__( 'Expand', 'uicore-elements' ),
-                    'ui-e-animation-acc-overshadow' => esc_html__( 'Overshadow', 'uicore-elements'),
-				],
-				'prefix_class'	=> '',
-                'render_type'   => 'template',
-				'frontend_available' => true,
-			]
-		);
+            'section_animation',
+            [
+                'label' => esc_html__('Animations', 'uicore-elements'),
+                'tab'   => Controls_Manager::TAB_STYLE,
+            ]
+        );
 
         $this->add_control(
-			'icon_animation',
-			[
-				'label' => esc_html__( 'Icon Animation', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SELECT,
-				'default' => 'ui-e-animation-ico-fade',
-				'options' => [
-					'' => esc_html__( 'None', 'uicore-elements' ),
-                    'ui-e-animation-ico-fade' => esc_html__( 'Fade', 'uicore-elements' ),
-					'ui-e-animation-ico-spin' => esc_html__( 'Spin', 'uicore-elements' ),
-                    'ui-e-animation-ico-slide' => esc_html__( 'Slide', 'uicore-elements' ),
-				],
-				'prefix_class'	=> '',
+            'accordion_animation',
+            [
+                'label' => esc_html__('Accordion Animation', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'ui-e-animation-acc-basic',
+                'options' => [
+                    '' => esc_html__('None', 'uicore-elements'),
+                    'ui-e-animation-acc-basic' => esc_html__('Basic', 'uicore-elements'),
+                    'ui-e-animation-acc-slow' => esc_html__('Slow', 'uicore-elements'),
+                    'ui-e-animation-acc-expand' => esc_html__('Expand', 'uicore-elements'),
+                    'ui-e-animation-acc-overshadow' => esc_html__('Overshadow', 'uicore-elements'),
+                ],
+                'prefix_class'    => '',
                 'render_type'   => 'template',
-			]
-		);
+                'frontend_available' => true,
+            ]
+        );
 
         $this->add_control(
-			'icon_spin_value',
-			[
-				'label' => esc_html__( 'Icon Rotation', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => ['deg', ''],
-				'range' => [
-					'deg' => [
-						'min' => 0,
-						'max' => 360,
-						'step' => 1,
-					],
-				],
-				'default' => [
-					'unit' => 'deg',
-					'size' => 315,
-				],
-				'selectors' => [
-					'{{WRAPPER}} .ui-e-accordion-icon' => '--ui-e-spin:{{SIZE}}deg;',
-				],
-                'condition' =>[
+            'icon_animation',
+            [
+                'label' => esc_html__('Icon Animation', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'ui-e-animation-ico-fade',
+                'options' => [
+                    '' => esc_html__('None', 'uicore-elements'),
+                    'ui-e-animation-ico-fade' => esc_html__('Fade', 'uicore-elements'),
+                    'ui-e-animation-ico-spin' => esc_html__('Spin', 'uicore-elements'),
+                    'ui-e-animation-ico-slide' => esc_html__('Slide', 'uicore-elements'),
+                ],
+                'prefix_class'    => '',
+                'render_type'   => 'template',
+            ]
+        );
+
+        $this->add_control(
+            'icon_spin_value',
+            [
+                'label' => esc_html__('Icon Rotation', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['deg', ''],
+                'range' => [
+                    'deg' => [
+                        'min' => 0,
+                        'max' => 360,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'deg',
+                    'size' => 315,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-accordion-icon' => '--ui-e-spin:{{SIZE}}deg;',
+                ],
+                'condition' => [
                     'icon_animation'  => 'ui-e-animation-ico-spin',
                 ]
-			]
-		);
+            ]
+        );
 
-		$this->end_controls_section();
+        $this->end_controls_section();
     }
     protected function render()
     {
@@ -1330,159 +1332,161 @@ class Accordion extends UiCoreWidget
         $ID = 'ui-e-accordion-' . $this->get_id();
 
         // Sets schema atts if active
-        if ( $this->is_option('schema_activity', 'yes')) {
+        if ($this->is_option('schema_activity', 'yes')) {
             $this->add_render_attribute('accordion', 'itemscope');
             $this->add_render_attribute('accordion', ['itemtype' => 'https://schema.org/FAQPage']);
         }
 
         $titleTag = $settings['title_html_tag'] . ' ';  // HTML tag
 
-        ?>
-            <div class="ui-e-accordion" <?php $this->print_render_attribute_string('accordion');?>>
+?>
+        <div class="ui-e-accordion" <?php $this->print_render_attribute_string('accordion'); ?>>
 
-                <?php foreach ($settings['tabs'] as $index => $item) :
+            <?php foreach ($settings['tabs'] as $index => $item) :
 
-                    $loopCounter = $index + 1;
+                $loopCounter = $index + 1;
 
-                    // Builds the accordion ID
-                    $acc_id = $item['tab_title']
-                        ? 'ui-e-' . sanitize_title($item['tab_title'])
-                        : $ID . $loopCounter;
+                // Builds the accordion ID
+                $acc_id = $item['tab_title']
+                    ? 'ui-e-' . sanitize_title($item['tab_title'])
+                    : $ID . $loopCounter;
 
-                    // Build the Aria ID
-                    if('sectionId' == $item['source']){
-                        $aria_id = 'ui-' . preg_replace('/#/', '', $item['section_id']);
+                // Build the Aria ID
+                if ('sectionId' == $item['source']) {
+                    $aria_id = 'ui-' . preg_replace('/#/', '', $item['section_id']);
+                } else {
+                    $aria_id = 'ui-e-acc-' . $loopCounter;
+                }
+
+                // Creates the title and content atts
+                $tab_title_setting_key   = $this->get_repeater_setting_key('tab_title', 'tabs', $index);
+                $tab_content_setting_key = $this->get_repeater_setting_key('tab_content', 'tabs', $index);
+
+                // Render title atts
+                // TODO: remove `ui-e-title` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
+                $this->add_render_attribute($tab_title_setting_key, [
+                    'class' => ['ui-e-accordion-title ui-e-title'],
+                ]);
+                $this->add_render_attribute($tab_title_setting_key, 'class', ('right' == $settings['icon_align']) ? 'ui-right' : '');
+
+                // Render content atts
+                // TODO: remove `ui-e-content` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
+                $this->add_render_attribute($tab_content_setting_key, [
+                    'class' => ['ui-e-accordion-content ui-e-content'],
+                    'style' => ($loopCounter === $settings['active_item']) ? '' : 'display:none;', // keep content hide if item not active (has to be set inline so jquery can take control over it)
+                    'aria-labelledby' => $acc_id,
+                    'id' => $aria_id
+                ]);
+
+                // Check if the current accordion item uses sectionId as source
+                if ('sectionId' == $item['source']) {
+                    // and also check if an ID was set
+                    if ($item['section_id'] != '') {
+                        $this->add_render_attribute($tab_content_setting_key, ['class' => ['ui-section-id']]); // class used by JS
+                        $sectionWarning = "The element with ID <em>{$item['section_id']}</em> is going to be inserted here on the front-end";
                     } else {
-                        $aria_id = 'ui-e-acc-' . $loopCounter;
+                        $sectionWarning = esc_html__("You didn't define an ID.", 'uicore-elements');
                     }
+                }
 
-                    // Creates the title and content atts
-                    $tab_title_setting_key   = $this->get_repeater_setting_key('tab_title', 'tabs', $index);
-                    $tab_content_setting_key = $this->get_repeater_setting_key('tab_content', 'tabs', $index);
+                // Render item atts
+                // TODO: remove `ui-e-item` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
+                $item_key = 'ui-e-item-' . $index;
+                $this->add_render_attribute($item_key, [
+                    'class' => ($loopCounter === $settings['active_item']) ? 'ui-e-accordion-item ui-e-item ui-open' : 'ui-e-accordion-item ui-e-item',
+                    'role' => 'button',
+                    'tabindex' => '0',
+                    'aria-expanded' => ($loopCounter === $settings['active_item']) ? 'true' : 'false',
+                    'aria-controls' => $aria_id,
+                    'id' => $acc_id,
+                ]);
 
-                    // Render title atts
-                    // TODO: remove `ui-e-title` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
-                    $this->add_render_attribute($tab_title_setting_key, [
-                        'class' => ['ui-e-accordion-title ui-e-title'],
-                    ]);
-                    $this->add_render_attribute($tab_title_setting_key, 'class', ('right' == $settings['icon_align']) ? 'ui-right' : '');
+                // Render schema atts if active
+                if ($this->is_option('schema_activity', 'yes')) {
+                    $this->add_render_attribute($item_key, 'itemscope');
+                    $this->add_render_attribute($item_key, 'itemprop', 'mainEntity');
+                    $this->add_render_attribute($item_key, 'itemtype', 'https://schema.org/Question');
 
-                    // Render content atts
-                    // TODO: remove `ui-e-content` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
-                    $this->add_render_attribute($tab_content_setting_key, [
-                        'class' => ['ui-e-accordion-content ui-e-content'],
-                        'style' => ($loopCounter === $settings['active_item']) ? '' : 'display:none;', // keep content hide if item not active (has to be set inline so jquery can take control over it)
-                        'aria-labelledby' => $acc_id,
-                        'id' => $aria_id
-                    ]);
+                    $this->add_render_attribute($tab_content_setting_key, 'itemscope');
+                    $this->add_render_attribute($tab_content_setting_key, 'itemprop', 'acceptedAnswer', true);
+                    $this->add_render_attribute($tab_content_setting_key, 'itemtype', 'https://schema.org/Answer', true);
 
-                    // Check if the current accordion item uses sectionId as source
-                    if ('sectionId' == $item['source']) {
-                        // and also check if an ID was set
-                        if($item['section_id'] != ''){
-                            $this->add_render_attribute($tab_content_setting_key, ['class' => ['ui-section-id']]); // class used by JS
-                            $sectionWarning = "The element with ID <em>{$item['section_id']}</em> is going to be inserted here on the front-end";
-                        } else {
-                            $sectionWarning = esc_html__( "You didn't define an ID.", 'uicore-elements' );
-                        }
-                    }
-
-                    // Render item atts
-                    // TODO: remove `ui-e-item` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
-                    $item_key = 'ui-e-item-' . $index;
-                    $this->add_render_attribute($item_key, [
-                        'class' => ($loopCounter === $settings['active_item']) ? 'ui-e-accordion-item ui-e-item ui-open' : 'ui-e-accordion-item ui-e-item',
-                        'role' => 'button',
-                        'tabindex' => '0',
-                        'aria-expanded' => ($loopCounter === $settings['active_item']) ? 'true' : 'false',
-                        'aria-controls' => $aria_id,
-                        'id' => $acc_id,
-                    ]);
-
-                    // Render schema atts if active
-                    if ( $this->is_option('schema_activity', 'yes') ) {
-                        $this->add_render_attribute($item_key, 'itemscope');
-                        $this->add_render_attribute($item_key, 'itemprop', 'mainEntity');
-                        $this->add_render_attribute($item_key, 'itemtype', 'https://schema.org/Question');
-
-                        $this->add_render_attribute($tab_content_setting_key, 'itemscope');
-                        $this->add_render_attribute($tab_content_setting_key, 'itemprop', 'acceptedAnswer', true);
-                        $this->add_render_attribute($tab_content_setting_key, 'itemtype', 'https://schema.org/Answer', true);
-
-                        $schema_text = $this->get_repeater_setting_key('schema_text', 'tabs', $index);
-                        $schema_name = $this->get_repeater_setting_key('schema_name', 'tabs', $index);
-                        $this->add_render_attribute($schema_text, 'itemprop', 'text');
-                        $this->add_render_attribute($schema_name, 'itemprop', 'name');
+                    $schema_text = $this->get_repeater_setting_key('schema_text', 'tabs', $index);
+                    $schema_name = $this->get_repeater_setting_key('schema_name', 'tabs', $index);
+                    $this->add_render_attribute($schema_text, 'itemprop', 'text');
+                    $this->add_render_attribute($schema_name, 'itemprop', 'name');
 
                     // Sets the variables to empty to avoid undefined variable problems
-                    } else {
-                        $schema_text = $schema_name = '';
-                    }
-                ?>
-                    <div <?php $this->print_render_attribute_string($item_key);?>>
+                } else {
+                    $schema_text = $schema_name = '';
+                }
+            ?>
+                <div <?php $this->print_render_attribute_string($item_key); ?>>
 
-                        <<?php echo esc_html($titleTag)?> <?php $this->print_render_attribute_string($tab_title_setting_key);?>>
+                    <<?php echo esc_html($titleTag) ?> <?php $this->print_render_attribute_string($tab_title_setting_key); ?>>
 
-                            <?php if ($settings['accordion_icon']['value']) :
-                                // TODO: remove `ui-e-icon` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
-                                ?>
-                                <span class="ui-e-accordion-icon ui-e-icon ui-e-<?php echo esc_attr($settings['icon_align']); ?>" aria-hidden="true">
+                        <?php if ($settings['accordion_icon']['value']) :
+                            // TODO: remove `ui-e-icon` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
+                        ?>
+                            <span class="ui-e-accordion-icon ui-e-icon ui-e-<?php echo esc_attr($settings['icon_align']); ?>" aria-hidden="true">
 
-                                    <span class="ui-e-accordion-icon-closed">
-                                        <?php Icons_Manager::render_icon($settings['accordion_icon'], ['aria-hidden' => 'true']); ?>
-                                    </span>
-
-                                    <?php if($settings['icon_animation'] != 'ui-e-animation-ico-spin') : //spin animation dismiss the opened accordion icon ?>
-                                        <span class="ui-e-accordion-icon-opened">
-                                            <?php Icons_Manager::render_icon($settings['accordion_active_icon'], ['aria-hidden' => 'true']); ?>
-                                        </span>
-                                    <?php endif; ?>
-
+                                <span class="ui-e-accordion-icon-closed">
+                                    <?php Icons_Manager::render_icon($settings['accordion_icon'], ['aria-hidden' => 'true']); ?>
                                 </span>
-                            <?php endif; ?>
 
-                            <?php // TODO: remove `ui-e-title-text` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes ?>
-                            <span class="ui-e-accordion-title-text ui-e-title-text" <?php $this->print_render_attribute_string($schema_name) ;?>>
-                                <?php if ( !empty($item['repeater_icon']['value']) && $this->is_option('show_custom_icon', 'yes') ) : ?>
-                                    <span class="ui-e-custom-icon">
-                                        <?php Icons_Manager::render_icon($item['repeater_icon'], ['aria-hidden' => 'true']); ?>
+                                <?php if ($settings['icon_animation'] != 'ui-e-animation-ico-spin') : //spin animation dismiss the opened accordion icon
+                                ?>
+                                    <span class="ui-e-accordion-icon-opened">
+                                        <?php Icons_Manager::render_icon($settings['accordion_active_icon'], ['aria-hidden' => 'true']); ?>
                                     </span>
                                 <?php endif; ?>
-                                <?php echo esc_html($item['tab_title']); ?>
+
                             </span>
+                        <?php endif; ?>
 
-                        </<?php echo esc_html($titleTag)?>>
+                        <?php // TODO: remove `ui-e-title-text` class after, at least, 3 releases from 1.2.1. Kept for compatibility purposes
+                        ?>
+                        <span class="ui-e-accordion-title-text ui-e-title-text" <?php $this->print_render_attribute_string($schema_name); ?>>
+                            <?php if (!empty($item['repeater_icon']['value']) && $this->is_option('show_custom_icon', 'yes')) : ?>
+                                <span class="ui-e-custom-icon">
+                                    <?php Icons_Manager::render_icon($item['repeater_icon'], ['aria-hidden' => 'true']); ?>
+                                </span>
+                            <?php endif; ?>
+                            <?php echo esc_html($item['tab_title']); ?>
+                        </span>
 
-                        <div <?php $this->print_render_attribute_string($tab_content_setting_key); ?>>
-                            <?php
-                                if ('custom' == $item['source'] && !empty($item['tab_content'])) {
+                    </<?php echo esc_html($titleTag) ?>>
 
-                                    // if schema is active, creates a wrapper for the itemprop structure
-                                    if( $this->is_option('schema_activity', 'yes') ) {
-                                        ?>
-                                            <div <?php $this->print_render_attribute_string($schema_text);?> >
-                                        <?php
-                                    }
+                    <div <?php $this->print_render_attribute_string($tab_content_setting_key); ?>>
+                        <?php
+                        if ('custom' == $item['source'] && !empty($item['tab_content'])) {
 
-                                        echo $this->parse_text_editor($item['tab_content']);// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            // if schema is active, creates a wrapper for the itemprop structure
+                            if ($this->is_option('schema_activity', 'yes')) {
+                        ?>
+                                <div <?php $this->print_render_attribute_string($schema_text); ?>>
+                                <?php
+                            }
 
-                                    if( $this->is_option('schema_activity', 'yes') ) {
-                                        ?>
-                                            </div>
-                                        <?php
-                                    }
-                                }
-                                // if source is sectionId and we're inside editor, returns a warning for context. The sectionId content is moved via JS
-                                if ('sectionId' == $item['source'] && $this->is_edit_mode()) {
-                                    echo wp_kses($sectionWarning, ['em' => []]);
-                                }
-                            ?>
-                        </div>
+                            echo $this->parse_text_editor($item['tab_content']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
+                            if ($this->is_option('schema_activity', 'yes')) {
+                                ?>
+                                </div>
+                        <?php
+                            }
+                        }
+                        // if source is sectionId and we're inside editor, returns a warning for context. The sectionId content is moved via JS
+                        if ('sectionId' == $item['source'] && $this->is_edit_mode()) {
+                            echo wp_kses($sectionWarning, ['em' => []]);
+                        }
+                        ?>
                     </div>
-                <?php endforeach; ?>
-            </div>
-        <?php
+
+                </div>
+            <?php endforeach; ?>
+        </div>
+<?php
     }
 }
 \Elementor\Plugin::instance()->widgets_manager->register(new Accordion());

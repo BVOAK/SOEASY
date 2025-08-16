@@ -3,8 +3,8 @@ Contributors: uicore
 Tags: elementor, gutenberg, blocks, animation, scroll animations
 Requires at least: 4.6
 Requires PHP: 7.4
-Tested up to: 6.8
-Stable tag: 2.1.6
+Tested up to: 6.8.1
+Stable tag: 2.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,11 @@ Yes, UiCore Animate is designed to be easy to use, even for beginners. The inter
 
 
 == Changelog ==
+= 2.1.7 =
+* FIX - Animation delay not working for gutenberg blocks
+* NEW – Added an option to run the preloader animation only on a user's first visit to the site.
+* FIX – Resolved issue where the "Circle Spinner" preloader animation was missing.
+* UPD – Preloaders can now be used independently of page transitions.
 = 2.1.6 =
 * FIX - Most animations were not working properly without Uicore Framework
 * FIX - Anchor links with Scroll Smooth have a small jump during the animation process

@@ -13,7 +13,7 @@ $duree = soeasy_get_selected_duree_engagement();
 $mode = soeasy_get_selected_financement();
 ?>
 
-<div class="config-step step-5 container py-4">
+<div class="config-step step-6 container py-4">
   <h2 class="mb-4">5. Récapitulatif de votre configuration</h2>
 
   <?php if (!empty($adresses)) : ?>

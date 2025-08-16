@@ -53,14 +53,14 @@ class AdvancedPostGrid extends UiCoreWidget
             'legacy-grid',
             'post-meta',
             'filters' => [
-				'condition' => [
-					'post_filtering' => 'yes',
-				],
-			],
+                'condition' => [
+                    'post_filtering' => 'yes',
+                ],
+            ],
             'animation', // hover animations
             'entrance', // entrance basic style
         ];
-        if(!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')){
+        if (!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')) {
             $styles['e-animations'] = [ // entrance animations
                 'external' => true,
             ];
@@ -87,23 +87,23 @@ class AdvancedPostGrid extends UiCoreWidget
             ]
         ];
     }
-    // TODO: remove or set as false, after 3.30, when the full deprecation of widget innet wrapper is ready
-    public function has_widget_inner_wrapper(): bool {
-		// TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
-	}
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
+    }
 
     private function filter_missing_taxonomies($settings)
     {
         // Check if is an "Advanced Product.." widget, since this widget is extended by other(s)
         $slug = strpos($this->get_name(), 'product') !== false ?
-                'product-filter_post_type' :
-                'posts-filter_post_type';
+            'product-filter_post_type' :
+            'posts-filter_post_type';
 
         $taxonomy_filter_args = [
             'show_in_nav_menus' => true,
         ];
-        if ( !empty($settings[$slug]) ) {
+        if (!empty($settings[$slug])) {
             $taxonomy_filter_args['object_type'] = [$settings[$slug]];
         }
 
@@ -154,7 +154,7 @@ class AdvancedPostGrid extends UiCoreWidget
                 'label' => esc_html__('Grid', 'uicore-elements'),
             ]
         );
-            $this->TRAIT_register_grid_layout_controls();
+        $this->TRAIT_register_grid_layout_controls();
         $this->end_controls_section();
 
         $this->TRAIT_register_post_item_controls();
@@ -179,19 +179,19 @@ class AdvancedPostGrid extends UiCoreWidget
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
-            $this->TRAIT_register_entrance_animations_controls();
-            $this->TRAIT_register_hover_animation_control(
-                'Item Hover Animation',
-                [],
-                ['underline'],
-                'anim_item'
-            );
-            $this->TRAIT_register_post_animation_controls();
+        $this->TRAIT_register_entrance_animations_controls();
+        $this->TRAIT_register_hover_animation_control(
+            'Item Hover Animation',
+            [],
+            ['underline'],
+            'anim_item'
+        );
+        $this->TRAIT_register_post_animation_controls();
         $this->end_controls_section();
 
         // Update masonry from component to a legacy version
         $this->update_control('masonry', [
-            'label' => __( 'Masonry', 'uicore-elements' ),
+            'label' => __('Masonry', 'uicore-elements'),
             'type' => Controls_Manager::SWITCHER,
             'frontend_available' => true,
             'default'  => 'no',
@@ -204,9 +204,7 @@ class AdvancedPostGrid extends UiCoreWidget
         ]);
     }
 
-    function content_template()
-    {
-    }
+    function content_template() {}
 
     /**
      * Renders the widget content using AJAX.
@@ -215,21 +213,21 @@ class AdvancedPostGrid extends UiCoreWidget
      * If no posts are found, it returns false. After rendering, it resets the query and returns the output.
      *
      * @param array|false $current_query The current query args, or false if the widget isn't set to use the current query.
+     * @param int $pageID The ID of the page where the widget is located.
      *
      * @return string|false The rendered widget content or false if no posts are found.
-    */
+     */
     public function render_ajax($current_query)
     {
-
         // Get settings and post type
         $settings = $this->get_settings();
         $loop = 0;
 
-        $this->TRAIT_query_posts( $settings, $current_query );
+        $this->TRAIT_query_posts($settings, $current_query);
         $wp_query = $this->get_query();
 
-        if (!$wp_query->have_posts()) {
-            return false;
+        if (!$wp_query || !$wp_query->have_posts()) {
+            $markup = '';
         }
 
         \ob_start();
@@ -247,13 +245,16 @@ class AdvancedPostGrid extends UiCoreWidget
 
     protected function render()
     {
+        // Get current post ID
+        $post_id = get_the_ID();
+
         // Get query args, settings and post type slug
         global $wp_query;
         $default_query = $wp_query;
         $settings = $this->get_settings();
 
         // Build query
-        $this->TRAIT_query_posts( $settings, $wp_query->query );
+        $this->TRAIT_query_posts($settings, $wp_query->query);
         $wp_query = $this->get_query();
 
         // Store widget settings in a transient
@@ -276,43 +277,43 @@ class AdvancedPostGrid extends UiCoreWidget
             echo '<p style="text-align:center">' . esc_html__('No posts found.', 'uicore-elements') . '</p>';
         } else {
 
-            ?>
-                <div class="ui-e-adv-grid <?php echo esc_attr($masonry);?>">
-                    <?php
-                    while ($wp_query->have_posts()) {
+?>
+            <div class="ui-e-adv-grid <?php echo esc_attr($masonry); ?>">
+                <?php
+                while ($wp_query->have_posts()) {
 
-                        // sticky posts disregards posts per page, so ending the loop if $items == $loop forces the query respects the users item limit
-                        if ($settings['sticky'] && $items == $loops) {
-                            break;
-                        }
-
-                        $wp_query->the_post();
-                        $this->TRAIT_render_item($loops, false, true);
-
-                        $loops++;
+                    // sticky posts disregards posts per page, so ending the loop if $items == $loop forces the query respects the users item limit
+                    if ($settings['sticky'] && $items == $loops) {
+                        break;
                     }
-                    ?>
-                </div>
-            <?php
 
-                $this->TRAIT_render_pagination($settings);
+                    $wp_query->the_post();
+                    $this->TRAIT_render_item($loops, false, true);
 
-                if(
-                    $this->is_option('pagination', 'yes') &&
-                    $this->is_option('pagination_type', 'load_more') &&
-                    $this->is_option('posts-filter_post_type', 'current')
-                ) {
-
-                    // Build the public query args the ajax request script passes to rest api
-                    $public_query = array();
-                    $public_query['query']['post_type'] = get_post_type();
-                    $public_query['query_vars'] = $wp_query->query_vars;
-
-                    echo '<script>';
-                        echo 'window.ui_total_pages_' . esc_html($ID) . ' = "none";'; // add none to avoid ajax errors for lack of value, but posts don't need it
-                        echo 'window.ui_query_' . esc_html($ID) . ' = ' . \json_encode($public_query) . ';';
-                    echo '</script>';
+                    $loops++;
                 }
+                ?>
+            </div>
+<?php
+
+            $this->TRAIT_render_pagination($settings, $post_id);
+
+            if (
+                $this->is_option('pagination', 'yes') &&
+                $this->is_option('pagination_type', 'load_more') &&
+                $this->is_option('posts-filter_post_type', 'current')
+            ) {
+
+                // Build the public query args the ajax request script passes to rest api
+                $public_query = array();
+                $public_query['query']['post_type'] = get_post_type();
+                $public_query['query_vars'] = $wp_query->query_vars;
+
+                echo '<script>';
+                echo 'window.ui_total_pages_' . esc_html($ID) . ' = "none";'; // add none to avoid ajax errors for lack of value, but posts don't need it
+                echo 'window.ui_query_' . esc_html($ID) . ' = ' . \json_encode($public_query) . ';';
+                echo '</script>';
+            }
         }
 
         //reset query

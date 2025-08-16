@@ -55,7 +55,11 @@
         }, i * 300);
     }
     uiAnimateCustomPreloaderHide = () => {
-        uiAnimatePreloaderHide();
+
+        <?php if ($this->animation !== 'none') : ?>
+            uiAnimatePreloaderHide();
+        <?php endif; ?>
+
         document.querySelector('.ui-anim-preloader').style.opacity = 0;
         setTimeout(() => {
             document.querySelector('.ui-anim-preloader').style.display = 'none';

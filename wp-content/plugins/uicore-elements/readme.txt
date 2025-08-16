@@ -3,8 +3,8 @@ Contributors: uicore
 Tags: elementor, widgets, page builder, ui elements
 Requires at least: 4.6
 Requires PHP: 7.4
-Tested up to: 6.7.2
-Stable tag: 1.3.2
+Tested up to: 6.8.1
+Stable tag: 1.3.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -131,10 +131,25 @@ No need to worry. UiCore Elements is optimized for performance and ensures a lig
 
 == Changelog ==
 
-= 1.3.2 = 
+= 1.3.3 =
+* NEW - Added New Widget: Featured Image
+* NEW - Added 5 new newsletter/marketing services integrations to form widgets: Brevo, GetResponse, Kit, MailChimp, Moosend, and MailerLite
+* NEW - Added Custom Field mapping option to Contact Form, allowing users to catch and send custom data to the services
+* NEW - Added `background color` option to the Icon List widget's `image` icon
+* NEW - Added `title tag` and `image position` options to Advanced Post/Product Grid widgets
+* UPD - Adjusted Icon List's `connector line` index priority, making sure images and icons are placed above the line
+* UPD - Expanded `Added to Cart` visual hint from Woo shop pages to all pages and contexts, for Advanced Product Grid widget
+* UPD - Upgrade Accordion widget `item gap` and Testimonial widgets `secondary image` `spacing` and `size` options to responsive type
+* FIX - Fixed Icon Box badge position issue where, under certain circumstances, the badge would output an error
+* FIX - Fixed Advanced Product Grid widget bug that converted Woo product global variable from object type to string, generating compatibility issues
+* FIX - Fixed Advanced Product Grid widget `related` query bug that was repeating posts
+* FIX - Fixed Gallery Carousel bug where, on mobile viewports in Editor context, `Image` style section wouldn't open
+* FIX - Fixed Icon List widget `connector line` bug where the line was surpassing the last item
+
+= 1.3.2 =
 * FIX - Design Cloud authentification issue
 
-= 1.3.1 = 
+= 1.3.1 =
 * FIX - Security Patch
 * FIX - Highlighted text default underline color
 

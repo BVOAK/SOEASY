@@ -56,7 +56,7 @@ class AdvancedPostCarousel extends UiCoreWidget
             'animation', // hover animations
             'entrance', // entrance basic style
         ];
-        if(!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')){
+        if (!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')) {
             $styles['e-animations'] = [ // entrance animations
                 'external' => true,
             ];
@@ -67,10 +67,11 @@ class AdvancedPostCarousel extends UiCoreWidget
     {
         return $this->TRAIT_get_carousel_scripts();
     }
-    public function has_widget_inner_wrapper(): bool {
-        // TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
-	}
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
+    }
 
     private function filter_missing_taxonomies($settings)
     {
@@ -124,16 +125,16 @@ class AdvancedPostCarousel extends UiCoreWidget
                 'label' => esc_html__('Carousel', 'uicore-elements'),
             ]
         );
-            $this->TRAIT_register_carousel_additional_controls(); // Grid Layouts with old masonry control
+        $this->TRAIT_register_carousel_additional_controls(); // Grid Layouts with old masonry control
         $this->end_controls_section();
 
         $this->start_controls_section(
-			'section_carousel_settings',
-			[
-				'label' => __('Carousel Settings', 'uicore-elements'),
-			]
-		);
-            $this->TRAIT_register_carousel_settings_controls(); // Carousel settings
+            'section_carousel_settings',
+            [
+                'label' => __('Carousel Settings', 'uicore-elements'),
+            ]
+        );
+        $this->TRAIT_register_carousel_settings_controls(); // Carousel settings
         $this->end_controls_section();
 
         $this->TRAIT_register_navigation_controls();
@@ -158,13 +159,13 @@ class AdvancedPostCarousel extends UiCoreWidget
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
-            $this->TRAIT_register_entrance_animations_controls();
-            $this->TRAIT_register_hover_animation_control(
-                'Item Hover Animation',
-                [],
-                ['underline'],
-            );
-            $this->TRAIT_register_post_animation_controls();
+        $this->TRAIT_register_entrance_animations_controls();
+        $this->TRAIT_register_hover_animation_control(
+            'Item Hover Animation',
+            [],
+            ['underline'],
+        );
+        $this->TRAIT_register_post_animation_controls();
         $this->end_controls_section();
 
         // Update post component controls
@@ -190,16 +191,14 @@ class AdvancedPostCarousel extends UiCoreWidget
         // Update carousel animations
         $this->update_control('animation_style', [
             'options'      => [
-               'circular' 	  => esc_html__('Circular', 'uicore-elements'),
+                'circular'       => esc_html__('Circular', 'uicore-elements'),
                 'fade_blur'   => esc_html__('Fade Blur', 'uicore-elements'),
                 'default'     => esc_html__('Default', 'uicore-elements'),
-			],
+            ],
         ]);
     }
 
-    function content_template()
-    {
-    }
+    function content_template() {}
 
     protected function render()
     {
@@ -214,13 +213,13 @@ class AdvancedPostCarousel extends UiCoreWidget
         $loops = 0;
 
         // Check if should duplicate slides and update settings
-        if ( $this->TRAIT_should_duplicate_slides($items) ) {
+        if ($this->TRAIT_should_duplicate_slides($items)) {
             $diff = abs($this->TRAIT_get_duplication_diff($items) + 1); // +1 to fix zero based index
             $settings['item_limit']['size'] = $items + $diff;
         }
 
         // Build query
-        $this->TRAIT_query_posts( $settings, $wp_query->query );
+        $this->TRAIT_query_posts($settings, $wp_query->query);
         $wp_query = $this->get_query();
 
         $this->TRAIT_render_filters($settings);
@@ -230,27 +229,27 @@ class AdvancedPostCarousel extends UiCoreWidget
             echo '<p style="text-align:center">' . esc_html__('No posts found.', 'uicore-elements') . '</p>';
         } else {
 
-            ?>
-                <div class="ui-e-carousel swiper">
-                    <div class='swiper-wrapper'>
-                        <?php
-                        while ($wp_query->have_posts()) {
+?>
+            <div class="ui-e-carousel swiper">
+                <div class='swiper-wrapper'>
+                    <?php
+                    while ($wp_query->have_posts()) {
 
-                            // sticky posts disregards posts per page, so ending the loop if $items == $loop forces the query respects the users item limit
-                            // if ($settings['sticky'] && $items == $loops) {
-                            //     break;
-                            // }
+                        // sticky posts disregards posts per page, so ending the loop if $items == $loop forces the query respects the users item limit
+                        // if ($settings['sticky'] && $items == $loops) {
+                        //     break;
+                        // }
 
-                            $wp_query->the_post();
-                            $this->TRAIT_render_item($loops, true);
+                        $wp_query->the_post();
+                        $this->TRAIT_render_item($loops, true);
 
-                            $loops++;
-                        }
-                        ?>
-                    </div>
+                        $loops++;
+                    }
+                    ?>
                 </div>
-                <?php $this->TRAIT_render_carousel_navigations(); ?>
-            <?php
+            </div>
+            <?php $this->TRAIT_render_carousel_navigations(); ?>
+<?php
         }
 
         //reset query

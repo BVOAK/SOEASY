@@ -87,6 +87,7 @@ class REST_API
         $tax = $slug . '_' . $request->get_param('type') . '_ids';
         $settings[$tax] = $request->get_param('term');
         $settings['__current_page'] = $request->get_param('page');
+        $settings['__current_post_id'] = $request->get_param('current_post_id');
 
         // Build current query if requested
         if ($settings[$slug . '_post_type'] == 'current') {

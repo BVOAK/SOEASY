@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Plugin;
@@ -30,7 +31,7 @@ class Helper
                 $taxonomies['pa_' . $att->attribute_name] = $att->attribute_label;
             }
 
-        // All taxonomies
+            // All taxonomies
         } else {
 
             $taxonomies = get_taxonomies(['public' => true], 'objects');
@@ -41,7 +42,7 @@ class Helper
             });
 
             $taxonomies = array_map(function ($taxonomy) {
-                if('portfolio_category' === $taxonomy->name){
+                if ('portfolio_category' === $taxonomy->name) {
                     return 'Portfolio Category';
                 }
                 return $taxonomy->label;
@@ -58,13 +59,13 @@ class Helper
     static function get_taxonomy($name)
     {
         global $post;
-        $categories = get_the_terms( $post->ID, $name );
+        $categories = get_the_terms($post->ID, $name);
 
-        if ( ! $categories || is_wp_error( $categories ) ) {
+        if (! $categories || is_wp_error($categories)) {
             return false;
         }
 
-        $categories = array_values( $categories );
+        $categories = array_values($categories);
         foreach ($categories as $t) {
             $term_name[] =
                 '<a href="' . get_term_link($t) . '" title="View ' . \esc_attr($t->name) . ' posts">' . esc_html($t->name) . '</a>';
@@ -78,10 +79,10 @@ class Helper
     {
         global $post;
 
-        $meta = get_post_meta( $post->ID, $name, true );
+        $meta = get_post_meta($post->ID, $name, true);
 
         // If is an array means meta is not valid since we are expecting a single value string
-        if ( ! $meta || is_array($meta) ) {
+        if (! $meta || is_array($meta)) {
             return false;
         }
 
@@ -93,15 +94,16 @@ class Helper
         global $post;
 
         $the_content = $post->post_content;
-        $words = str_word_count( wp_strip_all_tags( $the_content ) ); // count the number of words
-        $minute = floor( $words / 200 ); // rounding off and deviding per 200 words per minute
+        $words = str_word_count(wp_strip_all_tags($the_content)); // count the number of words
+        $minute = floor($words / 200); // rounding off and deviding per 200 words per minute
 
         return $minute;
     }
 
-    static function get_site_domain() {
-		return str_ireplace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
-	}
+    static function get_site_domain()
+    {
+        return str_ireplace('www.', '', parse_url(home_url(), PHP_URL_HOST));
+    }
 
     /**
      * Returns the Uicore Elements settings page URL. You may pass a message so it'll be wrapped under a <a> tag.
@@ -110,85 +112,96 @@ class Helper
      *
      * @return string Uicore Elements settings page URL or an <a> tag HTML with the url and the passed message.
      */
-    static function get_admin_settings_url(string $message = '') {
-        $url = admin_url( 'options-general.php?page=uicore-elements' );
+    static function get_admin_settings_url(string $message = '')
+    {
+        $url = admin_url('options-general.php?page=uicore-elements');
         return !empty($message)
-            ? '<a href="'.esc_url($url).'" target="_blank">' . esc_html($message) . '</a>'
+            ? '<a href="' . esc_url($url) . '" target="_blank">' . esc_html($message) . '</a>'
             : $url;
     }
 
-    static function register_widget_style($name,$deps=[],$external=false)
+    static function register_widget_style($name, $deps = [], $external = false)
     {
-        $handle = (!$external ? 'ui-e-' : '' ). $name;
-        wp_register_style($handle, UICORE_ELEMENTS_ASSETS . '/css/elements/'.$name.'.css',$deps,UICORE_ELEMENTS_VERSION);
+        $handle = (!$external ? 'ui-e-' : '') . $name;
+        wp_register_style($handle, UICORE_ELEMENTS_ASSETS . '/css/elements/' . $name . '.css', $deps, UICORE_ELEMENTS_VERSION);
         return $handle;
     }
-    static function register_widget_script($name,$deps=[],$external=false)
+    static function register_widget_script($name, $deps = [], $external = false)
     {
-        $handle = (!$external ? 'ui-e-' : '' ). $name;
+        $handle = (!$external ? 'ui-e-' : '') . $name;
         //if name contains / then we need to set a custom path
-        if(strpos($name,'/') !== false){
-            $path ='';
-        }else{
+        if (strpos($name, '/') !== false) {
+            $path = '';
+        } else {
             $path = 'elements/';
         }
-        wp_register_script($handle, UICORE_ELEMENTS_ASSETS . '/js/'.$path.$name.'.js',$deps,UICORE_ELEMENTS_VERSION,true);
+        wp_register_script($handle, UICORE_ELEMENTS_ASSETS . '/js/' . $path . $name . '.js', $deps, UICORE_ELEMENTS_VERSION, true);
         return $handle;
     }
 
-    public static function get_related($filter, $number)
+    /**
+     * Build the related posts query in REST API context.
+     *
+     * @param int $page_number The current page number for pagination.
+     * @param int $per_page The number of posts to retrieve per page.
+     * @param string/int $pageID The current post/page ID.
+     *
+     * @return \WP_Query Returns a WP_Query object.
+     */
+    public static function get_related_ajax(int $page_number, int $per_page, $pageID)
     {
-        global $post;
+        $args = [
+            'post__not_in' => [$pageID],
+            'posts_per_page' => $per_page,
+            'paged' => $page_number,
+        ];
 
-        $args = [];
+        $categories = get_the_category($pageID);
+        $tags = wp_get_post_tags($pageID);
 
-        if ($filter == 'category') {
-            $categories = get_the_category($post->ID);
+        $tax_query = [];
 
-            if ($categories) {
-                $category_ids = array_map(fn($cat) => $cat->term_id, $categories);
-
-                // basic args
-                $args = [
-                    'post__not_in' => [$post->ID],
-                    'posts_per_page' => $number,
-                    'category__in' => $category_ids,
-                    'ignore_sticky_posts' => 1,
-                ];
-            }
-
-        } elseif ($filter == 'tag') {
-            $tags = wp_get_post_tags($post->ID);
-
-            if ($tags) {
-                $tag_ids = array_map(fn($tag) => $tag->term_id, $tags);
-
-                $args = [
-                    'post__not_in' => [$post->ID],
-                    'posts_per_page' => $number,
-                    'tag__in' => $tag_ids,
-                    'ignore_sticky_posts' => 1,
-                ];
-            }
-
-        // default/random filter
-        } else {
-            $args = [
-                'post__not_in' => [$post->ID],
-                'posts_per_page' => $number,
-                'orderby' => 'rand',
+        if ($categories) {
+            $category_ids = array_map(fn($cat) => $cat->term_id, $categories);
+            $tax_query[] = [
+                'taxonomy' => 'category',
+                'field'    => 'term_id',
+                'terms'    => $category_ids,
+                'operator' => 'IN',
             ];
         }
 
-        $related_query = new \WP_Query($args);
-        return $related_query->have_posts() ? $related_query : false;
+        if ($tags) {
+            $tag_ids = array_map(fn($tag) => $tag->term_id, $tags);
+            $tax_query[] = [
+                'taxonomy' => 'post_tag',
+                'field'    => 'term_id',
+                'terms'    => $tag_ids,
+                'operator' => 'IN',
+            ];
+        }
+
+        if (!empty($tax_query)) {
+            $args['tax_query'] = [
+                'relation' => 'OR',
+                ...$tax_query,
+            ];
+        }
+
+        return new \WP_Query($args);
     }
 
-    public static function get_product_related($limit)
+    /**
+     * Returns an array of related products IDs.
+     */
+    public static function get_product_related($limit, $ID)
     {
-        global $post;
+        if (empty($ID)) {
+            global $post;
+            $ID = $post->ID;
+        }
 
-        return wc_get_related_products($post->ID, $limit);
+        return wc_get_related_products($ID, $limit);
     }
 
     /*
@@ -196,11 +209,11 @@ class Helper
     */
     static function get_current_meta_id()
     {
-        if(\class_exists('\UiCore\Blog\Frontend') && \UiCore\Blog\Frontend::is_blog() && !is_singular('post')){
+        if (\class_exists('\UiCore\Blog\Frontend') && \UiCore\Blog\Frontend::is_blog() && !is_singular('post')) {
             $post_id = get_option('page_for_posts', true);
-        }elseif(\class_exists('\UiCore\Portfolio\Frontend') && \UiCore\Portfolio\Frontend::is_portfolio() && !is_singular('portfolio')){
+        } elseif (\class_exists('\UiCore\Portfolio\Frontend') && \UiCore\Portfolio\Frontend::is_portfolio() && !is_singular('portfolio')) {
             $post_id = \UiCore\Portfolio\Frontend::get_portfolio_page_id();
-        }else{
+        } else {
             $post_id = get_queried_object_id();
         }
 
@@ -210,7 +223,8 @@ class Helper
     /**
      * Return a list of textual html tags for Elementor Controls Options
      */
-    public static function get_title_tags() {
+    public static function get_title_tags()
+    {
 
         $tags = [
             'h1'   => 'H1',
@@ -237,11 +251,12 @@ class Helper
      *
      * @return string  The formatted date value.
      */
-    public static function format_date($date, $format, $custom) {
+    public static function format_date($date, $format, $custom)
+    {
 
-        if ( 'custom' === $format ) {
+        if ('custom' === $format) {
             $date_format = $custom;
-        } else if ('default' === $format ) {
+        } else if ('default' === $format) {
             $date_format = get_option('date_format');
         } else {
             $date_format = $format;
@@ -261,8 +276,9 @@ class Helper
      *
      * @since 1.0.2
      */
-    public static function esc_svg($svg) {
-        $default = wp_kses_allowed_html( 'post' );
+    public static function esc_svg($svg)
+    {
+        $default = wp_kses_allowed_html('post');
 
         $args = array(
             'svg'   => array(
@@ -277,16 +293,16 @@ class Helper
                 'viewbox' => true,
                 'preserveaspectratio' => true
             ),
-            'g'     => array( 'fill' => true ),
-            'title' => array( 'title' => true ),
+            'g'     => array('fill' => true),
+            'title' => array('title' => true),
             'path'  => array(
                 'd'               => true,
                 'fill'            => true
             )
         );
-        $allowed_tags = array_merge( $default, $args );
+        $allowed_tags = array_merge($default, $args);
 
-        return wp_kses( $svg, $allowed_tags );
+        return wp_kses($svg, $allowed_tags);
     }
 
     /**
@@ -298,7 +314,8 @@ class Helper
      *
      * @since 1.0.3
      */
-    public static function esc_string($content) {
+    public static function esc_string($content)
+    {
 
         $allowed_tags = [
             'strong' => array(),
@@ -319,7 +336,7 @@ class Helper
             ]
         ];
 
-        return wp_kses( $content, $allowed_tags );
+        return wp_kses($content, $allowed_tags);
     }
 
     /**
@@ -329,7 +346,8 @@ class Helper
      *
      * @since 1.0.0
      */
-    public static function get_images_sizes() {
+    public static function get_images_sizes()
+    {
         $sizes = [];
         foreach (get_intermediate_image_sizes() as $size) {
             $sizes[$size] = $size;
@@ -340,7 +358,8 @@ class Helper
     /**
      * @since 1.0.5
      */
-    private static function get_element_recursive($elements, $form_id) {
+    private static function get_element_recursive($elements, $form_id)
+    {
 
         foreach ($elements as $element) {
             if ($form_id === $element['id']) {
@@ -369,7 +388,8 @@ class Helper
      * @since 1.0.5
      * @deprecated Deprecated since version 1.0.11 Use the transient method instead.
      */
-    public static function get_widget_settings($post_id, $widget_id) {
+    public static function get_widget_settings($post_id, $widget_id)
+    {
 
         if (!$post_id || !$widget_id) {
             return false;
@@ -406,12 +426,12 @@ class Helper
      * @since 1.2.1
      * @return int The number of posts per page.
      */
-    public static function get_framework_visible_posts( string $post_type )
+    public static function get_framework_visible_posts(string $post_type)
     {
         // Get from Uicore Framework, if available
-        if(defined('UICORE_ASSETS')){
+        if (defined('UICORE_ASSETS')) {
 
-            switch($post_type){
+            switch ($post_type) {
                 case 'product':
                     return \Uicore\Helper::get_option('woocommerce_posts_number');
 
@@ -423,11 +443,44 @@ class Helper
 
                 default:
                     return get_option('posts_per_page');
-
             }
         }
 
         return get_option('posts_per_page');
     }
+    /**
+     * Retrieves the list of Uicore Framework registered popups.
+     *
+     * @return array
+     *
+     * @since 1.3.3
+     */
+    public static function get_uicore_popups(): array
+    {
+        // get elementor popups posts
+        $args = [
+            'post_type' => 'uicore-tb',
+            'post_status' => 'publish',
+            'posts_per_page' => 50,
+            'tax_query' => [
+                [
+                    'taxonomy' => 'tb_type',
+                    'field' => 'slug',
+                    'terms' => '_type_popup',
+                ]
+            ]
+        ];
 
+        $query = new \WP_Query($args);
+        $popups = [];
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $popups[esc_html(get_the_ID())] = esc_html(html_entity_decode(get_the_title()));
+            }
+            wp_reset_postdata();
+        }
+
+        return $popups;
+    }
 }

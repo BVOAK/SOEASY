@@ -1,1 +1,26 @@
 input[type="checkbox"] { height: 20px!important; width: 20px!important; }
+
+/* Icônes FontAwesome grisées par défaut */
+.nav-tabs .nav-link i {
+  color: #EEEE;
+  filter: grayscale(100%) brightness(0.7);
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+/* Icônes actives avec couleurs et sans filtre */
+.nav-tabs .nav-link i.active {
+  filter: none;
+}
+
+/* Couleurs spécifiques par icône quand active */
+.nav-tabs .nav-link .icon-internet.active { color: #007bff; } /* Bleu pour Internet */
+.nav-tabs .nav-link .icon-mobile.active { color: #28a745; }   /* Vert pour Mobile */
+.nav-tabs .nav-link .icon-centrex.active { color: #ffc107; }  /* Jaune pour Centrex */
+.nav-tabs .nav-link .icon-frais.active { color: #dc3545; }    /* Rouge pour Frais */
+
+/* Classes FontAwesome */
+.icon-internet { font-family: "Font Awesome 5 Free"; }
+.icon-mobile { font-family: "Font Awesome 5 Free"; }
+.icon-centrex { font-family: "Font Awesome 5 Free"; }
+.icon-frais { font-family: "Font Awesome 5 Free"; }

@@ -11,6 +11,15 @@ msgstr ""
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - WooCommerce Tax (formerly WooCommerce Shipping &amp; Tax) - Stable (latest release)\n"
 
+#: classes/class-wc-connect-help-view.php:288
+msgid "WooCommerce Tax Status"
+msgstr ""
+
+#: classes/class-wc-connect-help-view.php:257
+msgctxt "The WooCommerce Tax brandname"
+msgid "WooCommerce Tax"
+msgstr ""
+
 #: woocommerce-services.php:1880
 msgid "WooCommerce Tax (previously WooCommerce Shipping & Tax)"
 msgstr ""
@@ -144,7 +153,7 @@ msgid "Expected but did not receive object for response body."
 msgstr ""
 
 #: woocommerce-services.php:2041
-msgid "WC Shipping and WC Tax plugins are already active. Please deactivate WooCommerce Shipping & Tax."
+msgid "WC Shipping and WC Tax plugins are already active. Please deactivate WooCommerce Tax."
 msgstr ""
 
 #: i18n/strings.php:259
@@ -587,15 +596,6 @@ msgstr "読み込み中"
 msgid "Print customs form"
 msgstr ""
 
-#: classes/class-wc-connect-help-view.php:288
-msgid "WooCommerce Shipping & Tax Status"
-msgstr ""
-
-#: classes/class-wc-connect-help-view.php:257
-msgctxt "The WooCommerce Shipping & Tax brandname"
-msgid "WooCommerce Shipping & Tax"
-msgstr ""
-
 #: classes/class-wc-connect-nux.php:210
 msgid "WooCommerce Shipping now supports DHL labels for international shipments. Purchase and print discounted labels from DHL and USPS right here."
 msgstr ""
@@ -609,12 +609,8 @@ msgid "WooCommerce Shipping"
 msgstr "WooCommerce の送料"
 
 #: classes/class-wc-connect-settings-pages.php:33
-msgctxt "The WooCommerce Shipping & Tax brandname"
+msgctxt "The WooCommerce Shipping brandname"
 msgid "WooCommerce Shipping"
-msgstr ""
-
-#: classes/class-wc-connect-api-client.php:65
-msgid "Invalid WooCommerce Shipping & Tax service slug provided"
 msgstr ""
 
 #: classes/class-wc-connect-taxjar-integration.php:414 i18n/strings.php:17
@@ -981,6 +977,10 @@ msgstr "商品 ( ID: %d )に大きさの値がありません。送料を計算�
 #: classes/class-wc-connect-api-client.php:98
 msgid "Product ( ID: %d ) did not include a weight. Shipping rates cannot be calculated."
 msgstr "商品 ( ID: %d ) には重さが含まれていませんでした。送料を計算することはできません。"
+
+#: classes/class-wc-connect-api-client.php:65
+msgid "Invalid WooCommerce Tax service slug provided"
+msgstr ""
 
 #: classes/class-wc-connect-shipping-method.php:556
 msgid "Packing log:"
@@ -2220,55 +2220,55 @@ msgstr "セクションがロードされない?トラブルシューティン�
 msgid "Shipping Label"
 msgstr "配送ラベル"
 
-#: classes/class-wc-connect-service-settings-store.php:663
+#: classes/class-wc-connect-service-settings-store.php:664
 msgid "yd"
 msgstr "yd (ヤード)"
 
-#: classes/class-wc-connect-service-settings-store.php:661
+#: classes/class-wc-connect-service-settings-store.php:662
 msgid "in"
 msgstr "in (インチ)"
 
-#: classes/class-wc-connect-service-settings-store.php:659
+#: classes/class-wc-connect-service-settings-store.php:660
 msgid "mm"
 msgstr "mm"
 
-#: classes/class-wc-connect-service-settings-store.php:657
+#: classes/class-wc-connect-service-settings-store.php:658
 msgid "cm"
 msgstr "cm"
 
-#: classes/class-wc-connect-service-settings-store.php:655
+#: classes/class-wc-connect-service-settings-store.php:656
 msgid "m"
 msgstr "m"
 
-#: classes/class-wc-connect-service-settings-store.php:653
+#: classes/class-wc-connect-service-settings-store.php:654
 msgid "oz"
 msgstr "oz (オンス)"
 
-#: classes/class-wc-connect-service-settings-store.php:651
+#: classes/class-wc-connect-service-settings-store.php:652
 msgid "lbs"
 msgstr "lbs (ポンド)"
 
-#: classes/class-wc-connect-service-settings-store.php:649
+#: classes/class-wc-connect-service-settings-store.php:650
 msgid "g"
 msgstr "g"
 
-#: classes/class-wc-connect-service-settings-store.php:647
+#: classes/class-wc-connect-service-settings-store.php:648
 msgid "kg"
 msgstr "kg"
 
-#: classes/class-wc-connect-service-settings-store.php:495
+#: classes/class-wc-connect-service-settings-store.php:496
 msgid "An invalid service ID was received."
 msgstr "無効なサービス ID を受信しました。"
 
-#: classes/class-wc-connect-service-settings-store.php:490
+#: classes/class-wc-connect-service-settings-store.php:491
 msgid "An invalid service instance was received."
 msgstr "無効なサービスインスタンスを受信しました。"
 
-#: classes/class-wc-connect-service-settings-store.php:406
+#: classes/class-wc-connect-service-settings-store.php:407
 msgid "Rest of the World"
 msgstr "その他の地域"
 
-#: classes/class-wc-connect-service-settings-store.php:402
+#: classes/class-wc-connect-service-settings-store.php:403
 msgctxt "A service with an unknown title and unknown method_title"
 msgid "Unknown"
 msgstr "不明"

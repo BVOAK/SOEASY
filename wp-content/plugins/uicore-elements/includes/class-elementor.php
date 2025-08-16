@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 /**
@@ -12,16 +13,15 @@ class Elementor
 
         require_once UICORE_ELEMENTS_INCLUDES . '/class-widget-base.php';
         require_once UICORE_ELEMENTS_INCLUDES . '/class-nested-widget-base.php';
-        if(!class_exists('\UiCoreAnimate\Base')){
+        if (!class_exists('\UiCoreAnimate\Base')) {
             require_once UICORE_ELEMENTS_INCLUDES . '/class-animate.php';
-		}
+        }
 
 
         add_action('elementor/elements/categories_registered', [$this, 'create_custom_category'], 999);
         add_action('elementor/widgets/widgets_registered', [$this, 'extend_widgets'], 999);
         add_action('elementor/controls/register', [$this, 'init_controls']);
         add_action('elementor/widgets/register', [$this, 'init_widgets']);
-
     }
 
     public function init_widgets()
@@ -67,9 +67,10 @@ class Elementor
         require_once UICORE_ELEMENTS_INCLUDES . '/widgets/theme-builder/the-title.php';
         require_once UICORE_ELEMENTS_INCLUDES . '/widgets/theme-builder/post-meta.php';
         require_once UICORE_ELEMENTS_INCLUDES . '/widgets/theme-builder/page-description.php';
+        require_once UICORE_ELEMENTS_INCLUDES . '/widgets/theme-builder/post-featured-image.php';
 
         // Dependent on Uicore Framework
-        if(defined('UICORE_ASSETS')){
+        if (defined('UICORE_ASSETS')) {
             require_once UICORE_ELEMENTS_INCLUDES . '/widgets/post-grid.php';
         }
     }
@@ -96,6 +97,7 @@ class Elementor
         require_once UICORE_ELEMENTS_INCLUDES . '/utils/post-component.php';
         require_once UICORE_ELEMENTS_INCLUDES . '/utils/product-component.php';
         require_once UICORE_ELEMENTS_INCLUDES . '/utils/form-service.php';
+        require_once UICORE_ELEMENTS_INCLUDES . '/utils/newsletter-services.php';
         require_once UICORE_ELEMENTS_INCLUDES . '/utils/form-component.php';
     }
 

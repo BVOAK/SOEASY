@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Controls_Manager;
@@ -70,10 +71,11 @@ class PostGrid extends UiCoreWidget
     {
         return [];
     }
-    public function has_widget_inner_wrapper(): bool {
-		// TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
-	}
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
+    }
 
     public function on_import($element)
     {
@@ -143,253 +145,253 @@ class PostGrid extends UiCoreWidget
             'label' => esc_html__('Layout', 'uicore-elements'),
         ]);
         $this->add_control(
-			'layout',
-			[
-				'label' => __( 'Item Style', 'uicore-elements' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'default',
-				'options' => [
-					'default'  => __( 'Default', 'uicore-elements' ),
-					'classic' => __( 'classic', 'uicore-elements' ),
-					'grid' => __( 'Grid', 'uicore-elements' ),
-					'horizontal' => __( 'Horizontal', 'uicore-elements' ),
-					'masonry' => __( 'Masonry', 'uicore-elements' ),
-				],
+            'layout',
+            [
+                'label' => __('Item Style', 'uicore-elements'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default'  => __('Default', 'uicore-elements'),
+                    'classic' => __('classic', 'uicore-elements'),
+                    'grid' => __('Grid', 'uicore-elements'),
+                    'horizontal' => __('Horizontal', 'uicore-elements'),
+                    'masonry' => __('Masonry', 'uicore-elements'),
+                ],
                 'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
 
         $this->add_control(
-			'box_style',
-			[
-				'label' => __( 'layout', 'uicore-elements' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'default',
-				'options' => [
-					'default'  => __( 'Default', 'uicore-elements' ),
-					'boxed' => __( 'Boxed', 'uicore-elements' ),
-					'boxed-creative' => __( 'Boxed Creative', 'uicore-elements' ),
-					'cover' => __( 'Cover', 'uicore-elements' ),
-				],
+            'box_style',
+            [
+                'label' => __('layout', 'uicore-elements'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default'  => __('Default', 'uicore-elements'),
+                    'boxed' => __('Boxed', 'uicore-elements'),
+                    'boxed-creative' => __('Boxed Creative', 'uicore-elements'),
+                    'cover' => __('Cover', 'uicore-elements'),
+                ],
                 'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
 
         $this->add_control(
-			'box_ratio',
-			[
-				'label' => __( 'Image Ratio', 'uicore-elements' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'default',
-				'options' => [
-					'default'  => __( 'Default', 'uicore-elements' ),
-					'square' => __( 'Square', 'uicore-elements' ),
-					'landscape' => __( 'Landscape', 'uicore-elements' ),
-					'portrait' => __( 'Portrait', 'uicore-elements' ),
-				],
+            'box_ratio',
+            [
+                'label' => __('Image Ratio', 'uicore-elements'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default'  => __('Default', 'uicore-elements'),
+                    'square' => __('Square', 'uicore-elements'),
+                    'landscape' => __('Landscape', 'uicore-elements'),
+                    'portrait' => __('Portrait', 'uicore-elements'),
+                ],
                 'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
         $this->add_control(
-			'extra_author',
-			[
-				'label' => __( 'Author', 'uicore-elements' ),
-				'type' => Controls_Manager::SWITCHER,
-				'return_value' => 'yes',
-				'default' => '',
+            'extra_author',
+            [
+                'label' => __('Author', 'uicore-elements'),
+                'type' => Controls_Manager::SWITCHER,
+                'return_value' => 'yes',
+                'default' => '',
                 'reder_type' => 'template',
-				'condition' => array(
+                'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
         $this->add_control(
-			'extra_date',
-			[
-				'label' => __( 'Date', 'uicore-elements' ),
-				'type' => Controls_Manager::SWITCHER,
-				'return_value' => 'yes',
-				'default' => '',
+            'extra_date',
+            [
+                'label' => __('Date', 'uicore-elements'),
+                'type' => Controls_Manager::SWITCHER,
+                'return_value' => 'yes',
+                'default' => '',
                 'reder_type' => 'template',
-				'condition' => array(
+                'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
         $this->add_control(
-			'extra_excerpt',
-			[
-				'label' => __( 'Excerpt', 'uicore-elements' ),
-				'type' => Controls_Manager::SWITCHER,
-				'return_value' => 'yes',
-				'default' => '',
+            'extra_excerpt',
+            [
+                'label' => __('Excerpt', 'uicore-elements'),
+                'type' => Controls_Manager::SWITCHER,
+                'return_value' => 'yes',
+                'default' => '',
                 'reder_type' => 'template',
-				'condition' => array(
+                'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
         $this->add_control(
-			'extra_category',
-			[
-				'label' => __( 'Category', 'uicore-elements' ),
-				'type' => Controls_Manager::SWITCHER,
-				'return_value' => 'yes',
-				'default' => '',
+            'extra_category',
+            [
+                'label' => __('Category', 'uicore-elements'),
+                'type' => Controls_Manager::SWITCHER,
+                'return_value' => 'yes',
+                'default' => '',
                 'reder_type' => 'template',
-				'condition' => array(
+                'condition' => array(
                     'posts-filter_post_type!' => 'portfolio',
                 ),
-			]
-		);
+            ]
+        );
 
         $this->end_controls_section();
 
 
         $this->start_controls_section(
-			'section_style_typo',
-			[
-				'label' => __( 'Content Style', 'uicore-elements' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-			]
-		);
+            'section_style_typo',
+            [
+                'label' => __('Content Style', 'uicore-elements'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
 
         $this->add_control(
-			'post_heading_title',
-			[
-				'label' => esc_html__( 'Post Title', 'uicore-elements' ),
-				'type' => Controls_Manager::HEADING,
-				'separator' => 'before',
-			]
-		);
-
-		$this->add_control(
-			'post_title_color',
-			[
-				'label' => esc_html__( 'Color', 'uicore-elements' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .uicore-post-title' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'post_title_typography',
-				'selector' => '{{WRAPPER}} .uicore-post-title, {{WRAPPER}} .uicore-post-title',
-			]
-		);
-
-
-		$this->add_control(
-			'extra_excerpt_heading',
-			[
-				'label' => esc_html__( 'Excerpt', 'uicore-elements' ),
-				'type' => Controls_Manager::HEADING,
-				'separator' => 'before',
-			]
-		);
-        $this->add_responsive_control(
-			'extra_excerpt_bottom_space',
-			[
-				'label' => esc_html__( 'Spacing', 'uicore-elements' ),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 100,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}}  .uicore-post-info-wrapper > p' => 'margin-top: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
-
-		$this->add_control(
-			'extra_excerpt_color',
-			[
-				'label' => esc_html__( 'Color', 'uicore-elements' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .uicore-post-info-wrapper > p' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'extra_excerpt_typography',
-				'selector' => '{{WRAPPER}} .uicore-post-info-wrapper > p',
-			]
-		);
-
-
-        $this->add_responsive_control(
-			'box_padding',
-			[
-				'label' => esc_html__( 'Content Padding', 'uicore-elements' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', 'em', '%', 'rem' ],
+            'post_heading_title',
+            [
+                'label' => esc_html__('Post Title', 'uicore-elements'),
+                'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
-				'selectors' => [
-					'{{WRAPPER}} .uicore-blog-grid .uicore-post .uicore-post-info' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}!important;',
-				],
-			]
-		);
+            ]
+        );
+
+        $this->add_control(
+            'post_title_color',
+            [
+                'label' => esc_html__('Color', 'uicore-elements'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .uicore-post-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
 
         $this->add_group_control(
-			Group_Control_Background::get_type(),
-			[
-				'name' => 'box_background',
-				'selector' => '{{WRAPPER}} .uicore-blog-grid .uicore-post',
-			]
-		);
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'post_title_typography',
+                'selector' => '{{WRAPPER}} .uicore-post-title, {{WRAPPER}} .uicore-post-title',
+            ]
+        );
 
-        $this->add_group_control(
-			Group_Control_Border::get_type(),
-			[
-				'name' => 'box_border',
-				'selector' => '{{WRAPPER}} .uicore-blog-grid .uicore-post',
+
+        $this->add_control(
+            'extra_excerpt_heading',
+            [
+                'label' => esc_html__('Excerpt', 'uicore-elements'),
+                'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
-			]
-		);
-
-		$this->add_control(
-			'box_border_radius',
-			[
-				'label' => esc_html__( 'Border Radius', 'uicore-elements' ),
-				'type' => Controls_Manager::SLIDER,
+            ]
+        );
+        $this->add_responsive_control(
+            'extra_excerpt_bottom_space',
+            [
+                'label' => esc_html__('Spacing', 'uicore-elements'),
+                'type' => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
                         'min' => 0,
                         'max' => 100,
                     ],
                 ],
-				'selectors' => [
-					'{{WRAPPER}} .uicore-blog-grid .uicore-post' => '--uicore-blog--radius: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+                'selectors' => [
+                    '{{WRAPPER}}  .uicore-post-info-wrapper > p' => 'margin-top: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
-		$this->add_group_control(
-			Group_Control_Box_Shadow::get_type(),
-			[
-				'name' => 'box_shadow_style',
-				'selector' => '{{WRAPPER}} .uicore-blog-grid .uicore-post',
-			]
-		);
+        $this->add_control(
+            'extra_excerpt_color',
+            [
+                'label' => esc_html__('Color', 'uicore-elements'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .uicore-post-info-wrapper > p' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'extra_excerpt_typography',
+                'selector' => '{{WRAPPER}} .uicore-post-info-wrapper > p',
+            ]
+        );
+
+
+        $this->add_responsive_control(
+            'box_padding',
+            [
+                'label' => esc_html__('Content Padding', 'uicore-elements'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%', 'rem'],
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .uicore-blog-grid .uicore-post .uicore-post-info' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}!important;',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'box_background',
+                'selector' => '{{WRAPPER}} .uicore-blog-grid .uicore-post',
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'box_border',
+                'selector' => '{{WRAPPER}} .uicore-blog-grid .uicore-post',
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'box_border_radius',
+            [
+                'label' => esc_html__('Border Radius', 'uicore-elements'),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .uicore-blog-grid .uicore-post' => '--uicore-blog--radius: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'box_shadow_style',
+                'selector' => '{{WRAPPER}} .uicore-blog-grid .uicore-post',
+            ]
+        );
 
 
         $this->end_controls_section();
@@ -399,9 +401,9 @@ class PostGrid extends UiCoreWidget
     {
         $query_args = Query::get_query_args('posts-filter', $this->get_settings());
 
-		if($type === 'portfolio') {
-			$query_args['orderby'] = 'menu_order date';
-		}
+        if ($type === 'portfolio') {
+            $query_args['orderby'] = 'menu_order date';
+        }
 
         $query_args['posts_per_page'] = $posts_per_page;
 
@@ -415,7 +417,7 @@ class PostGrid extends UiCoreWidget
         $col = $settings['col_number']['size'];
         $type = $settings['posts-filter_post_type'];
 
-        if($type != 'portfolio'){
+        if ($type != 'portfolio') {
             $type = str_replace(' ', '-', $settings['box_style']);
         }
 
@@ -430,31 +432,30 @@ class PostGrid extends UiCoreWidget
 
         if ($type === 'portfolio') {
 
-            if(!class_exists('\UiCore\Portfolio\Frontend')){
+            if (!class_exists('\UiCore\Portfolio\Frontend')) {
                 require_once UICORE_INCLUDES . '/portfolio/class-template.php';
                 require_once UICORE_INCLUDES . '/portfolio/class-frontend.php';
             }
             Portfolio\Frontend::frontend_css(true);
             $portfolio = new Portfolio\Template('display');
             $portfolio->portfolio_layout($wp_query, null, $col);
-
         } else {
             $layout = $settings['layout'] === 'default' ? null : $settings['layout'];
             $style = $settings['box_style'] === 'default' ? null : $settings['box_style'];
 
-            if(isset($settings['box_ratio'])){
+            if (isset($settings['box_ratio'])) {
                 $ratio = $settings['box_ratio'] === 'default' ? null : $settings['box_ratio'];
-            }else{//Fallback for older versions
+            } else { //Fallback for older versions
                 $ratio = null;
             }
-            if(isset($settings['extra_author'])){
+            if (isset($settings['extra_author'])) {
                 $extra = [
                     'author'    => $this->is_option('extra_author', 'yes'),
                     'date'      => $this->is_option('extra_date', 'yes'),
                     'excerpt'   => $this->is_option('extra_excerpt', 'yes'),
                     'category'  => $this->is_option('extra_category', 'yes')
                 ];
-            }else{ //Fallback for older versions
+            } else { //Fallback for older versions
                 $extra = [
                     'author'    => null,
                     'date'      => null,
@@ -464,15 +465,14 @@ class PostGrid extends UiCoreWidget
             }
 
 
-            if(!class_exists('\UiCore\Blog\Frontend')){
+            if (!class_exists('\UiCore\Blog\Frontend')) {
                 require_once UICORE_INCLUDES . '/blog/class-template.php';
                 require_once UICORE_INCLUDES . '/blog/class-frontend.php';
             }
             Blog\Frontend::frontend_css(true);
             $blog = new Blog\Template('display');
-            $blog->blog_layout($wp_query, $layout, $col,null,$ratio,$extra, $style);
+            $blog->blog_layout($wp_query, $layout, $col, null, $ratio, $extra, $style);
         }
-
     }
 }
 \Elementor\Plugin::instance()->widgets_manager->register(new PostGrid());

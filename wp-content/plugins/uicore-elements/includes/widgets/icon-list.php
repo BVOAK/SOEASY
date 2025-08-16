@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Repeater;
@@ -42,16 +43,17 @@ class IconList extends UiCoreWidget
     }
     public function get_styles()
     {
-		return ['icon-list'];
+        return ['icon-list'];
     }
     public function get_scripts()
     {
         return [];
     }
-    public function has_widget_inner_wrapper(): bool {
-		// TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
-	}
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
+    }
     public function get_keywords()
     {
         return ['icon', 'list', 'uicore'];
@@ -103,9 +105,9 @@ class IconList extends UiCoreWidget
                 'label_block' => false,
                 'skin' => 'inline',
                 'default' => [
-					'value' => 'fas fa-check',
-					'library' => 'fa-solid',
-				],
+                    'value' => 'fas fa-check',
+                    'library' => 'fa-solid',
+                ],
             ]
         );
 
@@ -127,12 +129,12 @@ class IconList extends UiCoreWidget
             [
                 'label' => esc_html__('Link', 'uicore-elements'),
                 'type' => Controls_Manager::URL,
-                'options' => [ 'url', 'is_external', 'nofollow' ],
-				'default' => [
-					'url' => '',
-					'is_external' => false,
-					'nofollow' => false,
-				],
+                'options' => ['url', 'is_external', 'nofollow'],
+                'default' => [
+                    'url' => '',
+                    'is_external' => false,
+                    'nofollow' => false,
+                ],
                 'dynamic' => [
                     'active' => true,
                 ],
@@ -196,9 +198,9 @@ class IconList extends UiCoreWidget
                     ],
                 ],
                 'default' => [
-					'unit' => 'px',
-					'size' => 10,
-				],
+                    'unit' => 'px',
+                    'size' => 10,
+                ],
                 'selectors' => [
                     '{{WRAPPER}}' => '--ui-e-grid-gap: {{SIZE}}{{UNIT}};',
                 ],
@@ -312,32 +314,32 @@ class IconList extends UiCoreWidget
         );
 
         $this->add_responsive_control(
-			'vertical_alignment_offset',
-			[
-				'label' => esc_html__( 'Vertical Alignment Offset', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
-				'range' => [
-					'px' => [
-						'min' => -25,
-						'max' => 25,
-						'step' => 1,
-					],
-					'%' => [
-						'min' => -100,
-						'max' => 100,
+            'vertical_alignment_offset',
+            [
+                'label' => esc_html__('Vertical Alignment Offset', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'range' => [
+                    'px' => [
+                        'min' => -25,
+                        'max' => 25,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => -100,
+                        'max' => 100,
                         'step' => 5,
-					],
-				],
+                    ],
+                ],
                 'default' => [
                     'size' => 0,
                     'unit' => 'px',
                 ],
-				'selectors' => [
-					'{{WRAPPER}} .ui-e-icon' => 'transform: translate3d(0,{{SIZE}}{{UNIT}},0);',
-				],
-			]
-		);
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-icon' => 'transform: translate3d(0,{{SIZE}}{{UNIT}},0);',
+                ],
+            ]
+        );
 
         $this->add_control(
             'content_position',
@@ -406,33 +408,33 @@ class IconList extends UiCoreWidget
             ]
         );
 
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name'      => 'list_item_bg_color',
-                    'selector'  => '{{WRAPPER}} .ui-e-wrap',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name'      => 'list_item_bg_color',
+                'selector'  => '{{WRAPPER}} .ui-e-wrap',
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Border::get_type(),
-                [
-                    'name' => 'list_item_border',
-                    'label' => esc_html__('Border', 'uicore-elements'),
-                    'selector' => '{{WRAPPER}} .ui-e-wrap',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'list_item_border',
+                'label' => esc_html__('Border', 'uicore-elements'),
+                'selector' => '{{WRAPPER}} .ui-e-wrap',
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Box_Shadow::get_type(),
-                [
-                    'name' => 'list_item_box_shadow',
-                    'label' => esc_html__('Box Shadow', 'uicore-elements'),
-                    'selector' => '{{WRAPPER}} .ui-e-wrap',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'list_item_box_shadow',
+                'label' => esc_html__('Box Shadow', 'uicore-elements'),
+                'selector' => '{{WRAPPER}} .ui-e-wrap',
+            ]
+        );
 
-         $this->end_controls_tab();
+        $this->end_controls_tab();
 
         $this->start_controls_tab(
             'list_item_tabs_hover',
@@ -441,69 +443,69 @@ class IconList extends UiCoreWidget
             ]
         );
 
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name'      => 'list_item_hover_bg_color',
-                    'selector'  => '{{WRAPPER}} .ui-e-wrap:hover',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name'      => 'list_item_hover_bg_color',
+                'selector'  => '{{WRAPPER}} .ui-e-wrap:hover',
+            ]
+        );
 
-            $this->add_control(
-                'list_item_hover_border',
-                [
-                    'label'     => esc_html__('Border Color', 'uicore-elements'),
-                    'type'      => Controls_Manager::COLOR,
-                    'selectors' => [
-                        '{{WRAPPER}} .ui-e-wrap:hover' => 'border-color: {{VALUE}} !important',
-                    ],
-                    'condition' => [
-                        'list_item_border_border!' => ''
-                    ]
+        $this->add_control(
+            'list_item_hover_border',
+            [
+                'label'     => esc_html__('Border Color', 'uicore-elements'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-wrap:hover' => 'border-color: {{VALUE}} !important',
+                ],
+                'condition' => [
+                    'list_item_border_border!' => ''
                 ]
-            );
+            ]
+        );
 
-            $this->add_group_control(
-                Group_Control_Box_Shadow::get_type(),
-                [
-                    'name' => 'list_item_box_shadow_hover',
-                    'label' => esc_html__('Box Shadow', 'uicore-elements'),
-                    'selector' => '{{WRAPPER}} .ui-e-wrap:hover',
-                ]
-            );
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'list_item_box_shadow_hover',
+                'label' => esc_html__('Box Shadow', 'uicore-elements'),
+                'selector' => '{{WRAPPER}} .ui-e-wrap:hover',
+            ]
+        );
 
-            $this->add_responsive_control(
-                'list_item_transition',
-                [
-                    'label' => esc_html__('Transition', 'uicore-elements'),
-                    'type' => Controls_Manager::SLIDER,
-                    'size_units' => ['s'],
-                    'range' => [
-                        's' => [
-                            'min' => 0.01,
-                            'max' => 1,
-                        ],
+        $this->add_responsive_control(
+            'list_item_transition',
+            [
+                'label' => esc_html__('Transition', 'uicore-elements'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['s'],
+                'range' => [
+                    's' => [
+                        'min' => 0.01,
+                        'max' => 1,
                     ],
-                    'default' => [
-                        'unit' => 's',
-                        'size' => 0.2,
-                    ],
-                    'selectors' => [
-                        '{{WRAPPER}} .ui-e-wrap' => '--ui-e-transition: {{SIZE}}{{UNIT}}',
-                    ],
-                ]
-            );
+                ],
+                'default' => [
+                    'unit' => 's',
+                    'size' => 0.2,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-wrap' => '--ui-e-transition: {{SIZE}}{{UNIT}}',
+                ],
+            ]
+        );
 
         $this->end_controls_tab();
 
         $this->end_controls_tabs();
 
         $this->add_control(
-			'hr',
-			[
-				'type' => \Elementor\Controls_Manager::DIVIDER,
-			]
-		);
+            'hr',
+            [
+                'type' => \Elementor\Controls_Manager::DIVIDER,
+            ]
+        );
 
         $this->add_responsive_control(
             'list_item_border_radius',
@@ -867,27 +869,27 @@ class IconList extends UiCoreWidget
         );
 
         $this->add_control(
-			'icon_size',
-			[
-				'label' => esc_html__( 'Icon Size', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px'],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 80,
-						'step' => 3,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 15,
-				],
-				'selectors' => [
-					'{{WRAPPER}} .ui-e-icon' => '--ui-e-icon-size: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'icon_size',
+            [
+                'label' => esc_html__('Icon Size', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 80,
+                        'step' => 3,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 15,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-icon' => '--ui-e-icon-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->start_controls_tabs('tabs_mode_style1');
         $this->start_controls_tab(
@@ -903,8 +905,8 @@ class IconList extends UiCoreWidget
                 'label' => esc_html__('Color', 'uicore-elements'),
                 'type' => Controls_Manager::COLOR,
                 'global' => [
-					'default' => Global_Colors::COLOR_PRIMARY,
-				],
+                    'default' => Global_Colors::COLOR_PRIMARY,
+                ],
                 'selectors' => [
                     '{{WRAPPER}} .ui-e-icon' => '--ui-e-icon-color: {{VALUE}}',
                 ],
@@ -1036,88 +1038,88 @@ class IconList extends UiCoreWidget
         );
 
         $this->add_control(
-			'line_color',
-			[
-				'label' => esc_html__( 'Line Color', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
+            'line_color',
+            [
+                'label' => esc_html__('Line Color', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#333',
                 'global' => [
-					'default' => Global_Colors::COLOR_PRIMARY,
-				],
-				'selectors' => [
-					'{{WRAPPER}} li:after' => 'background-color: {{VALUE}}',
-				],
-			]
-		);
+                    'default' => Global_Colors::COLOR_PRIMARY,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} li:after' => 'background-color: {{VALUE}}',
+                ],
+            ]
+        );
 
         $this->add_responsive_control(
-			'line_thick',
-			[
-				'label' => esc_html__( 'Line Thickness', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px'],
-				'range' => [
-					'px' => [
-						'min' => 1,
-						'max' => 10,
-						'step' => 1,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 1,
-				],
-				'selectors' => [
-					'{{WRAPPER}} li:after' => 'width: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'line_thick',
+            [
+                'label' => esc_html__('Line Thickness', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 1,
+                        'max' => 10,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 1,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} li:after' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->add_responsive_control(
-			'line_horizontal_offset',
-			[
-				'label' => esc_html__( 'Line Horizontal Offset', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px'],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 50,
-						'step' => 1,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 5,
-				],
-				'selectors' => [
-					'{{WRAPPER}} li:after' => '{{icon_position.VALUE}}: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'line_horizontal_offset',
+            [
+                'label' => esc_html__('Line Horizontal Offset', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 5,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} li:after' => '{{icon_position.VALUE}}: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->add_responsive_control(
-			'line_vertical_offset',
-			[
-				'label' => esc_html__( 'Line Vertical Offset', 'uicore-elements' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px'],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 100,
-						'step' => 1,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 15,
-				],
-				'selectors' => [
-					'{{WRAPPER}} li:after' => 'top: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'line_vertical_offset',
+            [
+                'label' => esc_html__('Line Vertical Offset', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 15,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} li:after' => 'top: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->end_controls_section();
 
@@ -1150,6 +1152,17 @@ class IconList extends UiCoreWidget
             ]
         );
 
+        $this->add_control(
+            'image_background',
+            [
+                'label' => esc_html__('Background Color', 'uicore-elements'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-img img' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
         $this->add_responsive_control(
             'image_margin',
             [
@@ -1162,7 +1175,6 @@ class IconList extends UiCoreWidget
             ]
         );
 
-        //size
         $this->add_responsive_control(
             'image_size',
             [
@@ -1191,80 +1203,80 @@ class IconList extends UiCoreWidget
 
         $settings = $this->get_settings_for_display();
         $this->add_render_attribute('icon_list', 'class', $this->is_option('show_number_icon', 'yes') ? 'ui-e-number' : '');
-        ?>
-            <ul>
-                <?php foreach ($settings['icon_list'] as $index => $item) :
+?>
+        <ul>
+            <?php foreach ($settings['icon_list'] as $index => $item) :
 
-                    $i = $index + 1; // index is 0 based
+                $i = $index + 1; // index is 0 based
 
-                    // Prepare the atts
-                    $repeater_setting_key = $this->get_repeater_setting_key('text', 'icon_list', $index);
-                    $tag = $settings['title_tags'];
-                    $this->add_render_attribute($repeater_setting_key, 'class', 'elementor-icon-list-text');
-                    $this->add_render_attribute('list_title_tags', 'class', 'ui-e-title', true);
+                // Prepare the atts
+                $repeater_setting_key = $this->get_repeater_setting_key('text', 'icon_list', $index);
+                $tag = $settings['title_tags'];
+                $this->add_render_attribute($repeater_setting_key, 'class', 'elementor-icon-list-text');
+                $this->add_render_attribute('list_title_tags', 'class', 'ui-e-title', true);
 
-                    // Build url wrapper if link is set
-                    if (!empty( $item['link']['url'] ) ) {
-                        $link_key = 'link_' . $index;
-                        $this->add_link_attributes( $link_key, $item['link'] );
+                // Build url wrapper if link is set
+                if (!empty($item['link']['url'])) {
+                    $link_key = 'link_' . $index;
+                    $this->add_link_attributes($link_key, $item['link']);
 
-                        $wrapper        = "<a class='ui-e-wrap' {$this->get_render_attribute_string($link_key)}>";
-                        $wrapperClosure = 'a';
+                    $wrapper        = "<a class='ui-e-wrap' {$this->get_render_attribute_string($link_key)}>";
+                    $wrapperClosure = 'a';
 
                     // Build default wrapper otherwise
-                    } else {
-                        $wrapper        = '<div class="ui-e-wrap">';
-                        $wrapperClosure = 'div';
-                    }
+                } else {
+                    $wrapper        = '<div class="ui-e-wrap">';
+                    $wrapperClosure = 'div';
+                }
 
-                    ?>
-                        <li <?php $this->print_render_attribute_string('list_class');?>>
+            ?>
+                <li <?php $this->print_render_attribute_string('list_class'); ?>>
 
-                            <?php echo wp_kses_post($wrapper); ?>
+                    <?php echo wp_kses_post($wrapper); ?>
 
-                                <?php if( $this->is_option('show_number_icon', 'yes') ) : ?>
-                                    <div class='ui-e-number'>
-                                        <span> <?php echo esc_html($i);?> </span>
-                                    </div>
-                                <?php endif; ?>
+                    <?php if ($this->is_option('show_number_icon', 'yes')) : ?>
+                        <div class='ui-e-number'>
+                            <span> <?php echo esc_html($i); ?> </span>
+                        </div>
+                    <?php endif; ?>
 
-                                <?php if (!empty($item['img']['url'])) : ?>
-                                    <div class="ui-e-img">
-                                        <?php
-                                        $thumb_url = $item['img']['url'];
-                                        if ($thumb_url) {
-                                            echo wp_kses_post(wp_get_attachment_image(
-                                                $item['img']['id'],
-                                                'medium',
-                                                false,
-                                                [
-                                                    'alt' => esc_html($item['text'])
-                                                ]
-                                            ));
-                                        }
-                                        ?>
-                                    </div>
-                                <?php endif; ?>
+                    <?php if (!empty($item['img']['url'])) : ?>
+                        <div class="ui-e-img">
+                            <?php
+                            $thumb_url = $item['img']['url'];
+                            if ($thumb_url) {
+                                echo wp_kses_post(wp_get_attachment_image(
+                                    $item['img']['id'],
+                                    'medium',
+                                    false,
+                                    [
+                                        'alt' => esc_html($item['text'])
+                                    ]
+                                ));
+                            }
+                            ?>
+                        </div>
+                    <?php endif; ?>
 
-                                <div class="ui-e-content">
-                                    <<?php echo esc_html($tag);?> <?php $this->print_render_attribute_string('list_title_tags');?>>
-                                        <?php echo wp_kses_post($item['text']); ?>
-                                    </<?php echo esc_html($tag);?>>
-                                    <p class="ui-e-text"> <?php echo wp_kses_post($item['text_details']);?> </p>
-                                </div>
+                    <div class="ui-e-content">
+                        <<?php echo esc_html($tag); ?> <?php $this->print_render_attribute_string('list_title_tags'); ?>>
+                            <?php echo wp_kses_post($item['text']); ?>
+                        </<?php echo esc_html($tag); ?>>
+                        <p class="ui-e-text"> <?php echo wp_kses_post($item['text_details']); ?> </p>
+                    </div>
 
-                                <?php if (!empty($item['list_icon']['value'])) : ?>
-                                    <div class="ui-e-icon">
-                                        <?php Icons_Manager::render_icon($item['list_icon'], ['aria-hidden' => 'true']); ?>
-                                    </div>
-                                <?php endif; ?>
+                    <?php if (!empty($item['list_icon']['value'])) : ?>
+                        <div class="ui-e-icon">
+                            <?php Icons_Manager::render_icon($item['list_icon'], ['aria-hidden' => 'true']); ?>
+                        </div>
+                    <?php endif; ?>
 
-                            </<?php echo esc_html($wrapperClosure)?>>
-                        </li>
-                    <?php
-                endforeach; ?>
-            </ul>
-        <?php
+                    </<?php echo esc_html($wrapperClosure) ?>>
+                </li>
+            <?php
+            endforeach; ?>
+        </ul>
+<?php
     }
 }
 \Elementor\Plugin::instance()->widgets_manager->register(new IconList());

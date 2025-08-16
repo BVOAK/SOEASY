@@ -39,7 +39,7 @@ class AdvancedProductGrid extends AdvancedPostGrid
     }
     public function get_keywords()
     {
-        return [ 'woocommerce', 'product', 'shop', 'store', 'post', 'grid' ];
+        return ['woocommerce', 'product', 'shop', 'store', 'post', 'grid'];
     }
     public function get_styles()
     {
@@ -49,7 +49,7 @@ class AdvancedProductGrid extends AdvancedPostGrid
         // remove parent AdvancedPostGrid widget main style. OBS: the IDE complains because get_styles doc
         // says it returns obj, but we're extending a widget that returns the array, so the parent
         // is not widget base, but the AdvancedPostGrid widget
-        if ( ($key = array_search('advanced-post-grid', $styles)) !== false)  {
+        if (($key = array_search('advanced-post-grid', $styles)) !== false) {
             unset($styles[$key]);
         }
 
@@ -67,11 +67,11 @@ class AdvancedProductGrid extends AdvancedPostGrid
     {
         // In some contexts, such as theme-builder, our custom controls are not available
         // and requiring in register_controls method breaks the widget render in editor
-        if( ! defined('DOING_AJAX') || ! DOING_AJAX ) {
-            if( ! class_exists('UiCoreElements\Controls\Product_Filter') ){
+        if (! defined('DOING_AJAX') || ! DOING_AJAX) {
+            if (! class_exists('UiCoreElements\Controls\Product_Filter')) {
                 require_once UICORE_ELEMENTS_INCLUDES . '/controls/class-product-filter-control.php';
             }
-            if( ! class_exists('UiCoreElements\Controls\Post_Filter') ){
+            if (! class_exists('UiCoreElements\Controls\Post_Filter')) {
                 require_once UICORE_ELEMENTS_INCLUDES . '/controls/class-post-filter-control.php';
             }
         }
@@ -85,21 +85,21 @@ class AdvancedProductGrid extends AdvancedPostGrid
     {
 
         // Fallback
-        if( !class_exists('WooCommerce') ) {
+        if (!class_exists('WooCommerce')) {
             $this->start_controls_section(
                 'section_fallback',
                 [
                     'label' => esc_html__('Content', 'uicore-elements'),
                 ]
             );
-                $this->add_control(
-                    'woocommerce_warning',
-                    [
-                        'type' => \Elementor\Controls_Manager::ALERT,
-                        'alert_type' => 'warning',
-                        'content' => esc_html__('Please enable WooCommerce to use this widget.', 'uicore-elements'),
-                    ]
-                );
+            $this->add_control(
+                'woocommerce_warning',
+                [
+                    'type' => \Elementor\Controls_Manager::ALERT,
+                    'alert_type' => 'warning',
+                    'content' => esc_html__('Please enable WooCommerce to use this widget.', 'uicore-elements'),
+                ]
+            );
             $this->end_controls_section();
             return;
         }
@@ -114,132 +114,132 @@ class AdvancedProductGrid extends AdvancedPostGrid
         $this->remove_control('bottom_meta');
 
         // Register query control with updated options
-        $this->start_injection( [
-			'of' => 'section_post_grid_def',
-			'at' => 'after',
-		] );
-            $this->add_group_control(
-                Product_Filter::get_type(),
-                [
-                    'name' => 'product-filter',
-                    'label' => esc_html__('Products', 'uicore-elements'),
-                    'description' => esc_html__('Current Query Settings > Reading', 'uicore-elements'),
-                ]
-            );
-		$this->end_injection();
+        $this->start_injection([
+            'of' => 'section_post_grid_def',
+            'at' => 'after',
+        ]);
+        $this->add_group_control(
+            Product_Filter::get_type(),
+            [
+                'name' => 'product-filter',
+                'label' => esc_html__('Products', 'uicore-elements'),
+                'description' => esc_html__('Current Query Settings > Reading', 'uicore-elements'),
+            ]
+        );
+        $this->end_injection();
 
         // Register meta controls with updated options
-        $this->start_injection( [
-			'of' => 'section_extra_item_content',
-			'at' => 'after',
-		] );
-            $this->TRAIT_register_post_meta_controls(false, true);
-		$this->end_injection();
+        $this->start_injection([
+            'of' => 'section_extra_item_content',
+            'at' => 'after',
+        ]);
+        $this->TRAIT_register_post_meta_controls(false, true);
+        $this->end_injection();
 
         // Register new button placement control
-        $this->start_injection( [
-			'of' => 'section_button_style',
-			'at' => 'after',
-		] );
-            $this->add_control(
-                'button_position',
-                [
-                    'label' => esc_html__('Placement', 'uicore-elements'),
-                    'type' => \Elementor\Controls_Manager::SELECT,
-                    'options' => [
-                        '' => 'Default',
-                        'ui-e-button-placement-image' => 'On Image',
-                    ],
-                    'default' => 'ui-e-button-placement-image',
-                    'render_type' => 'template',
-                    'prefix_class' => ''
-                ]
-            );
-		$this->end_injection();
+        $this->start_injection([
+            'of' => 'section_button_style',
+            'at' => 'after',
+        ]);
+        $this->add_control(
+            'button_position',
+            [
+                'label' => esc_html__('Placement', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    '' => 'Default',
+                    'ui-e-button-placement-image' => 'On Image',
+                ],
+                'default' => 'ui-e-button-placement-image',
+                'render_type' => 'template',
+                'prefix_class' => ''
+            ]
+        );
+        $this->end_injection();
 
         // Register new Swatches and Sale Badge controls
-        $this->start_injection( [
-			'of' => 'show_button',
-			'at' => 'after',
-		] );
-            $this->add_control(
-                'show_swatches',
-                [
-                    'label' => esc_html__('Swatches', 'uicore-elements'),
-                    'type' => \Elementor\Controls_Manager::SWITCHER,
-                    'label_on' => esc_html__( 'Show', 'uicore-elements' ),
-                    'label_off' => esc_html__( 'Hide', 'uicore-elements' ),
-                    'description' => esc_html__('Will only work if you have Uicore Framework plugin active at least on version 6.0.1', 'uicore-elements'),
-                    'default' => 'yes',
-                ]
-            );
-            $this->add_control(
-                'show_sale_badge',
-                [
-                    'label' => esc_html__('Sale Badge', 'uicore-elements'),
-                    'type' => \Elementor\Controls_Manager::SWITCHER,
-                    'label_on' => esc_html__( 'Show', 'uicore-elements' ),
-				    'label_off' => esc_html__( 'Hide', 'uicore-elements' ),
-                    'default' => 'yes',
-                    'prefix_class' => 'ui-e-show-sale-badge-',
-                ]
-            );
-            $this->add_control(
-                'badge_warning',
-                [
-                    'type' => \Elementor\Controls_Manager::RAW_HTML,
-                    'raw' => __("If you can't see the Sale Badge after setting 'Show', you problably didn't set any Meta option as 'Product Sale', or you don't have products on sale.", 'uicore-elements'),
-                    'content_classes' => 'elementor-control-field-description',
-                    'condition' => [
-                        'show_sale_badge' => 'yes',
-                    ],
-                ]
-            );
-		$this->end_injection();
+        $this->start_injection([
+            'of' => 'show_button',
+            'at' => 'after',
+        ]);
+        $this->add_control(
+            'show_swatches',
+            [
+                'label' => esc_html__('Swatches', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Show', 'uicore-elements'),
+                'label_off' => esc_html__('Hide', 'uicore-elements'),
+                'description' => esc_html__('Will only work if you have Uicore Framework plugin active at least on version 6.0.1', 'uicore-elements'),
+                'default' => 'yes',
+            ]
+        );
+        $this->add_control(
+            'show_sale_badge',
+            [
+                'label' => esc_html__('Sale Badge', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Show', 'uicore-elements'),
+                'label_off' => esc_html__('Hide', 'uicore-elements'),
+                'default' => 'yes',
+                'prefix_class' => 'ui-e-show-sale-badge-',
+            ]
+        );
+        $this->add_control(
+            'badge_warning',
+            [
+                'type' => \Elementor\Controls_Manager::RAW_HTML,
+                'raw' => __("If you can't see the Sale Badge after setting 'Show', you problably didn't set any Meta option as 'Product Sale', or you don't have products on sale.", 'uicore-elements'),
+                'content_classes' => 'elementor-control-field-description',
+                'condition' => [
+                    'show_sale_badge' => 'yes',
+                ],
+            ]
+        );
+        $this->end_injection();
 
         // Register new Hide out of stock products control
-        $this->start_injection( [
-			'of' => 'sticky',
-			'at' => 'before',
-		] );
-            $this->add_control(
-                'hide_out_of_stock',
-                [
-                    'label' => esc_html__('Hide out of stock', 'uicore-elements'),
-                    'type' => \Elementor\Controls_Manager::SWITCHER,
-                    'condition' => [
-                        'product-filter_post_type!' => 'related',
-                    ],
-                ]
-            );
-		$this->end_injection();
+        $this->start_injection([
+            'of' => 'sticky',
+            'at' => 'before',
+        ]);
+        $this->add_control(
+            'hide_out_of_stock',
+            [
+                'label' => esc_html__('Hide out of stock', 'uicore-elements'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'condition' => [
+                    'product-filter_post_type!' => 'related',
+                ],
+            ]
+        );
+        $this->end_injection();
 
         //
-        $this->start_injection( [
-			'of' => 'text',
-			'at' => 'after',
-		] );
-            $this->add_control(
-                'variations_text',
-                [
-                    'label'       => esc_html__('Select Options Text', 'uicore-elements'),
-                    'label_block' => true,
-                    'default'     => '',
-                    'description' => esc_html__('Variable product purchase text.', 'uicore-elements'),
-                    'placeholder' => esc_html__('Select Options', 'uicore-elements'),
-                ]
-            );
-            $this->add_control(
-                'unavailable_text',
-                [
-                    'label'       => esc_html__('Unavailable Text', 'uicore-elements'),
-                    'label_block' => true,
-                    'default'     => '',
-                    'description' => esc_html__('Out of stock or not available purchase text.', 'uicore-elements'),
-                    'placeholder' => esc_html__('Read more', 'uicore-elements'),
-                ]
-            );
-		$this->end_injection();
+        $this->start_injection([
+            'of' => 'text',
+            'at' => 'after',
+        ]);
+        $this->add_control(
+            'variations_text',
+            [
+                'label'       => esc_html__('Select Options Text', 'uicore-elements'),
+                'label_block' => true,
+                'default'     => '',
+                'description' => esc_html__('Variable product purchase text.', 'uicore-elements'),
+                'placeholder' => esc_html__('Select Options', 'uicore-elements'),
+            ]
+        );
+        $this->add_control(
+            'unavailable_text',
+            [
+                'label'       => esc_html__('Unavailable Text', 'uicore-elements'),
+                'label_block' => true,
+                'default'     => '',
+                'description' => esc_html__('Out of stock or not available purchase text.', 'uicore-elements'),
+                'placeholder' => esc_html__('Read more', 'uicore-elements'),
+            ]
+        );
+        $this->end_injection();
 
         // Update controls that uses 'posts_filter' to 'product_filter'
         $this->update_control(
@@ -310,7 +310,7 @@ class AdvancedProductGrid extends AdvancedPostGrid
         );
         $this->update_control(
             'excerpt_trim',
-            [ 'label' => esc_html__('Summary Length (words)', 'uicore-elements') ]
+            ['label' => esc_html__('Summary Length (words)', 'uicore-elements')]
         );
         $this->update_control(
             'show_button',
@@ -330,28 +330,28 @@ class AdvancedProductGrid extends AdvancedPostGrid
         );
         $this->update_control(
             'text_color',
-            [ 'label' => esc_html__('Summary Color', 'uicore-elements') ]
+            ['label' => esc_html__('Summary Color', 'uicore-elements')]
         );
         $this->update_control(
             'text_typography',
-            [ 'label' => esc_html__('Summary Typography', 'uicore-elements') ]
+            ['label' => esc_html__('Summary Typography', 'uicore-elements')]
         );
         $this->update_control(
             'text_gap',
-            [ 'label' => esc_html__('Summary Top Space', 'uicore-elements') ]
+            ['label' => esc_html__('Summary Top Space', 'uicore-elements')]
         );
 
         // Update button controls
         $this->update_control(
             'border_radius', // button border-radius
             [
-                'default' => [ 'top' => 0, 'right' => 0, 'bottom' => 0, 'left' => 0 ]
+                'default' => ['top' => 0, 'right' => 0, 'bottom' => 0, 'left' => 0]
             ]
         );
         $this->update_control(
             'text_padding', // button padding
             [
-                'default' => [ 'top' => 10, 'right' => 10, 'bottom' => 10, 'left' => 10, 'unit' => 'px' ]
+                'default' => ['top' => 10, 'right' => 10, 'bottom' => 10, 'left' => 10, 'unit' => 'px']
             ]
         );
         $this->update_control(
@@ -365,7 +365,7 @@ class AdvancedProductGrid extends AdvancedPostGrid
                 'selectors' => [
                     '{{WRAPPER}} .ui-e-readmore' => 'align-self: {{VALUE}}; justify-content: center;',
                 ]
-        ]
+            ]
         );
         $this->update_control(
             'button_gap',
@@ -384,21 +384,22 @@ class AdvancedProductGrid extends AdvancedPostGrid
      * If no posts are found, it returns false. After rendering, it resets the query and returns the output.
      *
      * @param array|false $current_query The current query args, or false if the widget isn't set to use the current query.
+     * @param int $pageID The ID of the page where the widget is located.
      *
      * @return string|false The rendered widget content or false if no posts are found.
-    */
+     */
     public function render_ajax($current_query)
     {
         // Get settings and post type
         $settings = $this->get_settings();
 
-        $this->TRAIT_query_products( $settings, $current_query );
+        $this->TRAIT_query_products($settings, $current_query);
         $wc_query = $this->get_query();
 
         $products = wc_get_products($wc_query);
 
         // No products found
-        if ( empty($products) ) {
+        if (empty($products)) {
             return false;
         }
 
@@ -421,8 +422,8 @@ class AdvancedProductGrid extends AdvancedPostGrid
 
     protected function render()
     {
-        if( !class_exists('WooCommerce') ) {
-            if ( $this->is_edit_mode() ) {
+        if (!class_exists('WooCommerce')) {
+            if ($this->is_edit_mode()) {
                 echo '<p>' . esc_html__('Please enable WooCommerce to use this widget.', 'uicore-elements') . '</p>';
             }
             return;
@@ -431,15 +432,18 @@ class AdvancedProductGrid extends AdvancedPostGrid
         global $wp_query;
         $settings = $this->get_settings();
 
+        // Get product ID
+        $product_id = get_the_ID();
+
         // Related products, on save page action at editor, triggers an fata error upon post object handle.
         // Prevent it for now by disabling the widget on edit mode. TODO: remove it after fixing the issue
-        if ( 'related' === $settings['product-filter_post_type'] && $this->is_edit_mode() ) {
+        if ('related' === $settings['product-filter_post_type'] && $this->is_edit_mode()) {
             echo '<p>' . esc_html__('This widget is set to display related products. To see the results, please preview the page, or customize your widget before setting "current" query.', 'uicore-elements') . '</p>';
             return;
         }
 
         // Build query
-        $products = $this->TRAIT_query_products( $settings, $wp_query->query );
+        $products = $this->TRAIT_query_products($settings, $wp_query->query);
         $wc_query = $this->get_query();
 
         // Store widget settings in a transient
@@ -453,51 +457,50 @@ class AdvancedProductGrid extends AdvancedPostGrid
         $this->TRAIT_render_filters($settings, true);
 
         // No posts found
-        if ( empty($products) ) {
+        if (empty($products)) {
             echo '<p style="text-align:center">' . esc_html__('No products found.', 'uicore-elements') . '</p>';
-
         } else {
-            ?>
-                <div class="ui-e-adv-grid">
-                    <?php
-                    foreach ($products as $index => $product) {
+?>
+            <div class="ui-e-adv-grid">
+                <?php
+                foreach ($products as $index => $product) {
 
-                        // sticky posts disregards posts per page, so ending the loop if $items == $loop forces the query respects the users item limit
-                        if ($settings['sticky'] && $items == $loops) {
-                            break;
-                        }
-
-                        // check is is related post type
-                        if ( 'related' === $settings['product-filter_post_type'] ) {
-                            $product = wc_get_product($product);
-                        }
-
-                        $post_object = get_post($product->get_id());
-                        setup_postdata($post_object);
-
-                        $this->TRAIT_render_product($product, $index, false, true);
-
-                        wp_reset_postdata(); // Reset post data after rendering each product
-                        $loops++;
+                    // sticky posts disregards posts per page, so ending the loop if $items == $loop forces the query respects the users item limit
+                    if ($settings['sticky'] && $items == $loops) {
+                        break;
                     }
-                    ?>
-                </div>
-            <?php
 
-            $this->TRAIT_render_pagination($settings, true);
+                    // check is is related post type
+                    if ('related' === $settings['product-filter_post_type']) {
+                        $product = wc_get_product($product);
+                    }
 
-             // Add some data, to help rest api, to the js
-            if( $this->is_option('pagination', 'yes') && $this->is_option('pagination_type', 'load_more') ) {
+                    $post_object = get_post($product->get_id());
+                    setup_postdata($post_object);
+
+                    $this->TRAIT_render_product($product, $index, false, true);
+
+                    wp_reset_postdata(); // Reset post data after rendering each product
+                    $loops++;
+                }
+                ?>
+            </div>
+<?php
+
+            $this->TRAIT_render_pagination($settings, $product_id, true);
+
+            // Add some data, to help rest api, to the js
+            if ($this->is_option('pagination', 'yes') && $this->is_option('pagination_type', 'load_more')) {
 
                 echo '<script>';
 
-                    // Add total pages to js variable
-                    echo 'window.ui_total_pages_' . esc_html($ID) . ' = ' . esc_html( $wc_query['total_pages'] ) . ';';
+                // Add total pages to js variable
+                echo 'window.ui_total_pages_' . esc_html($ID) . ' = ' . esc_html($wc_query['total_pages']) . ';';
 
-                    // Pass current query to js variable
-                    if( $settings['product-filter_post_type'] == 'current'  ) {
-                        echo 'window.ui_query_' . esc_html($ID) . ' = ' . \json_encode($wc_query) . ';';
-                    }
+                // Pass current query to js variable
+                if ($settings['product-filter_post_type'] == 'current') {
+                    echo 'window.ui_query_' . esc_html($ID) . ' = ' . \json_encode($wc_query) . ';';
+                }
 
                 echo '</script>';
             }

@@ -265,43 +265,43 @@ jQuery(document).ready(function ($) {
   }
 
   function updateFraisTotal(index) {
-      const mode = getSelectedFinancementMode();
-      const duree = getSelectedEngagement();
-      let total = 0;
+    const mode = getSelectedFinancementMode();
+    const duree = getSelectedEngagement();
+    let total = 0;
 
-      const $list = $(`.frais-installation-list[data-index="${index}"]`);
-      const checked = $list.find('.frais-checkbox:checked');
+    const $list = $(`.frais-installation-list[data-index="${index}"]`);
+    const checked = $list.find('.frais-checkbox:checked');
 
-      if (checked.length === 0) {
-        $(`.frais-total[data-index="${index}"]`).text('0 €');
-        return;
+    if (checked.length === 0) {
+      $(`.frais-total[data-index="${index}"]`).text('0 €');
+      return;
+    }
+
+    checked.each(function () {
+      const $cb = $(this);
+      const qty = parseInt($cb.data('quantite')) || 1;
+      let unit = 0;
+
+      if (mode === 'comptant') {
+        unit = parseFloat($cb.data('prix-comptant')) || 0;
+      } else if (mode === 'leasing' && duree) {
+        const raw = $cb.data(`prix-leasing-${duree}`);
+        unit = typeof raw !== 'undefined' ? parseFloat(raw) || 0 : 0;
       }
 
-      checked.each(function () {
-        const $cb = $(this);
-        const qty = parseInt($cb.data('quantite')) || 1;
-        let unit = 0;
+      if (isNaN(unit)) unit = 0;
 
-        if (mode === 'comptant') {
-          unit = parseFloat($cb.data('prix-comptant')) || 0;
-        } else if (mode === 'leasing' && duree) {
-          const raw = $cb.data(`prix-leasing-${duree}`);
-          unit = typeof raw !== 'undefined' ? parseFloat(raw) || 0 : 0;
-        }
+      total += unit * qty;
+    });
 
-        if (isNaN(unit)) unit = 0;
+    //const safeTotal = isNaN(total) ? 0 : total;
+    const formatted = new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(total) + (mode === 'leasing' ? ' / mois' : '');
 
-        total += unit * qty;
-      });
-
-      //const safeTotal = isNaN(total) ? 0 : total;
-      const formatted = new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: 'EUR'
-      }).format(total) + (mode === 'leasing' ? ' / mois' : '');
-
-      $(`.frais-total[data-index="${index}"]`).text(formatted);
-    }
+    $(`.frais-total[data-index="${index}"]`).text(formatted);
+  }
 
   /* Ajout d'une adresse en session via AJAX */
   function addAdresseToSession(adresse, services) {
@@ -531,7 +531,120 @@ jQuery(document).ready(function ($) {
     }
   }
 
+
+  /**
+ * Fonction de validation finale et envoi vers le panier WooCommerce
+ * Gère toutes les adresses configurées
+ */
+  function sendToCart() {
+    console.log('🛒 Début sendToCart()');
+
+    // 1. Récupération de la configuration
+    const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+    const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+
+    if (Object.keys(config).length === 0) {
+      showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
+      return false;
+    }
+
+    console.log('📦 Configuration trouvée:', config);
+    console.log('📍 Adresses:', adresses);
+
+    // 2. Validation : au moins un produit configuré
+    let hasProducts = false;
+    Object.values(config).forEach(adresseData => {
+      const sections = ['abonnements', 'materiels', 'fraisInstallation'];
+      sections.forEach(section => {
+        if (Array.isArray(adresseData[section]) && adresseData[section].length > 0) {
+          hasProducts = true;
+        }
+      });
+    });
+
+    if (!hasProducts) {
+      showToastError('Veuillez sélectionner au moins un produit ou service avant de valider.');
+      return false;
+    }
+
+    // 3. Préparation des données pour l'envoi
+    const payload = {
+      action: 'soeasy_ajouter_au_panier_multi',
+      config: config,
+      adresses: adresses
+    };
+
+    console.log('📤 Payload envoyé:', payload);
+
+    // 4. Affichage loading
+    const $btn = $('#btn-commander');
+    const originalText = $btn.text();
+    $btn.prop('disabled', true).text('Ajout au panier...');
+
+    // 5. Envoi AJAX
+    return $.post(soeasyVars.ajaxurl, payload)
+      .done(response => {
+        console.log('✅ Réponse serveur:', response);
+
+        if (response.success) {
+          // Succès : redirection vers le panier
+          console.log('🎉 Configuration ajoutée avec succès au panier');
+          $btn.text('Redirection...');
+
+          // Optionnel : nettoyer le localStorage après succès
+          // localStorage.removeItem('soeasyConfig');
+
+          setTimeout(() => {
+            window.location.href = response.data.redirect_url || '/panier';
+          }, 500);
+
+        } else {
+          // Erreur business
+          const errorMsg = response.data?.message || 'Erreur lors de l\'ajout au panier.';
+          console.error('❌ Erreur business:', errorMsg);
+          showToastError(errorMsg);
+          $btn.prop('disabled', false).text(originalText);
+        }
+      })
+      .fail((xhr, status, error) => {
+        // Erreur technique
+        console.error('💥 Erreur technique:', { xhr, status, error });
+
+        let errorMsg = 'Erreur technique. Veuillez réessayer.';
+
+        if (xhr.responseJSON?.data?.message) {
+          errorMsg = xhr.responseJSON.data.message;
+        } else if (xhr.status === 500) {
+          errorMsg = 'Erreur serveur (500). Vérifiez les logs PHP.';
+        } else if (xhr.status === 0) {
+          errorMsg = 'Problème de connexion. Vérifiez votre réseau.';
+        }
+
+        showToastError(errorMsg);
+        $btn.prop('disabled', false).text(originalText);
+      });
+  }
+
+  /**
+   * Affichage des erreurs avec toast Bootstrap
+   */
+  function showToastError(message) {
+    console.warn('🚨 Toast error:', message);
+
+    const toastEl = document.getElementById('toast-error');
+    if (toastEl) {
+      toastEl.querySelector('.toast-body').textContent = message;
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    } else {
+      // Fallback si pas de toast
+      alert(message);
+    }
+  }
+
   // Exposition globale
+  window.sendToCart = sendToCart;
+  window.showToastError = showToastError;
   window.updatePrices = updatePrices;
   window.addAdresseToSession = addAdresseToSession;
   window.updateRecapitulatif = updateRecapitulatif;

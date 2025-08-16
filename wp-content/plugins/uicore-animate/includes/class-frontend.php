@@ -103,7 +103,8 @@ class Frontend
     { ?>
         <style>
             .uicore-animate-scroll {
-                animation: .5s linear uicoreFadeIn both;
+                animation-fill-mode: both;
+                animation-timing-function: linear;
                 animation-timeline: view(block);
             }
         </style>

@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Controls_Manager;
@@ -38,10 +39,11 @@ class GallerySlider extends GalleryCarousel
 
         return $styles;
     }
-    // TODO: remove or set as false, after 3.30, when the full deprecation of widget innet wrapper is ready
-    public function has_widget_inner_wrapper(): bool {
-		return true;
-	}
+    // TODO: remove after Optmized Markup experiment is merged to the core
+    public function has_widget_inner_wrapper(): bool
+    {
+        return true;
+    }
     protected function register_controls()
     {
         parent::register_controls();
@@ -55,7 +57,8 @@ class GallerySlider extends GalleryCarousel
             ]
         );
         $this->update_responsive_control(
-            'style_image_section', [
+            'style_image_section',
+            [
                 'conditions' => false,
             ]
         );
@@ -75,34 +78,34 @@ class GallerySlider extends GalleryCarousel
             'at' => 'after',
         ]);
 
-            $this->add_responsive_control(
-                'content_v_alignment',
-                [
-                    'label'     => __('Vertical Alignment', 'uicore-elements'),
-                    'type'      => Controls_Manager::CHOOSE,
-                    'default' => 'start',
-                    'options'   => [
-                        'start'    => [
-                            'title' => __('Start', 'uicore-elements'),
-                            'icon'  => 'eicon-align-start-v',
-                        ],
-                        'center'  => [
-                            'title' => __('Center', 'uicore-elements'),
-                            'icon'  => 'eicon-align-center-v',
-                        ],
-                        'end'   => [
-                            'title' => __('Bottom', 'uicore-elements'),
-                            'icon'  => 'eicon-align-end-v',
-                        ],
+        $this->add_responsive_control(
+            'content_v_alignment',
+            [
+                'label'     => __('Vertical Alignment', 'uicore-elements'),
+                'type'      => Controls_Manager::CHOOSE,
+                'default' => 'start',
+                'options'   => [
+                    'start'    => [
+                        'title' => __('Start', 'uicore-elements'),
+                        'icon'  => 'eicon-align-start-v',
                     ],
-                    'condition' => [
-                        'layout' => 'ui-e-overlay'
+                    'center'  => [
+                        'title' => __('Center', 'uicore-elements'),
+                        'icon'  => 'eicon-align-center-v',
                     ],
-                    'selectors' => [
-                        '{{WRAPPER}} .ui-e-content' => 'justify-content: {{VALUE}};',
-                    ]
+                    'end'   => [
+                        'title' => __('Bottom', 'uicore-elements'),
+                        'icon'  => 'eicon-align-end-v',
+                    ],
+                ],
+                'condition' => [
+                    'layout' => 'ui-e-overlay'
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-content' => 'justify-content: {{VALUE}};',
                 ]
-            );
+            ]
+        );
 
         $this->end_injection();
     }

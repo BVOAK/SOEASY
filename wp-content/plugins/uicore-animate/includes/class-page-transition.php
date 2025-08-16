@@ -40,6 +40,9 @@ class PageTransition
         $this->animation = Settings::get_option('animations_page');
         $this->preloader = Settings::get_option('animations_preloader');
 
+        if ($this->preloader != 'none') {
+            add_action('wp_footer', [$this, 'add_preloader'], 0);
+        }
 
         //continue only if the animations are enabled
         if ($this->animation != 'none') {
@@ -73,9 +76,6 @@ class PageTransition
                     }
                     echo '</div>';
                 });
-            }
-            if ($this->preloader != 'none' && $this->animation != 'fade' && $this->animation != 'fade in') {
-                add_action('wp_footer', [$this, 'add_preloader'], 0);
             }
         }
     }
@@ -506,16 +506,39 @@ class PageTransition
 
     function add_preloader()
     {
+        $run_once = Settings::get_option('animations_preloader_once') != 'true' ? false : true;
+
         if ($this->preloader === 'custom') {
             $preloader = Settings::get_option('animations_preloader_custom');
             echo '<div class="ui-anim-preloader">' . $preloader . '</div>';
             return;
         }
 
-        echo $this->get_preloader_html($this->preloader);
+        if ($run_once === false || ($run_once === true && !isset($_COOKIE['ui_anim_preloader']))) {
+            echo $this->get_preloader_html($this->preloader);
+        }
 ?>
         <script>
             const uiAnimPreloader = document.querySelector('.ui-anim-preloader');
+
+            <?php if ($run_once) : ?>
+                // If is the user first time, we set the cookie
+                if (!uiAnimategetCookie('ui_anim_preloader')) {
+                    uiAnimatesetCookie('ui_anim_preloader', true, 30);
+                }
+
+                function uiAnimategetCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                }
+
+                function uiAnimatesetCookie(name, value, days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+                    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/`;
+                }
+            <?php endif; ?>
 
             function uiAnimateTogglePreloader(show) {
                 if (show) {
@@ -530,11 +553,13 @@ class PageTransition
             }
 
             uiAnimateTogglePreloader(true);
-            if (typeof uiAnimateCustomPreloaderHide == 'undefined' || (typeof uiAnimateCustomPreloaderHide != 'undefined' && !uiAnimateCustomPreloaderHide)) {
+            if (typeof uiAnimateCustomPreloaderHide == 'undefined' || (typeof uiAnimateCustomPreloaderHide != 'undefined' && !
+                    uiAnimateCustomPreloaderHide)) {
                 window.addEventListener('load', () => uiAnimateTogglePreloader(false));
                 window.addEventListener('pageshow', () => uiAnimateTogglePreloader(false));
             }
-            if (typeof uiAnimateCustomPreloaderShow == 'undefined' || (typeof uiAnimateCustomPreloaderShow != 'undefined' && !uiAnimateCustomPreloaderShow)) {
+            if (typeof uiAnimateCustomPreloaderShow == 'undefined' || (typeof uiAnimateCustomPreloaderShow != 'undefined' && !
+                    uiAnimateCustomPreloaderShow)) {
                 window.addEventListener('beforeunload', () => uiAnimateTogglePreloader(true));
             }
         </script>
@@ -597,7 +622,8 @@ class PageTransition
     ?>
         <style>
             .ui-anim-preloader {
-                --ui-e-anim-preloader-color: <?php echo $color; ?>;
+                --ui-e-anim-preloader-color: <?php echo $color;
+                                                ?>;
             }
         </style>
 
@@ -622,12 +648,12 @@ class PageTransition
                     align-items: center;
                 }
 
-                <?php
-                if (strpos($preloader, 'text') !== false) {
+                <?php if (strpos($preloader, 'text') !== false) {
                 ?>.ui-anim-preloader .ui-anim-loading-text {
                     text-align: center;
                     width: 100%;
-                    color: <?php echo $text_color; ?>;
+                    color: <?php echo $text_color;
+                            ?>;
                     font-size: 14px;
                     font-family: sans-serif;
                     letter-spacing: 3px;
@@ -639,6 +665,7 @@ class PageTransition
 
                 <?php
                 }
+
                 ?>@keyframes fade {
                     0% {
                         opacity: 1;

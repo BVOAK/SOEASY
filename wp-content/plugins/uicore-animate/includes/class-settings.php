@@ -69,6 +69,7 @@ class Settings
             'animations_page_duration'     => 'normal',
             'animations_page_color'     => 'Primary',
             'animations_preloader'      => 'none',
+            'animations_preloader_once' => 'false',
             'animations_preloader_text' => 'Loading',
             'animations_preloader_text_color' => 'White',
             'animations_preloader_color' => 'White',

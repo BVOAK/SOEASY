@@ -1,5 +1,7 @@
 <?php
+
 namespace UiCoreElements;
+
 use Elementor\Controls_Manager;
 use UiCoreElements\UiCoreWidget;
 use UiCoreElements\Utils\Carousel_Trait;
@@ -52,7 +54,7 @@ class TestimonialCarousel extends UiCoreWidget
             'animation', // hover animations
             'entrance', // entrance basic style
         ];
-        if(!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')){
+        if (!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')) {
             $styles['e-animations'] = [ // entrance animations
                 'external' => true,
             ];
@@ -70,9 +72,10 @@ class TestimonialCarousel extends UiCoreWidget
         ];
         return array_merge($scripts, $this->TRAIT_get_carousel_scripts());
     }
-    public function has_widget_inner_wrapper(): bool {
-        // TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
     }
     protected function register_controls()
     {
@@ -88,76 +91,76 @@ class TestimonialCarousel extends UiCoreWidget
             ]
         );
 
-            $this->TRAIT_register_specific_testimonial_controls('layout');
-            $this->TRAIT_register_carousel_additional_controls(); // Carousel Additionals
-            $this->TRAIT_register_testimonial_additional_controls(); // Testimonial Additionals
+        $this->TRAIT_register_specific_testimonial_controls('layout');
+        $this->TRAIT_register_carousel_additional_controls(); // Carousel Additionals
+        $this->TRAIT_register_testimonial_additional_controls(); // Testimonial Additionals
 
         $this->end_controls_section();
 
         $this->start_controls_section(
-			'section_carousel_settings',
-			[
-				'label' => __('Carousel Settings', 'uicore-elements'),
-			]
-		);
+            'section_carousel_settings',
+            [
+                'label' => __('Carousel Settings', 'uicore-elements'),
+            ]
+        );
 
-            $this->TRAIT_register_carousel_settings_controls(); // Carousel settings
+        $this->TRAIT_register_carousel_settings_controls(); // Carousel settings
 
         $this->end_controls_section();
 
         $this->TRAIT_register_navigation_controls(); // Navigation settings
 
         $this->start_controls_section(
-			'section_style_review_items',
-			[
-				'label'     => esc_html__( 'Items', 'uicore-elements' ),
-				'tab'       => Controls_Manager::TAB_STYLE,
-			]
-		);
+            'section_style_review_items',
+            [
+                'label'     => esc_html__('Items', 'uicore-elements'),
+                'tab'       => Controls_Manager::TAB_STYLE,
+            ]
+        );
 
-            // move it to specific controls
-            $this->add_control(
-                'item_gap',
-                [
-                    'label' => esc_html__( 'Inner Content Spacing', 'uicore-elements' ),
-                    'type' => Controls_Manager::SLIDER,
-                    'size_units' => [ 'px', '%', 'em' ],
-                    'range' => [
-                        'px' => [
-                            'min' => 0,
-                            'max' => 50,
-                            'step' => 1,
+        // move it to specific controls
+        $this->add_control(
+            'item_gap',
+            [
+                'label' => esc_html__('Inner Content Spacing', 'uicore-elements'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 15,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-testimonial-flex' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ],
+                'conditions' => [
+                    'relation' => 'and',
+                    'terms' => [
+                        [
+                            'name' => 'image_inline',
+                            'operator' => '===',
+                            'value' => 'yes',
                         ],
-                        '%' => [
-                            'min' => 0,
-                            'max' => 100,
+                        [
+                            'name' => 'layout',
+                            'operator' => 'in',
+                            'value' => ['layout_2'],
                         ],
                     ],
-                    'default' => [
-                        'unit' => 'px',
-                        'size' => 15,
-                    ],
-                    'selectors' => [
-                        '{{WRAPPER}} .ui-e-testimonial-flex' => 'margin-bottom: {{SIZE}}{{UNIT}};',
-                    ],
-                    'conditions' => [
-                        'relation' => 'and',
-                        'terms' => [
-                            [
-                                'name' => 'image_inline',
-                                'operator' => '===',
-                                'value' => 'yes',
-                            ],
-                            [
-                                'name' => 'layout',
-                                'operator' => 'in',
-                                'value' => ['layout_2'],
-                            ],
-                        ],
-                    ],
-                ]
-            );
-            $this->TRAIT_register_all_item_style_controls();
+                ],
+            ]
+        );
+        $this->TRAIT_register_all_item_style_controls();
 
         $this->end_controls_section();
 
@@ -172,7 +175,7 @@ class TestimonialCarousel extends UiCoreWidget
             ]
         );
 
-            $this->TRAIT_register_testimonial_animation_controls();
+        $this->TRAIT_register_testimonial_animation_controls();
 
         $this->end_controls_section();
 
@@ -189,27 +192,27 @@ class TestimonialCarousel extends UiCoreWidget
         $settings = $this->get_settings_for_display();
         $total_slides = count($settings['review_items']);
 
-        ?>
-            <div class="ui-e-carousel swiper">
-                <div class='swiper-wrapper'>
-                    <?php
-                        foreach ( $settings['review_items'] as $index => $item ) :
-                            $this->TRAIT_render_review_item($item, $settings['layout']);
-                        endforeach;
+?>
+        <div class="ui-e-carousel swiper">
+            <div class='swiper-wrapper'>
+                <?php
+                foreach ($settings['review_items'] as $index => $item) :
+                    $this->TRAIT_render_review_item($item, $settings['layout']);
+                endforeach;
 
-                        // Most recent swiper versions requires, if loop, at least one extra slide compared to visible slides
-                        if( $this->TRAIT_should_duplicate_slides($total_slides)) {
-                            $diff = $this->TRAIT_get_duplication_diff($total_slides);
-                            for($i = 0; $i <= $diff; $i++){
-                                $index = $i % $total_slides; // Ensure the index does not surpass the maximum index
-                                $this->TRAIT_render_review_item($settings['review_items'][$index], $settings['layout']);
-                            }
-                        }
-                    ?>
-                </div>
+                // Most recent swiper versions requires, if loop, at least one extra slide compared to visible slides
+                if ($this->TRAIT_should_duplicate_slides($total_slides)) {
+                    $diff = $this->TRAIT_get_duplication_diff($total_slides);
+                    for ($i = 0; $i <= $diff; $i++) {
+                        $index = $i % $total_slides; // Ensure the index does not surpass the maximum index
+                        $this->TRAIT_render_review_item($settings['review_items'][$index], $settings['layout']);
+                    }
+                }
+                ?>
             </div>
-            <?php $this->TRAIT_render_carousel_navigations(); ?>
-        <?php
+        </div>
+        <?php $this->TRAIT_render_carousel_navigations(); ?>
+<?php
     }
 }
 \Elementor\Plugin::instance()->widgets_manager->register(new TestimonialCarousel());

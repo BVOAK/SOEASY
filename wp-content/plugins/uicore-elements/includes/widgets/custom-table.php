@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Plugin;
@@ -9,7 +10,8 @@ use UiCoreElements\Utils\Animation_Trait;
 
 defined('ABSPATH') || exit();
 
-class CustomTable extends UiCoreNestedWidget {
+class CustomTable extends UiCoreNestedWidget
+{
 
     use Animation_Trait;
 
@@ -41,48 +43,54 @@ class CustomTable extends UiCoreNestedWidget {
     {
         return [];
     }
-    public function has_widget_inner_wrapper(): bool {
-		// TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
-	}
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
+    }
 
-    protected function carousel_content_container( int $index ) {
-		return [
-			'elType' => 'container',
-			'settings' => [
+    protected function carousel_content_container(int $index)
+    {
+        return [
+            'elType' => 'container',
+            'settings' => [
                 /* translators: %s: Item index */
-				'_title' => sprintf( __( 'Cel #%s', 'uicore-elements' ), $index ),
-				'content_width' => 'full',
-			],
+                '_title' => sprintf(__('Cel #%s', 'uicore-elements'), $index),
+                'content_width' => 'full',
+            ],
         ];
-	}
+    }
 
-	protected function get_default_children_elements() {
-		return [
-			$this->carousel_content_container( 1 ),
-			$this->carousel_content_container( 2 ),
-			$this->carousel_content_container( 3 ),
-		];
-	}
+    protected function get_default_children_elements()
+    {
+        return [
+            $this->carousel_content_container(1),
+            $this->carousel_content_container(2),
+            $this->carousel_content_container(3),
+        ];
+    }
 
-    protected function get_default_repeater_title_setting_key() {
-		return 'table_cels';
-	}
+    protected function get_default_repeater_title_setting_key()
+    {
+        return 'table_cels';
+    }
 
-	protected function get_default_children_title() {
-         /* translators: %d: Item index */
-		return esc_html__( 'Cel #%d', 'uicore-elements' );
-	}
-	protected function get_default_children_placeholder_selector() {
-		return '.ui-e-table';
-	}
+    protected function get_default_children_title()
+    {
+        /* translators: %d: Item index */
+        return esc_html__('Cel #%d', 'uicore-elements');
+    }
+    protected function get_default_children_placeholder_selector()
+    {
+        return '.ui-e-table';
+    }
 
     protected function register_controls()
     {
-        if( !Plugin::$instance->experiments->is_feature_active('nested-elements') ) {
-			$this->nesting_fallback('controls');
-			return;
-		}
+        if (!Plugin::$instance->experiments->is_feature_active('nested-elements')) {
+            $this->nesting_fallback('controls');
+            return;
+        }
 
         $this->start_controls_section(
             'section_content',
@@ -100,7 +108,7 @@ class CustomTable extends UiCoreNestedWidget {
             [
                 'label'   => __('Column Size', 'uicore-elements'),
                 'type'    => Controls_Manager::SLIDER,
-                'size_units' => ['px', 'fr','custom'],
+                'size_units' => ['px', 'fr', 'custom'],
                 'default' => [
                     'size' => 300,
                     'unit' => 'px',
@@ -130,9 +138,9 @@ class CustomTable extends UiCoreNestedWidget {
                 'title_field' => 'Column',
                 'render_type'  => 'template',
                 'default'     => [
-                    [ 'col_size' => [ 'size' => 1, 'unit' => 'fr' ] ],
-                    [ 'col_size' => [ 'size' => 1, 'unit' => 'fr' ] ],
-                    [ 'col_size' => [ 'size' => 1, 'unit' => 'fr' ] ],
+                    ['col_size' => ['size' => 1, 'unit' => 'fr']],
+                    ['col_size' => ['size' => 1, 'unit' => 'fr']],
+                    ['col_size' => ['size' => 1, 'unit' => 'fr']],
                 ],
             ]
         );
@@ -157,9 +165,9 @@ class CustomTable extends UiCoreNestedWidget {
                 'title_field' => '{{{ item }}}',
                 'allow_empty' => false,
                 'default'     => [
-                    [ 'item' => __( 'Cel #1', 'uicore-elements' ) ],
-                    [ 'item' => __( 'Cel #2', 'uicore-elements' ) ],
-                    [ 'item' => __( 'Cel #3', 'uicore-elements' ) ],
+                    ['item' => __('Cel #1', 'uicore-elements')],
+                    ['item' => __('Cel #2', 'uicore-elements')],
+                    ['item' => __('Cel #3', 'uicore-elements')],
                 ],
             ]
         );
@@ -180,95 +188,95 @@ class CustomTable extends UiCoreNestedWidget {
             'row_tabs'
         );
 
-            $this->start_controls_tab(
-                'odd_row',
-                [
-                    'label' => esc_html__( 'Odd row', 'textdomain' ),
-                ]
-            );
+        $this->start_controls_tab(
+            'odd_row',
+            [
+                'label' => esc_html__('Odd row', 'textdomain'),
+            ]
+        );
 
-                $this->add_control(
-                    'odd_row_bg_color',
-                    [
-                        'label'     => __('Row background', 'uicore-elements'),
-                        'type'      => Controls_Manager::COLOR,
-                        'selectors' => [
-                            '{{WRAPPER}} .ui-e-table > .ui-e-odd' => 'background-color: {{VALUE}};',
-                        ],
-                    ]
-                );
+        $this->add_control(
+            'odd_row_bg_color',
+            [
+                'label'     => __('Row background', 'uicore-elements'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-table > .ui-e-odd' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
 
-                $this->add_control(
-                    'odd_row_padding',
-                    [
-                        'label' => esc_html__( 'Row Padding', 'uicore-elements' ),
-                        'type' => Controls_Manager::DIMENSIONS,
-                        'size_units' => [ 'px', 'em', 'rem', 'custom' ],
-                        'selectors' => [
-                            "{{WRAPPER}} .ui-e-table > .ui-e-odd" => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                        ],
-                    ]
-                );
+        $this->add_control(
+            'odd_row_padding',
+            [
+                'label' => esc_html__('Row Padding', 'uicore-elements'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', 'rem', 'custom'],
+                'selectors' => [
+                    "{{WRAPPER}} .ui-e-table > .ui-e-odd" => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
-                $this->add_control(
-                    'odd_row_radius',
-                    [
-                        'label' => esc_html__( 'Row Border Radius', 'uicore-elements' ),
-                        'type' => Controls_Manager::DIMENSIONS,
-                        'size_units' => [ 'px', 'em', 'rem', 'custom' ],
-                        'selectors' => [
-                            "{{WRAPPER}} .ui-e-table > .ui-e-odd.ui-e-first-row-cel" => 'border-radius: {{TOP}}{{UNIT}} 0 0 {{LEFT}}{{UNIT}};',
-                            "{{WRAPPER}} .ui-e-table > .ui-e-odd.ui-e-last-row-cel" => 'border-radius: 0 {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} 0;'
-                        ],
-                    ]
-                );
+        $this->add_control(
+            'odd_row_radius',
+            [
+                'label' => esc_html__('Row Border Radius', 'uicore-elements'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', 'rem', 'custom'],
+                'selectors' => [
+                    "{{WRAPPER}} .ui-e-table > .ui-e-odd.ui-e-first-row-cel" => 'border-radius: {{TOP}}{{UNIT}} 0 0 {{LEFT}}{{UNIT}};',
+                    "{{WRAPPER}} .ui-e-table > .ui-e-odd.ui-e-last-row-cel" => 'border-radius: 0 {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} 0;'
+                ],
+            ]
+        );
 
-            $this->end_controls_tab();
+        $this->end_controls_tab();
 
-            $this->start_controls_tab(
-                'even_row',
-                [
-                    'label' => esc_html__( 'Even row', 'textdomain' ),
-                ]
-            );
+        $this->start_controls_tab(
+            'even_row',
+            [
+                'label' => esc_html__('Even row', 'textdomain'),
+            ]
+        );
 
-                $this->add_control(
-                    'even_row_bg_color',
-                    [
-                        'label'     => __('Row background', 'uicore-elements'),
-                        'type'      => Controls_Manager::COLOR,
-                        'selectors' => [
-                            '{{WRAPPER}} .ui-e-table > .ui-e-even' => 'background-color: {{VALUE}};',
-                        ],
-                    ]
-                );
+        $this->add_control(
+            'even_row_bg_color',
+            [
+                'label'     => __('Row background', 'uicore-elements'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-table > .ui-e-even' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
 
-                $this->add_control(
-                    'even_row_padding',
-                    [
-                        'label' => esc_html__( 'Row Padding', 'uicore-elements' ),
-                        'type' => Controls_Manager::DIMENSIONS,
-                        'size_units' => [ 'px', 'em', 'rem', 'custom' ],
-                        'selectors' => [
-                            "{{WRAPPER}} .ui-e-table > .ui-e-even" => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                        ],
-                    ]
-                );
+        $this->add_control(
+            'even_row_padding',
+            [
+                'label' => esc_html__('Row Padding', 'uicore-elements'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', 'rem', 'custom'],
+                'selectors' => [
+                    "{{WRAPPER}} .ui-e-table > .ui-e-even" => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
-                $this->add_control(
-                    'even_row_radius',
-                    [
-                        'label' => esc_html__( 'Row Border Radius', 'uicore-elements' ),
-                        'type' => Controls_Manager::DIMENSIONS,
-                        'size_units' => [ 'px', 'em', 'rem', 'custom' ],
-                        'selectors' => [
-                            "{{WRAPPER}} .ui-e-table > .ui-e-even.ui-e-first-row-cel" => 'border-radius: {{TOP}}{{UNIT}} 0 0 {{LEFT}}{{UNIT}};',
-                            "{{WRAPPER}} .ui-e-table > .ui-e-even.ui-e-last-row-cel" => 'border-radius: 0 {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} 0;'
-                        ],
-                    ]
-                );
+        $this->add_control(
+            'even_row_radius',
+            [
+                'label' => esc_html__('Row Border Radius', 'uicore-elements'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', 'rem', 'custom'],
+                'selectors' => [
+                    "{{WRAPPER}} .ui-e-table > .ui-e-even.ui-e-first-row-cel" => 'border-radius: {{TOP}}{{UNIT}} 0 0 {{LEFT}}{{UNIT}};',
+                    "{{WRAPPER}} .ui-e-table > .ui-e-even.ui-e-last-row-cel" => 'border-radius: 0 {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} 0;'
+                ],
+            ]
+        );
 
-            $this->end_controls_tab();
+        $this->end_controls_tab();
 
         $this->end_controls_tabs();
 
@@ -314,10 +322,10 @@ class CustomTable extends UiCoreNestedWidget {
 
     public function render()
     {
-        if(!Plugin::$instance->experiments->is_feature_active('nested-elements')) {
-			$this->nesting_fallback();
-			return;
-		}
+        if (!Plugin::$instance->experiments->is_feature_active('nested-elements')) {
+            $this->nesting_fallback();
+            return;
+        }
 
         $cells = $this->get_settings_for_display('cells');
         $cols  = $this->get_settings_for_display('columns');
@@ -326,103 +334,106 @@ class CustomTable extends UiCoreNestedWidget {
         // Add it to the widget wrapper
         $this->add_render_attribute('_wrapper', ['style' => $grid_css]);
 
-        ?>
+?>
         <div class="ui-e-table">
             <?php
 
-                $columns = count($cols);
+            $columns = count($cols);
 
-                foreach ($cells as $index => $item) {
-                    $row_class = floor($index / $columns) % 2 !== 0
-                        ? 'ui-e-even'
-                        : 'ui-e-odd';
+            foreach ($cells as $index => $item) {
+                $row_class = floor($index / $columns) % 2 !== 0
+                    ? 'ui-e-even'
+                    : 'ui-e-odd';
 
-                    // TODO: in the future experiment a nth-child approach so we don't need this first/last classes
-                    // Add classes to the first and last items of each row
-                    if ($index % $columns === 0) {
-                        $row_class .= ' ui-e-first-row-cel';
-                    } else if (($index + 1) % $columns === 0) {
-                        $row_class .= ' ui-e-last-row-cel';
-                    }
-
-                    $this->print_child($index, ['class' => $row_class]);
+                // TODO: in the future experiment a nth-child approach so we don't need this first/last classes
+                // Add classes to the first and last items of each row
+                if ($index % $columns === 0) {
+                    $row_class .= ' ui-e-first-row-cel';
+                } else if (($index + 1) % $columns === 0) {
+                    $row_class .= ' ui-e-last-row-cel';
                 }
+
+                $this->print_child($index, ['class' => $row_class]);
+            }
             ?>
         </div>
-        <?php
+    <?php
     }
 
-	public function print_child( $index , array $atts = []) {
-		$children = $this->get_children();
+    public function print_child($index, array $atts = [])
+    {
+        $children = $this->get_children();
 
-		if ( ! empty( $children[ $index ] ) ) {
+        if (! empty($children[$index])) {
 
             // Add custom attributes to each child container.
-            if( !empty($atts) ){
+            if (!empty($atts)) {
                 //$child_settings = $children[ $index ]->get_settings_for_display();
-                foreach($atts as $key => $value){
-                    $children[ $index ]->add_render_attribute( '_wrapper', $key, $value );
+                foreach ($atts as $key => $value) {
+                    $children[$index]->add_render_attribute('_wrapper', $key, $value);
                 }
             }
 
-			$children[ $index ]->print_element();
-		}
-	}
+            $children[$index]->print_element();
+        }
+    }
 
-    protected function get_initial_config(): array {
-		if (Plugin::$instance->experiments->is_feature_active('e_nested_atomic_repeaters')) {
-			return array_merge(parent::get_initial_config(), [
-				'support_improved_repeaters' => true,
-				'node' => '.ui-e-table'
-			]);
-		}
+    protected function get_initial_config(): array
+    {
+        if (Plugin::$instance->experiments->is_feature_active('e_nested_atomic_repeaters')) {
+            return array_merge(parent::get_initial_config(), [
+                'support_improved_repeaters' => true,
+                'node' => '.ui-e-table'
+            ]);
+        }
 
-		return parent::get_initial_config();
-	}
+        return parent::get_initial_config();
+    }
 
 
-    protected function content_template() {
-        ?>
+    protected function content_template()
+    {
+    ?>
         <#
-            const cols = settings.columns;
-            const cols_qty = '--ui-e-cols-qty:' + settings.columns.length;
+            const cols=settings.columns;
+            const cols_qty='--ui-e-cols-qty:' + settings.columns.length;
 
             if ( cols ) {
-                let gridCss = '';
-                const gridColumns = {};
-                const breakpoints = elementorFrontend.config.responsive.activeBreakpoints;
+            let gridCss='' ;
+            const gridColumns={};
+            const breakpoints=elementorFrontend.config.responsive.activeBreakpoints;
 
-                _.each( cols, function( item, index ) {
+            _.each( cols, function( item, index ) {
 
-                    if ( ! gridColumns.desktop ) {
-                        gridColumns.desktop = [];
-                    }
+            if ( ! gridColumns.desktop ) {
+            gridColumns.desktop=[];
+            }
 
-                    gridColumns.desktop.push( item.col_size.size + item.col_size.unit );
+            gridColumns.desktop.push( item.col_size.size + item.col_size.unit );
 
-                    _.each( breakpoints, function( object, breakpoint ) {
-                        const sizeSlug = 'col_size_' + breakpoint;
+            _.each( breakpoints, function( object, breakpoint ) {
+            const sizeSlug='col_size_' + breakpoint;
 
-                        if ( item[sizeSlug] && item[sizeSlug].size ) {
-                            if ( ! gridColumns[breakpoint] ) {
-                                gridColumns[breakpoint] = [];
-                            }
-                            gridColumns[breakpoint].push( item[sizeSlug].size + item[sizeSlug].unit );
-                        } else {
-                            if ( ! gridColumns[breakpoint] ) {
-                                gridColumns[breakpoint] = [];
-                            }
-                            gridColumns[breakpoint].push( item.col_size.size + item.col_size.unit );
-                        }
-                    });
-                });
+            if ( item[sizeSlug] && item[sizeSlug].size ) {
+            if ( ! gridColumns[breakpoint] ) {
+            gridColumns[breakpoint]=[];
+            }
+            gridColumns[breakpoint].push( item[sizeSlug].size + item[sizeSlug].unit );
+            } else {
+            if ( ! gridColumns[breakpoint] ) {
+            gridColumns[breakpoint]=[];
+            }
+            gridColumns[breakpoint].push( item.col_size.size + item.col_size.unit );
+            }
+            });
+            });
 
-                _.each( gridColumns, function( values, device ) {
-                    const breakpoint = device === 'desktop' ? '' : '-' + device;
-                    gridCss += '--ui-e-table-cols' + breakpoint + ':' + values.join(' ') + ';';
-                });
+            _.each( gridColumns, function( values, device ) {
+            const breakpoint=device==='desktop' ? '' : '-' + device;
+            gridCss +='--ui-e-table-cols' + breakpoint + ':' + values.join(' ') + ' ;';
+            });
 
-                view.addRenderAttribute('table', 'style', [gridCss, cols_qty].join(' '));
+            view.addRenderAttribute('table', 'style' , [gridCss, cols_qty].join(' '));
             }
         #>
         <div class="ui-e-table" {{{ view.getRenderAttributeString('table') }}}>

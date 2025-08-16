@@ -80,6 +80,7 @@ class Admin
             'animations_page_duration'     => Settings::get_option('animations_page_duration'),
             'animations_page_color'     => Settings::get_option('animations_page_color'),
             'animations_preloader'      => Settings::get_option('animations_preloader'),
+            'animations_preloader_once'      => Settings::get_option('animations_preloader_once'),
             'animations_preloader_text' => Settings::get_option('animations_preloader_text'),
             'animations_preloader_text_color' => Settings::get_option('animations_preloader_text_color'),
             'animations_preloader_color' => Settings::get_option('animations_preloader_color'),

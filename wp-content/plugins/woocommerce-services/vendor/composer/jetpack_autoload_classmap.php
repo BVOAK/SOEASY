@@ -282,6 +282,46 @@ return array(
 		'version' => '6.11.5.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-tracking.php'
 	),
+	'Automattic\\WCServices\\Integrations\\WooCommerceBlocksIntegration' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/Integrations/WooCommerceBlocksIntegration.php'
+	),
+	'Automattic\\WCServices\\StoreApi\\AbstractStoreApiExtension' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreApi/AbstractStoreApiExtension.php'
+	),
+	'Automattic\\WCServices\\StoreApi\\Extensions\\StoreNoticesExtension' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreApi/Extensions/StoreNoticesExtension.php'
+	),
+	'Automattic\\WCServices\\StoreApi\\StoreApiExtendSchema' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreApi/StoreApiExtendSchema.php'
+	),
+	'Automattic\\WCServices\\StoreApi\\StoreApiExtensionController' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreApi/StoreApiExtensionController.php'
+	),
+	'Automattic\\WCServices\\StoreNotices\\StoreNotice' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreNotices/StoreNotice.php'
+	),
+	'Automattic\\WCServices\\StoreNotices\\StoreNoticeTypes' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreNotices/StoreNoticeTypes.php'
+	),
+	'Automattic\\WCServices\\StoreNotices\\StoreNoticesController' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreNotices/StoreNoticesController.php'
+	),
+	'Automattic\\WCServices\\StoreNotices\\StoreNoticesNotifier' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/StoreNotices/StoreNoticesNotifier.php'
+	),
+	'Automattic\\WCServices\\Utils' => array(
+		'version' => 'dev-trunk',
+		'path'    => $baseDir . '/src/Utils.php'
+	),
 	'Container' => array(
 		'version' => '5.0.7',
 		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/class-container.php'

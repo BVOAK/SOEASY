@@ -1,4 +1,5 @@
 <?php
+
 namespace UiCoreElements;
 
 use Elementor\Controls_Manager;
@@ -54,7 +55,7 @@ class GalleryCarousel extends UiCoreWidget
             'animation', // hover animations
             'entrance', // entrance basic style
         ];
-        if(!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')){
+        if (!class_exists('\UiCore\Core') && !class_exists('\UiCoreAnimate\Base')) {
             $styles['e-animations'] = [ // entrance animations
                 'external' => true,
             ];
@@ -65,10 +66,11 @@ class GalleryCarousel extends UiCoreWidget
     {
         return $this->TRAIT_get_carousel_scripts();
     }
-    public function has_widget_inner_wrapper(): bool {
-		// TODO: remove after 3.30, when the full deprecation of widget innet wrapper is ready
-		return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
-	}
+    public function has_widget_inner_wrapper(): bool
+    {
+        // TODO: remove after Optmized Markup experiment is merged to the core
+        return ! \Elementor\Plugin::$instance->experiments->is_feature_active('e_optimized_markup');
+    }
     protected function register_controls()
     {
         $this->TRAIT_register_gallery_repeater_controls('Content');
@@ -81,14 +83,14 @@ class GalleryCarousel extends UiCoreWidget
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
-            $this->TRAIT_register_carousel_additional_controls();
-            $this->add_control(
-                'divider',
-                [
-                    'type' => Controls_Manager::DIVIDER,
-                ]
-            );
-            $this->TRAIT_register_carousel_settings_controls();
+        $this->TRAIT_register_carousel_additional_controls();
+        $this->add_control(
+            'divider',
+            [
+                'type' => Controls_Manager::DIVIDER,
+            ]
+        );
+        $this->TRAIT_register_carousel_settings_controls();
 
         $this->end_controls_section();
 
@@ -102,7 +104,7 @@ class GalleryCarousel extends UiCoreWidget
             ]
         );
 
-            $this->TRAIT_register_all_item_style_controls();
+        $this->TRAIT_register_all_item_style_controls();
 
         $this->end_controls_section();
 
@@ -132,8 +134,8 @@ class GalleryCarousel extends UiCoreWidget
                     'left' => 10,
                 ],
                 'selectors' => [
-					'{{WRAPPER}} .ui-e-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
+                    '{{WRAPPER}} .ui-e-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
             ]
         );
         $this->update_control(
@@ -149,7 +151,8 @@ class GalleryCarousel extends UiCoreWidget
             ]
         );
         $this->update_control(
-            'match_height', [
+            'match_height',
+            [
                 'render_type' => 'template',
             ]
         );
@@ -195,13 +198,15 @@ class GalleryCarousel extends UiCoreWidget
             ],
         ];
 
-        $this->update_responsive_control(
-            'image_height', [
+        $this->update_control(
+            'style_image_section',
+            [
                 'conditions' => $image_conditions
             ]
         );
         $this->update_responsive_control(
-            'style_image_section', [
+            'image_height',
+            [
                 'conditions' => $image_conditions
             ]
         );
@@ -220,27 +225,27 @@ class GalleryCarousel extends UiCoreWidget
             'at' => 'after',
         ]);
 
-            $this->add_control(
-                'main_image',
-                [
-                    'label'        => __('Main image', 'uicore-elements'),
-                    'type'         => Controls_Manager::SELECT,
-                    'default'      => '',
-                    'options' => [
-                        '' => esc_html__('Default', 'uicore-elements'),
-                        'ui-e-main-image-scale' => esc_html__('Scale', 'uicore-elements'),
-                        'ui-e-main-image-show' => esc_html__('Show Info', 'uicore-elements'),
-                        'ui-e-main-image-show_scale' => esc_html__('Show Info & Scale', 'uicore-elements'),
-                    ],
-                    'description' => __('Works best with centered slides.', 'uicore-elements'),
-                    'prefix_class' => '',
-                    'render_type'  => 'template',
-                    'frontend_available' => true,
-                    'condition' => [
-                        'animation_style!' => 'marquee',
-                    ]
+        $this->add_control(
+            'main_image',
+            [
+                'label'        => __('Main image', 'uicore-elements'),
+                'type'         => Controls_Manager::SELECT,
+                'default'      => '',
+                'options' => [
+                    '' => esc_html__('Default', 'uicore-elements'),
+                    'ui-e-main-image-scale' => esc_html__('Scale', 'uicore-elements'),
+                    'ui-e-main-image-show' => esc_html__('Show Info', 'uicore-elements'),
+                    'ui-e-main-image-show_scale' => esc_html__('Show Info & Scale', 'uicore-elements'),
+                ],
+                'description' => __('Works best with centered slides.', 'uicore-elements'),
+                'prefix_class' => '',
+                'render_type'  => 'template',
+                'frontend_available' => true,
+                'condition' => [
+                    'animation_style!' => 'marquee',
                 ]
-            );
+            ]
+        );
 
         $this->end_injection();
 
@@ -249,27 +254,27 @@ class GalleryCarousel extends UiCoreWidget
             'at' => 'before',
         ]);
 
-            // normal background controls
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name' => 'item_gallery_background',
-                    'selector' => '{{WRAPPER}} .ui-e-item',
-                    'condition' => [
-                        'layout' => '',
-                    ]
+        // normal background controls
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'item_gallery_background',
+                'selector' => '{{WRAPPER}} .ui-e-item',
+                'condition' => [
+                    'layout' => '',
                 ]
-            );
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name' => 'item_content_background',
-                    'selector' => '{{WRAPPER}} .ui-e-content',
-                    'condition' => [
-                        'layout' => 'ui-e-overlay',
-                    ]
+            ]
+        );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'item_content_background',
+                'selector' => '{{WRAPPER}} .ui-e-content',
+                'condition' => [
+                    'layout' => 'ui-e-overlay',
                 ]
-            );
+            ]
+        );
 
         $this->end_injection();
 
@@ -278,27 +283,27 @@ class GalleryCarousel extends UiCoreWidget
             'at' => 'before',
         ]);
 
-            // hover background controls
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name' => 'item_gallery_hover_background',
-                    'selector' => '{{WRAPPER}} .ui-e-item:hover',
-                    'condition' => [
-                        'layout' => '',
-                    ]
+        // hover background controls
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'item_gallery_hover_background',
+                'selector' => '{{WRAPPER}} .ui-e-item:hover',
+                'condition' => [
+                    'layout' => '',
                 ]
-            );
-            $this->add_group_control(
-                Group_Control_Background::get_type(),
-                [
-                    'name' => 'item_content_hover_background',
-                    'selector' => '{{WRAPPER}} .ui-e-item:hover .ui-e-content',
-                    'condition' => [
-                        'layout' => 'ui-e-overlay',
-                    ]
+            ]
+        );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'item_content_hover_background',
+                'selector' => '{{WRAPPER}} .ui-e-item:hover .ui-e-content',
+                'condition' => [
+                    'layout' => 'ui-e-overlay',
                 ]
-            );
+            ]
+        );
 
         $this->end_injection();
     }
@@ -306,15 +311,14 @@ class GalleryCarousel extends UiCoreWidget
     public function render()
     {
         $settings = $this->get_settings_for_display();
-        ?>
-            <div class="ui-e-carousel swiper">
-                <div class='swiper-wrapper'>
-                    <?php $this->TRAIT_render_gallery($settings, true); ?>
-                </div>
+?>
+        <div class="ui-e-carousel swiper">
+            <div class='swiper-wrapper'>
+                <?php $this->TRAIT_render_gallery($settings, true); ?>
             </div>
-            <?php $this->TRAIT_render_carousel_navigations(); ?>
-        <?php
+        </div>
+        <?php $this->TRAIT_render_carousel_navigations(); ?>
+<?php
     }
-
 }
 \Elementor\Plugin::instance()->widgets_manager->register(new GalleryCarousel());
