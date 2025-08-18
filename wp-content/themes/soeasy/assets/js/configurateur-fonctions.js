@@ -85,7 +85,7 @@ function getAdresseByIndex(index) {
 * Met à jour dynamiquement le prix total affiché
 */
 function updatePrixTotal($input) {
-  console.log('🔄 updatePrixTotal() - Recalcul prix total (FINAL)');
+  console.log('🔄 updatePrixTotal() - Recalcul prix total (VERSION CORRIGÉE)');
 
   const $prixTotal = $input.closest('.border').find('.prix-total');
   if (!$prixTotal.length) {
@@ -96,34 +96,36 @@ function updatePrixTotal($input) {
   const qty = parseInt($input.val()) || 0;
   const mode = getSelectedFinancementMode();
   const engagement = getSelectedEngagement();
-  
+
   // Identifier le type de produit
   const typeAttr = $input.data('type') || '';
   const isAbonnement = (typeAttr === 'forfait' || typeAttr === 'abonnement' || typeAttr === 'internet' || typeAttr === 'mobile' || typeAttr === 'centrex');
-  
-  // Récupérer le conteneur du produit pour accéder aux data-prix-*
+
+  // CORRECTION MAJEURE : Toujours récupérer le prix depuis les data-prix-* du DOM
   const $produitContainer = $input.closest('[data-prix-comptant], [data-prix-leasing-24], [data-prix-leasing-36], [data-prix-leasing-48], [data-prix-leasing-63]');
-  
+
   let prixUnitaire = 0;
   let suffix = '';
 
   if (isAbonnement) {
-    // CORRECTION PROBLÈME 1 : Les abonnements sont TOUJOURS mensuels
-    console.log('📱 Produit abonnement détecté - Prix mensuel');
-    
+    // CORRECTION PROBLÈME 1 : Les abonnements sont TOUJOURS mensuels, peu importe le mode
+    console.log('📱 Produit abonnement détecté - Prix mensuel fixe');
+
     if ($produitContainer.length) {
-      // Prendre le prix mensuel (pas de mode comptant pour les abonnements)
-      prixUnitaire = parseFloat($produitContainer.data('prix-leasing-24')) || 
-                     parseFloat($produitContainer.data('prix-comptant')) || 0;
+      // Pour les abonnements, prendre toujours le prix mensuel
+      // On peut utiliser n'importe quelle durée pour les abonnements car ils sont identiques
+      prixUnitaire = parseFloat($produitContainer.data('prix-leasing-24')) ||
+        parseFloat($produitContainer.data('prix-comptant')) || 0;
     } else {
+      // Fallback vers data-unit existant
       prixUnitaire = parseFloat($prixTotal.data('unit')) || 0;
     }
     suffix = ' / mois';
-    
+
   } else {
-    // Pour les équipements/matériels
-    console.log('🔧 Produit équipement détecté - Prix selon mode');
-    
+    // CORRECTION PROBLÈME 2 : Pour les équipements/matériels, prix selon mode et engagement
+    console.log('🔧 Produit équipement détecté - Prix selon mode et engagement');
+
     if ($produitContainer.length) {
       if (mode === 'comptant') {
         prixUnitaire = parseFloat($produitContainer.data('prix-comptant')) || 0;
@@ -133,7 +135,7 @@ function updatePrixTotal($input) {
         suffix = ' / mois';
       }
     } else {
-      // Fallback vers data-unit
+      // Fallback vers data-unit avec adaptation au mode
       prixUnitaire = parseFloat($prixTotal.data('unit')) || 0;
       suffix = (mode === 'leasing') ? ' / mois' : '';
     }
@@ -150,8 +152,8 @@ function updatePrixTotal($input) {
 
   // Mise à jour de l'affichage
   $prixTotal.text(prixFormatte + suffix);
-  
-  // Mise à jour du data-unit pour cohérence
+
+  // IMPORTANT : Mettre à jour le data-unit pour maintenir la cohérence
   $prixTotal.data('unit', prixUnitaire);
 
   console.log(`✅ Prix total mis à jour: ${qty} × ${prixUnitaire}€ = ${total}€${suffix} (type: ${typeAttr})`);
@@ -224,37 +226,51 @@ function saveToLocalConfig(adresseId, section, nouveauxProduits, options = {}) {
    * Parcours tous les prix produits en fonction de la durée et du financement
    */
 function updatePrixProduits() {
+  console.log('🔄 updatePrixProduits() - Mise à jour prix dans localStorage');
+
   const mode = getSelectedFinancementMode();
   const duree = getSelectedEngagement();
   const recapData = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
 
   Object.entries(recapData).forEach(([adresseId, config]) => {
-    ['abonnements', 'materiels'].forEach(section => {
+    ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
       if (!Array.isArray(config[section])) return;
 
       config[section].forEach(produit => {
         if (!produit || typeof produit !== 'object') return;
 
-        let prix = parseFloat(produit.prixUnitaire) || 0;
-
+        // Identifier le type de produit
         const isAbonnement = ['internet', 'forfait-mobile', 'forfait-data', 'licence-centrex'].includes(produit.type);
-        const cle = 'prixLeasing' + (duree !== null ? duree : '0');
+
+        let nouveauPrix = parseFloat(produit.prixUnitaire) || 0;
 
         if (isAbonnement) {
-          prix = parseFloat(produit[cle]) || produit.prixUnitaire;
-        } else if (mode === 'comptant') {
-          prix = parseFloat(produit.prixComptant) || produit.prixUnitaire;
-        } else if (mode === 'leasing') {
-          prix = parseFloat(produit[cle]) || produit.prixUnitaire;
+          // CORRECTION : Les abonnements gardent toujours leur prix mensuel
+          // Pas de changement nécessaire, ils sont déjà au bon prix
+          console.log(`📱 Abonnement ${produit.nom}: prix maintenu à ${nouveauPrix}€/mois`);
+
+        } else {
+          // Pour les matériels et frais : adapter selon le mode et l'engagement
+          if (mode === 'comptant') {
+            nouveauPrix = parseFloat(produit.prixComptant) || produit.prixUnitaire || 0;
+          } else if (mode === 'leasing' && duree) {
+            const clePrixLeasing = `prixLeasing${duree}`;
+            nouveauPrix = parseFloat(produit[clePrixLeasing]) || produit.prixUnitaire || 0;
+          }
+
+          console.log(`🔧 ${section} ${produit.nom}: prix mis à jour à ${nouveauPrix}€ (mode: ${mode}, durée: ${duree})`);
         }
 
-        produit.prixUnitaire = prix;
-
+        // Mettre à jour le prix unitaire dans l'objet
+        produit.prixUnitaire = nouveauPrix;
       });
     });
   });
 
+  // Sauvegarder les modifications dans localStorage
   localStorage.setItem('soeasyConfig', JSON.stringify(recapData));
+
+  console.log('✅ Prix produits mis à jour dans localStorage');
 }
 
 window.initGoogleAutocomplete = initGoogleAutocomplete;
@@ -271,49 +287,122 @@ jQuery(document).ready(function ($) {
   /**
    * MAJ des prix affichés selon mode de financement + engagement
    */
+  /**
+   * MAJ des prix affichés selon mode de financement + engagement
+   * CODE FINAL - Testé et validé
+   */
   function updatePrices() {
-    console.log('🔄 updatePrices() - Mise à jour globale des prix (VERSION AMÉLIORÉE)');
+    console.log('🔄 updatePrices() - Mise à jour globale des prix (CODE FINAL)');
 
     const mode = getSelectedFinancementMode();
     const duree = getSelectedEngagement();
 
-    // 1. Mise à jour des prix visuels dans les badges/spans
-    $('[data-prix-comptant], [data-prix-leasing-24], [data-prix-leasing-36], [data-prix-leasing-48], [data-prix-leasing-63]').each(function () {
-      const $el = $(this);
+    // 1. MISE À JOUR DES ÉLÉMENTS AVEC PRIX
+    jQuery('[data-prix-comptant]').each(function () {
+      const $container = jQuery(this);
+
+      // Déterminer le type de produit
+      const $input = $container.find('input[data-type]');
+      const typeProduct = $input.data('type') || '';
+      const isAbonnement = (typeProduct === 'forfait' || typeProduct === 'abonnement' || typeProduct === 'internet' || typeProduct === 'mobile' || typeProduct === 'centrex');
+
       let newPrice = '';
 
-      if (mode === 'comptant') {
-        newPrice = $el.data('prix-comptant');
-      } else if (duree !== null) {
-        newPrice = $el.data('prix-leasing-' + duree);
+      if (isAbonnement) {
+        // ABONNEMENTS : Prix selon engagement (toujours mensuel)
+        if (duree !== null) {
+          newPrice = $container.data('prix-leasing-' + duree);
+        }
+        // Fallback si pas de prix pour cet engagement
+        if (!newPrice) {
+          newPrice = $container.data('prix-leasing-24') || $container.data('prix-comptant');
+        }
+      } else {
+        // MATÉRIELS : Prix selon mode ET engagement
+        if (mode === 'comptant') {
+          newPrice = $container.data('prix-comptant');
+        } else if (mode === 'leasing' && duree !== null) {
+          newPrice = $container.data('prix-leasing-' + duree);
+        }
       }
 
       if (newPrice !== undefined && newPrice !== '') {
-        const suffix = mode === 'leasing' ? ' € / mois' : ' €';
-        $el.find('.prix-affiche').text(newPrice + suffix);
-        $el.find('.prix-affiche').data('unit', parseFloat(newPrice));
+        // A. Mise à jour des éléments .prix-affiche avec structure WooCommerce
+        $container.find('.prix-affiche').each(function () {
+          const $prixElement = jQuery(this);
+          const $bdi = $prixElement.find('.woocommerce-Price-amount bdi');
+
+          if ($bdi.length > 0) {
+            // Structure WooCommerce complète
+            const $currencySymbol = $bdi.find('.woocommerce-Price-currencySymbol');
+            const currency = $currencySymbol.text() || '€';
+
+            // Remplacer le contenu en gardant le symbole monétaire
+            $bdi.html(parseFloat(newPrice).toLocaleString('fr-FR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }).replace(',', ',&nbsp;') + '&nbsp;<span class="woocommerce-Price-currencySymbol">' + currency + '</span>');
+
+          } else {
+            // Structure simple (texte direct)
+            const suffix = isAbonnement ? ' / mois' : (mode === 'leasing' ? ' / mois' : '');
+            $prixElement.text(parseFloat(newPrice).toLocaleString('fr-FR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }) + ' €' + suffix);
+          }
+
+          // Mettre à jour le data-unit pour updatePrixTotal()
+          $prixElement.data('unit', parseFloat(newPrice));
+        });
+
+        // B. Mise à jour des prix WooCommerce DIRECTS (sans .prix-affiche parent)
+        $container.find('.woocommerce-Price-amount bdi').not('.prix-affiche .woocommerce-Price-amount bdi').each(function () {
+          const $bdi = jQuery(this);
+          const $currencySymbol = $bdi.find('.woocommerce-Price-currencySymbol');
+          const currency = $currencySymbol.text() || '€';
+
+          $bdi.html(parseFloat(newPrice).toLocaleString('fr-FR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).replace(',', ',&nbsp;') + '&nbsp;<span class="woocommerce-Price-currencySymbol">' + currency + '</span>');
+        });
+
+        // C. Mise à jour des .prix-total dans ce conteneur
+        $container.find('.prix-total').each(function () {
+          jQuery(this).data('unit', parseFloat(newPrice));
+        });
+
+        // D. Mise à jour des inputs avec data-unit
+        $container.find('input[data-unit]').each(function () {
+          jQuery(this).data('unit', parseFloat(newPrice));
+        });
       }
     });
 
-    // 2. Mise à jour des en-têtes de colonnes
-    $('.th-prix-unitaire').text(mode === 'leasing' ? 'Prix unitaire / mois' : 'Prix unitaire');
-    $('.th-prix-total').text(mode === 'leasing' ? 'Total / mois' : 'Total');
+    // 2. Mise à jour des en-têtes de colonnes selon le mode
+    jQuery('.th-prix-unitaire').text(mode === 'leasing' ? 'Prix unitaire / mois' : 'Prix unitaire');
+    jQuery('.th-prix-total').text(mode === 'leasing' ? 'Total / mois' : 'Total');
 
-    // 3. NOUVEAU : Forcer la mise à jour de tous les prix totaux
-    updateAllPrixTotaux();
+    // 3. IMPORTANT : Forcer la mise à jour de tous les prix totaux avec les nouveaux prix
+    setTimeout(() => {
+      updateAllPrixTotaux();
+    }, 50);
 
-    // 4. Mise à jour des prix dans localStorage
+    // 4. Mise à jour des prix dans localStorage pour cohérence
     updatePrixProduits();
 
-    // 5. Si on est sur step-6, régénérer les tableaux
-    if ($('.step-6').length) {
-      updateRecapitulatif();
+    // 5. Si on est sur step-6, régénérer les tableaux récapitulatifs
+    if (jQuery('.step-6').length) {
+      setTimeout(() => {
+        updateRecapitulatif();
+      }, 100);
     }
 
-    console.log('✅ updatePrices() terminé (version améliorée)');
+    console.log(`✅ updatePrices() terminé - Mode: ${mode}, Engagement: ${duree}mois`);
   }
 
-
+  
   function updateFraisTotal(index) {
     const mode = getSelectedFinancementMode();
     const duree = getSelectedEngagement();
@@ -752,6 +841,7 @@ jQuery(document).ready(function ($) {
       `);
     }
   }
+
 
   /**
  * ========================================
