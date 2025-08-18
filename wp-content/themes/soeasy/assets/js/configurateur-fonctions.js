@@ -85,7 +85,7 @@ function getAdresseByIndex(index) {
 * Met à jour dynamiquement le prix total affiché
 */
 function updatePrixTotal($input) {
-  console.log('🔄 updatePrixTotal() - Recalcul prix total');
+  console.log('🔄 updatePrixTotal() - Recalcul prix total (FINAL)');
 
   const $prixTotal = $input.closest('.border').find('.prix-total');
   if (!$prixTotal.length) {
@@ -96,38 +96,46 @@ function updatePrixTotal($input) {
   const qty = parseInt($input.val()) || 0;
   const mode = getSelectedFinancementMode();
   const engagement = getSelectedEngagement();
-
+  
+  // Identifier le type de produit
+  const typeAttr = $input.data('type') || '';
+  const isAbonnement = (typeAttr === 'forfait' || typeAttr === 'abonnement' || typeAttr === 'internet' || typeAttr === 'mobile' || typeAttr === 'centrex');
+  
   // Récupérer le conteneur du produit pour accéder aux data-prix-*
   const $produitContainer = $input.closest('[data-prix-comptant], [data-prix-leasing-24], [data-prix-leasing-36], [data-prix-leasing-48], [data-prix-leasing-63]');
-
+  
   let prixUnitaire = 0;
   let suffix = '';
 
-  if ($produitContainer.length) {
-    // NOUVEAU : Utiliser les data-prix-* pour récupérer le bon prix
-    if (mode === 'comptant') {
-      prixUnitaire = parseFloat($produitContainer.data('prix-comptant')) || 0;
-      suffix = '';
-    } else if (mode === 'leasing' && engagement) {
-      prixUnitaire = parseFloat($produitContainer.data(`prix-leasing-${engagement}`)) || 0;
-      suffix = ' / mois';
-    }
-  } else {
-    // FALLBACK : Utiliser l'ancien système avec data-unit
-    prixUnitaire = parseFloat($prixTotal.data('unit')) || 0;
-
-    // Déterminer le suffixe selon le type de produit
-    const typeAttr = $input.data('type') || '';
-
-    if (typeAttr === 'forfait') {
-      // Les forfaits sont toujours mensuels
-      suffix = ' / mois';
-    } else if (typeAttr === 'equipement' && mode === 'leasing') {
-      // Les équipements en leasing sont mensuels
-      suffix = ' / mois';
+  if (isAbonnement) {
+    // CORRECTION PROBLÈME 1 : Les abonnements sont TOUJOURS mensuels
+    console.log('📱 Produit abonnement détecté - Prix mensuel');
+    
+    if ($produitContainer.length) {
+      // Prendre le prix mensuel (pas de mode comptant pour les abonnements)
+      prixUnitaire = parseFloat($produitContainer.data('prix-leasing-24')) || 
+                     parseFloat($produitContainer.data('prix-comptant')) || 0;
     } else {
-      // Les équipements en comptant
-      suffix = '';
+      prixUnitaire = parseFloat($prixTotal.data('unit')) || 0;
+    }
+    suffix = ' / mois';
+    
+  } else {
+    // Pour les équipements/matériels
+    console.log('🔧 Produit équipement détecté - Prix selon mode');
+    
+    if ($produitContainer.length) {
+      if (mode === 'comptant') {
+        prixUnitaire = parseFloat($produitContainer.data('prix-comptant')) || 0;
+        suffix = '';
+      } else if (mode === 'leasing' && engagement) {
+        prixUnitaire = parseFloat($produitContainer.data(`prix-leasing-${engagement}`)) || 0;
+        suffix = ' / mois';
+      }
+    } else {
+      // Fallback vers data-unit
+      prixUnitaire = parseFloat($prixTotal.data('unit')) || 0;
+      suffix = (mode === 'leasing') ? ' / mois' : '';
     }
   }
 
@@ -142,12 +150,13 @@ function updatePrixTotal($input) {
 
   // Mise à jour de l'affichage
   $prixTotal.text(prixFormatte + suffix);
-
+  
   // Mise à jour du data-unit pour cohérence
   $prixTotal.data('unit', prixUnitaire);
 
-  console.log(`✅ Prix total mis à jour: ${qty} × ${prixUnitaire}€ = ${total}€${suffix}`);
+  console.log(`✅ Prix total mis à jour: ${qty} × ${prixUnitaire}€ = ${total}€${suffix} (type: ${typeAttr})`);
 }
+
 
 function updateAllPrixTotaux() {
   console.log('🔄 updateAllPrixTotaux() - Mise à jour globale des prix totaux');
