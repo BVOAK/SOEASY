@@ -220,77 +220,95 @@ jQuery(document).ready(function ($) {
 
 
   // === Changement du mode de durée d'engagement (radio) ===
-  $('#engagement').on('change', function () {
-  const duree = $(this).val();
-  localStorage.setItem('soeasyEngagement', duree);
+$(document).off('change', '#engagement').on('change', '#engagement', function () {
+    const duree = $(this).val();
+    localStorage.setItem('soeasyEngagement', duree);
 
-  $.post(soeasyVars.ajaxurl, {
-    action: 'soeasy_set_engagement',
-    duree: duree,
-    nonce: soeasyVars.nonce_config
-  }, function () {
-    console.log('✅ Engagement mis à jour côté serveur');
+    console.log('🔄 Changement engagement unifié:', duree);
 
-    // CORRECTION : Mise à jour complète et immédiate des prix
-    setTimeout(() => {
-      updatePrices();           // Met à jour les prix visuels dans le DOM
-      updatePrixProduits();     // Met à jour les prix dans localStorage  
-      updateAllPrixTotaux();    // Recalcule tous les prix totaux affichés
-      updateSidebarTotauxRecap(); // Met à jour les totaux de la sidebar
-      updateEngagementVisibility(); // Gère la visibilité des options
-    }, 50);
+    $.post(soeasyVars.ajaxurl, {
+      action: 'soeasy_set_engagement',
+      duree: duree,
+      nonce: soeasyVars.nonce_config
+    }, function () {
+      console.log('✅ Engagement mis à jour côté serveur');
 
-    // Si on est sur step-6, régénérer les totaux
-    if ($('.step-6').length) {
+      // CORRECTION : Mise à jour complète et immédiate des prix
       setTimeout(() => {
-        updateRecapitulatif();
-        window.initStep6Events();
-      }, 100);
-    }
+        updatePrices();                 // Met à jour les prix visuels dans le DOM
+        updatePrixProduits();           // Met à jour les prix dans localStorage  
+        updateAllPrixTotaux();          // Recalcule tous les prix totaux affichés
+        updateSidebarTotauxRecap();     // Met à jour les totaux de la sidebar
+        updateEngagementVisibility();   // Gère la visibilité des options
+      }, 50);
 
-    console.log('✅ Engagement mis à jour avec recalcul complet des prix');
-  })
-  .fail(function (xhr, status, error) {
-    console.error('❌ Erreur mise à jour engagement:', error);
+      // Actions spécifiques par étape
+      if ($('#step5-content').is(':visible')) {
+        setTimeout(() => {
+          generateStep5Content();
+        }, 100);
+      }
+
+      if ($('.step-6').length) {
+        setTimeout(() => {
+          updateRecapitulatif();
+          window.initStep6Events();
+        }, 100);
+      }
+
+      console.log('✅ Engagement mis à jour avec recalcul complet des prix');
+    })
+    .fail(function (xhr, status, error) {
+      console.error('❌ Erreur mise à jour engagement:', error);
+    });
   });
-});
+
 
 
   // === Changement du mode de financement (radio) ===
-  $('input[name="financement"]').on('change', function () {
-  const financement = $(this).val();
-  localStorage.setItem('soeasyFinancement', financement);
+$(document).off('change', 'input[name="financement"]').on('change', 'input[name="financement"]', function () {
+    const financement = $(this).val();
+    localStorage.setItem('soeasyFinancement', financement);
 
-  $.post(soeasyVars.ajaxurl, {
-    action: 'soeasy_set_financement', 
-    mode: financement,
-    nonce: soeasyVars.nonce_config
-  }, function () {
-    console.log('✅ Financement mis à jour côté serveur');
+    console.log('🔄 Changement financement unifié:', financement);
 
-    // CORRECTION : Mise à jour complète et immédiate des prix
-    setTimeout(() => {
-      updatePrices();           // Met à jour les prix visuels dans le DOM
-      updatePrixProduits();     // Met à jour les prix dans localStorage
-      updateAllPrixTotaux();    // Recalcule tous les prix totaux affichés  
-      updateSidebarTotauxRecap(); // Met à jour les totaux de la sidebar
-      updateEngagementVisibility(); // Gère la visibilité des options
-    }, 50);
+    $.post(soeasyVars.ajaxurl, {
+      action: 'soeasy_set_financement', 
+      mode: financement,
+      nonce: soeasyVars.nonce_config
+    }, function () {
+      console.log('✅ Financement mis à jour côté serveur');
 
-    // Si on est sur step-6, régénérer les totaux
-    if ($('.step-6').length) {
+      // CORRECTION : Mise à jour complète et immédiate des prix
       setTimeout(() => {
-        updateRecapitulatif();
-        window.initStep6Events();
-      }, 100);
-    }
+        updatePrices();                 // Met à jour les prix visuels dans le DOM
+        updatePrixProduits();           // Met à jour les prix dans localStorage
+        updateAllPrixTotaux();          // Recalcule tous les prix totaux affichés  
+        updateSidebarTotauxRecap();     // Met à jour les totaux de la sidebar
+        updateEngagementVisibility();   // Gère la visibilité des options
+      }, 50);
 
-    console.log('✅ Financement mis à jour avec recalcul complet des prix');
-  })
-  .fail(function (xhr, status, error) {
-    console.error('❌ Erreur mise à jour financement:', error);
+      // Actions spécifiques par étape
+      if ($('#step5-content').is(':visible')) {
+        setTimeout(() => {
+          generateStep5Content();
+        }, 100);
+      }
+
+      if ($('.step-6').length) {
+        setTimeout(() => {
+          updateRecapitulatif();
+          window.initStep6Events();
+        }, 100);
+      }
+
+      console.log('✅ Financement mis à jour avec recalcul complet des prix');
+    })
+    .fail(function (xhr, status, error) {
+      console.error('❌ Erreur mise à jour financement:', error);
+    });
   });
-});
+
 
 
   function initFinancementSelection() {
@@ -1366,16 +1384,6 @@ jQuery(document).ready(function ($) {
       updateSidebarTotauxRecap();
     });
 
-    // 7. Gestion des changements de mode/durée
-    $(document).on('change', 'input[name="financement"], #engagement', function () {
-      console.log('🔄 Changement mode/durée - Régénération Step 5');
-      setTimeout(() => {
-        if ($('#step5-content').is(':visible')) {
-          generateStep5Content();
-        }
-      }, 100);
-    });
-
     console.log('✅ Step 5 Events initialisés avec succès');
   };
 
@@ -1501,19 +1509,6 @@ jQuery(document).ready(function ($) {
         console.error('❌ Fonction sendToCart() non trouvée');
         showToastError('Erreur technique : fonction de commande non disponible.');
       }
-    });
-
-    // 5. Écouter les changements de mode/engagement pour re-calculer
-    $(document).on('change', 'input[name="financement"], #engagement', function () {
-      console.log('🔄 Changement mode/engagement dans Step 6 - Recalcul');
-      setTimeout(() => {
-        updatePrices();
-        updateRecapitulatif();
-        updateSidebarTotauxRecap();
-
-        // Recalculer les totaux par adresse
-        window.initStep6Events();
-      }, 200);
     });
 
     console.log('✅ Step 6 initialisé avec succès (version corrigée)');
