@@ -393,6 +393,174 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  
+  /**
+ * Fonction améliorée pour afficher les villes dans les onglets
+ */
+function afficherVillesDansOnglets() {
+  console.log('🏷️ Application des noms de villes dans les onglets');
+  
+  // Sélecteurs pour les onglets
+  const selecteurs = [
+    '.nav-tabs .nav-link[data-bs-target^="#tab-"]',
+    '.nav-tabs .nav-link[href^="#tab-"]',
+    '.nav-pills .nav-link[data-bs-target^="#tab-"]',
+    '.nav-pills .nav-link[href^="#tab-"]'
+  ];
+  
+  let ongletsTraites = 0;
+  let $ongletsATtraiter = $();
+  
+  // 1. D'abord, identifier tous les onglets à traiter
+  selecteurs.forEach(selecteur => {
+    $(selecteur).each(function() {
+      const $onglet = $(this);
+      let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
+      if (!target) return;
+      
+      const index = parseInt(target.replace('#tab-', ''));
+      if (isNaN(index)) return;
+      
+      $ongletsATtraiter = $ongletsATtraiter.add($onglet);
+    });
+  });
+  
+  if ($ongletsATtraiter.length === 0) {
+    console.log('⚠️ Aucun onglet trouvé');
+    return;
+  }
+  
+  // 2. Masquer temporairement les onglets (opacity pour éviter le décalage)
+  $ongletsATtraiter.css('opacity', '0');
+  
+  // 3. Traiter tous les onglets
+  setTimeout(() => {
+    $ongletsATtraiter.each(function() {
+      const $onglet = $(this);
+      let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
+      const index = parseInt(target.replace('#tab-', ''));
+      
+      const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+      const adresseComplete = adresses[index]?.adresse || `Adresse ${index + 1}`;
+      const ville = extraireVille(adresseComplete);
+      
+      $onglet.text(ville);
+      ongletsTraites++;
+    });
+    
+    // 4. Réafficher tous les onglets en même temps
+    $ongletsATtraiter.css('opacity', '1');
+    
+    console.log(`✅ ${ongletsTraites} onglets traités sans flash`);
+  }, 50);
+}
+
+  /**
+   * Fonction d'extraction de ville améliorée
+   */
+  function extraireVille(adresseComplete) {
+    if (!adresseComplete) return 'Adresse';
+
+    const parties = adresseComplete.split(',').map(p => p.trim());
+
+    if (parties.length >= 3) {
+      // "Rue, Ville, Pays" → prendre la ville (avant-dernière)
+      return parties[parties.length - 2];
+    } else if (parties.length === 2) {
+      // "Rue, Ville" → prendre la ville (dernière)
+      return parties[parties.length - 1];
+    }
+
+    // Fallback : prendre les 20 premiers caractères
+    return adresseComplete.length > 20
+      ? adresseComplete.substring(0, 20) + '...'
+      : adresseComplete;
+  }
+
+
+  /**
+   * Fonction pour afficher les villes dans la sidebar de récap
+   */
+  function afficherVillesDansSidebar() {
+    console.log('🏷️ Application des noms de villes dans la sidebar');
+
+    // Sélecteurs pour les accordéons de la sidebar
+    const selecteurs = [
+      '#config-recapitulatif .accordion-button',
+      '#accordionSidebarRecap .accordion-button',
+      '.accordion-header .accordion-button'
+    ];
+
+    let ongletsTraites = 0;
+    let $elementsATtraiter = $();
+
+    // 1. Identifier tous les éléments à traiter
+    selecteurs.forEach(selecteur => {
+      $(selecteur).each(function () {
+        const $bouton = $(this);
+
+        // Vérifier si c'est bien un bouton d'accordéon avec une adresse
+        const texteActuel = $bouton.text().trim();
+        if (texteActuel && texteActuel.length > 10) { // Filtre de base
+          $elementsATtraiter = $elementsATtraiter.add($bouton);
+        }
+      });
+    });
+
+    if ($elementsATtraiter.length === 0) {
+      console.log('⚠️ Aucun élément sidebar trouvé');
+      return;
+    }
+
+    // 2. Masquer temporairement pour éviter le flash
+    $elementsATtraiter.css('opacity', '0');
+
+    // 3. Traiter tous les éléments
+    setTimeout(() => {
+      $elementsATtraiter.each(function () {
+        const $bouton = $(this);
+        const texteActuel = $bouton.text().trim();
+
+        // Extraire l'index depuis les attributs data ou depuis l'ID
+        let index = null;
+
+        // Essayer de récupérer l'index depuis les attributs
+        const target = $bouton.attr('data-bs-target') || $bouton.attr('aria-controls');
+        if (target) {
+          const match = target.match(/sidebar-collapse-(\d+)|accordion-(\d+)/);
+          if (match) {
+            index = parseInt(match[1] || match[2]);
+          }
+        }
+
+        // Si on n'a pas trouvé l'index, essayer de le déduire depuis le texte ou la position
+        if (index === null) {
+          // Compter la position dans la liste des accordéons
+          index = $elementsATtraiter.index($bouton);
+        }
+
+        // Récupérer l'adresse correspondante
+        const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+        const adresseComplete = adresses[index]?.adresse || texteActuel;
+
+        // Extraire la ville
+        const ville = extraireVille(adresseComplete);
+
+        // Mettre à jour si différent
+        if (texteActuel !== ville) {
+          $bouton.text(ville);
+          ongletsTraites++;
+          console.log(`🏷️ Sidebar accordion ${index} mis à jour: "${ville}"`);
+        }
+      });
+
+      // 4. Réafficher tous les éléments
+      $elementsATtraiter.css('opacity', '1');
+
+      console.log(`✅ ${ongletsTraites} éléments sidebar traités`);
+    }, 50);
+  }
+
   // Mise en forme du récap de la sidebar des produits
   function updateSidebarProduitsRecap() {
     const recapData = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
@@ -474,6 +642,10 @@ jQuery(document).ready(function ($) {
 
       $container.append($accordion);
 
+      setTimeout(() => {
+        afficherVillesDansSidebar();
+      }, 100);
+
       updateSidebarTotauxRecap()
 
     });
@@ -531,11 +703,208 @@ jQuery(document).ready(function ($) {
     }
   }
 
+  /**
+ * ========================================
+ * NOUVELLES FONCTIONS STEP 5 LOCALSTORAGE
+ * ========================================
+ */
 
   /**
- * Fonction de validation finale et envoi vers le panier WooCommerce
- * Gère toutes les adresses configurées
- */
+   * Récupération des données pour Step 5 (localStorage prioritaire)
+   */
+  function getConfigForStep5() {
+    const localConfig = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+    const sessionConfig = window.step5Data?.sessionConfig || {};
+
+    if (Object.keys(localConfig).length > 0) {
+      console.log('📱 Utilisation des données localStorage');
+      return localConfig;
+    } else if (Object.keys(sessionConfig).length > 0) {
+      console.log('🖥️ Fallback vers données session');
+      return sessionConfig;
+    } else {
+      console.log('⚠️ Aucune donnée trouvée');
+      return {};
+    }
+  }
+
+  /**
+   * Génération principale du contenu Step 5
+   */
+  function generateStep5Content() {
+    console.log('🎯 Génération du contenu Step 5 depuis localStorage');
+
+    try {
+      // 1. Récupérer les données (localStorage prioritaire, session fallback)
+      const config = getConfigForStep5();
+      const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+
+      if (Object.keys(config).length === 0) {
+        $('#step5-content').html('<div class="alert alert-warning">Aucune configuration trouvée. Veuillez reprendre depuis l\'étape 1.</div>').show();
+        $('#step5-loader').hide();
+        $('#step5-navigation').show();
+        return;
+      }
+
+      // 2. Générer le HTML pour chaque adresse
+      let html = '';
+      Object.keys(config).forEach(index => {
+        const adresseData = config[index];
+        const adresseInfo = adresses[index];
+        html += generateAdresseBlock(index, adresseData, adresseInfo);
+      });
+
+      // 3. Injecter dans le DOM et afficher
+      $('#step5-content').html(html).show();
+      $('#step5-loader').hide();
+      $('#step5-navigation').show();
+
+      // 4. Initialiser les totaux pour chaque adresse
+      Object.keys(config).forEach(index => {
+        updateFraisTotal(index);
+      });
+
+      console.log('✅ Contenu Step 5 généré avec succès');
+
+    } catch (error) {
+      console.error('❌ Erreur génération Step 5:', error);
+      $('#step5-content').html('<div class="alert alert-danger">Erreur lors du chargement. Veuillez recharger la page.</div>').show();
+      $('#step5-loader').hide();
+      $('#step5-navigation').show();
+    }
+  }
+
+  /**
+   * Génération du HTML pour un bloc d'adresse
+   */
+  function generateAdresseBlock(index, adresseData, adresseInfo) {
+    const adresseTexte = getAdresseByIndex(index);
+    const mode = getSelectedFinancementMode();
+    const duree = getSelectedEngagement();
+
+    const fraisInstallation = adresseData.fraisInstallation || [];
+
+    let fraisHTML = '';
+    if (Array.isArray(fraisInstallation) && fraisInstallation.length > 0) {
+      fraisInstallation.forEach(frais => {
+        fraisHTML += generateFraisItem(index, frais, mode, duree);
+      });
+    }
+
+    return `
+    <div class="border p-4 rounded shadow-sm mb-4">
+      <h5 class="mb-3">Adresse : ${adresseTexte}</h5>
+      
+      ${fraisInstallation.length > 0 ? `
+        <ul class="list-group frais-installation-list" data-index="${index}">
+          ${fraisHTML}
+        </ul>
+        
+        <div class="mt-3 d-flex justify-content-between align-items-center">
+          <div class="form-check">
+            <input class="form-check-input report-frais-checkbox" 
+                   type="checkbox" 
+                   id="report_frais_${index}" 
+                   data-index="${index}">
+            <label class="form-check-label" for="report_frais_${index}">
+              Reporter ces frais d'installation
+            </label>
+          </div>
+          <strong class="frais-total" data-index="${index}">0 €</strong>
+        </div>
+      ` : `
+        <div class="alert alert-info">Aucun frais d'installation pour cette adresse.</div>
+      `}
+    </div>
+  `;
+  }
+
+  /**
+   * Génération du HTML pour une ligne de frais
+   */
+  /**
+   * Génération du HTML pour une ligne de frais - VERSION CORRIGÉE
+   */
+  function generateFraisItem(index, frais, mode, duree) {
+    // Récupérer le prix unitaire selon le mode
+    let prixUnitaire = 0;
+    if (mode === 'comptant') {
+      prixUnitaire = parseFloat(frais.prixComptant) || 0;
+    } else {
+      prixUnitaire = parseFloat(frais[`prixLeasing${duree}`]) || 0;
+    }
+
+    // Calculer le prix total (prix unitaire × quantité)
+    const quantite = parseInt(frais.quantite) || 1;
+    const prixTotal = prixUnitaire * quantite;
+
+    const prixFormate = prixTotal.toLocaleString('fr-FR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    const suffix = mode === 'leasing' ? ' / mois' : '';
+
+    return `
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="form-check">
+        <input class="form-check-input frais-checkbox" 
+               type="checkbox" 
+               data-index="${index}"
+               data-id="${frais.id}"
+               data-quantite="${quantite}"
+               data-type="${frais.type || 'internet'}"
+               data-nom="${escapeHtml(frais.nom || 'Frais d\'installation')}"
+               data-prix-comptant="${frais.prixComptant || 0}"
+               data-prix-leasing-24="${frais.prixLeasing24 || 0}"
+               data-prix-leasing-36="${frais.prixLeasing36 || 0}"
+               data-prix-leasing-48="${frais.prixLeasing48 || 0}"
+               data-prix-leasing-63="${frais.prixLeasing63 || 0}"
+               checked>
+        <label class="form-check-label">
+          ${escapeHtml(frais.nom || 'Frais d\'installation')}
+          ${quantite > 1 ? ` <span class="text-muted">(×${quantite})</span>` : ''}
+        </label>
+      </div>
+      <span class="badge bg-primary fs-6" data-prix-affiche="${prixTotal}">
+        ${prixFormate} €${suffix}
+      </span>
+    </li>
+  `;
+  }
+
+  /**
+   * Fonction d'échappement HTML (tu l'as oubliée)
+   */
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  /**
+   * Fonction de synchronisation session en arrière-plan (optionnel)
+   */
+  function syncFraisToSession(index, frais) {
+    if (typeof soeasyVars !== 'undefined' && soeasyVars.ajaxurl) {
+      $.post(soeasyVars.ajaxurl, {
+        action: 'soeasy_set_frais_installation',
+        index: index,
+        items: frais
+      })
+        .done(function () {
+          console.log(`🔄 Sync session réussie pour adresse ${index}`);
+        })
+        .fail(function () {
+          console.warn(`⚠️ Échec sync session pour adresse ${index} (non bloquant)`);
+        });
+    }
+  }
+
+  /**
+* Fonction de validation finale et envoi vers le panier WooCommerce
+* Gère toutes les adresses configurées
+*/
   function sendToCart() {
     console.log('🛒 Début sendToCart()');
 
@@ -651,5 +1020,13 @@ jQuery(document).ready(function ($) {
   window.updateSidebarProduitsRecap = updateSidebarProduitsRecap;
   window.updateSidebarTotauxRecap = updateSidebarTotauxRecap;
   window.updateFraisTotal = updateFraisTotal;
+  window.getConfigForStep5 = getConfigForStep5;
+  window.generateStep5Content = generateStep5Content;
+  window.generateAdresseBlock = generateAdresseBlock;
+  window.generateFraisItem = generateFraisItem;
+  window.syncFraisToSession = syncFraisToSession;
+  window.escapeHtml = escapeHtml;
+  window.afficherVillesDansOnglets = afficherVillesDansOnglets;
+  window.afficherVillesDansSidebar = afficherVillesDansSidebar;
 
 });

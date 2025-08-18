@@ -507,7 +507,9 @@ class Form extends Form_Base {
 				'label' => esc_html__( 'Form Name', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => esc_html__( 'New Form', 'elementor-pro' ),
-				'placeholder' => esc_html__( 'Form Name', 'elementor-pro' ),
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
@@ -2341,6 +2343,7 @@ class Form extends Form_Base {
 
 		if ( ! empty( $instance['form_name'] ) ) {
 			$this->add_render_attribute( 'form', 'name', $instance['form_name'] );
+			$this->add_render_attribute( 'form', 'aria-label', $instance['form_name'] );
 		}
 
 		if ( 'custom' === $instance['form_validation'] ) {
@@ -2483,7 +2486,7 @@ class Form extends Form_Base {
 								</span>
 							<?php endif; ?>
 							<?php if ( ! empty( $instance['button_text'] ) ) : ?>
-								<span <?php $this->print_render_attribute_string( 'button-text' ); ?>><?php $this->print_unescaped_setting( 'button_text' ); ?></span>
+								<span <?php $this->print_render_attribute_string( 'button-text' ); ?>><?php echo wp_kses_post( $instance['button_text'] ); ?></span>
 							<?php endif; ?>
 						</span>
 					</button>
@@ -2744,7 +2747,7 @@ class Form extends Form_Base {
 								<# } #>
 
 								<# if ( settings.button_text ) { #>
-									<span {{{ view.getRenderAttributeString( 'button-text' ) }}}>{{{ settings.button_text }}}</span>
+									<span {{{ view.getRenderAttributeString( 'button-text' ) }}}>{{ settings.button_text }}</span>
 								<# } #>
 							</span>
 						</button>

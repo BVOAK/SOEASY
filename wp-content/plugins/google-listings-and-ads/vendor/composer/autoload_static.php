@@ -352,6 +352,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\MicroTrait' => __DIR__ . '/../..' . '/src/API/MicroTrait.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\PermissionsTrait' => __DIR__ . '/../..' . '/src/API/PermissionsTrait.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AccountController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/AccountController.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AdsSettingsController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/AdsSettingsController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AssetGroupController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/AssetGroupController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AssetSuggestionsController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/AssetSuggestionsController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\BudgetMetricsController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/BudgetMetricsController.php',

@@ -66,6 +66,7 @@ return array(
     'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\MicroTrait' => $baseDir . '/src/API/MicroTrait.php',
     'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\PermissionsTrait' => $baseDir . '/src/API/PermissionsTrait.php',
     'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AccountController' => $baseDir . '/src/API/Site/Controllers/Ads/AccountController.php',
+    'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AdsSettingsController' => $baseDir . '/src/API/Site/Controllers/Ads/AdsSettingsController.php',
     'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AssetGroupController' => $baseDir . '/src/API/Site/Controllers/Ads/AssetGroupController.php',
     'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\AssetSuggestionsController' => $baseDir . '/src/API/Site/Controllers/Ads/AssetSuggestionsController.php',
     'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\BudgetMetricsController' => $baseDir . '/src/API/Site/Controllers/Ads/BudgetMetricsController.php',

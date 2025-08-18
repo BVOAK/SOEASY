@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.29.0 - 04-06-2025 */
+/*! elementor-pro - v3.31.0 - 10-08-2025 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -3265,7 +3265,7 @@ class GlobalWidgetLoadTemplates extends $e.modules.hookData.After {
     });
   }
   addTemplateToCache(id) {
-    const container = elementor.getPreviewContainer().findChildrenRecursive(i => parseInt(i.model.get('templateID')) === parseInt(id));
+    const container = elementor.getPreviewContainer().children.findRecursive(i => parseInt(i.model.get('templateID')) === parseInt(id));
     if (!container) {
       return this.component.notLoadedTemplatesIds.push(id);
     }
@@ -6101,7 +6101,7 @@ module.exports = elementor.modules.controls.Repeater.extend({
     }
   },
   onRender() {
-    this.ui.btnAddRow.text(__('Add Condition', 'elementor-pro'));
+    this.ui.btnAddRow.text(__('Add condition', 'elementor-pro'));
   }
 });
 
@@ -9975,7 +9975,7 @@ $({ target: 'Array', proto: true, arity: 1, forced: FORCED }, {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if (chunkId === "mega-menu-editor") return "" + chunkId + ".a0c405b93f24b0011f86.bundle.js";
+/******/ 			if (chunkId === "mega-menu-editor") return "" + chunkId + ".e043cd3d7fd180995eb9.bundle.js";
 /******/ 			if (chunkId === "nested-carousel-editor") return "" + chunkId + ".0df35e0e1a284d4bd18b.bundle.js";
 /******/ 			if (chunkId === "loop-filter-editor") return "" + chunkId + ".46a4c013b80a381a50c9.bundle.js";
 /******/ 			if (chunkId === "off-canvas-editor") return "" + chunkId + ".d20b8e528d36b21a024c.bundle.js";

@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Google for WooCommerce 3.2.0\n"
+"Project-Id-Version: Google for WooCommerce 3.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/google-listings-and-ads\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-22T08:19:10+00:00\n"
+"POT-Creation-Date: 2025-08-12T07:12:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: google-listings-and-ads\n"
@@ -263,7 +263,7 @@ msgstr ""
 msgid "Account must be accepted before completing setup."
 msgstr ""
 
-#: src/Ads/AccountService.php:327
+#: src/Ads/AccountService.php:328
 msgid "Billing setup must be completed."
 msgstr ""
 
@@ -600,6 +600,19 @@ msgstr ""
 
 #: src/API/Site/Controllers/Ads/AccountController.php:207
 msgid "Billing Flow URL."
+msgstr ""
+
+#: src/API/Site/Controllers/Ads/AdsSettingsController.php:64
+msgid "Not Allowed."
+msgstr ""
+
+#: src/API/Site/Controllers/Ads/AdsSettingsController.php:110
+msgid "Unable to update setting."
+msgstr ""
+
+#: src/API/Site/Controllers/Ads/AdsSettingsController.php:131
+#: src/API/Site/Controllers/Ads/AdsSettingsController.php:148
+msgid "Whether enhanced conversions are enabled."
 msgstr ""
 
 #: src/API/Site/Controllers/Ads/AssetGroupController.php:86
@@ -1776,6 +1789,8 @@ msgstr ""
 #: js/build/commons.js:60
 #: js/build/index.js:25
 #: js/build/product-feed.js:13
+#: js/build/reports.js:1
+#: js/build/reports.js:4
 msgid "Product Feed"
 msgstr ""
 
@@ -1867,7 +1882,7 @@ msgid "Update this attribute in your product data"
 msgstr ""
 
 #: src/Notes/CompleteSetup.php:40
-msgid "Reach more shoppers with free listings on Google"
+msgid "Reach more shoppers with product feed on Google"
 msgstr ""
 
 #: src/Notes/CompleteSetup.php:41
@@ -1908,7 +1923,7 @@ msgstr ""
 
 #. translators: %s number of clicks
 #: src/Notes/ReviewAfterClicks.php:76
-msgid "You’ve gotten %s+ clicks on your free listings! 🎉"
+msgid "You’ve gotten %s+ clicks on your product feed! 🎉"
 msgstr ""
 
 #: src/Notes/ReviewAfterClicks.php:81
@@ -3386,18 +3401,6 @@ msgstr ""
 msgid "Connect to existing Merchant Center account"
 msgstr ""
 
-#: js/build/commons.js:57
-msgid "Unable to enable new product sync."
-msgstr ""
-
-#: js/build/commons.js:60
-msgid "Grant access"
-msgstr ""
-
-#: js/build/commons.js:60
-msgid "There was an issue granting access to Google for fetching your products."
-msgstr ""
-
 #: js/build/commons.js:60
 msgid "Help"
 msgstr ""
@@ -3527,7 +3530,7 @@ msgid "Where will my products appear?"
 msgstr ""
 
 #: js/build/commons.js:60
-msgid "If you’re selling in the US, then eligible free listings can appear in search results across Google Search, Google Images, and the Google Shopping tab. If you’re selling outside the US, free listings will appear on the Shopping tab."
+msgid "If you’re selling in the US, then eligible product feed can appear in search results across Google Search, Google Images, and the Google Shopping tab. If you’re selling outside the US, product feed will appear on the Shopping tab."
 msgstr ""
 
 #: js/build/commons.js:60
@@ -3555,6 +3558,7 @@ msgid "Performance Max uses the best of Google’s AI to show the most impactful
 msgstr ""
 
 #: js/build/commons.js:60
+#: js/build/onboarding.js:1
 msgid "Learn more about Performance Max"
 msgstr ""
 
@@ -4014,7 +4018,7 @@ msgid "Total Sales"
 msgstr ""
 
 #: js/build/dashboard.js:1
-msgid "Free Listings (Limited Visibility)"
+msgid "Product Feed (Limited Visibility)"
 msgstr ""
 
 #: js/build/dashboard.js:1
@@ -4107,7 +4111,7 @@ msgid "Pausing a campaign will result in the loss of any optimisations learned f
 msgstr ""
 
 #: js/build/dashboard.js:1
-msgid "Free listings cannot be paused through WooCommerce. Go to Google Merchant Center for advanced settings."
+msgid "Product feed cannot be paused through WooCommerce. Go to Google Merchant Center for advanced settings."
 msgstr ""
 
 #: js/build/dashboard.js:1
@@ -4134,7 +4138,7 @@ msgstr ""
 
 #: js/build/dashboard.js:4
 #: js/build/reports.js:4
-msgid "Free listings"
+msgid "Product feed"
 msgstr ""
 
 #: js/build/dashboard.js:4
@@ -4384,7 +4388,7 @@ msgid "Show products automatically on Google for free"
 msgstr ""
 
 #: js/build/get-started-page.js:1
-msgid "When your products are added and approved, they’ll be eligible for free listings, reaching shoppers across Google’s network."
+msgid "When your products are added and approved, they’ll be eligible for product feed, reaching shoppers across Google’s network."
 msgstr ""
 
 #: js/build/get-started-page.js:1
@@ -4755,6 +4759,10 @@ msgid "There was an error loading target audience."
 msgstr ""
 
 #: js/build/index.js:25
+msgid "There was an error updating the enhanced conversions status."
+msgstr ""
+
+#: js/build/index.js:25
 msgid "There was an error creating the assets of the campaign."
 msgstr ""
 
@@ -4863,6 +4871,10 @@ msgid "There was an error getting the GTIN Migration Status."
 msgstr ""
 
 #: js/build/index.js:25
+msgid "There was an error getting the enhanced conversions status."
+msgstr ""
+
+#: js/build/index.js:25
 msgid "There was an error getting the price benchmark summary."
 msgstr ""
 
@@ -4908,7 +4920,7 @@ msgid "Why do I need a Google Merchant Center account?"
 msgstr ""
 
 #: js/build/onboarding.js:1
-msgid "Google Merchant Center helps you sync your store and product data with Google and makes the information available for both free listings on the Shopping tab and Google Shopping Ads. That means everything about your stores and products is available to shoppers when they search on a Google property."
+msgid "Google Merchant Center helps you sync your store and product data with Google and makes the information available for both product feed on the Shopping tab and Google Shopping Ads. That means everything about your stores and products is available to shoppers when they search on a Google property."
 msgstr ""
 
 #: js/build/onboarding.js:1
@@ -4948,7 +4960,63 @@ msgid "Your product details, estimated shipping info and tax details will be dis
 msgstr ""
 
 #: js/build/onboarding.js:1
+msgid "I already have ads on Google"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "I don’t have the budget to create ads now"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "I’ve tried Google ads before without success"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "I don’t want ads on Google"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "I’ll create ads later"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Other"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Why do you want to skip ads?"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Tell us why (optional)"
+msgstr ""
+
+#: js/build/onboarding.js:1
 msgid "Skip setting up ads?"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Send and complete setup"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Enable Performance Max to reach more customers"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Drive more sales"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Reach new audiences across Google Search, YouTube, and Discover using Google’s AI."
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Create impactful ads automatically"
+msgstr ""
+
+#: js/build/onboarding.js:1
+msgid "Your product data is used to generate ads, shown at the right time and place."
 msgstr ""
 
 #: js/build/onboarding.js:1
@@ -5433,6 +5501,26 @@ msgid "<productFeedLink>Manage and edit your product feed in WooCommerce.</produ
 msgstr ""
 
 #: js/build/product-feed.js:13
+msgid "View product feed"
+msgstr ""
+
+#: js/build/product-feed.js:13
+msgid "Improve conversion tracking accuracy to improve campaign performance"
+msgstr ""
+
+#: js/build/product-feed.js:13
+msgid "Set up Enhanced Conversions, a feature designed to improve your measurement accuracy by collecting privacy-conscious data without the need for third-party cookies."
+msgstr ""
+
+#: js/build/product-feed.js:13
+msgid "<link>Learn more</link> about Enhanced Conversions."
+msgstr ""
+
+#: js/build/product-feed.js:13
+msgid "Set up Enhanced Conversions"
+msgstr ""
+
+#: js/build/product-feed.js:13
 msgid "Spend $500 to get $500 in Google Ads credits"
 msgstr ""
 
@@ -5442,10 +5530,6 @@ msgstr ""
 
 #: js/build/product-feed.js:13
 msgid "*Full terms and conditions <link>here</link>."
-msgstr ""
-
-#: js/build/product-feed.js:13
-msgid "View product feed"
 msgstr ""
 
 #: js/build/product-feed.js:13
@@ -5465,7 +5549,7 @@ msgid "After submission, Google assigns each product a status: <strong>Active, E
 msgstr ""
 
 #: js/build/product-feed.js:13
-msgid "<strong>‘Active’ products</strong> are fully approved and eligible to appear in free listings on Google."
+msgid "<strong>‘Active’ products</strong> are fully approved and eligible to appear in product feed on Google."
 msgstr ""
 
 #: js/build/product-feed.js:13
@@ -5527,7 +5611,7 @@ msgid "Feed setup:"
 msgstr ""
 
 #: js/build/product-feed.js:19
-msgid "Free listings setup completed"
+msgid "Product feed setup completed"
 msgstr ""
 
 #: js/build/product-feed.js:19
@@ -5564,11 +5648,6 @@ msgstr ""
 
 #: js/build/reports.js:1
 msgid "Unavailable"
-msgstr ""
-
-#: js/build/reports.js:1
-#: js/build/reports.js:4
-msgid "Free Listings"
 msgstr ""
 
 #: js/build/reports.js:1
@@ -5619,7 +5698,7 @@ msgid "This data is currently available for Google Ads campaigns only."
 msgstr ""
 
 #: js/build/reports.js:1
-msgid "Please try again later, or go to <googleMerchantCenterLink /> to track your performance for Google Free Listings."
+msgid "Please try again later, or go to <googleMerchantCenterLink /> to track your performance for Google Product Feed."
 msgstr ""
 
 #. translators: %s: link to Google Merchant Center.
@@ -5756,10 +5835,6 @@ msgid "Your change to tax rate has been saved and will be synced to your Google 
 msgstr ""
 
 #: js/build/settings.js:1
-msgid "Save tax rate"
-msgstr ""
-
-#: js/build/settings.js:1
 msgid "Linked accounts"
 msgstr ""
 
@@ -5853,6 +5928,30 @@ msgstr ""
 
 #: js/build/settings.js:1
 msgid "Save details"
+msgstr ""
+
+#: js/build/settings.js:1
+msgid "Please make sure to follow the documentation to enable Enhanced Conversions. The feature needs to be enabled both here on WooCommerce and on your Google Ads account."
+msgstr ""
+
+#: js/build/settings.js:1
+msgid "Please connect your Google Ads account in order to use Enhanced Conversions data."
+msgstr ""
+
+#: js/build/settings.js:1
+msgid "Improve conversion accuracy"
+msgstr ""
+
+#: js/build/settings.js:1
+msgid "Enhanced Conversions is a feature designed to improve your measurement accuracy by collecting privacy-conscious data without the need for third-party cookies."
+msgstr ""
+
+#: js/build/settings.js:1
+msgid "Send Enhanced Conversions data to Google Ads"
+msgstr ""
+
+#: js/build/settings.js:1
+msgid "Enhanced Conversions status updated successfully."
 msgstr ""
 
 #: js/build/shipping.js:1
