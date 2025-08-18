@@ -166,50 +166,50 @@ jQuery(document).ready(function ($) {
         updatePrixProduits();
         updateSidebarProduitsRecap();
         updateSidebarTotauxRecap();
-        
+
         if (parseInt(step) === 6) {
           updateRecapitulatif();
         }
       }, 200);
 
       updateRecapitulatif();
-      });
+    });
   }
 
   // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
   $(document).on('change', '.forfait-checkbox:not(.step-3 *, .step-4 *), .equipement-checkbox:not(.step-3 *, .step-4 *), .centrex-checkbox:not(.step-3 *, .step-4 *), .mobile-checkbox:not(.step-3 *, .step-4 *)', function () {
-  const $checkbox = $(this);
-  const $input = $checkbox.closest('.border').find('.input-qty');
+    const $checkbox = $(this);
+    const $input = $checkbox.closest('.border').find('.input-qty');
 
-  if ($checkbox.is(':checked')) {
-    // Si coché et quantité = 0, mettre à 1
-    if (parseInt($input.val()) === 0) {
-      $input.val(1);
+    if ($checkbox.is(':checked')) {
+      // Si coché et quantité = 0, mettre à 1
+      if (parseInt($input.val()) === 0) {
+        $input.val(1);
+      }
+    } else {
+      // Si décoché, remettre quantité à 0
+      $input.val(0);
     }
-  } else {
-    // Si décoché, remettre quantité à 0
-    $input.val(0);
-  }
 
-  // CORRECTION : Recalcul immédiat avec nouveaux prix
-  updatePrixTotal($input);
-  updateSidebarTotauxRecap();
-});
+    // CORRECTION : Recalcul immédiat avec nouveaux prix
+    updatePrixTotal($input);
+    updateSidebarTotauxRecap();
+  });
 
 
   // 2. Input quantité modifiée → synchroniser checkbox et recalculer
- $(document).on('input change', '.input-qty:not(.step-3 *, .step-4 *)', function () {
-  const $input = $(this);
-  const $checkbox = $input.closest('.border').find('.forfait-checkbox, .equipement-checkbox, .centrex-checkbox, .mobile-checkbox');
-  const quantity = parseInt($input.val()) || 0;
+  $(document).on('input change', '.input-qty:not(.step-3 *, .step-4 *)', function () {
+    const $input = $(this);
+    const $checkbox = $input.closest('.border').find('.forfait-checkbox, .equipement-checkbox, .centrex-checkbox, .mobile-checkbox');
+    const quantity = parseInt($input.val()) || 0;
 
-  // Synchroniser checkbox avec quantité
-  $checkbox.prop('checked', quantity > 0);
+    // Synchroniser checkbox avec quantité
+    $checkbox.prop('checked', quantity > 0);
 
-  // CORRECTION : Recalcul immédiat avec nouveaux prix
-  updatePrixTotal($input);
-  updateSidebarTotauxRecap();
-});
+    // CORRECTION : Recalcul immédiat avec nouveaux prix
+    updatePrixTotal($input);
+    updateSidebarTotauxRecap();
+  });
 
   // Navigation entre les étapes
   $(document).on('click', '.btn-suivant, .btn-precedent', function () {
@@ -220,7 +220,7 @@ jQuery(document).ready(function ($) {
 
 
   // === Changement du mode de durée d'engagement (radio) ===
-$(document).off('change', '#engagement').on('change', '#engagement', function () {
+  $(document).off('change', '#engagement').on('change', '#engagement', function () {
     const duree = $(this).val();
     localStorage.setItem('soeasyEngagement', duree);
 
@@ -258,22 +258,22 @@ $(document).off('change', '#engagement').on('change', '#engagement', function ()
 
       console.log('✅ Engagement mis à jour avec recalcul complet des prix');
     })
-    .fail(function (xhr, status, error) {
-      console.error('❌ Erreur mise à jour engagement:', error);
-    });
+      .fail(function (xhr, status, error) {
+        console.error('❌ Erreur mise à jour engagement:', error);
+      });
   });
 
 
 
   // === Changement du mode de financement (radio) ===
-$(document).off('change', 'input[name="financement"]').on('change', 'input[name="financement"]', function () {
+  $(document).off('change', 'input[name="financement"]').on('change', 'input[name="financement"]', function () {
     const financement = $(this).val();
     localStorage.setItem('soeasyFinancement', financement);
 
     console.log('🔄 Changement financement unifié:', financement);
 
     $.post(soeasyVars.ajaxurl, {
-      action: 'soeasy_set_financement', 
+      action: 'soeasy_set_financement',
       mode: financement,
       nonce: soeasyVars.nonce_config
     }, function () {
@@ -304,9 +304,9 @@ $(document).off('change', 'input[name="financement"]').on('change', 'input[name=
 
       console.log('✅ Financement mis à jour avec recalcul complet des prix');
     })
-    .fail(function (xhr, status, error) {
-      console.error('❌ Erreur mise à jour financement:', error);
-    });
+      .fail(function (xhr, status, error) {
+        console.error('❌ Erreur mise à jour financement:', error);
+      });
   });
 
 

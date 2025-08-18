@@ -93,7 +93,7 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
                     <label class="form-check-label"><strong><?php the_title(); ?></strong></label>
                   </div>
                   <span class="text-muted"><?php echo get_the_excerpt(); ?></span>
-                  <div class="small fw-bold"><?php echo wc_price($prix); ?> / mois</div>
+                  <div class="small fw-bold prix-affiche"><?php echo wc_price($prix); ?> / mois</div>
                   <input type="number" min="0" class="form-control text-end input-qty"
                     name="quantite_forfait_mobile_<?php echo $i; ?>[]" value="<?php echo esc_attr($quantite); ?>"
                     data-id="<?php echo $product_id; ?>" data-index="<?php echo $i; ?>"
@@ -165,7 +165,7 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
                     <label class="form-check-label"><strong><?php the_title(); ?></strong></label>
                   </div>
                   <span class="text-muted"><?php echo get_the_excerpt(); ?></span>
-                  <div class="small fw-bold"><?php echo wc_price($prix_affiche); ?> / mois</div>
+                  <div class="small fw-bold prix-affiche"><?php echo wc_price($prix_affiche); ?> / mois</div>
                   <input type="number" min="0" class="form-control text-end input-qty"
                     name="quantite_forfait_data_<?php echo $i; ?>[]" value="<?php echo esc_attr($quantite); ?>"
                     data-id="<?php echo $product_id; ?>" data-index="<?php echo $i; ?>"
