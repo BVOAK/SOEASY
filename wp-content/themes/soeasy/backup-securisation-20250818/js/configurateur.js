@@ -161,19 +161,16 @@ jQuery(document).ready(function ($) {
       }
 
       // Mise à jour des prix et totaux pour toutes les étapes
-      setTimeout(() => {
-        updatePrices(); // Inclut updateAllPrixTotaux()
-        updatePrixProduits();
-        updateSidebarProduitsRecap();
-        updateSidebarTotauxRecap();
-        
-        if (parseInt(step) === 6) {
-          updateRecapitulatif();
-        }
-      }, 200);
-
-      updateRecapitulatif();
+      updatePrices();
+      $('.input-qty').each(function () {
+        updatePrixTotal($(this));
       });
+
+      updatePrixProduits();
+      updateRecapitulatif();
+      updateSidebarProduitsRecap();
+      updateSidebarTotauxRecap();
+    });
   }
 
   // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
@@ -227,30 +224,18 @@ jQuery(document).ready(function ($) {
 
     $.post(soeasyVars.ajaxurl, {
       action: 'soeasy_set_engagement',
-      duree: duree,
-      nonce: soeasyVars.nonce_config
+      duree: duree
     }, function () {
-      console.log('✅ Engagement mis à jour côté serveur');
-
-      // CORRECTION : Mise à jour complète des prix
+      // CORRECTION : Mettre à jour les prix sans recharger l'étape
       updatePrices();
-      updatePrixProduits();
+      $('.input-qty').each(function () {
+        updatePrixTotal($(this));
+      });
       updateSidebarTotauxRecap();
       updateEngagementVisibility();
 
-      // Si on est sur step-6, régénérer les totaux
-      if ($('.step-6').length) {
-        updateRecapitulatif();
-        setTimeout(() => {
-          window.initStep6Events();
-        }, 100);
-      }
-
       console.log('✅ Engagement mis à jour sans navigation');
-    })
-      .fail(function (xhr, status, error) {
-        console.error('❌ Erreur mise à jour engagement:', error);
-      });
+    });
   });
 
 
@@ -261,30 +246,18 @@ jQuery(document).ready(function ($) {
 
     $.post(soeasyVars.ajaxurl, {
       action: 'soeasy_set_financement',
-      mode: financement,
-      nonce: soeasyVars.nonce_config
+      mode: financement
     }, function () {
-      console.log('✅ Financement mis à jour côté serveur');
-
-      // CORRECTION : Mise à jour complète des prix
+      // CORRECTION : Mettre à jour les prix sans recharger l'étape
       updatePrices();
-      updatePrixProduits();
+      $('.input-qty').each(function () {
+        updatePrixTotal($(this));
+      });
       updateSidebarTotauxRecap();
       updateEngagementVisibility();
 
-      // Si on est sur step-6, régénérer les totaux
-      if ($('.step-6').length) {
-        updateRecapitulatif();
-        setTimeout(() => {
-          window.initStep6Events();
-        }, 100);
-      }
-
       console.log('✅ Financement mis à jour sans navigation');
-    })
-      .fail(function (xhr, status, error) {
-        console.error('❌ Erreur mise à jour financement:', error);
-      });
+    });
   });
 
 
@@ -1380,27 +1353,31 @@ jQuery(document).ready(function ($) {
 
   /**
    * Initialisation des événements de l'étape 6 (Récapitulatif final)
+   * À remplacer dans configurateur.js
    */
-
   window.initStep6Events = function () {
-    console.log('🎯 Initialisation Step 6 - Récapitulatif final (VERSION CORRIGÉE)');
+    console.log('🎯 Initialisation Step 6 - Récapitulatif final');
 
-    // 1. Forcer la mise à jour immédiate des prix
-    updatePrices();
-
-    // 2. Générer le contenu des tableaux
-    setTimeout(() => {
-      updateRecapitulatif();
-      updateSidebarTotauxRecap();
-    }, 100);
-
-    // 3. Calcul et affichage des totaux par adresse
-    const config = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
-    const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
     const mode = getSelectedFinancementMode();
     const engagement = getSelectedEngagement();
 
+    // 1. Mettre à jour les en-têtes des colonnes selon le mode
+    $('[id^="th-prix-unitaire"], .th-prix-unitaire').text(
+      mode === 'leasing' ? 'Prix unitaire / mois' : 'Prix unitaire'
+    );
+    $('[id^="th-prix-total"], .th-prix-total').text(
+      mode === 'leasing' ? 'Total / mois' : 'Total'
+    );
+
+    // 2. Recharger le contenu des tableaux récapitulatifs
+    updateRecapitulatif();
+
+    // 3. Recalculer et afficher les totaux par adresse
+    const config = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
+    const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
+
     Object.entries(config).forEach(([index, data]) => {
+
       let totalComptant = 0;
       let totalMensuel = 0;
 
@@ -1489,29 +1466,14 @@ jQuery(document).ready(function ($) {
         return;
       }
 
-      // Appeler la fonction sendToCart() (doit être définie dans configurateur-fonctions.js)
-      if (typeof sendToCart === 'function') {
-        sendToCart();
-      } else {
-        console.error('❌ Fonction sendToCart() non trouvée');
-        showToastError('Erreur technique : fonction de commande non disponible.');
-      }
+      // Appeler la fonction sendToCart()
+      sendToCart();
     });
 
-    // 5. Écouter les changements de mode/engagement pour re-calculer
-    $(document).on('change', 'input[name="financement"], #engagement', function () {
-      console.log('🔄 Changement mode/engagement dans Step 6 - Recalcul');
-      setTimeout(() => {
-        updatePrices();
-        updateRecapitulatif();
-        updateSidebarTotauxRecap();
+    // 5. Mise à jour des prix selon engagement/financement
+    updatePrices();
 
-        // Recalculer les totaux par adresse
-        window.initStep6Events();
-      }, 200);
-    });
-
-    console.log('✅ Step 6 initialisé avec succès (version corrigée)');
+    console.log('✅ Step 6 initialisé avec succès');
   };
 
 });

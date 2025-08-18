@@ -85,79 +85,26 @@ function getAdresseByIndex(index) {
 * Met à jour dynamiquement le prix total affiché
 */
 function updatePrixTotal($input) {
-  console.log('🔄 updatePrixTotal() - Recalcul prix total');
 
-  const $prixTotal = $input.closest('.border').find('.prix-total');
-  if (!$prixTotal.length) {
-    console.log('⚠️ Aucun .prix-total trouvé pour cet input');
-    return;
-  }
+  const $prixTotal = jQuery($input).closest('.border').find('.prix-total');
+  const unit = parseFloat($prixTotal.data('unit')) || 0;
+  const qty = parseInt(jQuery($input).val()) || 0;
+  const total = unit * qty;
 
-  const qty = parseInt($input.val()) || 0;
   const mode = getSelectedFinancementMode();
-  const engagement = getSelectedEngagement();
+  const typeAttr = jQuery($input).data('type');
 
-  // Récupérer le conteneur du produit pour accéder aux data-prix-*
-  const $produitContainer = $input.closest('[data-prix-comptant], [data-prix-leasing-24], [data-prix-leasing-36], [data-prix-leasing-48], [data-prix-leasing-63]');
-
-  let prixUnitaire = 0;
-  let suffix = '';
-
-  if ($produitContainer.length) {
-    // NOUVEAU : Utiliser les data-prix-* pour récupérer le bon prix
-    if (mode === 'comptant') {
-      prixUnitaire = parseFloat($produitContainer.data('prix-comptant')) || 0;
-      suffix = '';
-    } else if (mode === 'leasing' && engagement) {
-      prixUnitaire = parseFloat($produitContainer.data(`prix-leasing-${engagement}`)) || 0;
-      suffix = ' / mois';
-    }
-  } else {
-    // FALLBACK : Utiliser l'ancien système avec data-unit
-    prixUnitaire = parseFloat($prixTotal.data('unit')) || 0;
-
-    // Déterminer le suffixe selon le type de produit
-    const typeAttr = $input.data('type') || '';
-
-    if (typeAttr === 'forfait') {
-      // Les forfaits sont toujours mensuels
-      suffix = ' / mois';
-    } else if (typeAttr === 'equipement' && mode === 'leasing') {
-      // Les équipements en leasing sont mensuels
-      suffix = ' / mois';
-    } else {
-      // Les équipements en comptant
-      suffix = '';
-    }
-  }
-
-  const total = prixUnitaire * qty;
-
-  // Formatage du prix
   const prixFormatte = new Intl.NumberFormat('fr-FR', {
     style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2
+    currency: 'EUR'
   }).format(total);
 
-  // Mise à jour de l'affichage
+  let suffix = '';
+  if (typeAttr === 'forfait' || (typeAttr === 'equipement' && mode === 'leasing')) {
+    suffix = ' / mois';
+  }
+
   $prixTotal.text(prixFormatte + suffix);
-
-  // Mise à jour du data-unit pour cohérence
-  $prixTotal.data('unit', prixUnitaire);
-
-  console.log(`✅ Prix total mis à jour: ${qty} × ${prixUnitaire}€ = ${total}€${suffix}`);
-}
-
-function updateAllPrixTotaux() {
-  console.log('🔄 updateAllPrixTotaux() - Mise à jour globale des prix totaux');
-
-  jQuery('.input-qty').each(function () {
-    const $input = jQuery(this);
-    updatePrixTotal($input);
-  });
-
-  console.log('✅ Tous les prix totaux mis à jour');
 }
 
 // Calcul total global si souhaité
@@ -254,7 +201,6 @@ window.getSelectedFinancementMode = getSelectedFinancementMode;
 window.updatePrixTotal = updatePrixTotal;
 window.saveToLocalConfig = saveToLocalConfig;
 window.updatePrixProduits = updatePrixProduits;
-window.updateAllPrixTotaux = updateAllPrixTotaux;
 window.updateEngagementVisibility = updateEngagementVisibility;
 
 jQuery(document).ready(function ($) {
@@ -263,12 +209,10 @@ jQuery(document).ready(function ($) {
    * MAJ des prix affichés selon mode de financement + engagement
    */
   function updatePrices() {
-    console.log('🔄 updatePrices() - Mise à jour globale des prix (VERSION AMÉLIORÉE)');
-
     const mode = getSelectedFinancementMode();
     const duree = getSelectedEngagement();
 
-    // 1. Mise à jour des prix visuels dans les badges/spans
+    // Met à jour les prix visibles dans les étapes précédentes (équipements, forfaits)
     $('[data-prix-comptant], [data-prix-leasing-24], [data-prix-leasing-36], [data-prix-leasing-48], [data-prix-leasing-63]').each(function () {
       const $el = $(this);
       let newPrice = '';
@@ -279,31 +223,46 @@ jQuery(document).ready(function ($) {
         newPrice = $el.data('prix-leasing-' + duree);
       }
 
-      if (newPrice !== undefined && newPrice !== '') {
-        const suffix = mode === 'leasing' ? ' € / mois' : ' €';
-        $el.find('.prix-affiche').text(newPrice + suffix);
+      if (newPrice !== undefined) {
+        $el.find('.prix-affiche').text(newPrice + (mode === 'leasing' ? ' € / mois' : ' €'));
         $el.find('.prix-affiche').data('unit', parseFloat(newPrice));
       }
     });
 
-    // 2. Mise à jour des en-têtes de colonnes
-    $('.th-prix-unitaire').text(mode === 'leasing' ? 'Prix unitaire / mois' : 'Prix unitaire');
-    $('.th-prix-total').text(mode === 'leasing' ? 'Total / mois' : 'Total');
+    // MAJ du prix visible dans les lignes des FI (Step-5 uniquement)
+    $('.frais-checkbox').each(function () {
+      const $cb = $(this);
+      const index = $cb.data('index');
+      const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+      const frais = config[index]?.fraisInstallation || [];
+      if (!Array.isArray(frais)) return;
+      const item = Array.isArray(frais) ? frais.find(f => f.id === $cb.data('id')) : null;
+      if (!item) return;
 
-    // 3. NOUVEAU : Forcer la mise à jour de tous les prix totaux
-    updateAllPrixTotaux();
+      const unit =
+        mode === 'comptant'
+          ? parseFloat(item.prixComptant) || 0
+          : parseFloat(item[`prixLeasing${duree}`]) || 0;
 
-    // 4. Mise à jour des prix dans localStorage
-    updatePrixProduits();
+      const suffix = mode === 'leasing' ? ' € / mois' : ' €';
+      const prixTexte = unit.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + suffix;
 
-    // 5. Si on est sur step-6, régénérer les tableaux
-    if ($('.step-6').length) {
-      updateRecapitulatif();
-    }
+      // Cibler le span à droite
+      const $prix = $cb.closest('label').find('span.float-end');
+      if ($prix.length) {
+        $prix.text(prixTexte);
+      }
+    });
 
-    console.log('✅ updatePrices() terminé (version améliorée)');
+    // Mise à jour du total FI à droite
+    $('.frais-installation-list').each(function () {
+      const index = $(this).data('index');
+      updateFraisTotal(index);
+    });
+
+    updateEngagementVisibility();
+
   }
-
 
   function updateFraisTotal(index) {
     const mode = getSelectedFinancementMode();
@@ -434,67 +393,67 @@ jQuery(document).ready(function ($) {
     });
   }
 
-
+  
   /**
  * Fonction améliorée pour afficher les villes dans les onglets
  */
-  function afficherVillesDansOnglets() {
-    console.log('🏷️ Application des noms de villes dans les onglets');
-
-    // Sélecteurs pour les onglets
-    const selecteurs = [
-      '.nav-tabs .nav-link[data-bs-target^="#tab-"]',
-      '.nav-tabs .nav-link[href^="#tab-"]',
-      '.nav-pills .nav-link[data-bs-target^="#tab-"]',
-      '.nav-pills .nav-link[href^="#tab-"]'
-    ];
-
-    let ongletsTraites = 0;
-    let $ongletsATtraiter = $();
-
-    // 1. D'abord, identifier tous les onglets à traiter
-    selecteurs.forEach(selecteur => {
-      $(selecteur).each(function () {
-        const $onglet = $(this);
-        let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
-        if (!target) return;
-
-        const index = parseInt(target.replace('#tab-', ''));
-        if (isNaN(index)) return;
-
-        $ongletsATtraiter = $ongletsATtraiter.add($onglet);
-      });
+function afficherVillesDansOnglets() {
+  console.log('🏷️ Application des noms de villes dans les onglets');
+  
+  // Sélecteurs pour les onglets
+  const selecteurs = [
+    '.nav-tabs .nav-link[data-bs-target^="#tab-"]',
+    '.nav-tabs .nav-link[href^="#tab-"]',
+    '.nav-pills .nav-link[data-bs-target^="#tab-"]',
+    '.nav-pills .nav-link[href^="#tab-"]'
+  ];
+  
+  let ongletsTraites = 0;
+  let $ongletsATtraiter = $();
+  
+  // 1. D'abord, identifier tous les onglets à traiter
+  selecteurs.forEach(selecteur => {
+    $(selecteur).each(function() {
+      const $onglet = $(this);
+      let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
+      if (!target) return;
+      
+      const index = parseInt(target.replace('#tab-', ''));
+      if (isNaN(index)) return;
+      
+      $ongletsATtraiter = $ongletsATtraiter.add($onglet);
     });
-
-    if ($ongletsATtraiter.length === 0) {
-      console.log('⚠️ Aucun onglet trouvé');
-      return;
-    }
-
-    // 2. Masquer temporairement les onglets (opacity pour éviter le décalage)
-    $ongletsATtraiter.css('opacity', '0');
-
-    // 3. Traiter tous les onglets
-    setTimeout(() => {
-      $ongletsATtraiter.each(function () {
-        const $onglet = $(this);
-        let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
-        const index = parseInt(target.replace('#tab-', ''));
-
-        const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
-        const adresseComplete = adresses[index]?.adresse || `Adresse ${index + 1}`;
-        const ville = extraireVille(adresseComplete);
-
-        $onglet.text(ville);
-        ongletsTraites++;
-      });
-
-      // 4. Réafficher tous les onglets en même temps
-      $ongletsATtraiter.css('opacity', '1');
-
-      console.log(`✅ ${ongletsTraites} onglets traités sans flash`);
-    }, 50);
+  });
+  
+  if ($ongletsATtraiter.length === 0) {
+    console.log('⚠️ Aucun onglet trouvé');
+    return;
   }
+  
+  // 2. Masquer temporairement les onglets (opacity pour éviter le décalage)
+  $ongletsATtraiter.css('opacity', '0');
+  
+  // 3. Traiter tous les onglets
+  setTimeout(() => {
+    $ongletsATtraiter.each(function() {
+      const $onglet = $(this);
+      let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
+      const index = parseInt(target.replace('#tab-', ''));
+      
+      const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+      const adresseComplete = adresses[index]?.adresse || `Adresse ${index + 1}`;
+      const ville = extraireVille(adresseComplete);
+      
+      $onglet.text(ville);
+      ongletsTraites++;
+    });
+    
+    // 4. Réafficher tous les onglets en même temps
+    $ongletsATtraiter.css('opacity', '1');
+    
+    console.log(`✅ ${ongletsTraites} onglets traités sans flash`);
+  }, 50);
+}
 
   /**
    * Fonction d'extraction de ville améliorée

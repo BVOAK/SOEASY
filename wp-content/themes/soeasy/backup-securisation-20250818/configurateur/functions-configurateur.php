@@ -172,34 +172,20 @@ add_action('wp_ajax_nopriv_soeasy_add_adresse_configurateur', 'ajax_soeasy_add_a
 add_action('wp_ajax_soeasy_remove_adresse_configurateur', 'ajax_soeasy_remove_adresse_configurateur');
 add_action('wp_ajax_nopriv_soeasy_remove_adresse_configurateur', 'ajax_soeasy_remove_adresse_configurateur');
 
-function soeasy_set_engagement() {
-    // VÉRIFICATION NONCE
-    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action')) {
-        wp_send_json_error('Sécurité : nonce invalide');
-        return;
-    }
-    
-    // LOGIQUE EXISTANTE INCHANGÉE
-    soeasy_session_set('soeasy_duree_engagement', intval($_POST['duree'] ?? 0));
-    wp_send_json_success('Engagement enregistré');
-}
-add_action('wp_ajax_soeasy_set_engagement', 'soeasy_set_engagement');
-add_action('wp_ajax_nopriv_soeasy_set_engagement', 'soeasy_set_engagement');
-function soeasy_set_financement() {
-    // VÉRIFICATION NONCE
-    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action')) {
-        wp_send_json_error('Sécurité : nonce invalide');
-        return;
-    }
-    
-    // LOGIQUE EXISTANTE INCHANGÉE
-    soeasy_session_set('soeasy_mode_financement', sanitize_text_field($_POST['mode'] ?? ''));
-    wp_send_json_success('Mode financement enregistré');
-}
-add_action('wp_ajax_soeasy_set_financement', 'soeasy_set_financement');
-add_action('wp_ajax_nopriv_soeasy_set_financement', 'soeasy_set_financement');
+add_action('wp_ajax_soeasy_set_engagement', fn() => soeasy_session_set('soeasy_duree_engagement', intval($_POST['duree'] ?? 0)));
+add_action('wp_ajax_nopriv_soeasy_set_engagement', fn() => soeasy_session_set('soeasy_duree_engagement', intval($_POST['duree'] ?? 0)));
+add_action('wp_ajax_soeasy_set_financement', fn() => soeasy_session_set('soeasy_mode_financement', sanitize_text_field($_POST['mode'] ?? '')));
+add_action('wp_ajax_nopriv_soeasy_set_financement', fn() => soeasy_session_set('soeasy_mode_financement', sanitize_text_field($_POST['mode'] ?? '')));
+
+// Étape 2
+/* add_action('wp_ajax_soeasy_set_forfait_internet', fn() => soeasy_session_set('soeasy_forfaits_internet', array_replace(soeasy_session_get('soeasy_config_forfaits_internet', []), [intval($_POST['index'] ?? -1) => intval($_POST['product_id'] ?? 0)])));
+add_action('wp_ajax_nopriv_soeasy_set_forfait_internet', fn() => soeasy_session_set('soeasy_forfaits_internet', array_replace(soeasy_session_get('soeasy_config_forfaits_internet', []), [intval($_POST['index'] ?? -1) => intval($_POST['product_id'] ?? 0)])));
+add_action('wp_ajax_soeasy_set_equipements_internet', fn() => soeasy_session_set('soeasy_equipements_internet', array_replace(soeasy_session_get('soeasy_config_equipements_internet', []), [intval($_POST['index'] ?? -1) => array_map('intval', $_POST['product_ids'] ?? [])])));
+add_action('wp_ajax_nopriv_soeasy_set_equipements_internet', fn() => soeasy_session_set('soeasy_equipements_internet', array_replace(soeasy_session_get('soeasy_config_equipements_internet', []), [intval($_POST['index'] ?? -1) => array_map('intval', $_POST['product_ids'] ?? [])]))); */
 
 // Enregistre le forfait Internet sélectionné
+add_action('wp_ajax_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet');
+add_action('wp_ajax_nopriv_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet');
 function soeasy_set_forfait_internet()
 {
     $index = intval($_POST['index'] ?? -1);
@@ -213,10 +199,10 @@ function soeasy_set_forfait_internet()
 
     wp_send_json_success("Forfait Internet $product_id enregistré pour index $index.");
 }
-add_action('wp_ajax_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet');
-add_action('wp_ajax_nopriv_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet');
 
 // Enregistre les équipements Internet sélectionnés
+add_action('wp_ajax_soeasy_set_equipements_internet', 'soeasy_set_equipements_internet');
+add_action('wp_ajax_nopriv_soeasy_set_equipements_internet', 'soeasy_set_equipements_internet');
 function soeasy_set_equipements_internet()
 {
     $index = intval($_POST['index'] ?? -1);
@@ -230,8 +216,9 @@ function soeasy_set_equipements_internet()
 
     wp_send_json_success("Équipements enregistrés pour index $index.");
 }
-add_action('wp_ajax_soeasy_set_equipements_internet', 'soeasy_set_equipements_internet');
-add_action('wp_ajax_nopriv_soeasy_set_equipements_internet', 'soeasy_set_equipements_internet');
+
+add_action('wp_ajax_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
+add_action('wp_ajax_nopriv_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
 
 function soeasy_set_frais_installation()
 {
@@ -277,8 +264,6 @@ function soeasy_set_frais_installation()
         'count' => count($config[$index]['fraisInstallation'])
     ]);
 }
-add_action('wp_ajax_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
-add_action('wp_ajax_nopriv_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
 
 
 

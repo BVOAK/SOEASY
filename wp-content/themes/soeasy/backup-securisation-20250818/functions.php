@@ -34,18 +34,6 @@ if (is_singular() && !class_exists('\UiCore\Core')) {
 }
 
 
-// Ajouter FontAwesome
-function soeasy_enqueue_fontawesome() {
-    wp_enqueue_style(
-        'fontawesome', 
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css',
-        array(),
-        '7.0.0'
-    );
-}
-add_action('wp_enqueue_scripts', 'soeasy_enqueue_fontawesome');
-
-
 //disable element pack self update
 function uicore_disable_plugin_updates($value)
 {
@@ -180,21 +168,9 @@ function soeasy_enqueue_configurateur_assets_conditionnel() {
             true
         );
 
-        wp_enqueue_script(
-            'google-maps-api',
-            'https://maps.googleapis.com/maps/api/js?key=AIzaSyBeIvkJPtLGSviPdBoluEUR0SI1M7eeK00&libraries=places',
-            [],
-            null,
-            true
-        );
-
         wp_localize_script('soeasy-configurateur', 'soeasyVars', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'themeUrl' => get_template_directory_uri(),
-            'security' => wp_create_nonce('soeasy_nonce'),
-            'nonce_config' => wp_create_nonce('soeasy_config_action'),
-            'nonce_cart' => wp_create_nonce('soeasy_cart_action'),
-            'nonce_address' => wp_create_nonce('soeasy_address_action')
         ));
 
         add_action('init', function () {
@@ -205,3 +181,33 @@ function soeasy_enqueue_configurateur_assets_conditionnel() {
     }
 }
 add_action('wp_enqueue_scripts', 'soeasy_enqueue_configurateur_assets_conditionnel');
+
+wp_localize_script('soeasy-configurateur', 'soeasyVars', array(
+    'ajaxurl' => admin_url('admin-ajax.php'),
+    'themeUrl' => get_template_directory_uri(),
+    'security' => wp_create_nonce('soeasy_nonce')
+));
+
+function soeasy_enqueue_google_maps() {
+    if (is_page('configurateur')) { // ou adapte selon ton slug/page
+        wp_enqueue_script(
+            'google-maps-api',
+            'https://maps.googleapis.com/maps/api/js?key=AIzaSyBeIvkJPtLGSviPdBoluEUR0SI1M7eeK00&libraries=places',
+            [],
+            null,
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'soeasy_enqueue_google_maps');
+
+// Ajouter FontAwesome
+function soeasy_enqueue_fontawesome() {
+    wp_enqueue_style(
+        'fontawesome', 
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css',
+        array(),
+        '7.0.0'
+    );
+}
+add_action('wp_enqueue_scripts', 'soeasy_enqueue_fontawesome');
