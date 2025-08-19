@@ -176,49 +176,6 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
-  $(document).on('change', '.forfait-checkbox:not(.step-3 *, .step-4 *), .equipement-checkbox:not(.step-3 *, .step-4 *), .centrex-checkbox:not(.step-3 *, .step-4 *), .mobile-checkbox:not(.step-3 *, .step-4 *)', function () {
-    const $checkbox = $(this);
-    const $input = $checkbox.closest('.border').find('.input-qty');
-
-    if ($checkbox.is(':checked')) {
-      // Si coché et quantité = 0, mettre à 1
-      if (parseInt($input.val()) === 0) {
-        $input.val(1);
-      }
-    } else {
-      // Si décoché, remettre quantité à 0
-      $input.val(0);
-    }
-
-    // CORRECTION : Recalcul immédiat avec nouveaux prix
-    updatePrixTotal($input);
-    updateSidebarTotauxRecap();
-  });
-
-
-  // 2. Input quantité modifiée → synchroniser checkbox et recalculer
-  $(document).on('input change', '.input-qty:not(.step-3 *, .step-4 *)', function () {
-    const $input = $(this);
-    const $checkbox = $input.closest('.border').find('.forfait-checkbox, .equipement-checkbox, .centrex-checkbox, .mobile-checkbox');
-    const quantity = parseInt($input.val()) || 0;
-
-    // Synchroniser checkbox avec quantité
-    $checkbox.prop('checked', quantity > 0);
-
-    // CORRECTION : Recalcul immédiat avec nouveaux prix
-    updatePrixTotal($input);
-    updateSidebarTotauxRecap();
-  });
-
-  // Navigation entre les étapes
-  $(document).on('click', '.btn-suivant, .btn-precedent', function () {
-    const nextStep = $(this).data('step');
-    localStorage.setItem('soeasyCurrentStep', nextStep);
-    loadStep(nextStep);
-  });
-
-
   // === Changement du mode de durée d'engagement (radio) ===
   $(document).off('change', '#engagement').on('change', '#engagement', function () {
     const duree = $(this).val();
@@ -236,8 +193,6 @@ jQuery(document).ready(function ($) {
       // CORRECTION : Mise à jour complète et immédiate des prix
       setTimeout(() => {
         updatePrices();                 // Met à jour les prix visuels dans le DOM
-        updatePrixProduits();           // Met à jour les prix dans localStorage  
-        updateAllPrixTotaux();          // Recalcule tous les prix totaux affichés
         updateSidebarTotauxRecap();     // Met à jour les totaux de la sidebar
         updateEngagementVisibility();   // Gère la visibilité des options
       }, 50);
@@ -282,8 +237,6 @@ jQuery(document).ready(function ($) {
       // CORRECTION : Mise à jour complète et immédiate des prix
       setTimeout(() => {
         updatePrices();                 // Met à jour les prix visuels dans le DOM
-        updatePrixProduits();           // Met à jour les prix dans localStorage
-        updateAllPrixTotaux();          // Recalcule tous les prix totaux affichés  
         updateSidebarTotauxRecap();     // Met à jour les totaux de la sidebar
         updateEngagementVisibility();   // Gère la visibilité des options
       }, 50);
