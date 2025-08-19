@@ -412,6 +412,22 @@ jQuery(document).ready(function ($) {
   window.initStep1Events = function () {
     initGoogleAutocomplete();
 
+    function checkAdressesAndToggleButton() {
+        const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
+        const hasAddresses = adresses.length > 0 || $('#liste-adresses ul li').length > 0;
+        
+        if (hasAddresses) {
+            $('.btn-suivant').removeClass('disabled');
+            console.log('✅ Adresses existantes détectées - bouton activé');
+        } else {
+            $('.btn-suivant').addClass('disabled');
+            console.log('⚠️ Aucune adresse - bouton désactivé');
+        }
+    }
+
+    // Appeler la vérification au chargement de l'étape
+    checkAdressesAndToggleButton();
+
     // Ajout d’adresse
     $('#form-ajout-adresse').on('submit', function (e) {
       e.preventDefault();
@@ -781,6 +797,9 @@ jQuery(document).ready(function ($) {
       } else {
         saveMobileQuantites(index);
       }
+
+      updatePrixTotal($input);
+      setTimeout(() => updateSidebarTotauxRecap(), 50);
     });
 
     $(document).on('mouseup', '.step-3 .input-qty', function () {
@@ -876,9 +895,18 @@ jQuery(document).ready(function ($) {
         const prixLeasing48 = parseFloat($produit.data('prix-leasing-48')) || 0;
         const prixLeasing63 = parseFloat($produit.data('prix-leasing-63')) || 0;
 
+        let typeCorrect = typeAttr;
+          if (name.includes('forfait_mobile')) {
+            typeCorrect = 'forfait-mobile';  // Pas 'mobile'
+          } else if (name.includes('forfait_data')) {
+            typeCorrect = 'forfait-data';    // Pas 'forfait'
+          } else if (name.includes('equipement')) {
+            typeCorrect = 'equipement-mobile';
+        }
+
         const produit = {
           id: parseInt(id),
-          type: $input.data('type-complet'),
+          type: typeCorrect,
           nom,
           description: desc,
           quantite: qty,
@@ -941,6 +969,9 @@ jQuery(document).ready(function ($) {
 
       if (qty === 0) removeProductFromLocalStorage(index, id);
       saveCentrexQuantites(index);
+
+      updatePrixTotal($input);
+      setTimeout(() => updateSidebarTotauxRecap(), 50);
     });
 
     $(document).on('mouseup', '.step-4 .input-qty', function () {
