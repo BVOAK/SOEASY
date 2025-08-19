@@ -1020,7 +1020,8 @@ function updatePrixAffiche($element, prix, suffix) {
       $.post(soeasyVars.ajaxurl, {
         action: 'soeasy_set_frais_installation',
         index: index,
-        items: frais
+        items: frais,
+        nonce: soeasyVars.nonce_config
       })
         .done(function () {
           console.log(`🔄 Sync session réussie pour adresse ${index}`);
@@ -1070,7 +1071,8 @@ function updatePrixAffiche($element, prix, suffix) {
     const payload = {
       action: 'soeasy_ajouter_au_panier_multi',
       config: config,
-      adresses: adresses
+      adresses: adresses,
+      nonce: soeasyVars.nonce_cart
     };
 
     console.log('📤 Payload envoyé:', payload);

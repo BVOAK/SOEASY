@@ -176,6 +176,49 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
+  $(document).on('change', '.forfait-checkbox:not(.step-3 *, .step-4 *), .equipement-checkbox:not(.step-3 *, .step-4 *), .centrex-checkbox:not(.step-3 *, .step-4 *), .mobile-checkbox:not(.step-3 *, .step-4 *)', function () {
+    const $checkbox = $(this);
+    const $input = $checkbox.closest('.border').find('.input-qty');
+
+    if ($checkbox.is(':checked')) {
+      // Si coché et quantité = 0, mettre à 1
+      if (parseInt($input.val()) === 0) {
+        $input.val(1);
+      }
+    } else {
+      // Si décoché, remettre quantité à 0
+      $input.val(0);
+    }
+
+    // CORRECTION : Recalcul immédiat avec nouveaux prix
+    updatePrixTotal($input);
+    updateSidebarTotauxRecap();
+  });
+
+
+  // 2. Input quantité modifiée → synchroniser checkbox et recalculer
+  $(document).on('input change', '.input-qty:not(.step-3 *, .step-4 *)', function () {
+    const $input = $(this);
+    const $checkbox = $input.closest('.border').find('.forfait-checkbox, .equipement-checkbox, .centrex-checkbox, .mobile-checkbox');
+    const quantity = parseInt($input.val()) || 0;
+
+    // Synchroniser checkbox avec quantité
+    $checkbox.prop('checked', quantity > 0);
+
+    // CORRECTION : Recalcul immédiat avec nouveaux prix
+    updatePrixTotal($input);
+    updateSidebarTotauxRecap();
+  });
+
+  // Navigation entre les étapes
+  $(document).on('click', '.btn-suivant, .btn-precedent', function () {
+    const nextStep = $(this).data('step');
+    localStorage.setItem('soeasyCurrentStep', nextStep);
+    loadStep(nextStep);
+  });
+
+
   // === Changement du mode de durée d'engagement (radio) ===
   $(document).off('change', '#engagement').on('change', '#engagement', function () {
     const duree = $(this).val();
@@ -401,8 +444,9 @@ jQuery(document).ready(function ($) {
         type: 'POST',
         data: {
           action: 'soeasy_add_adresse_configurateur',
-          adresse: adresse
+          adresse: adresse,
           //services: services
+          nonce: soeasyVars.nonce_address
         },
         success: function (response) {
           if (response.success) {
@@ -445,7 +489,8 @@ jQuery(document).ready(function ($) {
         type: 'POST',
         data: {
           action: 'soeasy_remove_adresse_configurateur',
-          index: index
+          index: index,
+          nonce: soeasyVars.nonce_address
         },
         success: function () {
           // Mise à jour du localStorage aussi
@@ -513,7 +558,8 @@ jQuery(document).ready(function ($) {
       $.post(soeasyVars.ajaxurl, {
         action: 'soeasy_set_frais_installation',
         index,
-        items: Object.values(fraisMap)
+        items: Object.values(fraisMap),
+        nonce: soeasyVars.nonce_config
       });
     }
 
@@ -552,17 +598,20 @@ jQuery(document).ready(function ($) {
         $.post(soeasyVars.ajaxurl, {
           action: 'soeasy_set_forfait_internet',
           index: index,
-          product_id: 0
+          product_id: 0,
+          nonce: soeasyVars.nonce_config
         });
         $.post(soeasyVars.ajaxurl, {
           action: 'soeasy_set_equipements_internet',
           index: index,
-          product_id: 0
+          product_id: 0,
+          nonce: soeasyVars.nonce_config
         });
         $.post(soeasyVars.ajaxurl, {
           action: 'soeasy_set_frais_installation',
           index: index,
-          items: []
+          items: [],
+          nonce: soeasyVars.nonce_config
         });
 
         // Cache les blocs
@@ -618,7 +667,8 @@ jQuery(document).ready(function ($) {
       $.post(soeasyVars.ajaxurl, {
         action: 'soeasy_set_forfait_internet',
         index: index,
-        product_id: prdID
+        product_id: prdID,
+        nonce: soeasyVars.nonce_config
       });
 
       const produits = [{
@@ -688,7 +738,8 @@ jQuery(document).ready(function ($) {
       $.post(soeasyVars.ajaxurl, {
         action: 'soeasy_set_equipements_internet',
         index: index,
-        product_ids: product_ids
+        product_ids: product_ids,
+        nonce: soeasyVars.nonce_config
       });
 
       saveToLocalConfig(index, 'materiels', produits, { replace: true, type: 'equipement-internet' });
@@ -888,7 +939,8 @@ jQuery(document).ready(function ($) {
         $.post(soeasyVars.ajaxurl, {
           action: `soeasy_set_${key}`,
           index,
-          items
+          items,
+          nonce: soeasyVars.nonce_config
         });
       });
 
@@ -1126,7 +1178,8 @@ jQuery(document).ready(function ($) {
           $.post(soeasyVars.ajaxurl, {
             action: `soeasy_set_${key}`,
             index,
-            items
+            items,
+            nonce: soeasyVars.nonce_config
           });
         }
       });
@@ -1245,7 +1298,8 @@ jQuery(document).ready(function ($) {
       $.post(soeasyVars.ajaxurl, {
         action: 'soeasy_set_frais_installation',
         index,
-        items: config[index].fraisInstallation
+        items: config[index].fraisInstallation,
+        nonce: soeasyVars.nonce_config
       });
 
       console.log(`✅ Frais Centrex calculés pour l'adresse ${index}:`, Object.values(fraisParId));

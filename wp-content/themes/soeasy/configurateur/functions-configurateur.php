@@ -117,9 +117,6 @@ function soeasy_get_config_produits()
     return $resultat;
 }
 
-/**
- * Generic session array setter (for step 2, 3, 4...)
- */
 function soeasy_set_session_items($key, $index, $items)
 {
     if ($index < 0 || !is_array($items))
@@ -130,11 +127,50 @@ function soeasy_set_session_items($key, $index, $items)
     wp_send_json_success('Données enregistrées');
 }
 
+
 /**
- * AJAX handlers
+ * Fonction utilitaire de vérification des nonces
  */
-function ajax_soeasy_add_adresse_configurateur()
-{
+function soeasy_verify_nonce($nonce_value, $nonce_action) {
+    if (!wp_verify_nonce($nonce_value, $nonce_action)) {
+        wp_send_json_error('Sécurité : nonce invalide');
+        exit;
+    }
+}
+
+
+// ============================================================================
+// CONFIGURATION GÉNÉRALE
+// ============================================================================
+
+function soeasy_set_engagement() {
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+    
+    // LOGIQUE EXISTANTE INCHANGÉE
+    soeasy_session_set('soeasy_duree_engagement', intval($_POST['duree'] ?? 0));
+    wp_send_json_success('Engagement enregistré');
+}
+add_action('wp_ajax_soeasy_set_engagement', 'soeasy_set_engagement');
+add_action('wp_ajax_nopriv_soeasy_set_engagement', 'soeasy_set_engagement');
+function soeasy_set_financement() {
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+    
+    // LOGIQUE EXISTANTE INCHANGÉE
+    soeasy_session_set('soeasy_mode_financement', sanitize_text_field($_POST['mode'] ?? ''));
+    wp_send_json_success('Mode financement enregistré');
+}
+add_action('wp_ajax_soeasy_set_financement', 'soeasy_set_financement');
+add_action('wp_ajax_nopriv_soeasy_set_financement', 'soeasy_set_financement');
+
+
+// ============================================================================
+// CATÉGORIE 1 - GESTION DES ADRESSES (SÉCURISÉES)
+// ============================================================================
+
+function ajax_soeasy_add_adresse_configurateur(){
+
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_address_action');
+
     $adresse = $_POST['adresse'] ?? '';
     $services = $_POST['services'] ?? [];
     if (!$adresse /* || empty($services) */)
@@ -152,8 +188,10 @@ function ajax_soeasy_add_adresse_configurateur()
     wp_send_json_success(['html' => ob_get_clean()]);
 }
 
-function ajax_soeasy_remove_adresse_configurateur()
-{
+function ajax_soeasy_remove_adresse_configurateur(){
+
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_address_action');
+
     $index = intval($_POST['index'] ?? -1);
     $adresses = soeasy_get_adresses_configurateur();
     if ($index >= 0 && isset($adresses[$index])) {
@@ -172,36 +210,14 @@ add_action('wp_ajax_nopriv_soeasy_add_adresse_configurateur', 'ajax_soeasy_add_a
 add_action('wp_ajax_soeasy_remove_adresse_configurateur', 'ajax_soeasy_remove_adresse_configurateur');
 add_action('wp_ajax_nopriv_soeasy_remove_adresse_configurateur', 'ajax_soeasy_remove_adresse_configurateur');
 
-function soeasy_set_engagement() {
-    // VÉRIFICATION NONCE
-    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action')) {
-        wp_send_json_error('Sécurité : nonce invalide');
-        return;
-    }
-    
-    // LOGIQUE EXISTANTE INCHANGÉE
-    soeasy_session_set('soeasy_duree_engagement', intval($_POST['duree'] ?? 0));
-    wp_send_json_success('Engagement enregistré');
-}
-add_action('wp_ajax_soeasy_set_engagement', 'soeasy_set_engagement');
-add_action('wp_ajax_nopriv_soeasy_set_engagement', 'soeasy_set_engagement');
-function soeasy_set_financement() {
-    // VÉRIFICATION NONCE
-    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action')) {
-        wp_send_json_error('Sécurité : nonce invalide');
-        return;
-    }
-    
-    // LOGIQUE EXISTANTE INCHANGÉE
-    soeasy_session_set('soeasy_mode_financement', sanitize_text_field($_POST['mode'] ?? ''));
-    wp_send_json_success('Mode financement enregistré');
-}
-add_action('wp_ajax_soeasy_set_financement', 'soeasy_set_financement');
-add_action('wp_ajax_nopriv_soeasy_set_financement', 'soeasy_set_financement');
 
-// Enregistre le forfait Internet sélectionné
-function soeasy_set_forfait_internet()
-{
+// ============================================================================
+// CATÉGORIE 2 - ÉTAPE 2 INTERNET (SÉCURISÉES)
+// ============================================================================
+function soeasy_set_forfait_internet(){
+
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+
     $index = intval($_POST['index'] ?? -1);
     $product_id = intval($_POST['product_id'] ?? 0);
     if ($index < 0 || $product_id <= 0) {
@@ -217,8 +233,10 @@ add_action('wp_ajax_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet')
 add_action('wp_ajax_nopriv_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet');
 
 // Enregistre les équipements Internet sélectionnés
-function soeasy_set_equipements_internet()
-{
+function soeasy_set_equipements_internet(){
+
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+
     $index = intval($_POST['index'] ?? -1);
     $product_ids = array_map('intval', $_POST['product_ids'] ?? []);
     if ($index < 0) {
@@ -233,8 +251,63 @@ function soeasy_set_equipements_internet()
 add_action('wp_ajax_soeasy_set_equipements_internet', 'soeasy_set_equipements_internet');
 add_action('wp_ajax_nopriv_soeasy_set_equipements_internet', 'soeasy_set_equipements_internet');
 
-function soeasy_set_frais_installation()
-{
+
+// ============================================================================
+// CATÉGORIE 3 - ÉTAPE 3 MOBILE (SÉCURISÉES)
+// ============================================================================
+
+function soeasy_set_forfaits_mobile() {
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+    soeasy_set_session_items('soeasy_forfaits_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []);
+}
+add_action('wp_ajax_soeasy_set_forfaits_mobile', 'soeasy_set_forfaits_mobile');
+add_action('wp_ajax_nopriv_soeasy_set_forfaits_mobile', 'soeasy_set_forfaits_mobile');
+
+function soeasy_set_forfaits_data() {
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+    soeasy_set_session_items('soeasy_forfaits_data', intval($_POST['index'] ?? -1), $_POST['items'] ?? []);
+}
+add_action('wp_ajax_soeasy_set_forfaits_data', 'soeasy_set_forfaits_data');
+add_action('wp_ajax_nopriv_soeasy_set_forfaits_data', 'soeasy_set_forfaits_data');
+
+function soeasy_set_equipements_mobile() {
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+    soeasy_set_session_items('soeasy_equipements_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []);
+}
+add_action('wp_ajax_soeasy_set_equipements_mobile', 'soeasy_set_equipements_mobile');
+add_action('wp_ajax_nopriv_soeasy_set_equipements_mobile', 'soeasy_set_equipements_mobile');
+
+
+
+// ============================================================================
+// CATÉGORIE 4 - ÉTAPE 4 CENTREX (SÉCURISÉES)
+// ============================================================================
+
+foreach (['licences', 'services', 'postes', 'switchs', 'accessoires'] as $type) {
+    $function_name = "soeasy_set_{$type}_centrex";
+    
+    if (!function_exists($function_name)) {
+        eval("
+        function {$function_name}() {
+            soeasy_verify_nonce(\$_POST['nonce'] ?? '', 'soeasy_config_action');
+            soeasy_set_session_items('soeasy_{$type}_centrex', intval(\$_POST['index'] ?? -1), \$_POST['items'] ?? []);
+        }
+        ");
+    }
+    
+    add_action("wp_ajax_{$function_name}", $function_name);
+    add_action("wp_ajax_nopriv_{$function_name}", $function_name);
+}
+
+
+// ============================================================================
+// CATÉGORIE 5 - ÉTAPE 5 FRAIS D'INSTALLATION (SÉCURISÉES)
+// ============================================================================
+
+function soeasy_set_frais_installation(){
+
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
+
     if (!isset($_POST['index']) || !isset($_POST['items']) || !is_array($_POST['items'])) {
         wp_send_json_error('Paramètres manquants.');
         return;
@@ -280,28 +353,10 @@ function soeasy_set_frais_installation()
 add_action('wp_ajax_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
 add_action('wp_ajax_nopriv_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
 
+function soeasy_set_config_part(){
 
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
 
-// Étape 3
-add_action('wp_ajax_soeasy_set_forfaits_mobile', fn() => soeasy_set_session_items('soeasy_forfaits_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-add_action('wp_ajax_nopriv_soeasy_set_forfaits_mobile', fn() => soeasy_set_session_items('soeasy_forfaits_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-add_action('wp_ajax_soeasy_set_forfaits_data', fn() => soeasy_set_session_items('soeasy_forfaits_data', intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-add_action('wp_ajax_nopriv_soeasy_set_forfaits_data', fn() => soeasy_set_session_items('soeasy_forfaits_data', intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-add_action('wp_ajax_soeasy_set_equipements_mobile', fn() => soeasy_set_session_items('soeasy_equipements_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-add_action('wp_ajax_nopriv_soeasy_set_equipements_mobile', fn() => soeasy_set_session_items('soeasy_equipements_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-
-// Étape 4
-foreach (['licences', 'services', 'postes', 'switchs', 'accessoires'] as $type) {
-    $key = "soeasy_{$type}_centrex";
-    add_action("wp_ajax_soeasy_set_{$type}_centrex", fn() => soeasy_set_session_items($key, intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-    add_action("wp_ajax_nopriv_soeasy_set_{$type}_centrex", fn() => soeasy_set_session_items($key, intval($_POST['index'] ?? -1), $_POST['items'] ?? []));
-}
-
-// Étape 5
-add_action('wp_ajax_soeasy_set_config_part', 'soeasy_set_config_part');
-add_action('wp_ajax_nopriv_soeasy_set_config_part', 'soeasy_set_config_part');
-function soeasy_set_config_part()
-{
     $index = sanitize_text_field($_POST['index']);
     $key = sanitize_text_field($_POST['key']);
     $items = $_POST['items'];
@@ -320,6 +375,15 @@ function soeasy_set_config_part()
     wp_send_json_success('Mise à jour OK');
 }
 
+add_action('wp_ajax_soeasy_set_config_part', 'soeasy_set_config_part');
+add_action('wp_ajax_nopriv_soeasy_set_config_part', 'soeasy_set_config_part');
+
+
+
+// ============================================================================
+// CATÉGORIE 6 - PANIER ET COMMANDE (SÉCURISÉES) - CRITIQUES
+// ============================================================================
+
 function soeasy_resolve_product($input)
 {
     if ($input instanceof WC_Product) {
@@ -335,10 +399,10 @@ function soeasy_resolve_product($input)
 }
 
 // Ajout au panier
-add_action('wp_ajax_soeasy_ajouter_au_panier', 'soeasy_ajouter_au_panier');
-add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier', 'soeasy_ajouter_au_panier');
-function soeasy_ajouter_au_panier()
-{
+function soeasy_ajouter_au_panier(){
+
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_cart_action');
+    
     if (!function_exists('WC')) {
         wp_send_json_error(['message' => 'WooCommerce non disponible']);
     }
@@ -396,20 +460,16 @@ function soeasy_ajouter_au_panier()
     ], true));
 }
 
-?>
+add_action('wp_ajax_soeasy_ajouter_au_panier', 'soeasy_ajouter_au_panier');
+add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier', 'soeasy_ajouter_au_panier');
 
-
-<?php
 /**
  * Ajout au panier pour configuration multi-adresses
  */
+function soeasy_ajouter_au_panier_multi(){
 
-// Hook AJAX pour la nouvelle fonction
-add_action('wp_ajax_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
-add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
+    soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_cart_action');
 
-function soeasy_ajouter_au_panier_multi()
-{
     if (!function_exists('WC')) {
         wp_send_json_error(['message' => 'WooCommerce non disponible']);
         return;
@@ -508,6 +568,9 @@ function soeasy_ajouter_au_panier_multi()
         ]);
     }
 }
+
+add_action('wp_ajax_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
+add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
 
 /**
  * Fonction helper pour ajouter un produit au panier WC

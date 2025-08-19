@@ -36,7 +36,7 @@ $adresses = soeasy_get_adresses_configurateur();
       </div>
     </div> -->
     <div class="col-12">
-      <button type="submit" class="btn btn-primary">Ajouter cette adresse</button>
+      <button type="submit" class="btn btn-primary" id="btn-add-adresse">Ajouter cette adresse</button>
     </div>
   </form>
 
