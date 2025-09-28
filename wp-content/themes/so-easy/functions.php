@@ -274,7 +274,7 @@ HelloTheme\Theme::instance();
 
 
 
-///// CUSTOM ///////
+/* CUSTOM */
 
 require_once get_template_directory() . '/configurateur/functions-configurateur.php';
 require_once get_template_directory() . '/includes/functions-cart.php';
