@@ -276,6 +276,125 @@ HelloTheme\Theme::instance();
 
 /* CUSTOM */
 
+
+/**
+ * Support thème WordPress
+ */
+function soeasy_theme_support() {
+    
+    // Support WooCommerce
+    add_theme_support('woocommerce');
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
+    
+    // Support WordPress
+    add_theme_support('post-thumbnails');
+    add_theme_support('title-tag');
+    add_theme_support('custom-logo');
+    add_theme_support('html5', array(
+        'search-form',
+        'comment-form',
+        'comment-list',
+        'gallery',
+        'caption',
+        'script',
+        'style'
+    ));
+}
+add_action('after_setup_theme', 'soeasy_theme_support');
+
+
+/**
+ * Menus WordPress
+ */
+function soeasy_register_menus() {
+    register_nav_menus(array(
+        'primary' => __('Menu Principal', 'soeasy'),
+        'footer' => __('Menu Footer', 'soeasy'),
+    ));
+}
+add_action('after_setup_theme', 'soeasy_register_menus');
+
+
+/**
+ * Sidebars/Widgets
+ */
+function soeasy_widgets_init() {
+    register_sidebar(array(
+        'name' => __('Sidebar Principal', 'soeasy'),
+        'id' => 'sidebar-1',
+        'description' => __('Widgets pour la sidebar principale', 'soeasy'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget' => '</section>',
+        'before_title' => '<h3 class="widget-title">',
+        'after_title' => '</h3>',
+    ));
+}
+add_action('widgets_init', 'soeasy_widgets_init');
+
+
+/**
+ * Désactiver certains scripts WordPress pas nécessaires
+ */
+function soeasy_cleanup() {
+    
+    // Supprimer emoji scripts
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    
+    // Supprimer version WordPress du header
+    remove_action('wp_head', 'wp_generator');
+    
+    // Supprimer RSS feeds si pas utilisés
+    // remove_action('wp_head', 'feed_links', 2);
+    // remove_action('wp_head', 'feed_links_extra', 3);
+}
+add_action('init', 'soeasy_cleanup');
+
+
+/**
+ * Customizer - Couleurs SoEasy
+ */
+function soeasy_customize_register($wp_customize) {
+    
+    // Section couleurs
+    $wp_customize->add_section('soeasy_colors', array(
+        'title' => __('Couleurs SoEasy', 'soeasy'),
+        'priority' => 30,
+    ));
+    
+    // Couleur primaire
+    $wp_customize->add_setting('soeasy_primary_color', array(
+        'default' => '#667eea',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'soeasy_primary_color', array(
+        'label' => __('Couleur Primaire', 'soeasy'),
+        'section' => 'soeasy_colors',
+        'settings' => 'soeasy_primary_color',
+    )));
+}
+add_action('customize_register', 'soeasy_customize_register');
+
+
+/**
+ * CSS variables dynamiques
+ */
+function soeasy_dynamic_css() {
+    $primary_color = get_theme_mod('soeasy_primary_color', '#667eea');
+    
+    echo '<style id="soeasy-dynamic-css">
+        :root {
+            --soeasy-primary: ' . esc_attr($primary_color) . ';
+            --soeasy-primary-rgb: ' . implode(', ', sscanf($primary_color, "#%02x%02x%02x")) . ';
+        }
+    </style>';
+}
+add_action('wp_head', 'soeasy_dynamic_css');
+
+
 require_once get_template_directory() . '/configurateur/functions-configurateur.php';
 require_once get_template_directory() . '/includes/functions-cart.php';
 
@@ -403,119 +522,27 @@ function soeasy_enqueue_cart_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'soeasy_enqueue_cart_assets' );
 
-/**
- * Support thème WordPress
- */
-function soeasy_theme_support() {
+function soeasy_force_cart_template($template) {
     
-    // Support WooCommerce
-    add_theme_support('woocommerce');
-    add_theme_support('wc-product-gallery-zoom');
-    add_theme_support('wc-product-gallery-lightbox');
-    add_theme_support('wc-product-gallery-slider');
-    
-    // Support WordPress
-    add_theme_support('post-thumbnails');
-    add_theme_support('title-tag');
-    add_theme_support('custom-logo');
-    add_theme_support('html5', array(
-        'search-form',
-        'comment-form',
-        'comment-list',
-        'gallery',
-        'caption',
-        'script',
-        'style'
-    ));
-}
-add_action('after_setup_theme', 'soeasy_theme_support');
-
-
-/**
- * Menus WordPress
- */
-function soeasy_register_menus() {
-    register_nav_menus(array(
-        'primary' => __('Menu Principal', 'soeasy'),
-        'footer' => __('Menu Footer', 'soeasy'),
-    ));
-}
-add_action('after_setup_theme', 'soeasy_register_menus');
-
-
-/**
- * Sidebars/Widgets
- */
-function soeasy_widgets_init() {
-    register_sidebar(array(
-        'name' => __('Sidebar Principal', 'soeasy'),
-        'id' => 'sidebar-1',
-        'description' => __('Widgets pour la sidebar principale', 'soeasy'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget' => '</section>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
-    ));
-}
-add_action('widgets_init', 'soeasy_widgets_init');
-
-
-/**
- * Désactiver certains scripts WordPress pas nécessaires
- */
-function soeasy_cleanup() {
-    
-    // Supprimer emoji scripts
-    remove_action('wp_head', 'print_emoji_detection_script', 7);
-    remove_action('wp_print_styles', 'print_emoji_styles');
-    
-    // Supprimer version WordPress du header
-    remove_action('wp_head', 'wp_generator');
-    
-    // Supprimer RSS feeds si pas utilisés
-    // remove_action('wp_head', 'feed_links', 2);
-    // remove_action('wp_head', 'feed_links_extra', 3);
-}
-add_action('init', 'soeasy_cleanup');
-
-
-/**
- * Customizer - Couleurs SoEasy
- */
-function soeasy_customize_register($wp_customize) {
-    
-    // Section couleurs
-    $wp_customize->add_section('soeasy_colors', array(
-        'title' => __('Couleurs SoEasy', 'soeasy'),
-        'priority' => 30,
-    ));
-    
-    // Couleur primaire
-    $wp_customize->add_setting('soeasy_primary_color', array(
-        'default' => '#667eea',
-        'sanitize_callback' => 'sanitize_hex_color',
-    ));
-    
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'soeasy_primary_color', array(
-        'label' => __('Couleur Primaire', 'soeasy'),
-        'section' => 'soeasy_colors',
-        'settings' => 'soeasy_primary_color',
-    )));
-}
-add_action('customize_register', 'soeasy_customize_register');
-
-
-/**
- * CSS variables dynamiques
- */
-function soeasy_dynamic_css() {
-    $primary_color = get_theme_mod('soeasy_primary_color', '#667eea');
-    
-    echo '<style id="soeasy-dynamic-css">
-        :root {
-            --soeasy-primary: ' . esc_attr($primary_color) . ';
-            --soeasy-primary-rgb: ' . implode(', ', sscanf($primary_color, "#%02x%02x%02x")) . ';
+    if (is_cart()) {
+        $custom_cart = get_template_directory() . '/woocommerce/cart/cart.php';
+        if (file_exists($custom_cart)) {
+            
+            // Charger header
+            get_header();
+            
+            // Inclure notre template
+            include $custom_cart;
+            
+            // Charger footer
+            get_footer();
+            
+            // Exit pour éviter que WP continue
+            exit;
         }
-    </style>';
+    }
+    
+    return $template;
 }
-add_action('wp_head', 'soeasy_dynamic_css');
+
+add_filter('template_include', 'soeasy_force_cart_template', 99);
