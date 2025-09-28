@@ -272,40 +272,48 @@ require HELLO_THEME_PATH . '/theme.php';
 
 HelloTheme\Theme::instance();
 
-// Ajouter FontAwesome
-function soeasy_enqueue_fontawesome() {
+
+
+///// CUSTOM ///////
+
+require_once get_template_directory() . '/configurateur/functions-configurateur.php';
+require_once get_template_directory() . '/includes/functions-cart.php';
+
+
+/**
+ * Enqueue Bootstrap + FontAwesome + Assets SoEasy
+ */
+function soeasy_enqueue_assets() {
+
+	wp_enqueue_script('jquery');
+    
+    // Bootstrap 5
     wp_enqueue_style(
-        'fontawesome', 
+        'bootstrap-css',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
+        array(),
+        '5.3.0'
+    );
+    wp_enqueue_script(
+        'bootstrap-js',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
+        array('jquery'),
+        '5.3.0',
+        true
+    );
+
+    // FontAwesome
+    wp_enqueue_style(
+        'fontawesome',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css',
         array(),
         '7.0.0'
     );
 }
-add_action('wp_enqueue_scripts', 'soeasy_enqueue_fontawesome');
-
-
-require_once get_template_directory() . '/configurateur/functions-configurateur.php';
-require_once get_template_directory() . '/includes/functions-cart.php';
+add_action('wp_enqueue_scripts', 'soeasy_enqueue_assets');
 
 function soeasy_enqueue_configurateur_assets_conditionnel() {
     if (is_page_template('page-configurateur.php')) {
-        
-        wp_enqueue_script('jquery');
-
-        // Bootstrap
-        wp_enqueue_style(
-            'bootstrap-css',
-            get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css',
-            array(),
-            '5.3.0'
-        );
-        wp_enqueue_script(
-            'bootstrap-js',
-            get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js',
-            array('jquery'),
-            '5.3.0',
-            true
-        );
 
         wp_enqueue_style(
             'configurateur',
@@ -394,3 +402,120 @@ function soeasy_enqueue_cart_assets() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'soeasy_enqueue_cart_assets' );
+
+/**
+ * Support thème WordPress
+ */
+function soeasy_theme_support() {
+    
+    // Support WooCommerce
+    add_theme_support('woocommerce');
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
+    
+    // Support WordPress
+    add_theme_support('post-thumbnails');
+    add_theme_support('title-tag');
+    add_theme_support('custom-logo');
+    add_theme_support('html5', array(
+        'search-form',
+        'comment-form',
+        'comment-list',
+        'gallery',
+        'caption',
+        'script',
+        'style'
+    ));
+}
+add_action('after_setup_theme', 'soeasy_theme_support');
+
+
+/**
+ * Menus WordPress
+ */
+function soeasy_register_menus() {
+    register_nav_menus(array(
+        'primary' => __('Menu Principal', 'soeasy'),
+        'footer' => __('Menu Footer', 'soeasy'),
+    ));
+}
+add_action('after_setup_theme', 'soeasy_register_menus');
+
+
+/**
+ * Sidebars/Widgets
+ */
+function soeasy_widgets_init() {
+    register_sidebar(array(
+        'name' => __('Sidebar Principal', 'soeasy'),
+        'id' => 'sidebar-1',
+        'description' => __('Widgets pour la sidebar principale', 'soeasy'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget' => '</section>',
+        'before_title' => '<h3 class="widget-title">',
+        'after_title' => '</h3>',
+    ));
+}
+add_action('widgets_init', 'soeasy_widgets_init');
+
+
+/**
+ * Désactiver certains scripts WordPress pas nécessaires
+ */
+function soeasy_cleanup() {
+    
+    // Supprimer emoji scripts
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    
+    // Supprimer version WordPress du header
+    remove_action('wp_head', 'wp_generator');
+    
+    // Supprimer RSS feeds si pas utilisés
+    // remove_action('wp_head', 'feed_links', 2);
+    // remove_action('wp_head', 'feed_links_extra', 3);
+}
+add_action('init', 'soeasy_cleanup');
+
+
+/**
+ * Customizer - Couleurs SoEasy
+ */
+function soeasy_customize_register($wp_customize) {
+    
+    // Section couleurs
+    $wp_customize->add_section('soeasy_colors', array(
+        'title' => __('Couleurs SoEasy', 'soeasy'),
+        'priority' => 30,
+    ));
+    
+    // Couleur primaire
+    $wp_customize->add_setting('soeasy_primary_color', array(
+        'default' => '#667eea',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'soeasy_primary_color', array(
+        'label' => __('Couleur Primaire', 'soeasy'),
+        'section' => 'soeasy_colors',
+        'settings' => 'soeasy_primary_color',
+    )));
+}
+add_action('customize_register', 'soeasy_customize_register');
+
+
+/**
+ * CSS variables dynamiques
+ */
+function soeasy_dynamic_css() {
+    $primary_color = get_theme_mod('soeasy_primary_color', '#667eea');
+    
+    echo '<style id="soeasy-dynamic-css">
+        :root {
+            --soeasy-primary: ' . esc_attr($primary_color) . ';
+            --soeasy-primary-rgb: ' . implode(', ', sscanf($primary_color, "#%02x%02x%02x")) . ';
+        }
+    </style>';
+}
+add_action('wp_head', 'soeasy_dynamic_css');
