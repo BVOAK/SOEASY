@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'elementor/elementor-pro',
-        'pretty_version' => '3.31.x-dev',
-        'version' => '3.31.9999999.9999999-dev',
-        'reference' => '47c0ec8b11ee4e5e49244c502df808293ba6a1fb',
+        'pretty_version' => '3.32.x-dev',
+        'version' => '3.32.9999999.9999999-dev',
+        'reference' => '0181ea861d6c3b9e8c70a351a425348df7b09cd6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'elementor/elementor-pro' => array(
-            'pretty_version' => '3.31.x-dev',
-            'version' => '3.31.9999999.9999999-dev',
-            'reference' => '47c0ec8b11ee4e5e49244c502df808293ba6a1fb',
+            'pretty_version' => '3.32.x-dev',
+            'version' => '3.32.9999999.9999999-dev',
+            'reference' => '0181ea861d6c3b9e8c70a351a425348df7b09cd6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

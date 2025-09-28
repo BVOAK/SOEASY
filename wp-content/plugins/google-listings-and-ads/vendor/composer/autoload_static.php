@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
+class ComposerStaticInit34bf83c9b42bffe4e88d69b8031e6cfc
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -333,6 +333,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\AdsProductLinkInvitationQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/AdsProductLinkInvitationQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\AdsProductReportQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/AdsProductReportQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\AdsQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/AdsQuery.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\AdsRecommendationsQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/AdsRecommendationsQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\AdsReportQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/AdsReportQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\MerchantFreeListingReportQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/MerchantFreeListingReportQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Google\\Query\\MerchantPriceBenchmarksProductReportQuery' => __DIR__ . '/../..' . '/src/API/Google/Query/MerchantPriceBenchmarksProductReportQuery.php',
@@ -359,6 +360,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\BudgetRecommendationController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/BudgetRecommendationController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\CampaignController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/CampaignController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\IncentiveCreditsController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/IncentiveCreditsController.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\RecommendationsController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/RecommendationsController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\ReportsController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/ReportsController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\Ads\\SetupCompleteController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/Ads/SetupCompleteController.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\API\\Site\\Controllers\\AttributeMapping\\AttributeMappingDataController' => __DIR__ . '/../..' . '/src/API/Site/Controllers/AttributeMapping/AttributeMappingDataController.php',
@@ -457,9 +459,11 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Admin\\Product\\Attributes\\VariationsAttributes' => __DIR__ . '/../..' . '/src/Admin/Product/Attributes/VariationsAttributes.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Admin\\Product\\ChannelVisibilityBlock' => __DIR__ . '/../..' . '/src/Admin/Product/ChannelVisibilityBlock.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Admin\\Redirect' => __DIR__ . '/../..' . '/src/Admin/Redirect.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\Admin\\SystemStatusService' => __DIR__ . '/../..' . '/src/Admin/SystemStatusService.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Ads\\AccountService' => __DIR__ . '/../..' . '/src/Ads/AccountService.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Ads\\AdsAwareInterface' => __DIR__ . '/../..' . '/src/Ads/AdsAwareInterface.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Ads\\AdsAwareTrait' => __DIR__ . '/../..' . '/src/Ads/AdsAwareTrait.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\Ads\\AdsRecommendationsService' => __DIR__ . '/../..' . '/src/Ads/AdsRecommendationsService.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Ads\\AdsService' => __DIR__ . '/../..' . '/src/Ads/AdsService.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Ads\\AssetSuggestionsService' => __DIR__ . '/../..' . '/src/Ads/AssetSuggestionsService.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Assets\\AdminAssetHelper' => __DIR__ . '/../..' . '/src/Assets/AdminAssetHelper.php',
@@ -495,6 +499,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\ProductMetaQueryHelper' => __DIR__ . '/../..' . '/src/DB/ProductMetaQueryHelper.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Query' => __DIR__ . '/../..' . '/src/DB/Query.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\QueryInterface' => __DIR__ . '/../..' . '/src/DB/QueryInterface.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Query\\AdsRecommendationsQuery' => __DIR__ . '/../..' . '/src/DB/Query/AdsRecommendationsQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Query\\AttributeMappingRulesQuery' => __DIR__ . '/../..' . '/src/DB/Query/AttributeMappingRulesQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Query\\BudgetRecommendationQuery' => __DIR__ . '/../..' . '/src/DB/Query/BudgetRecommendationQuery.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Query\\MerchantIssueQuery' => __DIR__ . '/../..' . '/src/DB/Query/MerchantIssueQuery.php',
@@ -504,6 +509,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Table' => __DIR__ . '/../..' . '/src/DB/Table.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\TableInterface' => __DIR__ . '/../..' . '/src/DB/TableInterface.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\TableManager' => __DIR__ . '/../..' . '/src/DB/TableManager.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Table\\AdsRecommendationsTable' => __DIR__ . '/../..' . '/src/DB/Table/AdsRecommendationsTable.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Table\\AttributeMappingRulesTable' => __DIR__ . '/../..' . '/src/DB/Table/AttributeMappingRulesTable.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Table\\BudgetRecommendationTable' => __DIR__ . '/../..' . '/src/DB/Table/BudgetRecommendationTable.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\DB\\Table\\MerchantIssueTable' => __DIR__ . '/../..' . '/src/DB/Table/MerchantIssueTable.php',
@@ -633,6 +639,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\StartHook' => __DIR__ . '/../..' . '/src/Jobs/StartHook.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\StartOnHookInterface' => __DIR__ . '/../..' . '/src/Jobs/StartOnHookInterface.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\SyncableProductsBatchedActionSchedulerJobTrait' => __DIR__ . '/../..' . '/src/Jobs/SyncableProductsBatchedActionSchedulerJobTrait.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\UpdateAdsRecommendations' => __DIR__ . '/../..' . '/src/Jobs/UpdateAdsRecommendations.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\UpdateAllProducts' => __DIR__ . '/../..' . '/src/Jobs/UpdateAllProducts.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\UpdateCoupon' => __DIR__ . '/../..' . '/src/Jobs/UpdateCoupon.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Jobs\\UpdateMerchantPriceBenchmarks' => __DIR__ . '/../..' . '/src/Jobs/UpdateMerchantPriceBenchmarks.php',
@@ -647,6 +654,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\Dashboard' => __DIR__ . '/../..' . '/src/Menu/Dashboard.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\GetStarted' => __DIR__ . '/../..' . '/src/Menu/GetStarted.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\MenuFixesTrait' => __DIR__ . '/../..' . '/src/Menu/MenuFixesTrait.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\NotificationManager' => __DIR__ . '/../..' . '/src/Menu/NotificationManager.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\ProductFeed' => __DIR__ . '/../..' . '/src/Menu/ProductFeed.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\Reports' => __DIR__ . '/../..' . '/src/Menu/Reports.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Menu\\Settings' => __DIR__ . '/../..' . '/src/Menu/Settings.php',
@@ -735,6 +743,8 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Proxies\\Tracks' => __DIR__ . '/../..' . '/src/Proxies/Tracks.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Proxies\\WC' => __DIR__ . '/../..' . '/src/Proxies/WC.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Proxies\\WP' => __DIR__ . '/../..' . '/src/Proxies/WP.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\Proxies\\WPAwareInterface' => __DIR__ . '/../..' . '/src/Proxies/WPAwareInterface.php',
+        'Automattic\\WooCommerce\\GoogleListingsAndAds\\Proxies\\WPAwareTrait' => __DIR__ . '/../..' . '/src/Proxies/WPAwareTrait.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Settings\\SyncerHooks' => __DIR__ . '/../..' . '/src/Settings/SyncerHooks.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Shipping\\CountryRatesCollection' => __DIR__ . '/../..' . '/src/Shipping/CountryRatesCollection.php',
         'Automattic\\WooCommerce\\GoogleListingsAndAds\\Shipping\\GoogleAdapter\\AbstractRateGroupAdapter' => __DIR__ . '/../..' . '/src/Shipping/GoogleAdapter/AbstractRateGroupAdapter.php',
@@ -1616,6 +1626,7 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\ConversionActionCategory' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/ConversionActionCategory.php',
         'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\ConversionActionStatus' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/ConversionActionStatus.php',
         'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\ConversionActionType' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/ConversionActionType.php',
+        'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\EuPoliticalAdvertisingStatus' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/EuPoliticalAdvertisingStatus.php',
         'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\ListingGroupFilterListingSource' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/ListingGroupFilterListingSource.php',
         'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\ProductLinkInvitationStatus' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/ProductLinkInvitationStatus.php',
         'GPBMetadata\\Google\\Ads\\GoogleAds\\V20\\Enums\\RecommendationType' => __DIR__ . '/..' . '/googleads/google-ads-php/metadata/Google/Ads/GoogleAds/V20/Enums/RecommendationType.php',
@@ -2295,6 +2306,8 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
         'Google\\Ads\\GoogleAds\\V20\\Enums\\ConversionEnvironmentEnum\\ConversionEnvironment' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/ConversionEnvironmentEnum/ConversionEnvironment.php',
         'Google\\Ads\\GoogleAds\\V20\\Enums\\ConversionTrackingStatusEnum' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/ConversionTrackingStatusEnum.php',
         'Google\\Ads\\GoogleAds\\V20\\Enums\\ConversionTrackingStatusEnum\\ConversionTrackingStatus' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/ConversionTrackingStatusEnum/ConversionTrackingStatus.php',
+        'Google\\Ads\\GoogleAds\\V20\\Enums\\EuPoliticalAdvertisingStatusEnum' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/EuPoliticalAdvertisingStatusEnum.php',
+        'Google\\Ads\\GoogleAds\\V20\\Enums\\EuPoliticalAdvertisingStatusEnum\\EuPoliticalAdvertisingStatus' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/EuPoliticalAdvertisingStatusEnum/EuPoliticalAdvertisingStatus.php',
         'Google\\Ads\\GoogleAds\\V20\\Enums\\ListingGroupFilterListingSourceEnum' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/ListingGroupFilterListingSourceEnum.php',
         'Google\\Ads\\GoogleAds\\V20\\Enums\\ListingGroupFilterListingSourceEnum\\ListingGroupFilterListingSource' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/ListingGroupFilterListingSourceEnum/ListingGroupFilterListingSource.php',
         'Google\\Ads\\GoogleAds\\V20\\Enums\\ListingGroupFilterTypeEnum' => __DIR__ . '/..' . '/googleads/google-ads-php/src/Google/Ads/GoogleAds/V20/Enums/ListingGroupFilterTypeEnum.php',
@@ -4487,9 +4500,9 @@ class ComposerStaticInita0044f7d43e40c5c39292eabfff73ded
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita0044f7d43e40c5c39292eabfff73ded::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita0044f7d43e40c5c39292eabfff73ded::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita0044f7d43e40c5c39292eabfff73ded::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit34bf83c9b42bffe4e88d69b8031e6cfc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit34bf83c9b42bffe4e88d69b8031e6cfc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit34bf83c9b42bffe4e88d69b8031e6cfc::$classMap;
 
         }, null, ClassLoader::class);
     }

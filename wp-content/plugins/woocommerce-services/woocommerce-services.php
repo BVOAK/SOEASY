@@ -8,13 +8,13 @@
  * Author URI: https://woocommerce.com/
  * Text Domain: woocommerce-services
  * Domain Path: /i18n/languages/
- * Version: 3.0.8
+ * Version: 3.1.0
  * Requires Plugins: woocommerce
  * Requires PHP: 7.4
  * Requires at least: 6.7
  * Tested up to: 6.8
- * WC requires at least: 9.9
- * WC tested up to: 10.1
+ * WC requires at least: 10.0
+ * WC tested up to: 10.2
  *
  * Copyright (c) 2017-2023 Automattic
  *
@@ -990,6 +990,10 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		 */
 		public function init_shipping_labels() {
 			add_filter( 'woocommerce_admin_reports', array( $this, 'reports_tabs' ) );
+
+			// Initialize migration survey
+			require_once __DIR__ . '/classes/class-wc-connect-migration-survey.php';
+			new WC_Connect_Migration_Survey();
 
 			// Changing the postcode, currency, weight or dimension units affect the returned schema from the server.
 			// Make sure to update the service schemas when these options change.

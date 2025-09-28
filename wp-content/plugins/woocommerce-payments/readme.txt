@@ -4,7 +4,7 @@ Tags: woocommerce payments, apple pay, credit card, google pay, payment, payment
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.3
-Stable tag: 9.8.0
+Stable tag: 10.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,35 @@ You can read our Terms of Service and other policies [here](https://woocommerce.
 4. Manage Disputes
 
 == Changelog ==
+
+= 10.0.0 - 2025-09-24 =
+* Add - Add new feature flag for the dynamic checkout place order button, and new option on payment settings.
+* Add - New AccountDetails: Add feature flag, TypeScript definition, and basic component
+* Fix - Do not ask for shipping info for digital products dispute.
+* Fix - Fix Google/Apple Pay "State / County is required" error during checkout for Saudi Arabia
+* Fix - Fix possible errors when WooPay is enabled while the store is in Coming Soon mode
+* Fix - Name is required for the Affirm payment method.
+* Update - Improve messaging around test accounts and development mode on the Payments Overview page.
+* Update - Introduce account.deleted webhook processing for a smoother experience when an account is deleted from the Transact Platform.
+* Dev - Bump WC tested up to version to 10.2.0
+* Dev - Fix flaky E2E test in addSavedCard function
+
+= 9.9.0 - 2025-09-03 =
+* Fix - Conditionally set Stripe Link wallet option based on payment method configuration
+* Fix - fix: adding some missing i18n wrappers
+* Fix - Fix checks for the billing details for the BNPL methods on the Pay for Order page.
+* Fix - Fixed WooPay terms and conditions text for merchants using blocks checkout.
+* Fix - Fix margins for phone number input and add styling to match other inputs
+* Fix - Fix VAT setup modal for unsupported merchants
+* Fix - Generate payment method details in WooPayments instead of Woo core, cache them for performance improvements.
+* Fix - Ignore webhooks whenever the order key in their body does not match the local order.
+* Fix - Show Activate payments notice in WooPayments Settings only for test accounts.
+* Update - update: label text on the support phone number in test mode
+* Update - update: settings page design audit.
+* Update - Update WP components for development and tests.
+* Update - Update “Finish setting up WooPayments” task to redirect to NOX flow.
+* Dev - Fix E2E subcription shopper test failures because the core changes text from "Sign up now" to "Add to cart"
+* Dev - Update JS packages mini-css-extract-plugin and shelljs
 
 = 9.8.0 - 2025-08-13 =
 * Add - Add address autocomplete to Checkout
