@@ -85,34 +85,34 @@ function getAdresseByIndex(index) {
 * Met à jour dynamiquement le prix total affiché
 */
 function updatePrixTotal($input) {
-    const $container = $input.closest('.border, .list-group-item, [data-prix-comptant], [data-prix-leasing-24]');
-    const qty = parseInt($input.val()) || 0;
-    
-    // Prix unitaire depuis data-unit (mis à jour par updatePrices)
-    const $prixAffiche = $container.find('.prix-affiche');
-    const prixUnitaire = parseFloat($prixAffiche.data('unit')) || 0;
-    
-    // Détecter le suffixe
-    const texteActuel = $prixAffiche.text();
-    const suffix = texteActuel.includes('/ mois') ? ' / mois' : '';
-    
-    // Calcul
-    const total = prixUnitaire * qty;
-    
-    // Mise à jour affichage total
-    const $prixTotal = $container.find('.prix-total');
-    if ($prixTotal.length) {
-        const totalFormate = new Intl.NumberFormat('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 2
-        }).format(total);
-        
-        $prixTotal.text(totalFormate + suffix);
-        $prixTotal.data('unit', prixUnitaire);
-    }
-    
-    console.log(`✅ Total: ${qty} × ${prixUnitaire}€ = ${total}€${suffix}`);
+  const $container = $input.closest('.border, .list-group-item, [data-prix-comptant], [data-prix-leasing-24]');
+  const qty = parseInt($input.val()) || 0;
+
+  // Prix unitaire depuis data-unit (mis à jour par updatePrices)
+  const $prixAffiche = $container.find('.prix-affiche');
+  const prixUnitaire = parseFloat($prixAffiche.data('unit')) || 0;
+
+  // Détecter le suffixe
+  const texteActuel = $prixAffiche.text();
+  const suffix = texteActuel.includes('/ mois') ? ' / mois' : '';
+
+  // Calcul
+  const total = prixUnitaire * qty;
+
+  // Mise à jour affichage total
+  const $prixTotal = $container.find('.prix-total');
+  if ($prixTotal.length) {
+    const totalFormate = new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2
+    }).format(total);
+
+    $prixTotal.text(totalFormate + suffix);
+    $prixTotal.data('unit', prixUnitaire);
+  }
+
+  console.log(`✅ Total: ${qty} × ${prixUnitaire}€ = ${total}€${suffix}`);
 }
 
 
@@ -128,54 +128,109 @@ function updateAllPrixTotaux() {
 }
 
 // Calcul total global si souhaité
-// Tu peux aussi mettre à jour #recap-total-mois-1 et #recap-total-mensuel ici
-function saveToLocalConfig(adresseId, section, nouveauxProduits, options = {}) {
-  const key = 'soeasyConfig';
-  const config = JSON.parse(localStorage.getItem(key)) || {};
-
-  if (!config[adresseId]) config[adresseId] = {};
-  if (!Array.isArray(config[adresseId][section])) config[adresseId][section] = [];
-
-  let existants = config[adresseId][section];
-  let fusionnes = [];
-
-  if (options.replace === true && options.type) {
-    fusionnes = existants.filter(p => p.type !== options.type);
-  } else {
-    fusionnes = [...existants];
+function saveToLocalConfig(adresseIndex, section, produits, options = {}) {
+  console.log(`💾 saveToLocalConfig - Adresse ${adresseIndex}, Section: ${section}`, produits);
+  
+  if (!Array.isArray(produits)) {
+    produits = [produits];
   }
-
-  const indexés = {};
-  fusionnes.forEach(p => {
-    const key = p.id || p.nom;
-    indexés[key] = p;
+  
+  const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+  
+  if (!config[adresseIndex]) {
+    config[adresseIndex] = {
+      abonnements: [],
+      materiels: [],
+      fraisInstallation: []
+    };
+  }
+  
+  // Fonction pour déterminer si c'est un abonnement
+  function isAbonnement(produit) {
+    if (!produit || !produit.type) return false;
+    
+    const typeAbonnements = [
+      'internet',
+      'forfait-internet', 
+      'forfait-mobile',
+      'forfait-data',
+      'licence-centrex',
+      'forfait-centrex',
+      'centrex-licence',
+      'mobile',
+      'abonnement',
+      'forfait'
+    ];
+    
+    return typeAbonnements.includes(produit.type.toLowerCase());
+  }
+  
+  produits.forEach(produit => {
+    if (!produit || !produit.id) return;
+    
+    let targetSection;
+    
+    // Classification automatique basée sur le type de produit
+    if (section === 'fraisInstallation') {
+      targetSection = 'fraisInstallation';
+    } else if (isAbonnement(produit)) {
+      targetSection = 'abonnements';
+      console.log(`📱 Produit ${produit.nom} classé comme abonnement (type: ${produit.type})`);
+    } else {
+      targetSection = 'materiels';
+      console.log(`🔧 Produit ${produit.nom} classé comme matériel (type: ${produit.type})`);
+    }
+    
+    // Supprimer les doublons par ID dans TOUTES les sections (pas seulement la cible)
+    ['abonnements', 'materiels', 'fraisInstallation'].forEach(sec => {
+      if (config[adresseIndex][sec]) {
+        config[adresseIndex][sec] = config[adresseIndex][sec].filter(
+          item => item.id !== produit.id
+        );
+      }
+    });
+    
+    // Ajouter le produit dans la bonne section
+    if (produit.quantite > 0 || targetSection === 'abonnements') {
+      config[adresseIndex][targetSection].push({
+        ...produit,
+        section: targetSection // Ajouter une référence de section
+      });
+    }
   });
-  if (Array.isArray(nouveauxProduits)) {
-    nouveauxProduits.forEach(p => {
-      const key = p.id || p.nom;
-      indexés[key] = p;
+  
+  // Sauvegarder
+  localStorage.setItem('soeasyConfig', JSON.stringify(config));
+  
+  console.log(`✅ Configuration sauvée pour adresse ${adresseIndex}:`, config[adresseIndex]);
+  
+  // Si demandé, envoyer en session via AJAX
+  if (options.sendToSession !== false && typeof soeasyVars !== 'undefined') {
+    const sessionKey = options.sessionKey || `soeasy_config_${section}`;
+    
+    $.post(soeasyVars.ajaxurl, {
+      action: 'soeasy_set_config_part',
+      index: adresseIndex,
+      key: section,
+      items: config[adresseIndex][section],
+      nonce: soeasyVars.nonce_config
+    }).done(() => {
+      console.log(`🔄 Session mise à jour pour ${sessionKey}`);
+    }).fail(() => {
+      console.warn(`⚠️ Échec mise à jour session pour ${sessionKey}`);
     });
   }
-
-  config[adresseId][section] = Object.values(indexés);
-  localStorage.setItem(key, JSON.stringify(config));
-
-  jQuery.post(soeasyVars.ajaxurl, {
-    action: 'soeasy_set_config_part',
-    index: adresseId,
-    key: section,
-    items: config[adresseId][section]
-  });
-
-  if (section === 'fraisInstallation') {
-    jQuery.post(soeasyVars.ajaxurl, {
-      action: 'soeasy_set_frais_installation',
-      index: adresseId,
-      items: config[adresseId][section]
-    });
+  
+  // Trigger les mises à jour UI
+  if (typeof updateSidebarProduitsRecap === 'function') {
+    updateSidebarProduitsRecap();
   }
+  if (typeof updatePrixProduits === 'function') {
+    updatePrixProduits();
+  }
+  
+  return config[adresseIndex];
 }
-
 
 
 /**
@@ -252,7 +307,7 @@ jQuery(document).ready(function ($) {
    * MAJ des prix affichés selon mode de financement + engagement
    */
 
-function updatePrices() {
+  function updatePrices() {
     console.log('🔄 updatePrices() - Logique hybride DOM + localStorage');
 
     const mode = getSelectedFinancementMode();
@@ -262,136 +317,136 @@ function updatePrices() {
 
     // ✅ CAS SPÉCIAL STEP-6 : Utiliser localStorage
     if (jQuery('.step-6').length) {
-        console.log('📊 Step-6 détecté - Mise à jour via localStorage');
-        
-        // Mettre à jour localStorage d'abord
-        if (typeof updatePrixProduits === 'function') {
-            updatePrixProduits();
+      console.log('📊 Step-6 détecté - Mise à jour via localStorage');
+
+      // Mettre à jour localStorage d'abord
+      if (typeof updatePrixProduits === 'function') {
+        updatePrixProduits();
+      }
+
+      // Puis regénérer l'affichage
+      setTimeout(() => {
+        if (typeof updateRecapitulatif === 'function') {
+          updateRecapitulatif();
         }
-        
-        // Puis regénérer l'affichage
-        setTimeout(() => {
-            if (typeof updateRecapitulatif === 'function') {
-                updateRecapitulatif();
-            }
-            if (typeof updateSidebarTotauxRecap === 'function') {
-                updateSidebarTotauxRecap();
-            }
-        }, 50);
-        
-        console.log('✅ Step-6 traité via localStorage');
-        return; // Sortir pour step-6
+        if (typeof updateSidebarTotauxRecap === 'function') {
+          updateSidebarTotauxRecap();
+        }
+      }, 50);
+
+      console.log('✅ Step-6 traité via localStorage');
+      return; // Sortir pour step-6
     }
 
     // ✅ STEPS 2-5 : Utiliser les attributs HTML
 
     // 1️⃣ ABONNEMENTS
-    
+
     // Step-2 : data sur input checkbox
     jQuery('input[data-prix-leasing-24]:not([data-prix-comptant])').each(function () {
-        const $input = jQuery(this);
-        const $container = $input.closest('label');
-        const prixMensuel = $input.data(`prix-leasing-${duree}`) || $input.data('prix-leasing-24') || 0;
-        
-        console.log(`📱 Abonnement step-2: ${prixMensuel}€/mois`);
-        
-        const $prixAffiche = $container.find('.prix-affiche');
-        if ($prixAffiche.length) {
-            updatePrixAffiche($prixAffiche, prixMensuel, ' / mois');
-        }
+      const $input = jQuery(this);
+      const $container = $input.closest('label');
+      const prixMensuel = $input.data(`prix-leasing-${duree}`) || $input.data('prix-leasing-24') || 0;
+
+      console.log(`📱 Abonnement step-2: ${prixMensuel}€/mois`);
+
+      const $prixAffiche = $container.find('.prix-affiche');
+      if ($prixAffiche.length) {
+        updatePrixAffiche($prixAffiche, prixMensuel, ' / mois');
+      }
     });
-    
+
     // Steps 3-4-5 : data sur container
     jQuery('[data-prix-leasing-24]:not([data-prix-comptant])').not('input').each(function () {
-        const $container = jQuery(this);
-        const prixMensuel = $container.data(`prix-leasing-${duree}`) || $container.data('prix-leasing-24') || 0;
-        
-        console.log(`📱 Abonnement steps 3-4-5: ${prixMensuel}€/mois`);
-        
-        const $prixAffiche = $container.find('.prix-affiche');
-        if ($prixAffiche.length) {
-            updatePrixAffiche($prixAffiche, prixMensuel, ' / mois');
-        }
+      const $container = jQuery(this);
+      const prixMensuel = $container.data(`prix-leasing-${duree}`) || $container.data('prix-leasing-24') || 0;
+
+      console.log(`📱 Abonnement steps 3-4-5: ${prixMensuel}€/mois`);
+
+      const $prixAffiche = $container.find('.prix-affiche');
+      if ($prixAffiche.length) {
+        updatePrixAffiche($prixAffiche, prixMensuel, ' / mois');
+      }
     });
 
     // 2️⃣ MATÉRIELS
     jQuery('[data-prix-comptant]').each(function () {
-        const $container = jQuery(this);
-        
-        let prix = 0;
-        let suffix = '';
-        
-        if (mode === 'comptant') {
-            prix = $container.data('prix-comptant') || 0;
-            suffix = '';
-        } else if (mode === 'leasing') {
-            prix = $container.data(`prix-leasing-${duree}`) || 0;
-            suffix = ' / mois';
-        }
-        
-        console.log(`🔧 Matériel: ${prix}€${suffix}`);
-        
-        const $prixAffiche = $container.find('.prix-affiche');
-        if ($prixAffiche.length) {
-            updatePrixAffiche($prixAffiche, prix, suffix);
-        }
+      const $container = jQuery(this);
+
+      let prix = 0;
+      let suffix = '';
+
+      if (mode === 'comptant') {
+        prix = $container.data('prix-comptant') || 0;
+        suffix = '';
+      } else if (mode === 'leasing') {
+        prix = $container.data(`prix-leasing-${duree}`) || 0;
+        suffix = ' / mois';
+      }
+
+      console.log(`🔧 Matériel: ${prix}€${suffix}`);
+
+      const $prixAffiche = $container.find('.prix-affiche');
+      if ($prixAffiche.length) {
+        updatePrixAffiche($prixAffiche, prix, suffix);
+      }
     });
 
     // 3️⃣ MISE À JOUR LOCALSTORAGE pour cohérence
     if (typeof updatePrixProduits === 'function') {
-        updatePrixProduits();
+      updatePrixProduits();
     }
 
     // 4️⃣ RECALCUL DES TOTAUX
     setTimeout(() => {
-        if (typeof updateAllPrixTotaux === 'function') {
-            updateAllPrixTotaux();
-        }
-        
-        if (typeof updateSidebarTotauxRecap === 'function') {
-            updateSidebarTotauxRecap();
-        }
+      if (typeof updateAllPrixTotaux === 'function') {
+        updateAllPrixTotaux();
+      }
+
+      if (typeof updateSidebarTotauxRecap === 'function') {
+        updateSidebarTotauxRecap();
+      }
     }, 50);
 
     console.log('✅ updatePrices() terminé');
-}
+  }
 
-function updatePrixAffiche($element, prix, suffix) {
+  function updatePrixAffiche($element, prix, suffix) {
     const $bdi = $element.find('.woocommerce-Price-amount bdi');
-    
+
     if ($bdi.length > 0) {
-        // Structure WooCommerce complète
-        const $currency = $bdi.find('.woocommerce-Price-currencySymbol');
-        const currencySymbol = $currency.text() || '€';
-        
-        const prixFormate = parseFloat(prix).toLocaleString('fr-FR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-        
-        $bdi.html(`${prixFormate}&nbsp;<span class="woocommerce-Price-currencySymbol">${currencySymbol}</span>`);
-        
-        // Gérer le suffixe
-        const $priceAmount = $element.find('.woocommerce-Price-amount');
-        if ($priceAmount.get(0).nextSibling && $priceAmount.get(0).nextSibling.nodeType === 3) {
-            $priceAmount.get(0).nextSibling.remove();
-        }
-        if (suffix) {
-            $priceAmount.after(suffix);
-        }
-        
+      // Structure WooCommerce complète
+      const $currency = $bdi.find('.woocommerce-Price-currencySymbol');
+      const currencySymbol = $currency.text() || '€';
+
+      const prixFormate = parseFloat(prix).toLocaleString('fr-FR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      $bdi.html(`${prixFormate}&nbsp;<span class="woocommerce-Price-currencySymbol">${currencySymbol}</span>`);
+
+      // Gérer le suffixe
+      const $priceAmount = $element.find('.woocommerce-Price-amount');
+      if ($priceAmount.get(0).nextSibling && $priceAmount.get(0).nextSibling.nodeType === 3) {
+        $priceAmount.get(0).nextSibling.remove();
+      }
+      if (suffix) {
+        $priceAmount.after(suffix);
+      }
+
     } else {
-        // Structure simple
-        const prixFormate = parseFloat(prix).toLocaleString('fr-FR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-        $element.text(`${prixFormate} €${suffix}`);
+      // Structure simple
+      const prixFormate = parseFloat(prix).toLocaleString('fr-FR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      $element.text(`${prixFormate} €${suffix}`);
     }
-    
+
     // ✅ CRUCIAL : Mettre à jour data-unit pour les calculs de totaux
     $element.data('unit', parseFloat(prix));
-}
+  }
 
   function updateFraisTotal(index) {
     const mode = getSelectedFinancementMode();
