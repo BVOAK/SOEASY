@@ -128,108 +128,51 @@ function updateAllPrixTotaux() {
 }
 
 // Calcul total global si souhaité
-function saveToLocalConfig(adresseIndex, section, produits, options = {}) {
-  console.log(`💾 saveToLocalConfig - Adresse ${adresseIndex}, Section: ${section}`, produits);
-  
-  if (!Array.isArray(produits)) {
-    produits = [produits];
+function saveToLocalConfig(adresseId, section, nouveauxProduits, options = {}) {
+  const key = 'soeasyConfig';
+  const config = JSON.parse(localStorage.getItem(key)) || {};
+
+  if (!config[adresseId]) config[adresseId] = {};
+  if (!Array.isArray(config[adresseId][section])) config[adresseId][section] = [];
+
+  let existants = config[adresseId][section];
+  let fusionnes = [];
+
+  if (options.replace === true && options.type) {
+    fusionnes = existants.filter(p => p.type !== options.type);
+  } else {
+    fusionnes = [...existants];
   }
-  
-  const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-  
-  if (!config[adresseIndex]) {
-    config[adresseIndex] = {
-      abonnements: [],
-      materiels: [],
-      fraisInstallation: []
-    };
-  }
-  
-  // Fonction pour déterminer si c'est un abonnement
-  function isAbonnement(produit) {
-    if (!produit || !produit.type) return false;
-    
-    const typeAbonnements = [
-      'internet',
-      'forfait-internet', 
-      'forfait-mobile',
-      'forfait-data',
-      'licence-centrex',
-      'forfait-centrex',
-      'centrex-licence',
-      'mobile',
-      'abonnement',
-      'forfait'
-    ];
-    
-    return typeAbonnements.includes(produit.type.toLowerCase());
-  }
-  
-  produits.forEach(produit => {
-    if (!produit || !produit.id) return;
-    
-    let targetSection;
-    
-    // Classification automatique basée sur le type de produit
-    if (section === 'fraisInstallation') {
-      targetSection = 'fraisInstallation';
-    } else if (isAbonnement(produit)) {
-      targetSection = 'abonnements';
-      console.log(`📱 Produit ${produit.nom} classé comme abonnement (type: ${produit.type})`);
-    } else {
-      targetSection = 'materiels';
-      console.log(`🔧 Produit ${produit.nom} classé comme matériel (type: ${produit.type})`);
-    }
-    
-    // Supprimer les doublons par ID dans TOUTES les sections (pas seulement la cible)
-    ['abonnements', 'materiels', 'fraisInstallation'].forEach(sec => {
-      if (config[adresseIndex][sec]) {
-        config[adresseIndex][sec] = config[adresseIndex][sec].filter(
-          item => item.id !== produit.id
-        );
-      }
-    });
-    
-    // Ajouter le produit dans la bonne section
-    if (produit.quantite > 0 || targetSection === 'abonnements') {
-      config[adresseIndex][targetSection].push({
-        ...produit,
-        section: targetSection // Ajouter une référence de section
-      });
-    }
+
+  const indexés = {};
+  fusionnes.forEach(p => {
+    const key = p.id || p.nom;
+    indexés[key] = p;
   });
-  
-  // Sauvegarder
-  localStorage.setItem('soeasyConfig', JSON.stringify(config));
-  
-  console.log(`✅ Configuration sauvée pour adresse ${adresseIndex}:`, config[adresseIndex]);
-  
-  // Si demandé, envoyer en session via AJAX
-  if (options.sendToSession !== false && typeof soeasyVars !== 'undefined') {
-    const sessionKey = options.sessionKey || `soeasy_config_${section}`;
-    
-    $.post(soeasyVars.ajaxurl, {
-      action: 'soeasy_set_config_part',
-      index: adresseIndex,
-      key: section,
-      items: config[adresseIndex][section],
-      nonce: soeasyVars.nonce_config
-    }).done(() => {
-      console.log(`🔄 Session mise à jour pour ${sessionKey}`);
-    }).fail(() => {
-      console.warn(`⚠️ Échec mise à jour session pour ${sessionKey}`);
+  if (Array.isArray(nouveauxProduits)) {
+    nouveauxProduits.forEach(p => {
+      const key = p.id || p.nom;
+      indexés[key] = p;
     });
   }
-  
-  // Trigger les mises à jour UI
-  if (typeof updateSidebarProduitsRecap === 'function') {
-    updateSidebarProduitsRecap();
+
+  config[adresseId][section] = Object.values(indexés);
+  localStorage.setItem(key, JSON.stringify(config));
+
+  jQuery.post(soeasyVars.ajaxurl, {
+    action: 'soeasy_set_config_part',
+    index: adresseId,
+    key: section,
+    items: config[adresseId][section]
+  });
+
+  if (section === 'fraisInstallation') {
+    jQuery.post(soeasyVars.ajaxurl, {
+      action: 'soeasy_set_frais_installation',
+      index: adresseId,
+      items: config[adresseId][section]
+    });
   }
-  if (typeof updatePrixProduits === 'function') {
-    updatePrixProduits();
-  }
-  
-  return config[adresseIndex];
 }
 
 
@@ -1087,99 +1030,138 @@ jQuery(document).ready(function ($) {
     }
   }
 
+
+  /**
+ * Ajoute les attributs de variation à tous les produits de la config
+ */
+function enrichConfigWithVariations(config) {
+  const engagement = getSelectedEngagement();
+  const financement = getSelectedFinancementMode();
+  
+  console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
+  
+  const attributes = {
+    'pa_duree-engagement': String(engagement || '24'),
+    'pa_financement': financement || 'comptant'
+  };
+  
+  console.log('🎯 Attributes à ajouter:', attributes);
+  
+  Object.keys(config).forEach(adresseIndex => {
+    ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
+      if (Array.isArray(config[adresseIndex][section])) {
+        config[adresseIndex][section].forEach(produit => {
+          if (!produit.attributes) {
+            produit.attributes = { ...attributes };
+            console.log(`✅ Attributes ajoutés pour ${produit.nom}`);
+          }
+        });
+      }
+    });
+  });
+  
+  return config;
+}
+
   /**
 * Fonction de validation finale et envoi vers le panier WooCommerce
 * Gère toutes les adresses configurées
 */
-  function sendToCart() {
-    console.log('🛒 Début sendToCart()');
+function sendToCart() {
+  console.log('🛒 Début sendToCart()');
 
-    // 1. Récupération de la configuration
-    const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-    const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+  // 1. Récupération de la configuration
+  let config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+  const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
 
-    if (Object.keys(config).length === 0) {
-      showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
-      return false;
-    }
-
-    console.log('📦 Configuration trouvée:', config);
-    console.log('📍 Adresses:', adresses);
-
-    // 2. Validation : au moins un produit configuré
-    let hasProducts = false;
-    Object.values(config).forEach(adresseData => {
-      const sections = ['abonnements', 'materiels', 'fraisInstallation'];
-      sections.forEach(section => {
-        if (Array.isArray(adresseData[section]) && adresseData[section].length > 0) {
-          hasProducts = true;
-        }
-      });
-    });
-
-    if (!hasProducts) {
-      showToastError('Veuillez sélectionner au moins un produit ou service avant de valider.');
-      return false;
-    }
-
-    // 3. Préparation des données pour l'envoi
-    const payload = {
-      action: 'soeasy_ajouter_au_panier_multi',
-      config: config,
-      adresses: adresses,
-      nonce: soeasyVars.nonce_cart
-    };
-
-    console.log('📤 Payload envoyé:', payload);
-
-    // 4. Affichage loading
-    const $btn = $('#btn-commander');
-    const originalText = $btn.text();
-    $btn.prop('disabled', true).text('Ajout au panier...');
-
-    // 5. Envoi AJAX
-    return $.post(soeasyVars.ajaxurl, payload)
-      .done(response => {
-        console.log('✅ Réponse serveur:', response);
-
-        if (response.success) {
-          // Succès : redirection vers le panier
-          console.log('🎉 Configuration ajoutée avec succès au panier');
-          $btn.text('Redirection...');
-
-          // Optionnel : nettoyer le localStorage après succès
-          // localStorage.removeItem('soeasyConfig');
-
-          setTimeout(() => {
-            window.location.href = response.data.redirect_url || '/panier';
-          }, 500);
-
-        } else {
-          // Erreur business
-          const errorMsg = response.data?.message || 'Erreur lors de l\'ajout au panier.';
-          console.error('❌ Erreur business:', errorMsg);
-          showToastError(errorMsg);
-          $btn.prop('disabled', false).text(originalText);
-        }
-      })
-      .fail((xhr, status, error) => {
-        // Erreur technique
-        console.error('💥 Erreur technique:', { xhr, status, error });
-
-        let errorMsg = 'Erreur technique. Veuillez réessayer.';
-
-        if (xhr.responseJSON?.data?.message) {
-          errorMsg = xhr.responseJSON.data.message;
-        } else if (xhr.status === 500) {
-          errorMsg = 'Erreur serveur (500). Vérifiez les logs PHP.';
-        } else if (xhr.status === 0) {
-          errorMsg = 'Problème de connexion. Vérifiez votre réseau.';
-        }
-
-        showToastError(errorMsg);
-        $btn.prop('disabled', false).text(originalText);
-      });
+  if (Object.keys(config).length === 0) {
+    showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
+    return false;
   }
+
+  console.log('📦 Configuration trouvée:', config);
+  console.log('📍 Adresses:', adresses);
+
+  // ✅ NOUVEAU : ENRICHIR LA CONFIG AVEC LES VARIATIONS
+  config = enrichConfigWithVariations(config);
+  console.log('✨ Configuration enrichie avec variations:', config);
+
+  // 2. Validation : au moins un produit configuré
+  let hasProducts = false;
+  Object.values(config).forEach(adresseData => {
+    const sections = ['abonnements', 'materiels', 'fraisInstallation'];
+    sections.forEach(section => {
+      if (Array.isArray(adresseData[section]) && adresseData[section].length > 0) {
+        hasProducts = true;
+      }
+    });
+  });
+
+  if (!hasProducts) {
+    showToastError('Veuillez sélectionner au moins un produit ou service avant de valider.');
+    return false;
+  }
+
+  // 3. Préparation des données pour l'envoi
+  const payload = {
+    action: 'soeasy_ajouter_au_panier_multi',
+    config: config,
+    adresses: adresses,
+    nonce: soeasyVars.nonce_cart
+  };
+
+  console.log('📤 Payload envoyé:', payload);
+
+  // 4. Affichage loading
+  const $btn = jQuery('#btn-commander');
+  const originalText = $btn.text();
+  $btn.prop('disabled', true).text('Ajout au panier...');
+
+  // 5. Envoi AJAX
+  return jQuery.post(soeasyVars.ajaxurl, payload)
+    .done(response => {
+      console.log('✅ Réponse serveur:', response);
+
+      if (response.success) {
+        console.log('🎉 Configuration ajoutée avec succès au panier');
+        $btn.text('Redirection...');
+
+        setTimeout(() => {
+          window.location.href = response.data.redirect_url || '/panier';
+        }, 500);
+
+      } else {
+        const errorMsg = response.data?.message || 'Erreur lors de l\'ajout au panier.';
+        console.error('❌ Erreur business:', errorMsg);
+        if (typeof showToastError === 'function') {
+          showToastError(errorMsg);
+        } else {
+          alert(errorMsg);
+        }
+        $btn.prop('disabled', false).text(originalText);
+      }
+    })
+    .fail((xhr, status, error) => {
+      console.error('💥 Erreur technique:', { xhr, status, error });
+
+      let errorMsg = 'Erreur technique. Veuillez réessayer.';
+
+      if (xhr.responseJSON?.data?.message) {
+        errorMsg = xhr.responseJSON.data.message;
+      } else if (xhr.status === 500) {
+        errorMsg = 'Erreur serveur (500). Vérifiez les logs PHP.';
+      } else if (xhr.status === 0) {
+        errorMsg = 'Problème de connexion. Vérifiez votre réseau.';
+      }
+
+      if (typeof showToastError === 'function') {
+        showToastError(errorMsg);
+      } else {
+        alert(errorMsg);
+      }
+      $btn.prop('disabled', false).text(originalText);
+    });
+}
 
   /**
    * Affichage des erreurs avec toast Bootstrap
@@ -1216,5 +1198,6 @@ jQuery(document).ready(function ($) {
   window.escapeHtml = escapeHtml;
   window.afficherVillesDansOnglets = afficherVillesDansOnglets;
   window.afficherVillesDansSidebar = afficherVillesDansSidebar;
+  window.enrichConfigWithVariations = enrichConfigWithVariations;
 
 });

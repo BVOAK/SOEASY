@@ -608,124 +608,187 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
         $cart_item_data['soeasy_prix_custom'] = floatval($produit_data['prixUnitaire']);
     }
 
-    // === NOUVEAU : Gestion des produits variables ===
+    // === GESTION DES PRODUITS VARIABLES ===
     $variation_id = 0;
     $variation_attributes = array();
     
+    // ✅ VÉRIFICATION : Le produit est-il variable ?
     if ($product->is_type('variable')) {
         
-        // Récupérer les paramètres globaux
-        $duree_engagement = soeasy_get_selected_duree_engagement() ?: '24';
-        $mode_financement = soeasy_get_selected_financement() ?: 'comptant';
+        // ✅ RÉCUPÉRATION UNIQUE des variations disponibles
+        $available_variations = $product->get_available_variations('array');
         
-        // Chercher une variation qui correspond
-        $available_variations = $product->get_available_variations();
+        if (empty($available_variations)) {
+            error_log("SoEasy: ⚠️ Produit #{$product_id} est variable mais n'a aucune variation disponible");
+            return [
+                'success' => false,
+                'error' => "Produit #{$product_id} : aucune variation disponible"
+            ];
+        }
         
-        foreach ($available_variations as $variation_data) {
-            $variation = wc_get_product($variation_data['variation_id']);
-            if (!$variation) continue;
+        error_log("SoEasy: 🔍 Produit #{$product_id} - " . count($available_variations) . " variations disponibles");
+        
+        // PRIORITÉ 1 : Utiliser les attributs envoyés par le JS
+        if (!empty($produit_data['attributes']) && is_array($produit_data['attributes'])) {
+            $sent_attributes = $produit_data['attributes'];
             
-            $variation_attributes_to_test = array();
+            error_log("SoEasy: 🎯 Recherche avec attributes JS: " . print_r($sent_attributes, true));
             
-            // Construire les attributs de variation basés sur le configurateur
-            foreach ($variation_data['attributes'] as $attr_name => $attr_value) {
+            foreach ($available_variations as $variation_data) {
+                $matches = true;
                 
-                $clean_attr_name = str_replace('attribute_', '', $attr_name);
-                
-                // Mapper les attributs communs
-                switch ($clean_attr_name) {
-                    case 'pa_duree-engagement':
-                    case 'pa_engagement':
-                    case 'duree_engagement':
-                        $variation_attributes_to_test[$attr_name] = $duree_engagement;
-                        break;
+                // Vérifier si tous les attributs correspondent
+                foreach ($sent_attributes as $attr_key => $attr_value) {
+                    // Normaliser le nom de l'attribut (ajouter 'attribute_' si absent)
+                    $full_attr_name = (strpos($attr_key, 'attribute_') === 0) ? $attr_key : 'attribute_' . $attr_key;
+                    
+                    if (isset($variation_data['attributes'][$full_attr_name])) {
+                        $variation_attr_value = $variation_data['attributes'][$full_attr_name];
                         
-                    case 'pa_financement':
-                    case 'pa_mode-financement':
-                    case 'mode_financement':
-                        $variation_attributes_to_test[$attr_name] = $mode_financement;
-                        break;
-                        
-                    default:
-                        // Utiliser la valeur par défaut de la variation
-                        if (!empty($attr_value)) {
-                            $variation_attributes_to_test[$attr_name] = $attr_value;
+                        // Comparaison flexible : valeur vide = "any" (tous les choix acceptés)
+                        if ($variation_attr_value !== '' && $variation_attr_value != $attr_value) {
+                            $matches = false;
+                            error_log("SoEasy:   ❌ Mismatch sur {$full_attr_name}: attendu={$attr_value}, trouvé={$variation_attr_value}");
+                            break;
                         }
-                        break;
-                }
-            }
-            
-            // Vérifier si cette variation correspond
-            $matches = true;
-            foreach ($variation_attributes_to_test as $attr_name => $attr_value) {
-                if (isset($variation_data['attributes'][$attr_name]) && 
-                    $variation_data['attributes'][$attr_name] !== '' && 
-                    $variation_data['attributes'][$attr_name] !== $attr_value) {
-                    $matches = false;
-                    break;
-                }
-            }
-            
-            if ($matches) {
-                $variation_id = $variation_data['variation_id'];
-                $variation_attributes = $variation_attributes_to_test;
-                
-                // Utiliser le prix de la variation si disponible
-                if (empty($produit_data['prixUnitaire'])) {
-                    $variation_price = $variation->get_price();
-                    if ($variation_price) {
-                        $cart_item_data['soeasy_prix_custom'] = floatval($variation_price);
                     }
                 }
                 
-                break;
+                if ($matches) {
+                    $variation_id = $variation_data['variation_id'];
+                    
+                    // Construire les attributs pour WooCommerce
+                    foreach ($sent_attributes as $attr_key => $attr_value) {
+                        $full_attr_name = (strpos($attr_key, 'attribute_') === 0) ? $attr_key : 'attribute_' . $attr_key;
+                        $variation_attributes[$full_attr_name] = $attr_value;
+                    }
+                    
+                    error_log("SoEasy: ✅ Variation trouvée via JS attributes : #{$variation_id}");
+                    break;
+                }
+            }
+        } else {
+            error_log("SoEasy: ⚠️ Aucun attributes JS fourni pour produit #{$product_id}");
+        }
+        
+        // PRIORITÉ 2 : Fallback sur les paramètres globaux en session
+        if (!$variation_id) {
+            error_log("SoEasy: 🔄 Fallback sur paramètres session");
+            
+            $duree_engagement = soeasy_get_selected_duree_engagement() ?: '24';
+            $mode_financement = soeasy_get_selected_financement() ?: 'comptant';
+            
+            error_log("SoEasy: Session - engagement={$duree_engagement}, financement={$mode_financement}");
+            
+            foreach ($available_variations as $variation_data) {
+                $variation_attributes_to_test = array();
+                
+                foreach ($variation_data['attributes'] as $attr_name => $attr_value) {
+                    $clean_attr_name = str_replace('attribute_', '', $attr_name);
+                    
+                    switch ($clean_attr_name) {
+                        case 'pa_duree-engagement':
+                        case 'pa_engagement':
+                        case 'duree_engagement':
+                            $variation_attributes_to_test[$attr_name] = $duree_engagement;
+                            break;
+                            
+                        case 'pa_financement':
+                        case 'pa_mode-financement':
+                        case 'mode_financement':
+                            $variation_attributes_to_test[$attr_name] = $mode_financement;
+                            break;
+                            
+                        default:
+                            if (!empty($attr_value)) {
+                                $variation_attributes_to_test[$attr_name] = $attr_value;
+                            }
+                            break;
+                    }
+                }
+                
+                $matches = true;
+                foreach ($variation_attributes_to_test as $attr_name => $attr_value) {
+                    if (isset($variation_data['attributes'][$attr_name]) && 
+                        $variation_data['attributes'][$attr_name] !== '' && 
+                        $variation_data['attributes'][$attr_name] !== $attr_value) {
+                        $matches = false;
+                        break;
+                    }
+                }
+                
+                if ($matches) {
+                    $variation_id = $variation_data['variation_id'];
+                    $variation_attributes = $variation_attributes_to_test;
+                    
+                    // Récupérer le prix de la variation si pas de prix custom
+                    if (empty($produit_data['prixUnitaire'])) {
+                        $variation = wc_get_product($variation_id);
+                        if ($variation) {
+                            $variation_price = $variation->get_price();
+                            if ($variation_price) {
+                                $cart_item_data['soeasy_prix_custom'] = floatval($variation_price);
+                            }
+                        }
+                    }
+                    
+                    error_log("SoEasy: ✅ Variation trouvée via session : #{$variation_id}");
+                    break;
+                }
             }
         }
         
-        // Si aucune variation trouvée, utiliser la première disponible
-        if (!$variation_id && !empty($available_variations)) {
+        // PRIORITÉ 3 : Dernière chance - première variation disponible
+        if (!$variation_id) {
             $first_variation = reset($available_variations);
             $variation_id = $first_variation['variation_id'];
             $variation_attributes = $first_variation['attributes'];
             
-            error_log("SoEasy: Aucune variation exacte trouvée pour produit #{$product_id}, utilisation de la variation #{$variation_id}");
-        }
-        
-        // Si toujours aucune variation, erreur
-        if (!$variation_id) {
-            return [
-                'success' => false,
-                'error' => "Produit #{$product_id} est variable mais aucune variation disponible"
-            ];
+            error_log("SoEasy: ⚠️ Aucune variation exacte trouvée, utilisation de la première disponible #{$variation_id}");
         }
     }
+    // Si produit simple, pas besoin de variation
+    else {
+        error_log("SoEasy: 📦 Produit #{$product_id} est un produit simple");
+    }
 
+    // === AJOUT AU PANIER ===
     try {
         $cart_item_key = WC()->cart->add_to_cart(
             $product_id,
             $quantity,
-            $variation_id, // 0 pour produit simple, ID pour variation
-            $variation_attributes, // Attributs de variation
+            $variation_id,           // 0 pour produit simple
+            $variation_attributes,   // vide pour produit simple
             $cart_item_data
         );
 
         if ($cart_item_key) {
+            $log_msg = "SoEasy: ✅ Produit ajouté au panier - ID:{$product_id}";
+            if ($variation_id) {
+                $log_msg .= ", Variation:{$variation_id}";
+            }
+            $log_msg .= ", Quantité:{$quantity}";
+            error_log($log_msg);
+            
             return [
                 'success' => true,
                 'cart_item_key' => $cart_item_key,
-                'variation_id' => $variation_id
+                'variation_id' => $variation_id,
+                'product_id' => $product_id
             ];
         } else {
+            error_log("SoEasy: ❌ Échec ajout au panier - Produit #{$product_id}, Variation #{$variation_id}");
             return [
                 'success' => false,
-                'error' => "Échec ajout produit #{$product_id} (WC error) - Variation: #{$variation_id}"
+                'error' => "Impossible d'ajouter le produit #{$product_id} au panier"
             ];
         }
 
     } catch (Exception $e) {
+        error_log("SoEasy: 💥 Exception lors de l'ajout au panier - Produit #{$product_id}: " . $e->getMessage());
         return [
             'success' => false,
-            'error' => "Exception produit #{$product_id}: " . $e->getMessage()
+            'error' => "Erreur technique : " . $e->getMessage()
         ];
     }
 }
