@@ -286,4 +286,249 @@ jQuery(document).ready(function($) {
                     });
                 } else {
                     $sidebar.css({
-                        position: 'relative
+                        position: 'relative',
+                        top: 'auto',
+                        width: 'auto'
+                    });
+                }
+            });
+            
+            // Recalculer lors du resize
+            $window.on('resize.stickySidebar', function() {
+                if (window.innerWidth <= 991) {
+                    $sidebar.css({
+                        position: 'relative',
+                        top: 'auto',
+                        width: 'auto'
+                    });
+                    $window.off('scroll.stickySidebar');
+                } else {
+                    initStickySidebar();
+                }
+            });
+        }
+    }
+    
+    // Initialiser après chargement complet
+    setTimeout(initStickySidebar, 100);
+    
+    // === GESTION RETOUR CONFIGURATEUR ===
+    
+    /**
+     * Vérifier si on revient du configurateur
+     */
+    function checkConfiguratorReturn() {
+        
+        const editState = localStorage.getItem('soeasy_edit_cart_address');
+        
+        if (editState) {
+            try {
+                const state = JSON.parse(editState);
+                
+                // Vérifier que c'est récent (moins de 1h)
+                if (Date.now() - state.timestamp < 3600000) {
+                    
+                    showNotification(
+                        `Configuration mise à jour pour l'adresse "${state.address}"`, 
+                        'success'
+                    );
+                }
+                
+            } catch (e) {
+                console.warn('Erreur parsing edit state:', e);
+            }
+            
+            // Nettoyer le localStorage
+            localStorage.removeItem('soeasy_edit_cart_address');
+        }
+    }
+    
+    checkConfiguratorReturn();
+    
+    // === VALIDATION CHECKOUT ===
+    
+    /**
+     * Validation avant checkout
+     */
+    $(document).on('click', '.checkout-actions .btn-success', function(e) {
+        
+        const $btn = $(this);
+        const cartCount = parseInt($('.soeasy-cart-widget .cart-count').text().match(/\d+/)?.[0] || 0);
+        
+        if (cartCount === 0) {
+            e.preventDefault();
+            showNotification('Votre panier est vide', 'warning');
+            return false;
+        }
+        
+        // Feedback visuel pendant redirection
+        showLoading($btn.closest('.checkout-actions'));
+        $btn.html('<i class="fas fa-spinner fa-spin me-2"></i>Redirection...');
+    });
+    
+    // === ANIMATIONS ENTRÉE ===
+    
+    /**
+     * Animation des sections adresses au chargement
+     */
+    function animateAddressSections() {
+        $('.address-section').each(function(index) {
+            const $section = $(this);
+            
+            setTimeout(() => {
+                $section.addClass('animate__animated animate__fadeInUp');
+            }, index * 100);
+        });
+    }
+    
+    // Lancer animations si bibliothèque animate.css disponible
+    if (typeof $.fn.addClass !== 'undefined' && $('.animate__animated').length === 0) {
+        // Fallback si animate.css pas disponible
+        setTimeout(animateAddressSections, 300);
+    }
+    
+    // === GESTURES MOBILES ===
+    
+    /**
+     * Swipe pour supprimer sur mobile
+     */
+    if ('ontouchstart' in window) {
+        
+        let startX, startY, isScrolling;
+        
+        $(document).on('touchstart', '.table-cart tbody tr', function(e) {
+            const touch = e.originalEvent.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            isScrolling = undefined;
+        });
+        
+        $(document).on('touchmove', '.table-cart tbody tr', function(e) {
+            
+            if (e.originalEvent.touches.length > 1) return;
+            
+            const touch = e.originalEvent.touches[0];
+            const deltaX = touch.clientX - startX;
+            const deltaY = touch.clientY - startY;
+            
+            if (isScrolling === undefined) {
+                isScrolling = Math.abs(deltaX) < Math.abs(deltaY);
+            }
+            
+            if (!isScrolling && Math.abs(deltaX) > 30) {
+                $(this).addClass('swiping');
+                
+                if (deltaX < -50) {
+                    // Swipe gauche - afficher action suppression
+                    $(this).addClass('swipe-delete');
+                } else {
+                    $(this).removeClass('swipe-delete');
+                }
+            }
+        });
+        
+        $(document).on('touchend', '.table-cart tbody tr', function(e) {
+            const $row = $(this);
+            
+            setTimeout(() => {
+                if ($row.hasClass('swipe-delete')) {
+                    const $removeLink = $row.find('.product-remove a');
+                    if ($removeLink.length) {
+                        $removeLink.trigger('click');
+                    }
+                }
+                
+                $row.removeClass('swiping swipe-delete');
+            }, 100);
+        });
+    }
+    
+    // === RACCOURCIS CLAVIER ===
+    
+    /**
+     * Raccourcis clavier pour navigation rapide
+     */
+    $(document).on('keydown', function(e) {
+        
+        // Échapper pour fermer les modales/alertes
+        if (e.key === 'Escape') {
+            $('.alert-dismissible .btn-close').trigger('click');
+        }
+        
+        // Ctrl+Enter pour aller au checkout
+        if (e.ctrlKey && e.key === 'Enter') {
+            $('.checkout-actions .btn-success').trigger('click');
+        }
+        
+        // Suppr pour supprimer le premier élément sélectionné
+        if (e.key === 'Delete' && $('.table-cart tbody tr.selected').length) {
+            $('.table-cart tbody tr.selected').first().find('.product-remove a').trigger('click');
+        }
+    });
+    
+    // Sélection des lignes au clic (pour raccourcis clavier)
+    $(document).on('click', '.table-cart tbody tr', function(e) {
+        
+        if ($(e.target).closest('.product-quantity, .product-remove').length) {
+            return; // Ne pas sélectionner si clic sur quantité ou suppression
+        }
+        
+        $('.table-cart tbody tr').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    
+    // === FONCTIONS PUBLIQUES ===
+    
+    /**
+     * API publique pour interaction externe
+     */
+    window.SoEasyCart = {
+        
+        updateTotals: updateCartTotals,
+        
+        showNotification: showNotification,
+        
+        removeAddress: function(address) {
+            window.supprimerAdresse(address);
+        },
+        
+        editAddress: function(address) {
+            window.modifierConfiguration(address);
+        },
+        
+        getCartState: function() {
+            return {
+                addressCount: $('.address-section').length,
+                totalItems: parseInt($('.soeasy-cart-widget .cart-count').text().match(/\d+/)?.[0] || 0),
+                addresses: $('.address-section .address-header h4').map(function() {
+                    return $(this).text().trim();
+                }).get()
+            };
+        }
+    };
+    
+    // === DEBUG MODE ===
+    
+    if (window.location.search.includes('debug=cart')) {
+        console.log('SoEasy Cart Debug Mode activé');
+        console.log('Cart State:', window.SoEasyCart.getCartState());
+        console.log('Variables disponibles:', vars);
+        
+        // Ajouter bouton debug
+        $('body').append(`
+            <div id="soeasy-debug" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #333; color: white; padding: 10px; border-radius: 5px; font-size: 12px;">
+                <strong>Debug Cart</strong><br>
+                <button onclick="console.log(window.SoEasyCart.getCartState())">Log State</button>
+                <button onclick="window.SoEasyCart.updateTotals()">Update Totals</button>
+            </div>
+        `);
+    }
+    
+    // === INITIALISATION FINALE ===
+    
+    console.log('✅ SoEasy Cart JavaScript initialisé');
+    
+    // Déclencher événement custom pour autres scripts
+    $(document).trigger('soeasy:cart:ready', [window.SoEasyCart]);
+    
+});
