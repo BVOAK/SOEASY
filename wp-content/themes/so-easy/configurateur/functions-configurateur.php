@@ -662,22 +662,35 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
             
             foreach ($available_variations as $variation_data) {
                 $matches = true;
+
+                error_log("  🔄 Test variation #{$variation_data['variation_id']}");
                 
                 // Vérifier si tous les attributs correspondent
                 foreach ($sent_attributes as $attr_key => $attr_value) {
                     // Normaliser le nom de l'attribut (ajouter 'attribute_' si absent)
                     $full_attr_name = (strpos($attr_key, 'attribute_') === 0) ? $attr_key : 'attribute_' . $attr_key;
+
+                    error_log("    - Comparaison: JS envoie '{$attr_key}' => '{$attr_value}'");
+                    error_log("    - Normalisé en: '{$full_attr_name}'");
+                    error_log("    - Attributs dispo dans variation: " . print_r(array_keys($variation_data['attributes']), true));
                     
                     if (isset($variation_data['attributes'][$full_attr_name])) {
                         $variation_attr_value = $variation_data['attributes'][$full_attr_name];
+
+                        error_log("    - Valeur WC: '{$variation_attr_value}' vs JS: '{$attr_value}'");
                         
-                        // Comparaison flexible : valeur vide = "any" (tous les choix acceptés)
+                        // Comparaison flexible : valeur vide = "any"
                         if ($variation_attr_value !== '' && $variation_attr_value != $attr_value) {
                             $matches = false;
-                            error_log("SoEasy:   ❌ Mismatch sur {$full_attr_name}: attendu={$attr_value}, trouvé={$variation_attr_value}");
+                            error_log("    ❌ Pas de match !");
                             break;
+                        } else {
+                            error_log("    ✅ Match OK");
                         }
+                    } else {
+                        error_log("    ⚠️ Attribut '{$full_attr_name}' pas trouvé dans cette variation");
                     }
+
                 }
                 
                 if ($matches) {

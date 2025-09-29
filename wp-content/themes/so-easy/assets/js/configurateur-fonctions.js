@@ -1038,41 +1038,41 @@ jQuery(document).ready(function ($) {
  * Ajoute les attributs de variation à tous les produits de la config
  */
   function enrichConfigWithVariations(config) {
-    const engagement = getSelectedEngagement();
-    const financement = getSelectedFinancementMode();
-
-    console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
-
-    // ✅ FORMAT CORRECT : ajouter "-mois" sauf pour "sans-engagement"
-    let engagementValue;
-    if (!engagement || engagement === 0 || engagement === '0') {
-      engagementValue = 'sans-engagement';
-    } else {
-      engagementValue = engagement + '-mois';
-    }
-
-    // ✅ Ne pas envoyer pa_financement si le produit ne l'a pas comme attribut
-    const attributes = {
-      'pa_duree-engagement': engagementValue
-    };
-
-    console.log('🎯 Attributes à ajouter:', attributes);
-
-    Object.keys(config).forEach(adresseIndex => {
-      ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
-        if (Array.isArray(config[adresseIndex][section])) {
-          config[adresseIndex][section].forEach(produit => {
-            if (!produit.attributes) {
-              produit.attributes = { ...attributes };
-              console.log(`✅ Attributes ajoutés pour ${produit.nom}: ${engagementValue}`);
-            }
-          });
-        }
-      });
-    });
-
-    return config;
+  const engagement = getSelectedEngagement();
+  const financement = getSelectedFinancementMode();
+  
+  console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
+  
+  // Format correct : ajouter "-mois"
+  let engagementValue;
+  if (!engagement || engagement === 0 || engagement === '0') {
+    engagementValue = 'sans-engagement';
+  } else {
+    engagementValue = engagement + '-mois';
   }
+  
+  // ✅ CORRECTION FINALE : pa_duree-dengagement (avec le "d")
+  const attributes = {
+    'pa_duree-dengagement': engagementValue
+  };
+  
+  console.log('🎯 Attributes à ajouter:', attributes);
+  
+  Object.keys(config).forEach(adresseIndex => {
+    ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
+      if (Array.isArray(config[adresseIndex][section])) {
+        config[adresseIndex][section].forEach(produit => {
+          if (!produit.attributes) {
+            produit.attributes = { ...attributes };
+            console.log(`✅ Attributes ajoutés pour ${produit.nom}: ${engagementValue}`);
+          }
+        });
+      }
+    });
+  });
+  
+  return config;
+}
 
   /**
 * Fonction de validation finale et envoi vers le panier WooCommerce
