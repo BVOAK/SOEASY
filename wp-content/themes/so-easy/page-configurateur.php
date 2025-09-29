@@ -7,14 +7,12 @@ get_header();
 
 ?>
 
-<div class="configurateur-wrapper container py-5" data-current-step="1">
-	<h1 class="text-center mb-5">Configurez votre solution télécom sur-mesure</h1>
-
-	<div class="config-steps-container mb-4"></div>
+<div class="configurateur-wrapper container-fluid py-5" data-current-step="1">
+	
 
 	<!-- Colonne gauche (étapes) + colonne droite (récapitulatif) -->
 	<div class="row">
-		<div class="col-lg-8" id="config-step-content">
+		<div class="col-lg-9" id="config-step-content">
 			<?php get_template_part('configurateur/step', '1-adresses'); ?>
 		</div>
 

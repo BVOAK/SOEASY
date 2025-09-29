@@ -1,3 +1,16 @@
+/******* VARIABLES *******/
+:root {
+  --se-violet: #28004f;
+  --se-mauve: #d9a9fb;
+  --se-mauve-clair: #f2e5ff;
+  --se-orange: #f6921e;
+  --se-gris: #666666;
+  --se-gris-clair: #e5e5e5;
+  /*var(--se-violet);*/
+}
+
+
+/****** COMMUNS ******/
 input[type="checkbox"] { height: 20px!important; width: 20px!important; }
 
 /* Icônes FontAwesome grisées par défaut */
@@ -25,7 +38,7 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
 .icon-centrex { font-family: "Font Awesome 5 Free"; }
 .icon-frais { font-family: "Font Awesome 5 Free"; }
 
-
+.icon-info { width: 25px; }
 
 /* Loader pour les étapes du configurateur */
 .step-loader-container {
@@ -62,4 +75,22 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/****** ITEM PRODUCT *****/
+.item-product {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid var(--se-gris-clair);
+  border-radius: 15px;
+  width: 100%;
+  padding: 1rem;
+}
+
+.item-product .bloc-price-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px
 }

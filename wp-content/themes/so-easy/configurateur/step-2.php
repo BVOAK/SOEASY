@@ -16,6 +16,9 @@ $adresses = soeasy_get_adresses_configurateur();
 ?>
 
 <div class="config-step step-2 container py-4">
+
+  <?php get_template_part('configurateur/header'); ?>
+
   <h2 class="mb-4">2. Choix de la connexion Internet</h2>
 
   <?php if (!empty($adresses)): ?>
@@ -35,71 +38,96 @@ $adresses = soeasy_get_adresses_configurateur();
         <div class="tab-pane fade <?php echo $i === 0 ? 'show active' : ''; ?>" id="tab-<?php echo $i; ?>">
 
           <!-- FORFAIT INTERNET PRINCIPAL -->
-          <h5 class="mt-4">Forfait Internet</h5>
-          <div class="row gy-3">
-            <?php
-            $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
-            $loop = new WP_Query($args);
-            while ($loop->have_posts()):
-              $loop->the_post();
-              $product = wc_get_product(get_the_ID());
-              $product_id = $product->get_id();
+          <div class="card item-list-product">
+            <div class="card-body p-4">
+              <h5 class="mt-4 card-title">Forfait Internet</h5>
+              <div class="row p-0 gap-3">
+                <?php
+                $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
+                $loop = new WP_Query($args);
+                while ($loop->have_posts()):
+                  $loop->the_post();
+                  $product = wc_get_product(get_the_ID());
+                  $product_id = $product->get_id();
 
-              $equipements_associes = get_field('equipements_associes', $product_id) ?: [];
-              $forfaits_secours_associes = get_field('forfaits_secours_associes', $product_id) ?: [];
+                  $equipements_associes = get_field('equipements_associes', $product_id) ?: [];
+                  $forfaits_secours_associes = get_field('forfaits_secours_associes', $product_id) ?: [];
 
-              $equipements_ids = is_array($equipements_associes) ? array_map(function ($p) {
-                return is_object($p) ? $p->ID : intval($p);
-              }, $equipements_associes) : [];
+                  $equipements_ids = is_array($equipements_associes) ? array_map(function ($p) {
+                    return is_object($p) ? $p->ID : intval($p);
+                  }, $equipements_associes) : [];
 
-              $forfaits_secours_ids = is_array($forfaits_secours_associes) ? array_map(function ($p) {
-                return is_object($p) ? $p->ID : intval($p);
-              }, $forfaits_secours_associes) : [];
+                  $forfaits_secours_ids = is_array($forfaits_secours_associes) ? array_map(function ($p) {
+                    return is_object($p) ? $p->ID : intval($p);
+                  }, $forfaits_secours_associes) : [];
 
-              $variations = $product->get_available_variations();
-              $data_attrs = '';
-              $prix_affiche = 0;
+                  $variations = $product->get_available_variations();
+                  $data_attrs = '';
+                  $prix_affiche = 0;
 
-              foreach ($variations as $variation) {
-                $attr = $variation['attributes']['attribute_pa_duree-dengagement'] ?? '';
-                $duree_var = (stripos($attr, 'sans') !== false || empty($attr)) ? 0 : intval(preg_replace('/[^0-9]/', '', $attr));
-                if (!is_null($duree_var)) {
-                  $prix_var = $variation['display_price'];
-                  $data_attrs .= ' data-prix-leasing-' . $duree_var . '="' . esc_attr($prix_var) . '"';
-                  if ($duree == $duree_var) {
-                    $prix_affiche = $prix_var;
+                  $infos = get_field("tooltip-infos");
+
+                  foreach ($variations as $variation) {
+                    $attr = $variation['attributes']['attribute_pa_duree-dengagement'] ?? '';
+                    $duree_var = (stripos($attr, 'sans') !== false || empty($attr)) ? 0 : intval(preg_replace('/[^0-9]/', '', $attr));
+                    if (!is_null($duree_var)) {
+                      $prix_var = $variation['display_price'];
+                      $data_attrs .= ' data-prix-leasing-' . $duree_var . '="' . esc_attr($prix_var) . '"';
+                      if ($duree == $duree_var) {
+                        $prix_affiche = $prix_var;
+                      }
+                    }
                   }
-                }
-              }
 
-              $checked = isset($forfaits[$i]) && $forfaits[$i] == $product_id ? 'checked' : '';
+                  $checked = isset($forfaits[$i]) && $forfaits[$i] == $product_id ? 'checked' : '';
 
-              ?>
-              <div class="col-md-6">
-                <label class="border p-3 d-block rounded shadow-sm h-100">
-                  <?php
-                  $equipements_json = htmlspecialchars(json_encode($equipements_ids), ENT_QUOTES, 'UTF-8');
-                  $secours_json = htmlspecialchars(json_encode($forfaits_secours_ids), ENT_QUOTES, 'UTF-8');
                   ?>
-                  <input type="checkbox"
-                  name="forfait_internet_<?= $i; ?>"
-                  value="<?= $product_id; ?>"
-                  class="me-2 forfait-internet-checkbox"
-                  data-id="<?= $product_id; ?>"
-                  data-index="<?= $i; ?>"
-                  data-equipements='<?= $equipements_json ?>'
-                  data-secours='<?= $secours_json ?>'
-                  <?= $data_attrs ?> />
-                  <strong><?php the_title(); ?></strong><br>
-                  <span class="text-muted"><?php echo get_the_excerpt(); ?></span><br>
-                  <div class="fw-bold mt-2 prix-affiche" data-unit="<?php echo esc_attr($prix_affiche); ?>">
-                    <?php echo wc_price($prix_affiche); ?> / mois
+                  <div class="item-product">
+                    <div class="col">
+                      <div class="checkbox-wrapper">
+                          <?php
+                              $equipements_json = htmlspecialchars(json_encode($equipements_ids), ENT_QUOTES, 'UTF-8');
+                              $secours_json = htmlspecialchars(json_encode($forfaits_secours_ids), ENT_QUOTES, 'UTF-8');
+                              ?>
+                          <input type="checkbox"
+                              id="forfait_internet_<?= $product_id; ?>"
+                              name="forfait_internet_<?= $i; ?>"
+                              value="<?= $product_id; ?>"
+                              class="me-2 forfait-internet-checkbox inp-cbx"
+                              data-id="<?= $product_id; ?>"
+                              data-index="<?= $i; ?>"
+                              data-equipements='<?= $equipements_json ?>'
+                              data-secours='<?= $secours_json ?>'
+                              <?= $data_attrs ?> 
+                              style="display: none;"
+                              />
+                              <label class="cbx" for="forfait_internet_<?= $product_id; ?>">
+                              <span>
+                                <svg width="12px" height="9px" viewbox="0 0 12 9">
+                                  <polyline points="1 5 4 8 11 1"></polyline>
+                                </svg>
+                              </span>
+                              <strong><?php the_title(); ?></strong>
+                            </label>
+                      </div>
+                    </div>
+                    <span class="text-muted col"><?php echo get_the_excerpt(); ?></span>
+                    <div class="col bloc-price-end">
+                      <div class="fw-bold mt-2 prix-affiche" data-unit="<?php echo esc_attr($prix_affiche); ?>">
+                        <?php echo wc_price($prix_affiche); ?> / mois
+                      </div>
+                      <?php if($infos) : ?>
+                      <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="<?php echo $infos ?>">
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/info.svg" />
+                      </div>
+                      <?php endif ?>
+                    </div>
                   </div>
-                </label>
+                <?php endwhile;
+                wp_reset_postdata(); ?>
               </div>
-            <?php endwhile;
-            wp_reset_postdata(); ?>
-          </div>
+            </div>
+          </div> 
 
           <!-- FORFAIT INTERNET DE SECOURS (caché par défaut) -->
           <div class="bloc-secours d-none mt-5">

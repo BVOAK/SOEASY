@@ -1,5 +1,5 @@
 
-<div class="col-lg-4 d-none d-lg-block">
+<div class="col-lg-3 d-none d-lg-block">
   <div id="config-sidebar" class="p-4 bg-light rounded shadow-sm">
     <h5 class="mb-3">Votre configuration</h5>
 

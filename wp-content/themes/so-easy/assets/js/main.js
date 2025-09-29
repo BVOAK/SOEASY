@@ -1,4 +1,4 @@
-(function($) { 
+(function ($) {
 	"use strict";
 
 	const toggle = $('.menu-toggle');
@@ -16,7 +16,7 @@
 
 	function DesktopMenu() {
 		$(".nav-menu ul ").css({ display: "none" }); // Opera Fix
-		$(".nav-menu").css({ left: "0" }); 
+		$(".nav-menu").css({ left: "0" });
 		$('.submenu-toggle').off('click');
 		$('.submenu-toggle').remove();
 		//reset
@@ -49,46 +49,46 @@
 		});
 	}
 	function MobileMenu() {
-		$(".nav-menu ul ").css({ display: "none" }); 
+		$(".nav-menu ul ").css({ display: "none" });
 		$(".nav-menu li").off('hover');
 		$('.menu-item-has-children').off('mouseenter mouseleave');
 		$('.nav-menu').css({ left: '-100%' })
 		//reset
 
 
-		var toggle = $( "<div class='submenu-toggle'>+</div>" )
+		var toggle = $("<div class='submenu-toggle'>+</div>")
 
 		$(".menu-item-has-children").append(toggle);
 
-		$('.submenu-toggle').on('click', function(){
-			if(!$(this).hasClass('active')){
+		$('.submenu-toggle').on('click', function () {
+			if (!$(this).hasClass('active')) {
 				$(this).prev(".sub-menu").css({ visibility: "visible", display: "none" }).slideDown()
 				$(this).html('-')
 				$(this).addClass('active')
-			}else{
+			} else {
 				$(this).prev(".sub-menu").css({ visibility: "hidden" }).slideUp()
 				$(this).html('+')
 				$(this).removeClass('active')
 			}
-			
+
 		})
 	}
 
 	$(document).ready(function () {
 		if (jQuery(window).width() > 1000) {
-			DesktopMenu(); 
-		}else{
-			MobileMenu(); 
+			DesktopMenu();
+		} else {
+			MobileMenu();
 		}
-		$(window).on('resize', function(){
+		$(window).on('resize', function () {
 			var win = $(this); //this = window
-			if (win.height() < 1000) { 
+			if (win.height() < 1000) {
 				MobileMenu();
 			}
-			if (win.width() >= 1000) { 
-				DesktopMenu(); 
+			if (win.width() >= 1000) {
+				DesktopMenu();
 			}
-	  });
+		});
 
 	});
 
