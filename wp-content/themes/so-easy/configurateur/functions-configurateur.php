@@ -131,7 +131,8 @@ function soeasy_set_session_items($key, $index, $items)
 /**
  * Fonction utilitaire de vérification des nonces
  */
-function soeasy_verify_nonce($nonce_value, $nonce_action) {
+function soeasy_verify_nonce($nonce_value, $nonce_action)
+{
     if (!wp_verify_nonce($nonce_value, $nonce_action)) {
         wp_send_json_error('Sécurité : nonce invalide');
         exit;
@@ -143,18 +144,20 @@ function soeasy_verify_nonce($nonce_value, $nonce_action) {
 // CONFIGURATION GÉNÉRALE
 // ============================================================================
 
-function soeasy_set_engagement() {
+function soeasy_set_engagement()
+{
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
-    
+
     // LOGIQUE EXISTANTE INCHANGÉE
     soeasy_session_set('soeasy_duree_engagement', intval($_POST['duree'] ?? 0));
     wp_send_json_success('Engagement enregistré');
 }
 add_action('wp_ajax_soeasy_set_engagement', 'soeasy_set_engagement');
 add_action('wp_ajax_nopriv_soeasy_set_engagement', 'soeasy_set_engagement');
-function soeasy_set_financement() {
+function soeasy_set_financement()
+{
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
-    
+
     // LOGIQUE EXISTANTE INCHANGÉE
     soeasy_session_set('soeasy_mode_financement', sanitize_text_field($_POST['mode'] ?? ''));
     wp_send_json_success('Mode financement enregistré');
@@ -167,7 +170,8 @@ add_action('wp_ajax_nopriv_soeasy_set_financement', 'soeasy_set_financement');
 // CATÉGORIE 1 - GESTION DES ADRESSES (SÉCURISÉES)
 // ============================================================================
 
-function ajax_soeasy_add_adresse_configurateur(){
+function ajax_soeasy_add_adresse_configurateur()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_address_action');
 
@@ -188,7 +192,8 @@ function ajax_soeasy_add_adresse_configurateur(){
     wp_send_json_success(['html' => ob_get_clean()]);
 }
 
-function ajax_soeasy_remove_adresse_configurateur(){
+function ajax_soeasy_remove_adresse_configurateur()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_address_action');
 
@@ -214,7 +219,8 @@ add_action('wp_ajax_nopriv_soeasy_remove_adresse_configurateur', 'ajax_soeasy_re
 // ============================================================================
 // CATÉGORIE 2 - ÉTAPE 2 INTERNET (SÉCURISÉES)
 // ============================================================================
-function soeasy_set_forfait_internet(){
+function soeasy_set_forfait_internet()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
 
@@ -233,7 +239,8 @@ add_action('wp_ajax_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet')
 add_action('wp_ajax_nopriv_soeasy_set_forfait_internet', 'soeasy_set_forfait_internet');
 
 // Enregistre les équipements Internet sélectionnés
-function soeasy_set_equipements_internet(){
+function soeasy_set_equipements_internet()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
 
@@ -256,21 +263,24 @@ add_action('wp_ajax_nopriv_soeasy_set_equipements_internet', 'soeasy_set_equipem
 // CATÉGORIE 3 - ÉTAPE 3 MOBILE (SÉCURISÉES)
 // ============================================================================
 
-function soeasy_set_forfaits_mobile() {
+function soeasy_set_forfaits_mobile()
+{
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
     soeasy_set_session_items('soeasy_forfaits_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []);
 }
 add_action('wp_ajax_soeasy_set_forfaits_mobile', 'soeasy_set_forfaits_mobile');
 add_action('wp_ajax_nopriv_soeasy_set_forfaits_mobile', 'soeasy_set_forfaits_mobile');
 
-function soeasy_set_forfaits_data() {
+function soeasy_set_forfaits_data()
+{
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
     soeasy_set_session_items('soeasy_forfaits_data', intval($_POST['index'] ?? -1), $_POST['items'] ?? []);
 }
 add_action('wp_ajax_soeasy_set_forfaits_data', 'soeasy_set_forfaits_data');
 add_action('wp_ajax_nopriv_soeasy_set_forfaits_data', 'soeasy_set_forfaits_data');
 
-function soeasy_set_equipements_mobile() {
+function soeasy_set_equipements_mobile()
+{
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
     soeasy_set_session_items('soeasy_equipements_mobile', intval($_POST['index'] ?? -1), $_POST['items'] ?? []);
 }
@@ -285,16 +295,16 @@ add_action('wp_ajax_nopriv_soeasy_set_equipements_mobile', 'soeasy_set_equipemen
 
 foreach (['licences', 'services', 'postes', 'switchs', 'accessoires'] as $type) {
     $function_name = "soeasy_set_{$type}_centrex";
-    
+
     if (!function_exists($function_name)) {
-        eval("
+        eval ("
         function {$function_name}() {
             soeasy_verify_nonce(\$_POST['nonce'] ?? '', 'soeasy_config_action');
             soeasy_set_session_items('soeasy_{$type}_centrex', intval(\$_POST['index'] ?? -1), \$_POST['items'] ?? []);
         }
         ");
     }
-    
+
     add_action("wp_ajax_{$function_name}", $function_name);
     add_action("wp_ajax_nopriv_{$function_name}", $function_name);
 }
@@ -304,7 +314,8 @@ foreach (['licences', 'services', 'postes', 'switchs', 'accessoires'] as $type) 
 // CATÉGORIE 5 - ÉTAPE 5 FRAIS D'INSTALLATION (SÉCURISÉES)
 // ============================================================================
 
-function soeasy_set_frais_installation(){
+function soeasy_set_frais_installation()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
 
@@ -353,7 +364,8 @@ function soeasy_set_frais_installation(){
 add_action('wp_ajax_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
 add_action('wp_ajax_nopriv_soeasy_set_frais_installation', 'soeasy_set_frais_installation');
 
-function soeasy_set_config_part(){
+function soeasy_set_config_part()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_config_action');
 
@@ -399,10 +411,11 @@ function soeasy_resolve_product($input)
 }
 
 // Ajout au panier
-function soeasy_ajouter_au_panier(){
+function soeasy_ajouter_au_panier()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_cart_action');
-    
+
     if (!function_exists('WC')) {
         wp_send_json_error(['message' => 'WooCommerce non disponible']);
     }
@@ -466,7 +479,8 @@ add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier', 'soeasy_ajouter_au_panier'
 /**
  * Ajout au panier pour configuration multi-adresses
  */
-function soeasy_ajouter_au_panier_multi(){
+function soeasy_ajouter_au_panier_multi()
+{
 
     soeasy_verify_nonce($_POST['nonce'] ?? '', 'soeasy_cart_action');
 
@@ -578,15 +592,16 @@ add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_p
 /**
  * FONCTION DE DEBUG TEMPORAIRE - À SUPPRIMER APRÈS
  */
-function debug_variations_produit($product_id) {
+function debug_variations_produit($product_id)
+{
     $product = wc_get_product($product_id);
     if (!$product || !$product->is_type('variable')) {
         return;
     }
-    
+
     /** @var WC_Product_Variable $product */
     $variations = $product->get_available_variations('array');
-    
+
     error_log("=== DEBUG VARIATIONS PRODUIT #{$product_id} ===");
     foreach ($variations as $var) {
         error_log("Variation #{$var['variation_id']}:");
@@ -600,8 +615,9 @@ function debug_variations_produit($product_id) {
 /**
  * Fonction helper pour ajouter un produit au panier WC
  */
-function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
-    
+function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie)
+{
+
     if (empty($produit_data['id']) || empty($produit_data['quantite'])) {
         return [
             'success' => false,
@@ -639,16 +655,16 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
     // === GESTION DES PRODUITS VARIABLES ===
     $variation_id = 0;
     $variation_attributes = array();
-    
+
     // ✅ VÉRIFICATION : Le produit est-il variable ?
     if ($product->is_type('variable')) {
-        
+
         // ✅ RÉCUPÉRATION UNIQUE des variations disponibles
         /** @var WC_Product_Variable $product */
         $available_variations = $product->get_available_variations('array');
 
         debug_variations_produit($product_id);
-        
+
         if (empty($available_variations)) {
             error_log("SoEasy: ⚠️ Produit #{$product_id} est variable mais n'a aucune variation disponible");
             return [
@@ -656,20 +672,20 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
                 'error' => "Produit #{$product_id} : aucune variation disponible"
             ];
         }
-        
+
         error_log("SoEasy: 🔍 Produit #{$product_id} - " . count($available_variations) . " variations disponibles");
-        
+
         // PRIORITÉ 1 : Utiliser les attributs envoyés par le JS
         if (!empty($produit_data['attributes']) && is_array($produit_data['attributes'])) {
             $sent_attributes = $produit_data['attributes'];
-            
+
             error_log("SoEasy: 🎯 Recherche avec attributes JS: " . print_r($sent_attributes, true));
-            
+
             foreach ($available_variations as $variation_data) {
                 $matches = true;
 
                 error_log("  🔄 Test variation #{$variation_data['variation_id']}");
-                
+
                 // Vérifier si tous les attributs correspondent
                 foreach ($sent_attributes as $attr_key => $attr_value) {
                     // Normaliser le nom de l'attribut (ajouter 'attribute_' si absent)
@@ -678,12 +694,12 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
                     error_log("    - Comparaison: JS envoie '{$attr_key}' => '{$attr_value}'");
                     error_log("    - Normalisé en: '{$full_attr_name}'");
                     error_log("    - Attributs dispo dans variation: " . print_r(array_keys($variation_data['attributes']), true));
-                    
+
                     if (isset($variation_data['attributes'][$full_attr_name])) {
                         $variation_attr_value = $variation_data['attributes'][$full_attr_name];
 
                         error_log("    - Valeur WC: '{$variation_attr_value}' vs JS: '{$attr_value}'");
-                        
+
                         // Comparaison flexible : valeur vide = "any"
                         if ($variation_attr_value !== '' && $variation_attr_value != $attr_value) {
                             $matches = false;
@@ -697,16 +713,16 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
                     }
 
                 }
-                
+
                 if ($matches) {
                     $variation_id = $variation_data['variation_id'];
-                    
+
                     // Construire les attributs pour WooCommerce
                     foreach ($sent_attributes as $attr_key => $attr_value) {
                         $full_attr_name = (strpos($attr_key, 'attribute_') === 0) ? $attr_key : 'attribute_' . $attr_key;
                         $variation_attributes[$full_attr_name] = $attr_value;
                     }
-                    
+
                     error_log("SoEasy: ✅ Variation trouvée via JS attributes : #{$variation_id}");
                     break;
                 }
@@ -714,35 +730,35 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
         } else {
             error_log("SoEasy: ⚠️ Aucun attributes JS fourni pour produit #{$product_id}");
         }
-        
+
         // PRIORITÉ 2 : Fallback sur les paramètres globaux en session
         if (!$variation_id) {
             error_log("SoEasy: 🔄 Fallback sur paramètres session");
-            
+
             $duree_engagement = soeasy_get_selected_duree_engagement() ?: '24';
             $mode_financement = soeasy_get_selected_financement() ?: 'comptant';
-            
+
             error_log("SoEasy: Session - engagement={$duree_engagement}, financement={$mode_financement}");
-            
+
             foreach ($available_variations as $variation_data) {
                 $variation_attributes_to_test = array();
-                
+
                 foreach ($variation_data['attributes'] as $attr_name => $attr_value) {
                     $clean_attr_name = str_replace('attribute_', '', $attr_name);
-                    
+
                     switch ($clean_attr_name) {
                         case 'pa_duree-engagement':
                         case 'pa_engagement':
                         case 'duree_engagement':
                             $variation_attributes_to_test[$attr_name] = $duree_engagement;
                             break;
-                            
+
                         case 'pa_financement':
                         case 'pa_mode-financement':
                         case 'mode_financement':
                             $variation_attributes_to_test[$attr_name] = $mode_financement;
                             break;
-                            
+
                         default:
                             if (!empty($attr_value)) {
                                 $variation_attributes_to_test[$attr_name] = $attr_value;
@@ -750,21 +766,23 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
                             break;
                     }
                 }
-                
+
                 $matches = true;
                 foreach ($variation_attributes_to_test as $attr_name => $attr_value) {
-                    if (isset($variation_data['attributes'][$attr_name]) && 
-                        $variation_data['attributes'][$attr_name] !== '' && 
-                        $variation_data['attributes'][$attr_name] !== $attr_value) {
+                    if (
+                        isset($variation_data['attributes'][$attr_name]) &&
+                        $variation_data['attributes'][$attr_name] !== '' &&
+                        $variation_data['attributes'][$attr_name] !== $attr_value
+                    ) {
                         $matches = false;
                         break;
                     }
                 }
-                
+
                 if ($matches) {
                     $variation_id = $variation_data['variation_id'];
                     $variation_attributes = $variation_attributes_to_test;
-                    
+
                     // Récupérer le prix de la variation si pas de prix custom
                     if (empty($produit_data['prixUnitaire'])) {
                         $variation = wc_get_product($variation_id);
@@ -775,19 +793,19 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
                             }
                         }
                     }
-                    
+
                     error_log("SoEasy: ✅ Variation trouvée via session : #{$variation_id}");
                     break;
                 }
             }
         }
-        
+
         // PRIORITÉ 3 : Dernière chance - première variation disponible
         if (!$variation_id) {
             $first_variation = reset($available_variations);
             $variation_id = $first_variation['variation_id'];
             $variation_attributes = $first_variation['attributes'];
-            
+
             error_log("SoEasy: ⚠️ Aucune variation exacte trouvée, utilisation de la première disponible #{$variation_id}");
         }
     }
@@ -797,53 +815,59 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
     }
 
     // === AJOUT AU PANIER ===
-   try {
-    $cart_item_key = WC()->cart->add_to_cart(
-        $product_id,
-        $quantity,
-        $variation_id,
-        $variation_attributes,
-        $cart_item_data
-    );
+    try {
+        $cart_item_key = WC()->cart->add_to_cart(
+            $product_id,
+            $quantity,
+            $variation_id,
+            $variation_attributes,
+            $cart_item_data
+        );
 
-    if ($cart_item_key) {
-        
-        // ✅ NOUVEAU : Appliquer le prix custom immédiatement
-        if (!empty($cart_item_data['soeasy_prix_custom'])) {
-            $cart_contents = WC()->cart->get_cart();
-            if (isset($cart_contents[$cart_item_key])) {
-                $custom_price = floatval($cart_item_data['soeasy_prix_custom']);
-                $cart_contents[$cart_item_key]['data']->set_price($custom_price);
-                error_log("✅ Prix appliqué immédiatement: {$custom_price}€ pour produit #{$product_id}");
+        if ($cart_item_key) {
+
+            // ✅ CORRECTION : Utiliser une référence pour modifier directement
+            if (!empty($cart_item_data['soeasy_prix_custom'])) {
+                $cart = WC()->cart->get_cart();
+
+                // Utiliser une référence avec &
+                foreach ($cart as $key => &$cart_item) {
+                    if ($key === $cart_item_key) {
+                        $custom_price = floatval($cart_item_data['soeasy_prix_custom']);
+                        $cart_item['data']->set_price($custom_price);
+                        error_log("✅ Prix appliqué immédiatement: {$custom_price}€ pour produit #{$product_id}");
+                        break;
+                    }
+                }
+                unset($cart_item); // Important : détruire la référence après la boucle
             }
+
+            $log_msg = "SoEasy: ✅ Ajouté au panier - Produit:{$product_id}";
+            if ($variation_id) {
+                $log_msg .= ", Variation:{$variation_id}";
+            }
+            error_log($log_msg);
+
+            return [
+                'success' => true,
+                'cart_item_key' => $cart_item_key,
+                'variation_id' => $variation_id
+            ];
+        } else {
+            error_log("SoEasy: ❌ Échec ajout panier - Produit #{$product_id}");
+            return [
+                'success' => false,
+                'error' => "Impossible d'ajouter le produit au panier"
+            ];
         }
-        
-        $log_msg = "SoEasy: ✅ Ajouté au panier - Produit:{$product_id}";
-        if ($variation_id) {
-            $log_msg .= ", Variation:{$variation_id}";
-        }
-        error_log($log_msg);
-        
-        return [
-            'success' => true,
-            'cart_item_key' => $cart_item_key,
-            'variation_id' => $variation_id
-        ];
-    } else {
-        error_log("SoEasy: ❌ Échec ajout panier - Produit #{$product_id}");
+
+    } catch (Exception $e) {
+        error_log("SoEasy: 💥 Exception - " . $e->getMessage());
         return [
             'success' => false,
-            'error' => "Impossible d'ajouter le produit au panier"
+            'error' => $e->getMessage()
         ];
     }
-
-} catch (Exception $e) {
-    error_log("SoEasy: 💥 Exception - " . $e->getMessage());
-    return [
-        'success' => false,
-        'error' => $e->getMessage()
-    ];
-}
 }
 
 /**
@@ -876,8 +900,9 @@ function soeasy_display_cart_item_data($cart_item_data, $cart_item)
  */
 add_action('woocommerce_before_calculate_totals', 'soeasy_apply_custom_prices');
 
-function soeasy_apply_custom_prices($cart) {
-    
+function soeasy_apply_custom_prices($cart)
+{
+
     if (is_admin() && !defined('DOING_AJAX'))
         return;
     if (did_action('woocommerce_before_calculate_totals') >= 2)
@@ -899,4 +924,47 @@ function soeasy_apply_custom_prices($cart) {
         }
     }
 }
+
+
+/**
+ * Filtre pour afficher le prix custom dans le panier
+ */
+add_filter('woocommerce_cart_item_price', 'soeasy_display_custom_cart_price', 10, 3);
+
+function soeasy_display_custom_cart_price($price_html, $cart_item, $cart_item_key) {
+    
+    // Si un prix custom existe, l'afficher
+    if (isset($cart_item['soeasy_prix_custom'])) {
+        $custom_price = floatval($cart_item['soeasy_prix_custom']);
+        if ($custom_price > 0) {
+            return wc_price($custom_price);
+        }
+    }
+    
+    // Sinon, retourner le prix normal
+    return $price_html;
+}
+
+/**
+ * Filtre pour afficher le sous-total custom dans le panier (prix × quantité)
+ */
+add_filter('woocommerce_cart_item_subtotal', 'soeasy_display_custom_cart_subtotal', 10, 3);
+
+function soeasy_display_custom_cart_subtotal($subtotal_html, $cart_item, $cart_item_key) {
+    
+    // Si un prix custom existe, calculer le sous-total custom
+    if (isset($cart_item['soeasy_prix_custom'])) {
+        $custom_price = floatval($cart_item['soeasy_prix_custom']);
+        $quantity = intval($cart_item['quantity']);
+        
+        if ($custom_price > 0) {
+            $custom_subtotal = $custom_price * $quantity;
+            return wc_price($custom_subtotal);
+        }
+    }
+    
+    // Sinon, retourner le sous-total normal
+    return $subtotal_html;
+}
+
 ?>
