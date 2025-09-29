@@ -1034,135 +1034,145 @@ jQuery(document).ready(function ($) {
   /**
  * Ajoute les attributs de variation à tous les produits de la config
  */
-function enrichConfigWithVariations(config) {
-  const engagement = getSelectedEngagement();
-  const financement = getSelectedFinancementMode();
-  
-  console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
-  
-  const attributes = {
-    'pa_duree-engagement': String(engagement || '24'),
-    'pa_financement': financement || 'comptant'
-  };
-  
-  console.log('🎯 Attributes à ajouter:', attributes);
-  
-  Object.keys(config).forEach(adresseIndex => {
-    ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
-      if (Array.isArray(config[adresseIndex][section])) {
-        config[adresseIndex][section].forEach(produit => {
-          if (!produit.attributes) {
-            produit.attributes = { ...attributes };
-            console.log(`✅ Attributes ajoutés pour ${produit.nom}`);
-          }
-        });
-      }
+  /**
+ * Ajoute les attributs de variation à tous les produits de la config
+ */
+  function enrichConfigWithVariations(config) {
+    const engagement = getSelectedEngagement();
+    const financement = getSelectedFinancementMode();
+
+    console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
+
+    // ✅ FORMAT CORRECT : ajouter "-mois" sauf pour "sans-engagement"
+    let engagementValue;
+    if (!engagement || engagement === 0 || engagement === '0') {
+      engagementValue = 'sans-engagement';
+    } else {
+      engagementValue = engagement + '-mois';
+    }
+
+    // ✅ Ne pas envoyer pa_financement si le produit ne l'a pas comme attribut
+    const attributes = {
+      'pa_duree-engagement': engagementValue
+    };
+
+    console.log('🎯 Attributes à ajouter:', attributes);
+
+    Object.keys(config).forEach(adresseIndex => {
+      ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
+        if (Array.isArray(config[adresseIndex][section])) {
+          config[adresseIndex][section].forEach(produit => {
+            if (!produit.attributes) {
+              produit.attributes = { ...attributes };
+              console.log(`✅ Attributes ajoutés pour ${produit.nom}: ${engagementValue}`);
+            }
+          });
+        }
+      });
     });
-  });
-  
-  return config;
-}
+
+    return config;
+  }
 
   /**
 * Fonction de validation finale et envoi vers le panier WooCommerce
 * Gère toutes les adresses configurées
 */
-function sendToCart() {
-  console.log('🛒 Début sendToCart()');
+  function sendToCart() {
+    console.log('🛒 Début sendToCart()');
 
-  // 1. Récupération de la configuration
-  let config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-  const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
+    // 1. Récupération de la configuration
+    let config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+    const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
 
-  if (Object.keys(config).length === 0) {
-    showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
-    return false;
-  }
+    if (Object.keys(config).length === 0) {
+      showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
+      return false;
+    }
 
-  console.log('📦 Configuration trouvée:', config);
-  console.log('📍 Adresses:', adresses);
+    console.log('📦 Configuration trouvée:', config);
+    console.log('📍 Adresses:', adresses);
 
-  // ✅ NOUVEAU : ENRICHIR LA CONFIG AVEC LES VARIATIONS
-  config = enrichConfigWithVariations(config);
-  console.log('✨ Configuration enrichie avec variations:', config);
+    // ✅ NOUVEAU : ENRICHIR LA CONFIG AVEC LES VARIATIONS
+    config = enrichConfigWithVariations(config);
+    console.log('✨ Configuration enrichie avec variations:', config);
 
-  // 2. Validation : au moins un produit configuré
-  let hasProducts = false;
-  Object.values(config).forEach(adresseData => {
-    const sections = ['abonnements', 'materiels', 'fraisInstallation'];
-    sections.forEach(section => {
-      if (Array.isArray(adresseData[section]) && adresseData[section].length > 0) {
-        hasProducts = true;
-      }
+    // 2. Validation : au moins un produit configuré
+    let hasProducts = false;
+    Object.values(config).forEach(adresseData => {
+      const sections = ['abonnements', 'materiels', 'fraisInstallation'];
+      sections.forEach(section => {
+        if (Array.isArray(adresseData[section]) && adresseData[section].length > 0) {
+          hasProducts = true;
+        }
+      });
     });
-  });
 
-  if (!hasProducts) {
-    showToastError('Veuillez sélectionner au moins un produit ou service avant de valider.');
-    return false;
-  }
+    if (!hasProducts) {
+      showToastError('Veuillez sélectionner au moins un produit ou service avant de valider.');
+      return false;
+    }
 
-  // 3. Préparation des données pour l'envoi
-  const payload = {
-    action: 'soeasy_ajouter_au_panier_multi',
-    config: config,
-    adresses: adresses,
-    nonce: soeasyVars.nonce_cart
-  };
+    // 3. Préparation des données pour l'envoi
+    const payload = {
+      action: 'soeasy_ajouter_au_panier_multi',
+      config: config,
+      adresses: adresses,
+      nonce: soeasyVars.nonce_cart
+    };
 
-  console.log('📤 Payload envoyé:', payload);
+    console.log('📤 Payload envoyé:', payload);
 
-  // 4. Affichage loading
-  const $btn = jQuery('#btn-commander');
-  const originalText = $btn.text();
-  $btn.prop('disabled', true).text('Ajout au panier...');
+    // 4. Affichage loading
+    const $btn = jQuery('#btn-commander');
+    const originalText = $btn.text();
+    $btn.prop('disabled', true).text('Ajout au panier...');
 
-  // 5. Envoi AJAX
-  return jQuery.post(soeasyVars.ajaxurl, payload)
-    .done(response => {
-      console.log('✅ Réponse serveur:', response);
+    // 5. Envoi AJAX
+    return jQuery.post(soeasyVars.ajaxurl, payload)
+      .done(response => {
+        console.log('✅ Réponse serveur:', response);
 
-      if (response.success) {
-        console.log('🎉 Configuration ajoutée avec succès au panier');
-        $btn.text('Redirection...');
+        if (response.success) {
+          console.log('🎉 Configuration ajoutée avec succès au panier');
+          $btn.text('Redirection...');
 
-        setTimeout(() => {
-          window.location.href = response.data.redirect_url || '/panier';
-        }, 500);
+          setTimeout(() => {
+            window.location.href = response.data.redirect_url || '/panier';
+          }, 500);
 
-      } else {
-        const errorMsg = response.data?.message || 'Erreur lors de l\'ajout au panier.';
-        console.error('❌ Erreur business:', errorMsg);
+        } else {
+          const errorMsg = response.data?.message || 'Erreur lors de l\'ajout au panier.';
+          console.error('❌ Erreur business:', errorMsg);
+          if (typeof showToastError === 'function') {
+            showToastError(errorMsg);
+          } else {
+            alert(errorMsg);
+          }
+          $btn.prop('disabled', false).text(originalText);
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error('💥 Erreur technique:', { xhr, status, error });
+
+        let errorMsg = 'Erreur technique. Veuillez réessayer.';
+
+        if (xhr.responseJSON?.data?.message) {
+          errorMsg = xhr.responseJSON.data.message;
+        } else if (xhr.status === 500) {
+          errorMsg = 'Erreur serveur (500). Vérifiez les logs PHP.';
+        } else if (xhr.status === 0) {
+          errorMsg = 'Problème de connexion. Vérifiez votre réseau.';
+        }
+
         if (typeof showToastError === 'function') {
           showToastError(errorMsg);
         } else {
           alert(errorMsg);
         }
         $btn.prop('disabled', false).text(originalText);
-      }
-    })
-    .fail((xhr, status, error) => {
-      console.error('💥 Erreur technique:', { xhr, status, error });
-
-      let errorMsg = 'Erreur technique. Veuillez réessayer.';
-
-      if (xhr.responseJSON?.data?.message) {
-        errorMsg = xhr.responseJSON.data.message;
-      } else if (xhr.status === 500) {
-        errorMsg = 'Erreur serveur (500). Vérifiez les logs PHP.';
-      } else if (xhr.status === 0) {
-        errorMsg = 'Problème de connexion. Vérifiez votre réseau.';
-      }
-
-      if (typeof showToastError === 'function') {
-        showToastError(errorMsg);
-      } else {
-        alert(errorMsg);
-      }
-      $btn.prop('disabled', false).text(originalText);
-    });
-}
-
+      });
+  }
   /**
    * Affichage des erreurs avec toast Bootstrap
    */
@@ -1198,6 +1208,5 @@ function sendToCart() {
   window.escapeHtml = escapeHtml;
   window.afficherVillesDansOnglets = afficherVillesDansOnglets;
   window.afficherVillesDansSidebar = afficherVillesDansSidebar;
-  window.enrichConfigWithVariations = enrichConfigWithVariations;
 
 });

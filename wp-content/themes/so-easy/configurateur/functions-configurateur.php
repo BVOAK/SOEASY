@@ -572,6 +572,29 @@ function soeasy_ajouter_au_panier_multi(){
 add_action('wp_ajax_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
 add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_panier_multi');
 
+
+/**
+ * FONCTION DE DEBUG TEMPORAIRE - À SUPPRIMER APRÈS
+ */
+function debug_variations_produit($product_id) {
+    $product = wc_get_product($product_id);
+    if (!$product || !$product->is_type('variable')) {
+        return;
+    }
+    
+    /** @var WC_Product_Variable $product */
+    $variations = $product->get_available_variations('array');
+    
+    error_log("=== DEBUG VARIATIONS PRODUIT #{$product_id} ===");
+    foreach ($variations as $var) {
+        error_log("Variation #{$var['variation_id']}:");
+        error_log("  - Attributes: " . print_r($var['attributes'], true));
+        error_log("  - Prix: {$var['display_price']}");
+    }
+    error_log("=== FIN DEBUG ===");
+}
+
+
 /**
  * Fonction helper pour ajouter un produit au panier WC
  */
@@ -616,7 +639,10 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
     if ($product->is_type('variable')) {
         
         // ✅ RÉCUPÉRATION UNIQUE des variations disponibles
+        /** @var WC_Product_Variable $product */
         $available_variations = $product->get_available_variations('array');
+
+        debug_variations_produit($product_id);
         
         if (empty($available_variations)) {
             error_log("SoEasy: ⚠️ Produit #{$product_id} est variable mais n'a aucune variation disponible");
