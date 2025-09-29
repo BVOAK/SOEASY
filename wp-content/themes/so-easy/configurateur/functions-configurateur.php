@@ -536,6 +536,8 @@ function soeasy_ajouter_au_panier_multi(){
     // 5. Résultat final
     if ($produits_ajoutes > 0) {
 
+        WC()->cart->calculate_totals();
+
         // Sauvegarder la config dans la session pour le checkout
         WC()->session->set('soeasy_configuration_complete', [
             'config' => $config,
@@ -629,6 +631,9 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
     // Si prix custom (pour gestion engagement/leasing)
     if (!empty($produit_data['prixUnitaire'])) {
         $cart_item_data['soeasy_prix_custom'] = floatval($produit_data['prixUnitaire']);
+        error_log("💰 Prix custom défini: {$cart_item_data['soeasy_prix_custom']}€ pour produit #{$product_id}");
+    } else {
+        error_log("⚠️ Aucun prix custom pour produit #{$product_id}");
     }
 
     // === GESTION DES PRODUITS VARIABLES ===
@@ -792,44 +797,53 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie) {
     }
 
     // === AJOUT AU PANIER ===
-    try {
-        $cart_item_key = WC()->cart->add_to_cart(
-            $product_id,
-            $quantity,
-            $variation_id,           // 0 pour produit simple
-            $variation_attributes,   // vide pour produit simple
-            $cart_item_data
-        );
+   try {
+    $cart_item_key = WC()->cart->add_to_cart(
+        $product_id,
+        $quantity,
+        $variation_id,
+        $variation_attributes,
+        $cart_item_data
+    );
 
-        if ($cart_item_key) {
-            $log_msg = "SoEasy: ✅ Produit ajouté au panier - ID:{$product_id}";
-            if ($variation_id) {
-                $log_msg .= ", Variation:{$variation_id}";
+    if ($cart_item_key) {
+        
+        // ✅ NOUVEAU : Appliquer le prix custom immédiatement
+        if (!empty($cart_item_data['soeasy_prix_custom'])) {
+            $cart_contents = WC()->cart->get_cart();
+            if (isset($cart_contents[$cart_item_key])) {
+                $custom_price = floatval($cart_item_data['soeasy_prix_custom']);
+                $cart_contents[$cart_item_key]['data']->set_price($custom_price);
+                error_log("✅ Prix appliqué immédiatement: {$custom_price}€ pour produit #{$product_id}");
             }
-            $log_msg .= ", Quantité:{$quantity}";
-            error_log($log_msg);
-            
-            return [
-                'success' => true,
-                'cart_item_key' => $cart_item_key,
-                'variation_id' => $variation_id,
-                'product_id' => $product_id
-            ];
-        } else {
-            error_log("SoEasy: ❌ Échec ajout au panier - Produit #{$product_id}, Variation #{$variation_id}");
-            return [
-                'success' => false,
-                'error' => "Impossible d'ajouter le produit #{$product_id} au panier"
-            ];
         }
-
-    } catch (Exception $e) {
-        error_log("SoEasy: 💥 Exception lors de l'ajout au panier - Produit #{$product_id}: " . $e->getMessage());
+        
+        $log_msg = "SoEasy: ✅ Ajouté au panier - Produit:{$product_id}";
+        if ($variation_id) {
+            $log_msg .= ", Variation:{$variation_id}";
+        }
+        error_log($log_msg);
+        
+        return [
+            'success' => true,
+            'cart_item_key' => $cart_item_key,
+            'variation_id' => $variation_id
+        ];
+    } else {
+        error_log("SoEasy: ❌ Échec ajout panier - Produit #{$product_id}");
         return [
             'success' => false,
-            'error' => "Erreur technique : " . $e->getMessage()
+            'error' => "Impossible d'ajouter le produit au panier"
         ];
     }
+
+} catch (Exception $e) {
+    error_log("SoEasy: 💥 Exception - " . $e->getMessage());
+    return [
+        'success' => false,
+        'error' => $e->getMessage()
+    ];
+}
 }
 
 /**
@@ -862,20 +876,26 @@ function soeasy_display_cart_item_data($cart_item_data, $cart_item)
  */
 add_action('woocommerce_before_calculate_totals', 'soeasy_apply_custom_prices');
 
-function soeasy_apply_custom_prices($cart)
-{
-
+function soeasy_apply_custom_prices($cart) {
+    
     if (is_admin() && !defined('DOING_AJAX'))
         return;
     if (did_action('woocommerce_before_calculate_totals') >= 2)
         return;
 
-    foreach ($cart->get_cart() as $cart_item) {
+    error_log("🔄 soeasy_apply_custom_prices() appelé");
+
+    foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
         if (isset($cart_item['soeasy_prix_custom'])) {
             $custom_price = floatval($cart_item['soeasy_prix_custom']);
             if ($custom_price > 0) {
                 $cart_item['data']->set_price($custom_price);
+                error_log("✅ Prix appliqué: {$custom_price}€ pour produit #{$cart_item['product_id']}");
+            } else {
+                error_log("⚠️ Prix custom = 0 pour produit #{$cart_item['product_id']}");
             }
+        } else {
+            error_log("ℹ️ Pas de prix custom pour produit #{$cart_item['product_id']}");
         }
     }
 }
