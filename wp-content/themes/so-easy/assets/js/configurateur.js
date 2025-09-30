@@ -166,6 +166,7 @@ jQuery(document).ready(function ($) {
         updatePrixProduits();
         updateSidebarProduitsRecap();
         updateSidebarTotauxRecap();
+        initBootstrapTooltips();
 
         if (parseInt(step) === 6) {
           updateRecapitulatif();

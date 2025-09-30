@@ -92,5 +92,17 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px
+  gap: 40px
+}
+
+.item-product .price, .item-product .product-title {
+  font-size: 1.2rem;
+  color: var(--se-violet);
+  font-weight: bold;
+  margin: 0;
+}
+
+.item-product .img-responsive {
+  max-width: 100px;
+  padding: 10px;
 }

@@ -16,9 +16,6 @@ $adresses = soeasy_get_adresses_configurateur();
 ?>
 
 <div class="config-step step-2 container py-4">
-
-  <?php get_template_part('configurateur/header'); ?>
-
   <h2 class="mb-4">2. Choix de la connexion Internet</h2>
 
   <?php if (!empty($adresses)): ?>
@@ -39,8 +36,8 @@ $adresses = soeasy_get_adresses_configurateur();
 
           <!-- FORFAIT INTERNET PRINCIPAL -->
           <div class="card item-list-product">
-            <div class="card-body p-4">
-              <h5 class="mt-4 card-title">Forfait Internet</h5>
+            <div class="card-body p-5">
+              <h5 class="mb-3 card-title">1. Forfait Internet</h5>
               <div class="row p-0 gap-3">
                 <?php
                 $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
@@ -65,7 +62,7 @@ $adresses = soeasy_get_adresses_configurateur();
                   $data_attrs = '';
                   $prix_affiche = 0;
 
-                  $infos = get_field("tooltip-infos");
+                  $infos = get_field( "tooltip-infos");
 
                   foreach ($variations as $variation) {
                     $attr = $variation['attributes']['attribute_pa_duree-dengagement'] ?? '';
@@ -82,121 +79,157 @@ $adresses = soeasy_get_adresses_configurateur();
                   $checked = isset($forfaits[$i]) && $forfaits[$i] == $product_id ? 'checked' : '';
 
                   ?>
-                  <div class="item-product">
-                    <div class="col">
-                      <div class="checkbox-wrapper">
-                          <?php
-                              $equipements_json = htmlspecialchars(json_encode($equipements_ids), ENT_QUOTES, 'UTF-8');
-                              $secours_json = htmlspecialchars(json_encode($forfaits_secours_ids), ENT_QUOTES, 'UTF-8');
-                              ?>
-                          <input type="checkbox"
-                              id="forfait_internet_<?= $product_id; ?>"
-                              name="forfait_internet_<?= $i; ?>"
-                              value="<?= $product_id; ?>"
-                              class="me-2 forfait-internet-checkbox inp-cbx"
-                              data-id="<?= $product_id; ?>"
-                              data-index="<?= $i; ?>"
-                              data-equipements='<?= $equipements_json ?>'
-                              data-secours='<?= $secours_json ?>'
-                              <?= $data_attrs ?> 
-                              style="display: none;"
-                              />
-                              <label class="cbx" for="forfait_internet_<?= $product_id; ?>">
-                              <span>
-                                <svg width="12px" height="9px" viewbox="0 0 12 9">
-                                  <polyline points="1 5 4 8 11 1"></polyline>
-                                </svg>
-                              </span>
-                              <strong><?php the_title(); ?></strong>
-                            </label>
+                  <label class="item-product">
+                    <div class="col checkbox-wrapper">
+                      <?php
+                      $equipements_json = htmlspecialchars(json_encode($equipements_ids), ENT_QUOTES, 'UTF-8');
+                      $secours_json = htmlspecialchars(json_encode($forfaits_secours_ids), ENT_QUOTES, 'UTF-8');
+                      ?>
+                      <input type="checkbox" name="forfait_internet_<?= $i; ?>" value="<?= $product_id; ?>"
+                        class="me-2 forfait-internet-checkbox inp-cbx" data-id="<?= $product_id; ?>" data-index="<?= $i; ?>"
+                        data-equipements='<?= $equipements_json ?>' data-secours='<?= $secours_json ?>' <?= $data_attrs ?>
+                        style="display: none;" />
+                      <div class="cbx">
+                        <span>
+                          <svg width="12px" height="9px" viewbox="0 0 12 9">
+                            <polyline points="1 5 4 8 11 1"></polyline>
+                          </svg>
+                        </span>
                       </div>
+                      <h3 class="product-title"><?php the_title(); ?></h3> 
                     </div>
                     <span class="text-muted col"><?php echo get_the_excerpt(); ?></span>
                     <div class="col bloc-price-end">
-                      <div class="fw-bold mt-2 prix-affiche" data-unit="<?php echo esc_attr($prix_affiche); ?>">
+                      <div class="prix-affiche price" data-unit="<?php echo esc_attr($prix_affiche); ?>">
                         <?php echo wc_price($prix_affiche); ?> / mois
                       </div>
-                      <?php if($infos) : ?>
-                      <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="<?php echo $infos ?>">
-                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/info.svg" />
-                      </div>
+                      <?php if ($infos): ?>
+                        <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip" data-bs-title="<?php echo $infos ?>">
+                          <img src="<?php echo get_template_directory_uri() ?>/assets/img/info.svg" />
+                        </div>
                       <?php endif ?>
                     </div>
-                  </div>
+                  </label>
                 <?php endwhile;
                 wp_reset_postdata(); ?>
               </div>
             </div>
-          </div> 
+          </div>
+
 
           <!-- FORFAIT INTERNET DE SECOURS (caché par défaut) -->
-          <div class="bloc-secours d-none mt-5">
-            <h5 class="mb-3">Connexion de secours</h5>
-            <div class="row gy-3">
-              <?php
-              $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
-              $loop = new WP_Query($args);
-              while ($loop->have_posts()):
-                $loop->the_post();
-                $product = wc_get_product(get_the_ID());
-                $product_id = $product->get_id();
-                $prix = floatval($product->get_price());
-                ?>
-                <div class="col-md-6 forfait-secours" data-secours-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
-                  <label class="border p-3 d-block rounded shadow-sm h-100">
-                    <input type="checkbox" name="forfait_secours_<?php echo $i; ?>[]" value="<?= $product_id; ?>"
-                      class="me-2 forfait-secours-checkbox" data-index="<?php echo $i; ?>">
-                    <strong><?php the_title(); ?></strong><br>
-                    <span class="text-muted"><?php echo get_the_excerpt(); ?></span><br>
-                    <span class="fw-bold"><?php echo wc_price($prix); ?> / mois</span>
+          <div class="card item-list-product mt-4 bloc-secours d-none">
+            <div class="card-body p-5">
+              <h5 class="mb-3 card-title">2. Connexion de secours</h5>
+              <div class="row p-0 gap-3">
+                <?php
+                $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
+                $loop = new WP_Query($args);
+                while ($loop->have_posts()):
+                  $loop->the_post();
+                  $product = wc_get_product(get_the_ID());
+                  $product_id = $product->get_id();
+                  $prix = floatval($product->get_price());
+
+                  $infos = get_field( "tooltip-infos");
+                  ?>
+                  <label class="item-product forfait-secours" data-secours-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
+                    <div class="col checkbox-wrapper">
+                      <input type="checkbox" name="forfait_secours_<?php echo $i; ?>[]" value="<?= $product_id; ?>"
+                        class="me-2 forfait-secours-checkbox inp-cbx" data-index="<?php echo $i; ?>" style="display: none;" />
+                      <div class="cbx">
+                        <span>
+                          <svg width="12px" height="9px" viewbox="0 0 12 9">
+                            <polyline points="1 5 4 8 11 1"></polyline>
+                          </svg>
+                        </span>
+                      </div>
+                      <h3 class="product-title"><?php the_title(); ?></h3> 
+                    </div>
+                    <span class="text-muted col"><?php echo get_the_excerpt(); ?></span>
+                    <div class="col bloc-price-end">
+                      <div class="prix-affiche price" data-unit="<?php echo esc_attr($prix_affiche); ?>">
+                        <?php echo wc_price($prix_affiche); ?> / mois
+                      </div>
+                      <?php if ($infos): ?>
+                        <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip" data-bs-title="<?php echo $infos ?>">
+                          <img src="<?php echo get_template_directory_uri() ?>/assets/img/info.svg" />
+                        </div>
+                      <?php endif ?>
+                    </div>
                   </label>
-                </div>
-              <?php endwhile;
-              wp_reset_postdata(); ?>
+                <?php endwhile;
+                wp_reset_postdata(); ?>
+              </div>
             </div>
           </div>
 
+
           <!-- MATÉRIEL INTERNET (caché par défaut) -->
-          <div class="bloc-equipements d-none mt-5">
-            <h5 class="mb-3">Matériel Internet</h5>
-            <div class="row gy-3">
-              <?php
-              $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'internet-routeurs'];
-              $loop = new WP_Query($args);
-              while ($loop->have_posts()):
-                $loop->the_post();
-                $product = wc_get_product(get_the_ID());
-                $product_id = $product->get_id();
+          <div class="card item-list-product mt-4 bloc-equipements d-none">
+            <div class="card-body p-5">
+              <h5 class="mb-3 card-title">3. Matériel Internet</h5>
+              <div class="row p-0 gap-3">
+                <?php
+                $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'internet-routeurs'];
+                $loop = new WP_Query($args);
+                while ($loop->have_posts()):
+                  $loop->the_post();
+                  $product = wc_get_product(get_the_ID());
+                  $product_id = $product->get_id();
 
-                $obligatoire = get_field('obligatoire', $product_id) === true;
+                  $obligatoire = get_field('obligatoire', $product_id) === true;
 
-                $prix_comptant = floatval($product->get_regular_price());
-                $prix_leasing_map = [];
-                foreach ([0, 24, 36, 48, 63] as $d) {
-                  $prix_leasing_map[$d] = floatval(get_field("prix_leasing_$d", $product_id)) ?: 0;
-                }
+                  $prix_comptant = floatval($product->get_regular_price());
+                  $prix_leasing_map = [];
+                  foreach ([0, 24, 36, 48, 63] as $d) {
+                    $prix_leasing_map[$d] = floatval(get_field("prix_leasing_$d", $product_id)) ?: 0;
+                  }
 
-                $prix = ($mode === 'leasing') ? ($prix_leasing_map[$duree] ?? $prix_leasing_map[0]) : $prix_comptant;
-                $is_selected = isset($equipements[$i]) && in_array($product_id, $equipements[$i]);
-                $checked = $is_selected ? 'checked' : '';
-                ?>
-                <div class="col-md-6 equipement" data-equipement-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
-                  <label class="border p-3 d-block rounded shadow-sm h-100"
-                    data-prix-comptant="<?php echo esc_attr($prix_comptant); ?>" <?php foreach ([0, 24, 36, 48, 63] as $d): ?>
-                      data-prix-leasing-<?php echo $d; ?>="<?php echo esc_attr($prix_leasing_map[$d]); ?>" <?php endforeach; ?>>
-                    <input type="checkbox" name="equipement_<?php echo $i; ?>[]" value="<?php echo $product_id; ?>"
-                      class="me-2 equipement-checkbox" data-index="<?php echo $i; ?>" data-id="<?= $product_id; ?>"
-                      <?php echo $checked; ?>       <?php if ($obligatoire): ?>checked disabled data-obligatoire="1" <?php endif; ?>>
-                    <strong><?php the_title(); ?></strong><br>
-                    <span class="text-muted"><?php echo get_the_excerpt(); ?></span><br>
-                    <span class="fw-bold d-block prix-affiche" data-unit="<?php echo esc_attr($prix); ?>"
-                      data-type="equipement">
-                      <?php echo wc_price($prix) . ($mode === 'leasing' ? ' / mois' : ''); ?>
-                    </span>
+                  $prix = ($mode === 'leasing') ? ($prix_leasing_map[$duree] ?? $prix_leasing_map[0]) : $prix_comptant;
+                  $is_selected = isset($equipements[$i]) && in_array($product_id, $equipements[$i]);
+                  $checked = $is_selected ? 'checked' : '';
+
+                  $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), 'single-post-thumbnail' );
+                  $infos = get_field( "tooltip-infos");
+                  ?>
+                  <div class="equipement" data-equipement-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
+                    <label class="item-product" data-prix-comptant="<?php echo esc_attr($prix_comptant); ?>" 
+                      <?php foreach ([0, 24, 36, 48, 63] as $d): ?>data-prix-leasing-<?php echo $d; ?>="<?php echo esc_attr($prix_leasing_map[$d]); ?>"<?php endforeach; ?>>
+                      <div class="col checkbox-wrapper">
+                        <input type="checkbox" name="equipement_<?php echo $i; ?>[]" value="<?php echo $product_id; ?>"
+                          class="me-2 equipement-checkbox inp-cbx" data-index="<?php echo $i; ?>" data-id="<?= $product_id; ?>"
+                          <?php echo $checked; ?> <?php if ($obligatoire): ?>checked disabled data-obligatoire="1" <?php endif; ?> style="display: none;" />
+                        <div class="cbx">
+                          <span>
+                            <svg width="12px" height="9px" viewbox="0 0 12 9">
+                              <polyline points="1 5 4 8 11 1"></polyline>
+                            </svg>
+                          </span>
+                        </div> 
+                        <img src="<?php echo $image[0]; ?>" data-id="<?php echo $product_id; ?>" class="img-responsive" alt="<?php echo get_the_excerpt(); ?>">
+                        <div>
+                          <h3 class="product-title"><?php the_title(); ?></h3>
+                          <span class="text-muted"><?php echo get_the_excerpt(); ?></span>  
+                        </div>
+                      </div>
+                    <div class="col-md-3 bloc-price-end">
+                        <div class="fw-bold d-block prix-affiche price" data-unit="<?php echo esc_attr($prix); ?>" data-type="equipement">
+                          <?php echo wc_price($prix) . ($mode === 'leasing' ? ' / mois' : ''); ?>
+                        </div>
+                        <?php if($infos) : ?>
+                          <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="<?php echo $infos ?>">
+                            <img src="<?php echo get_template_directory_uri() ?>/assets/img/info.svg" />
+                          </div>
+                        <?php endif ?>
+                    </div>  
                   </label>
-                </div>
-              <?php endwhile;
-              wp_reset_postdata(); ?>
+                  </div>
+                <?php endwhile;
+                wp_reset_postdata(); ?>
+              </div>
             </div>
           </div>
 
@@ -210,86 +243,88 @@ $adresses = soeasy_get_adresses_configurateur();
     </div>
 
     <?php
-$produits_equipements = wc_get_products([
-  'status' => 'publish',
-  'limit' => -1,
-  'type' => 'simple',
-  'category' => ['internet-routeurs'],
-]);
+    $produits_equipements = wc_get_products([
+      'status' => 'publish',
+      'limit' => -1,
+      'type' => 'simple',
+      'category' => ['internet-routeurs'],
+    ]);
 
-// 1. Compter les frais globalement par ID
-$frais_global = [];
+    // 1. Compter les frais globalement par ID
+    $frais_global = [];
 
-foreach ($produits_equipements as $produit) {
-  $equipement_id = $produit->get_id();
-  $frais_associes = get_field('frais_installation_associes', $equipement_id);
+    foreach ($produits_equipements as $produit) {
+      $equipement_id = $produit->get_id();
+      $frais_associes = get_field('frais_installation_associes', $equipement_id);
 
-  if (!empty($frais_associes)) {
-    foreach ($frais_associes as $frais) {
-      $product_frais = null;
+      if (!empty($frais_associes)) {
+        foreach ($frais_associes as $frais) {
+          $product_frais = null;
 
-      if (is_numeric($frais)) {
-        $product_frais = wc_get_product((int) $frais);
-      } elseif ($frais instanceof WP_Post) {
-        $product_frais = wc_get_product($frais->ID);
-      } elseif ($frais instanceof WC_Product) {
-        $product_frais = $frais;
-      }
+          if (is_numeric($frais)) {
+            $product_frais = wc_get_product((int) $frais);
+          } elseif ($frais instanceof WP_Post) {
+            $product_frais = wc_get_product($frais->ID);
+          } elseif ($frais instanceof WC_Product) {
+            $product_frais = $frais;
+          }
 
-      if (!$product_frais) continue;
+          if (!$product_frais)
+            continue;
 
-      $frais_id = $product_frais->get_id();
+          $frais_id = $product_frais->get_id();
 
-      if (!isset($frais_global[$frais_id])) {
-        $frais_global[$frais_id] = [
-          'id' => $frais_id,
-          'nom' => $product_frais->get_title(),
-          'quantite' => 1,
-          'prixComptant' => (float) $product_frais->get_regular_price(),
-          'prixLeasing24' => (float) get_field('prix_leasing_24', $frais_id) ?: 0,
-          'prixLeasing36' => (float) get_field('prix_leasing_36', $frais_id) ?: 0,
-          'prixLeasing48' => (float) get_field('prix_leasing_48', $frais_id) ?: 0,
-          'prixLeasing63' => (float) get_field('prix_leasing_63', $frais_id) ?: 0
-        ];
-      } else {
-        $frais_global[$frais_id]['quantite'] += 1;
+          if (!isset($frais_global[$frais_id])) {
+            $frais_global[$frais_id] = [
+              'id' => $frais_id,
+              'nom' => $product_frais->get_title(),
+              'quantite' => 1,
+              'prixComptant' => (float) $product_frais->get_regular_price(),
+              'prixLeasing24' => (float) get_field('prix_leasing_24', $frais_id) ?: 0,
+              'prixLeasing36' => (float) get_field('prix_leasing_36', $frais_id) ?: 0,
+              'prixLeasing48' => (float) get_field('prix_leasing_48', $frais_id) ?: 0,
+              'prixLeasing63' => (float) get_field('prix_leasing_63', $frais_id) ?: 0
+            ];
+          } else {
+            $frais_global[$frais_id]['quantite'] += 1;
+          }
+        }
       }
     }
-  }
-}
 
-// 2. Appliquer les mêmes frais cumulés à tous les équipements (clé par ID d'équipement)
-$frais_js = [];
-foreach ($produits_equipements as $produit) {
-  $equipement_id = $produit->get_id();
-  $frais_associes = get_field('frais_installation_associes', $equipement_id);
+    // 2. Appliquer les mêmes frais cumulés à tous les équipements (clé par ID d'équipement)
+    $frais_js = [];
+    foreach ($produits_equipements as $produit) {
+      $equipement_id = $produit->get_id();
+      $frais_associes = get_field('frais_installation_associes', $equipement_id);
 
-  if (!empty($frais_associes)) {
-    foreach ($frais_associes as $frais) {
-      $product_frais = is_numeric($frais) ? wc_get_product((int) $frais) :
-                        ($frais instanceof WP_Post ? wc_get_product($frais->ID) :
-                        ($frais instanceof WC_Product ? $frais : null));
+      if (!empty($frais_associes)) {
+        foreach ($frais_associes as $frais) {
+          $product_frais = is_numeric($frais) ? wc_get_product((int) $frais) :
+            ($frais instanceof WP_Post ? wc_get_product($frais->ID) :
+              ($frais instanceof WC_Product ? $frais : null));
 
-      if (!$product_frais) continue;
+          if (!$product_frais)
+            continue;
 
-      $frais_js[$equipement_id][] = [
-        'id' => $product_frais->get_id(),
-        'nom' => $product_frais->get_title(),
-        'quantite' => 1,
-        'prixComptant' => (float) $product_frais->get_regular_price(),
-        'prixLeasing24' => (float) get_field('prix_leasing_24', $product_frais->get_id()) ?: 0,
-        'prixLeasing36' => (float) get_field('prix_leasing_36', $product_frais->get_id()) ?: 0,
-        'prixLeasing48' => (float) get_field('prix_leasing_48', $product_frais->get_id()) ?: 0,
-        'prixLeasing63' => (float) get_field('prix_leasing_63', $product_frais->get_id()) ?: 0
-      ];
+          $frais_js[$equipement_id][] = [
+            'id' => $product_frais->get_id(),
+            'nom' => $product_frais->get_title(),
+            'quantite' => 1,
+            'prixComptant' => (float) $product_frais->get_regular_price(),
+            'prixLeasing24' => (float) get_field('prix_leasing_24', $product_frais->get_id()) ?: 0,
+            'prixLeasing36' => (float) get_field('prix_leasing_36', $product_frais->get_id()) ?: 0,
+            'prixLeasing48' => (float) get_field('prix_leasing_48', $product_frais->get_id()) ?: 0,
+            'prixLeasing63' => (float) get_field('prix_leasing_63', $product_frais->get_id()) ?: 0
+          ];
+        }
+      }
     }
-  }
-}
-?>
+    ?>
 
-<script>
-  window.fraisInstallationInternetParProduit = <?= json_encode($frais_js, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
-</script>
+    <script>
+      window.fraisInstallationInternetParProduit = <?= json_encode($frais_js, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+    </script>
 
 
 
