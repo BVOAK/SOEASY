@@ -710,7 +710,7 @@ jQuery(document).ready(function ($) {
       const frais = config.fraisInstallation || [];
 
       const $accordion = $(`
-        <div class="accordion mb-3" id="accordion-${index}">
+        <div class="accordion mb-2" id="accordion-${index}">
           <div class="accordion-item">
             <h2 class="accordion-header" id="sidebar-heading-${index}">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -720,16 +720,12 @@ jQuery(document).ready(function ($) {
             </h2>
             <div id="sidebar-collapse-${index}" class="accordion-collapse collapse" aria-labelledby="heading-${index}">
               <div class="accordion-body">
-  
-                <h6 class="mt-2">Abonnements</h6>
+                <h6 class="mt-0 mb-1">Abonnements</h6>
                 <ul class="list-unstyled small recap-abonnements"></ul>
-  
-                <h6 class="mt-3">Équipements</h6>
+                <h6 class="mt-2 mb-1">Équipements</h6>
                 <ul class="list-unstyled small recap-materiels"></ul>
-
-                <h6 class="mt-3">Frais d'installation</h6>
-                <ul class="list-unstyled small recap-frais-installation"></ul>
-  
+                <h6 class="mt-2 mb-1">Frais d'installation</h6>
+                <ul class="list-unstyled small recap-frais-installation m-0"></ul>
               </div>
             </div>
           </div>
@@ -815,16 +811,16 @@ jQuery(document).ready(function ($) {
     if (mode === 'leasing') {
       const totalMensuel = totalAbonnement + totalMensuelLeasing;
       $container.append(`
-        <div class="fw-bold mb-1">Abonnement + Leasing : ${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</div>
+        <div class="fw-bold mb-1 d-flex justify-content-between align-items-center"><small class="col">Abonnement + Leasing :</small> <span class="col">${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</span></div>
         <div class="text-muted small">
-        ou abonnements : ${totalAbonnement.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois<br>
+        ou abonnements : ${totalAbonnement.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois<br />
         + équipements : ${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €
       </div>
       `);
     } else {
       $container.append(`
-        <div class="fw-bold mb-1">Abonnements mensuels : ${totalAbonnement.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</div>
-        <div class="fw-bold mb-1">Équipements : ${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</div>
+        <div class="fw-bold mb-1 d-flex justify-content-between align-items-center"><small class="col">Abonnements mensuels :</small> <span>${totalAbonnement.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</span></div>
+        <div class="fw-bold mb-1 d-flex justify-content-between align-items-center"><small class="col">Équipements :</small> <span>${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span></div>
         <div class="text-muted small">ou abonnements + leasing : ${(totalAbonnement + totalMensuelLeasing).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</div>
       `);
     }
@@ -920,8 +916,9 @@ jQuery(document).ready(function ($) {
     }
 
     return `
-    <div class="border p-4 rounded shadow-sm mb-4">
-      <h5 class="mb-3">Adresse : ${adresseTexte}</h5>
+    <div class="card item-list-product mb-3">
+      <div class="card-body p-5">
+      <h5 class="mb-3 card-title">Adresse : ${adresseTexte}</h5>
       
       ${fraisInstallation.length > 0 ? `
         <ul class="list-group frais-installation-list" data-index="${index}">
@@ -938,11 +935,12 @@ jQuery(document).ready(function ($) {
               Reporter ces frais d'installation
             </label>
           </div>
-          <strong class="frais-total" data-index="${index}">0 €</strong>
+          <strong class="frais-total badge bg-primary" data-index="${index}">0 €</strong>
         </div>
       ` : `
         <div class="alert alert-info">Aucun frais d'installation pour cette adresse.</div>
       `}
+    </div>
     </div>
   `;
   }
@@ -974,10 +972,11 @@ jQuery(document).ready(function ($) {
     const suffix = mode === 'leasing' ? ' / mois' : '';
 
     return `
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <div class="form-check">
-        <input class="form-check-input frais-checkbox" 
-               type="checkbox" 
+    <li class="list-group-item d-flex justify-content-between align-items-center p-3 item-frais">
+      <div class="form-check checkbox-wrapper p-0">
+        <input class="form-check-input frais-checkbox inp-cbx" 
+               type="checkbox"
+               id="frais-checkbox-${frais.id}"
                data-index="${index}"
                data-id="${frais.id}"
                data-quantite="${quantite}"
@@ -988,13 +987,20 @@ jQuery(document).ready(function ($) {
                data-prix-leasing-36="${frais.prixLeasing36 || 0}"
                data-prix-leasing-48="${frais.prixLeasing48 || 0}"
                data-prix-leasing-63="${frais.prixLeasing63 || 0}"
-               checked>
-        <label class="form-check-label">
-          ${escapeHtml(frais.nom || 'Frais d\'installation')}
-          ${quantite > 1 ? ` <span class="text-muted">(×${quantite})</span>` : ''}
+               checked style="display: none;" />
+        <label class="cbx" for="frais-checkbox-${frais.id}">
+          <span>
+            <svg width="12px" height="9px" viewbox="0 0 12 9">
+              <polyline points="1 5 4 8 11 1"></polyline>
+            </svg>
+          </span>
+          <div>
+            ${escapeHtml(frais.nom || 'Frais d\'installation')}
+            ${quantite > 1 ? ` <small class="text-muted">(×${quantite})</small>` : ''}
+          </div>
         </label>
       </div>
-      <span class="badge bg-primary fs-6" data-prix-affiche="${prixTotal}">
+      <span class="price badge fs-6" data-prix-affiche="${prixTotal}">
         ${prixFormate} €${suffix}
       </span>
     </li>
@@ -1031,9 +1037,6 @@ jQuery(document).ready(function ($) {
   }
 
 
-  /**
- * Ajoute les attributs de variation à tous les produits de la config
- */
   /**
  * Ajoute les attributs de variation à tous les produits de la config
  */

@@ -7,15 +7,13 @@ get_header();
 
 ?>
 
-<div class="configurateur-wrapper container-fluid py-5" data-current-step="1">
+<div class="configurateur-wrapper container-fluid " data-current-step="1">
 	
-
 	<!-- Colonne gauche (étapes) + colonne droite (récapitulatif) -->
-	<div class="row">
-		<div class="col-lg-9" id="config-step-content">
+	<div class="row justify-content-around">
+		<div class="py-4" id="config-step-content">
 			<?php get_template_part('configurateur/step', '1-adresses'); ?>
 		</div>
-
 		<?php get_template_part('configurateur/sidebar-recap'); ?>
 	</div>
 </div>

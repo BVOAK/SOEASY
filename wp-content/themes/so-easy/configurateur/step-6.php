@@ -14,7 +14,21 @@ $mode = soeasy_get_selected_financement();
 ?>
 
 <div class="config-step step-6 container py-4">
-  <h2 class="mb-4">5. Récapitulatif de votre configuration</h2>
+
+  <div class="header-configurateur">
+    <?php get_template_part('configurateur/header'); ?>
+
+    <ul class="config-steps nav nav-pills justify-content-center py-5">
+      <li class="nav-item"><a class="nav-link completed" data-step="1" href="#">1. Adresses</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="2" href="#">2. Internet</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="3" href="#">3. Téléphone mobile</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="4" href="#">4. Téléphonie fixe</a></li>
+      <li class="nav-item"><span class="nav-link completed">5. Frais d'installation</span></li>
+      <li class="nav-item"><span class="nav-link active">6. Récapitulatif</span></li>
+    </ul>
+
+    <h2 class="mb-4 title-step"><span>6</span> Récapitulatif de votre configuration</h2>
+  </div>
 
   <?php if (!empty($adresses)) : ?>
     <div class="accordion">
@@ -28,16 +42,16 @@ $mode = soeasy_get_selected_financement();
           <div id="collapse-<?php echo $i; ?>" class="accordion-collapse collapse <?php echo $i === 0 ? 'show' : ''; ?>" aria-labelledby="heading-<?php echo $i; ?>">
             <div class="accordion-body">
 
-              <div class="recap-abonnements mb-4">
+              <div class="recap-abonnements mb-2">
                 <h5>Abonnements</h5>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Produit</th>
-                        <th>Quantité</th>
-                        <th>Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                        <th>Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
+                        <th class="colProduct">Produit</th>
+                        <th class="colQty">Quantité</th>
+                        <th class="colPrice">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
+                        <th class="colPrice">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -47,16 +61,16 @@ $mode = soeasy_get_selected_financement();
                 </div>
               </div>
 
-              <div class="recap-materiels mb-4">
+              <div class="recap-materiels mb-2">
                 <h5>Matériels & Accessoires</h5>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Produit</th>
-                        <th>Quantité</th>
-                        <th class="th-prix-unitaire">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                        <th class="th-prix-total">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
+                        <th class="colProduct">Produit</th>
+                        <th class="colQty">Quantité</th>
+                        <th class="th-prix-unitaire colPrice">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
+                        <th class="th-prix-total colPrice">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -66,16 +80,16 @@ $mode = soeasy_get_selected_financement();
                 </div>
               </div>
 
-              <div class="recap-installations mb-4">
+              <div class="recap-installations mb-1">
                 <h5>Frais de mise en service / Installation</h5>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Produit</th>
-                        <th>Quantité</th>
-                        <th class="th-prix-unitaire">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                        <th class="th-prix-total">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
+                        <th class="colProduct">Produit</th>
+                        <th class="colQty">Quantité</th>
+                        <th class="th-prix-unitaire colPrice">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
+                        <th class="th-prix-total colPrice">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -84,26 +98,6 @@ $mode = soeasy_get_selected_financement();
                   </table>
                 </div>
               </div>
-
-
-              <?php /*<div class="recap-installations mb-4">
-                <h5>Frais de mise en service / Installation</h5>
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Service</th>
-                        <th>Quantité</th>
-                        <th class="th-prix-unitaire">Prix unitaire</th>
-                        <th class="th-prix-total">Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- À remplir dynamiquement via JS -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>*/ ?>
 
             </div>
           </div>
@@ -111,10 +105,10 @@ $mode = soeasy_get_selected_financement();
       <?php endforeach; ?>
     </div>
 
-    <div class="recap-global mt-5">
-      <div class="mt-4 d-flex flex-column flex-md-row justify-content-between gap-2">
-        <button class="btn btn-outline-secondary btn-precedent" data-step="5">← Étape précédente</button>
-        <button id="btn-commander" class="btn btn-success">Valider ma configuration</button>
+    <div class="recap-global mt-3">
+      <div class="d-flex flex-column flex-md-row justify-content-between gap-2" id="footer-buttons">
+        <button class="btn btn-outline-secondary btn-precedent" data-step="5">Étape précédente</button>
+        <button id="btn-commander" class="btn btn-primary btn-success"><img src="<?php echo get_template_directory_uri() ?>/assets/img/shopping-cart.svg" /> Valider ma configuration</button>
       </div>
     </div>
   <?php else : ?>

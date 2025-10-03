@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-07-15 18:36:32+0000\n"
+"PO-Revision-Date: 2025-08-27 11:55:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -119,7 +119,7 @@ msgstr "Retour aux réglages"
 
 #: views/config.php:268
 msgid "Subscription type"
-msgstr "Type d’Abonnement"
+msgstr "Type d’abonnement"
 
 #: views/config.php:232
 msgid "To help your site with transparency under privacy laws like the GDPR, Akismet can display a notice to your users under your comment forms."

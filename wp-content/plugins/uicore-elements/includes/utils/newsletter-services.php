@@ -150,6 +150,11 @@ class Newsletter_Services
             'updateEnabled' => true
         ];
 
+        // Brevo doesn't accepts empty attributes object
+        if (empty($body['attributes'])) {
+            unset($body['attributes']);
+        }
+
         $result = $this->submit('https://api.brevo.com/v3/contacts', $this->headers, $body);
         return $result;
     }

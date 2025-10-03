@@ -1,6 +1,7 @@
 /******* VARIABLES *******/
 :root {
   --se-violet: #28004f;
+    --se-violet-clair: #761dbc;
   --se-mauve: #d9a9fb;
   --se-mauve-clair: #f2e5ff;
   --se-orange: #f6921e;
@@ -8,6 +9,15 @@
   --se-gris-clair: #e5e5e5;
   --se-bleu: #3fa8f4;
   /*var(--se-violet);*/
+}
+
+.form-select, .form-control[type="text"] {
+    border-radius: 50px;
+    border: 2px solid var(--se-mauve);
+}
+
+.btn-primary {
+    border-radius: 50px!important;
 }
 
 .checkbox-wrapper { 
@@ -104,6 +114,16 @@
 @keyframes check-anim {
     50% {
         transform: scale(1.2);
+    }
+}
+
+@media (max-width: 767px) { 
+    .checkbox-wrapper .cbx {
+        flex-direction: column;
+        text-align: center;
+    }
+    .checkbox-wrapper .cbx span:first-child {
+        display: none;
     }
 }
 

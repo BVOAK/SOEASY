@@ -75,11 +75,15 @@ class Helper
         return $category;
     }
 
-    static function get_custom_meta($name)
+    static function get_custom_meta($name, $product_id = null)
     {
-        global $post;
-
-        $meta = get_post_meta($post->ID, $name, true);
+        if (isset($product_id)) {
+            $product = wc_get_product($product_id);
+            $meta = $product->get_meta($name);
+        } else {
+            global $post;
+            $meta = get_post_meta($post->ID, $name, true);
+        }
 
         // If is an array means meta is not valid since we are expecting a single value string
         if (! $meta || is_array($meta)) {
@@ -273,11 +277,12 @@ class Helper
      *
      * @param mixed  $raw_tag  The HTML tag to sanitize.
      * @param string $default  Default HTML value to fallback to in case an invalid tag is passed. Default is 'h3'.
+     * @param bool   $spacing  Whether to add a trailing space after the tag. Default is false.
      * @return string  The sanitized HTML tag.
      *
-     * @since 1.3.5
+     * @since 1.3.6
      */
-    public static function esc_tag($raw_tag, $default = 'h3')
+    public static function esc_tag($raw_tag, $default = 'h3', $spacing = false)
     {
 
         $allowed_tags_names = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p', 'a'];
@@ -286,6 +291,10 @@ class Helper
         // fallback if tag not whitelisted
         if (! in_array($tag, $allowed_tags_names, true)) {
             $tag = $default;
+        }
+
+        if ($spacing) {
+            return $tag . ' ';
         }
 
         return $tag;

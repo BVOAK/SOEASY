@@ -16,7 +16,21 @@ $adresses = soeasy_get_adresses_configurateur();
 ?>
 
 <div class="config-step step-5 container py-4">
-  <h2 class="mb-4">5. Frais d'installation</h2>
+
+  <div class="header-configurateur">
+    <?php get_template_part('configurateur/header'); ?>
+
+    <ul class="config-steps nav nav-pills justify-content-center py-5">
+      <li class="nav-item"><a class="nav-link completed" data-step="1" href="#">1. Adresses</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="2" href="#">2. Internet</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="3" href="#">3. Téléphone mobile</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="4" href="#">4. Téléphonie fixe</a></li>
+      <li class="nav-item"><span class="nav-link active">5. Frais d'installation</span></li>
+      <li class="nav-item"><span class="nav-link">6. Récapitulatif</span></li>
+    </ul>
+
+    <h2 class="mb-4 title-step"><span>5</span> Frais d'installation</h2>
+  </div>
   
   <!-- Loader pendant génération JavaScript -->
   <div id="step5-loader">
@@ -32,9 +46,9 @@ $adresses = soeasy_get_adresses_configurateur();
   <div id="step5-content" style="display: none;"></div>
   
   <!-- Navigation -->
-  <div id="step5-navigation" class="d-flex justify-content-between mt-4" style="display: none;">
-    <button class="btn btn-outline-secondary btn-precedent" data-step="4">← Étape précédente</button>
-    <button class="btn btn-primary btn-suivant" data-step="6">Étape suivante →</button>
+  <div id="step5-navigation" class="d-flex justify-content-between mt-0" style="display: none;">
+    <button class="btn btn-outline-secondary btn-precedent" data-step="4">Étape précédente</button>
+    <button class="btn btn-primary btn-suivant" data-step="6">Étape suivante <i class="fa-solid fa-arrow-right"></i></button>
   </div>
 </div>
 

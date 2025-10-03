@@ -1,50 +1,69 @@
-
-<div class="col-lg-3 d-none d-lg-block">
-  <div id="config-sidebar" class="p-4 bg-light rounded shadow-sm">
-    <h5 class="mb-3">Votre configuration</h5>
-
-    <!-- Engagement -->
-    <div class="mb-3">
-      <label for="engagement" class="form-label">Durée d’engagement</label>
-      <select id="engagement" class="form-select">
-        <option value="0">Sans engagement</option>
-        <option value="24">24 mois</option>
-        <option value="36">36 mois</option>
-        <option value="48">48 mois</option>
-        <option value="63">63 mois</option>
-      </select>
-    </div>
-
-    <!-- Mode de financement -->
-    <div class="mb-3">
-      <label class="form-label d-block">Financement du matériel</label>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="financement" id="financement_comptant" value="comptant" checked>
-        <label class="form-check-label" for="financement_comptant">Achat comptant</label>
+<div class="d-none d-lg-block sidebar p-0 bg-light">
+  <div id="config-sidebar">
+    <div class="blockParameter p-4">
+      <h5 class="mb-3 title">
+        <img src="<?php echo get_template_directory_uri() ?>/assets/img/cart-orange.svg" />Votre configuration
+      </h5>
+      <!-- Engagement -->
+      <div class="mb-3">
+        <label for="engagement" class="form-label">Durée d’engagement</label>
+        <select id="engagement" class="form-select">
+          <option value="0">Sans engagement</option>
+          <option value="24">24 mois</option>
+          <option value="36">36 mois</option>
+          <option value="48">48 mois</option>
+          <option value="63">63 mois</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="financement" id="financement_leasing" value="leasing">
-        <label class="form-check-label" for="financement_leasing">Location (leasing)</label>
+      <!-- Mode de financement -->
+      <div class="mb-0">
+        <p class="form-label d-block mb-1">Financement du matériel</p>
+        <div class="form-check checkbox-wrapper p-0 mb-0">
+          <input class="form-check-input inp-cbx" type="radio" name="financement" id="financement_comptant"
+            value="comptant" checked style="display: none;" />
+          <label class="cbx form-check-label" for="financement_comptant">
+            <span>
+              <svg width="12px" height="9px" viewbox="0 0 12 9">
+                <polyline points="1 5 4 8 11 1"></polyline>
+              </svg>
+            </span>
+            <div>Achat comptant</div>
+          </label>
+        </div>
+        <div class="form-check checkbox-wrapper p-0 g-4">
+          <input class="form-check-input inp-cbx" type="radio" name="financement" id="financement_leasing"
+            value="leasing" style="display: none;" />
+          <label class="cbx form-check-label" for="financement_leasing">
+            <span>
+              <svg width="12px" height="9px" viewbox="0 0 12 9">
+                <polyline points="1 5 4 8 11 1"></polyline>
+              </svg>
+            </span>
+            <div>Location (leasing)</div>
+          </label>
+        </div>
       </div>
     </div>
 
-    <!-- Résumé dynamique -->
-    <div id="config-recapitulatif">
-      <div id="accordionSidebarRecap">
-        <!-- Accordéons dynamiques injectés ici via JS -->
+    <div class="blockRecap bg-light p-4">
+      <!-- Résumé dynamique -->
+      <div id="config-recapitulatif">
+        <div id="accordionSidebarRecap">
+          <!-- Accordéons dynamiques injectés ici via JS -->
+        </div>
       </div>
-    </div>
 
-    <!-- Total -->
-    <div id="config-sidebar-total" class="mt-4 border-top pt-3">
-      <!-- Contenu injecté dynamiquement -->
-    </div>
+      <!-- Total -->
+      <div id="config-sidebar-total" class="mt-4 border-top pt-3">
+        <!-- Contenu injecté dynamiquement -->
+      </div>
 
-    <!-- Réassurance -->
-    <ul class="border-top small text-muted p-0 m-0 pt-3 mt-4">
-      <li><strong>✅</strong> Accompagnement technique après souscription</li>
-      <li><strong>🔒</strong> Paiement 100% sécurisé</li>
-      <li><strong>📞</strong> Assistance client disponible</li>
-    </ul>
+      <!-- Réassurance -->
+      <ul class="border-top small text-muted p-0 m-0 pt-3 mt-3" id="reassurance">
+        <li><i class="fa-solid fa-euro-sign"></i> <span>Tarifs compétitifs</span></li>
+        <li><i class="fa-solid fa-sliders"></i> <span>Solution 100% personnalisée</span></li>
+        <li><i class="fa-solid fa-headset"></i> <span>Accompagnement technique après souscription</span></li>
+      </ul>
+    </div>
   </div>
 </div>

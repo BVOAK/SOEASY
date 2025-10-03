@@ -3,8 +3,8 @@ Contributors: uicore
 Tags: elementor, widgets, page builder, ui elements
 Requires at least: 4.6
 Requires PHP: 7.4
-Tested up to: 6.8.1
-Stable tag: 1.3.5
+Tested up to: 6.8.2
+Stable tag: 1.3.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -130,6 +130,27 @@ No need to worry. UiCore Elements is optimized for performance and ensures a lig
 1. /assets/screenshots/1.png
 
 == Changelog ==
+
+= 1.3.6 =
+* NEW - Added a Hover Color option for the overlay layout in Advanced Post/Product widgets
+* NEW - Added a Global Wrapper Link option to Advanced Post/Product widgets, enabling a single link for the entire item
+* NEW - Added a text color option for the upload field in the Contact Form widget
+* NEW - Added a new title animation effect for Advanced Post/Product widgets
+* UPD - Split prefix and suffix styles in the Counter widget to allow for independent custom styling
+* FIX - Contact Form acceptance checkbox display on iPhone
+* FIX - Pagination error when using filters with the Advanced Post Grid
+* FIX - Contact Form file upload functionality inside popups
+* FIX - Close popup action after Contact Form submission
+* FIX - Brevo integration for the Newsletter widget
+* FIX - Icon and text misalignment in Icon List widgets within a Custom Carousel
+* FIX - Visual issue with Highlighted Text images on Safari
+* FIX - Responsive alignment of Contact Form buttons on mobile
+* FIX - Accordion widget not opening inside a Mega Menu
+* FIX - Advanced Product Grid out-of-stock display from WooCommerce deprecation
+* FIX - Custom meta display in the Advanced Product Grid
+* FIX - Excessive bottom spacing in masonry grids on Safari
+* FIX - Image layout for Highlighted Text widget in portfolio single items
+* FIX - "Undefined Post Filter Class" error when editing pages with Advanced Post/Product widgets
 
 = 1.3.5 =
 * FIX - Improved securty for accordion tags

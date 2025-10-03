@@ -364,19 +364,22 @@ trait Post_Filters_Trait
         // Build archive url if we're not using rest api
         if (!$ajax) {
 
-            // main query is the current query, so we get the post type archive pages
+            // main query is the `current` query
             if ($is_main_query) {
                 $archive = get_post_type_archive_link($post_type);
-                // If post type don't have an archive page, we get the current page.
+
+                // Fallback to current page in case the post type don't have an archive page
                 if (!$archive) {
                     global $wp;
                     $archive = home_url($wp->request);
                 }
-
-                // On other queries we keep at the same page
             } else {
                 global $wp;
-                $archive = home_url($wp->request);
+
+                // home_url() method keep pagination in the URL for common pages (not archives), while get_permalink() doesn't. See more at https://uicore.atlassian.net/browse/ELM-504
+                $archive = (is_page() || is_paged())
+                    ? get_permalink(get_the_ID())
+                    : home_url($wp->request);
             }
         }
 

@@ -1109,7 +1109,7 @@ class ContactForm extends UiCoreWidget
                     ],
                 ],
                 'default' => 'stretch',
-                'prefix_class' => 'ui-e-submit-align-',
+                'prefix_class' => 'ui-e-submit-align-%s-',
             ]
         );
         $this->add_control(
@@ -1646,6 +1646,28 @@ class ContactForm extends UiCoreWidget
             ]
         );
 
+        $this->add_control(
+            'heading_file',
+            [
+                'label' => esc_html__('Upload File Field', 'uicore-elements'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+        $this->add_control(
+            'file_color',
+            [
+                'label' => esc_html__('Color', 'uicore-elements'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-field-type-file input.ui-e-field' => 'color: {{VALUE}};',
+                ],
+                'global' => [
+                    'default' => Global_Colors::COLOR_TEXT,
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -1710,7 +1732,7 @@ class ContactForm extends UiCoreWidget
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file) .ui-e-field:not(.ui-e-field-select)' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:not(.ui-e-field-select)' => 'background-color: {{VALUE}};',
                     '{{WRAPPER}} .ui-e-field-group .ui-e-field-select select' => 'background-color: {{VALUE}};',
                 ],
             ]
@@ -1720,7 +1742,7 @@ class ContactForm extends UiCoreWidget
             [
                 'name' => 'field_border',
                 'selector' =>
-                '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file) .ui-e-field:not(.ui-e-field-select),
+                '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:not(.ui-e-field-select),
 								 {{WRAPPER}} .ui-e-field-group .ui-e-field-select select',
             ]
         );
@@ -1767,7 +1789,7 @@ class ContactForm extends UiCoreWidget
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .ui-e-field-group:hover:not(.ui-e-field-type-file) .ui-e-field:not(.ui-e-field-select)' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .ui-e-field-group:hover:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:not(.ui-e-field-select)' => 'background-color: {{VALUE}};',
                     '{{WRAPPER}} .ui-e-field-group:hover .ui-e-field-select select' => 'background-color: {{VALUE}};',
                 ],
             ]
@@ -1777,7 +1799,7 @@ class ContactForm extends UiCoreWidget
             [
                 'name' => 'field_hover_border',
                 'selector' =>
-                '{{WRAPPER}} .ui-e-field-group:hover:not(.ui-e-field-type-file) .ui-e-field:not(.ui-e-field-select),
+                '{{WRAPPER}} .ui-e-field-group:hover:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:not(.ui-e-field-select),
 								 {{WRAPPER}} .ui-e-field-group:hover .ui-e-field-select select',
             ]
         );
@@ -1811,7 +1833,7 @@ class ContactForm extends UiCoreWidget
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file) .ui-e-field:focus:not(.ui-e-field-select)' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:focus:not(.ui-e-field-select)' => 'background-color: {{VALUE}};',
                     '{{WRAPPER}} .ui-e-field-group .ui-e-field-select:focus select' => 'background-color: {{VALUE}};',
                 ],
             ]
@@ -1821,7 +1843,7 @@ class ContactForm extends UiCoreWidget
             [
                 'name' => 'field_active_border',
                 'selector' =>
-                '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file) .ui-e-field:focus:not(.ui-e-field-select),
+                '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:focus:not(.ui-e-field-select),
 								 {{WRAPPER}} .ui-e-field-group .ui-e-field-select:focus select',
             ]
         );
@@ -1837,7 +1859,7 @@ class ContactForm extends UiCoreWidget
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem', 'custom'],
                 'selectors' => [
-                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file) .ui-e-field:not(.ui-e-field-select)' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:not(.ui-e-field-select)' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                     '{{WRAPPER}} .ui-e-field-group .ui-e-field-select select' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
                 'separator' => 'before'
@@ -1850,7 +1872,7 @@ class ContactForm extends UiCoreWidget
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem', 'custom'],
                 'selectors' => [
-                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file) .ui-e-field:not(.ui-e-field-select)' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .ui-e-field-group:not(.ui-e-field-type-file, .ui-e-field-type-acceptance) .ui-e-field:not(.ui-e-field-select)' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                     '{{WRAPPER}} .ui-e-field-group .ui-e-field-select select' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]

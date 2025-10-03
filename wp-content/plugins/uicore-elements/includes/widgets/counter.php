@@ -959,11 +959,15 @@ class Counter extends UiCoreWidget
         $this->start_controls_section(
             'suffix_prefix_section',
             [
-                'label' => __('Suffix/Prefix', 'uicore-elements'),
+                'label' => __('Prefix', 'uicore-elements'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
 
+        // TODO: Prefix colors are also applied to suffix to compatibility purposes,
+        // so the prefix/suffix color and typo styles split dont affect existent widgets.
+        // Due to a lack of a better method to proper handle this styles split, we should
+        // keep the current implementation as is for now.
         $this->add_control(
             'suffix_prefix_color',
             [
@@ -979,17 +983,6 @@ class Counter extends UiCoreWidget
             [
                 'name' => 'suffix_prefix_typography',
                 'selector' => '{{WRAPPER}} .ui-e-prefix, {{WRAPPER}} .ui-e-suffix',
-            ]
-        );
-
-        $this->start_controls_tabs(
-            'prefix_suffix_tabs'
-        );
-
-        $this->start_controls_tab(
-            'prefix_tab',
-            [
-                'label' => esc_html__('Prefix', 'uicore-elements'),
             ]
         );
 
@@ -1043,12 +1036,32 @@ class Counter extends UiCoreWidget
             ]
         );
 
-        $this->end_controls_tab();
+        $this->end_controls_section();
 
-        $this->start_controls_tab(
-            'suffix_tab',
+        $this->start_controls_section(
+            'suffix_section',
             [
-                'label' => esc_html__('Suffix', 'uicore-elements'),
+                'label' => __('Suffix', 'uicore-elements'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'suffix_color',
+            [
+                'label' => esc_html__('Color', 'uicore-elements'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ui-e-suffix' => 'color: {{VALUE}} !important;',
+                ],
+                'default' => ''
+            ]
+        );
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'suffix_typography',
+                'selector' => '{{WRAPPER}} .ui-e-suffix',
             ]
         );
 
@@ -1101,10 +1114,6 @@ class Counter extends UiCoreWidget
                 ],
             ]
         );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
 
         $this->end_controls_section();
 

@@ -66,18 +66,12 @@ trait Product_Trait
                 break;
         }
 
-        // Set total pages
+        $query_args['status'] = 'publish';
         $query_args['total_pages'] = Query::get_total_pages($query_args);
 
         // Hide out of stock products
         if ($this->is_option('hide_out_of_stock', 'yes')) {
-            $query_args['meta_query'] = [
-                [
-                    'key' => '_stock_status',
-                    'value' => 'instock',
-                    'compare' => '=',
-                ]
-            ];
+            $query_args['stock_status'] = 'instock';
         }
 
         $this->_query = $query_args;
@@ -339,9 +333,23 @@ trait Product_Trait
     {
         $settings = $this->get_settings_for_display();
 
+        $product_id = is_object($product)
+            ? $product->get_id()
+            : null;
+
         // Classnames but checking if we the widget is APG (legacy version)
         $item_classes     = $legacy ? ['ui-e-post-item', 'ui-e-item'] : ['ui-e-item']; // Single item lower wrap class receptor
         $hover_item_class = $legacy ? 'anim_item' : 'item_hover_animation'; // item hover animation class
+
+        // Build content atts
+        $content_tag = 'div';
+        $this->add_render_attribute('content_' . $index, 'class', ['ui-e-post-content']);
+
+        // Global link
+        if ($this->is_option('global_link', 'yes')) {
+            $content_tag = 'a';
+            $this->add_render_attribute('content_' . $index, 'href', esc_url(get_permalink()));
+        }
 
         // If widget is not carousel type, we set animations classes directly on item selector
         if (!$carousel) {
@@ -355,7 +363,7 @@ trait Product_Trait
             $animations = sprintf('%s %s', $entrance, $hover);
 
             // Check if entrance or hover animation are set
-            $has_animation = !empty($entrance) || !empty($hover)
+            $has_animation = !empty($entrance) || !empty($hover);
 
             // Prints extra wrappers required by the carousel script
         ?>
@@ -370,19 +378,21 @@ trait Product_Trait
                     <article <?php post_class('product'); ?>>
                         <div class="ui-e-post-top">
                             <?php $this->get_product_image($product); ?>
-                            <?php $this->get_post_meta('top'); ?>
+                            <?php $this->get_post_meta('top', $product_id); ?>
                             <?php
                             if ($settings['button_position'] === 'ui-e-button-placement-image') {
                                 $this->get_purchase_button($index);
                             }
                             ?>
                         </div>
-                        <div class="ui-e-post-content">
-                            <?php $this->get_post_meta('before_title'); ?>
+                        <<?php echo Helper::esc_tag($content_tag, 'div', true); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            $this->print_render_attribute_string('content_' . $index); ?>>
+
+                            <?php $this->get_post_meta('before_title', $product_id); ?>
                             <?php $this->get_product_title($product, $settings['title_tag']); ?>
-                            <?php $this->get_post_meta('after_title'); ?>
+                            <?php $this->get_post_meta('after_title', $product_id); ?>
                             <?php $this->get_product_summary($product, $settings['excerpt_trim']); ?>
-                            <?php $this->get_post_meta('bottom');  // button
+                            <?php $this->get_post_meta('bottom', $product_id);  // button
                             ?>
                             <?php
                             if (defined('UICORE_VERSION') && version_compare(UICORE_VERSION, '6.0.1', '>=') && $this->is_option('show_swatches', 'yes')) {
@@ -411,7 +421,8 @@ trait Product_Trait
                                 }
                             }
                             ?>
-                        </div>
+                        </<?php echo Helper::esc_tag($content_tag, 'div'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            ?>>
                     </article>
                 </div>
 

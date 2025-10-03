@@ -385,7 +385,7 @@ trait Meta_Trait
         }
     }
 
-    function display_meta($meta)
+    function display_meta($meta, $product_id = null)
     {
 
         if ($meta['type'] === 'none')
@@ -425,7 +425,7 @@ trait Meta_Trait
                 $content .= esc_html(get_comments_number());
                 break;
             case 'custom meta':
-                $content .= Helper::get_custom_meta($meta['type_custom']);
+                $content .= Helper::get_custom_meta($meta['type_custom'], $product_id);
                 break;
             case 'custom taxonomy':
                 $content .= Helper::get_taxonomy($meta['type_custom']);

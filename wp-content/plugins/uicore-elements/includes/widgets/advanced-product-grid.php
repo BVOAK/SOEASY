@@ -30,7 +30,6 @@ class AdvancedProductGrid extends AdvancedPostGrid
     }
     public function get_title()
     {
-        $this->custom_controls_verification();
         return __('Advanced Product Grid', 'uicore-elements');
     }
     public function get_icon()
@@ -83,6 +82,7 @@ class AdvancedProductGrid extends AdvancedPostGrid
 
     protected function register_controls()
     {
+        $this->custom_controls_verification();
 
         // Fallback
         if (!class_exists('WooCommerce')) {

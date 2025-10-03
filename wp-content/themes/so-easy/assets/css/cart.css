@@ -1,33 +1,38 @@
-/* 
- * CSS pour le panier SoEasy adapté multi-adresses
- * Fichier: wp-content/themes/soeasy/assets/css/cart.css
- */
-
-/* === WRAPPER PRINCIPAL === */
-.soeasy-cart-wrapper {
-    background-color: #f8f9fa;
-    min-height: 100vh;
+/******* VARIABLES *******/
+:root {
+  --se-dark: #0d0015;
+  --se-violet: #28004f;
+  --se-violet-clair: #761dbc;
+  --se-mauve: #d9a9fb;
+  --se-mauve-clair: #f2e5ff;
+  --se-orange: #f6921e;
+  --se-gris: #666666;
+  --se-gris-clair: #e5e5e5;
+  --se-rouge: #f34336;
+  --se-green: #63bc1d;
+  --se-blue: #3fa8f4;
+  /*var(--se-violet);*/
 }
 
-.soeasy-cart-wrapper .container {
-    max-width: 1200px;
+
+/* === WRAPPER PRINCIPAL === */
+.soeasy-cart-wrapper  {
+    background: rgba(229, 229, 229, 0.3);
 }
 
 /* === HEADER PANIER === */
 .soeasy-cart-wrapper h1 {
-    color: #2c3e50;
-    font-weight: 600;
-    margin-bottom: 2rem;
+    color: var(--se-violet);
+    font-weight: 400;
+    font-size: 3rem;
 }
 
 /* === SECTIONS PAR ADRESSE === */
 .address-section {
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     overflow: hidden;
     margin-bottom: 2rem;
-    border: 1px solid #e9ecef;
 }
 
 .address-header {

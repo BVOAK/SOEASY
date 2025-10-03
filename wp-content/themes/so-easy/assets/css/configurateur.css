@@ -1,16 +1,115 @@
 /******* VARIABLES *******/
 :root {
+  --se-dark: #0d0015;
   --se-violet: #28004f;
+  --se-violet-clair: #761dbc;
   --se-mauve: #d9a9fb;
   --se-mauve-clair: #f2e5ff;
   --se-orange: #f6921e;
   --se-gris: #666666;
   --se-gris-clair: #e5e5e5;
+  --se-rouge: #f34336;
+  --se-green: #63bc1d;
+  --se-blue: #3fa8f4;
   /*var(--se-violet);*/
 }
 
 
 /****** COMMUNS ******/
+#elementor-menu-cart__toggle_button {
+  padding: 0!important;
+  background: transparent!important;
+  height: 24px!important;
+}
+
+
+.configurateur-wrapper {
+  background: #36006b;
+  background: radial-gradient(circle, rgba(42, 0, 71, 1) 0%, rgba(13, 0, 21, 1) 80%);
+  min-height: 100vh;
+  margin-top: -100px;
+  padding-top: 100px;
+}
+
+.header-configurateur {
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+.header-configurateur p {
+  font-weight: 300;
+}
+
+.header-configurateur h1 {
+  font-weight: 400;
+  font-size: 3rem;
+}
+
+.header-configurateur .title-step {
+  font-size: 1.6rem;
+}
+
+.header-configurateur .title-step span {
+  font-size: 1.3rem;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  border: 2px solid var(--se-violet-clair);
+  background: var(--se-dark);
+  border-radius: 100%;
+  text-align: center;
+  padding: 4px;
+}
+
+.config-steps { 
+  gap: 20px;
+  font-size: 0.9rem; 
+}
+
+.config-steps .nav-link {
+  color: var(--se-gris);
+  border-radius: 50px;
+}
+
+.config-steps .nav-link.active {
+  background: black;
+  color: white;
+  border: 1px solid var(--se-violet-clair);
+}
+
+.config-steps .nav-link.completed {
+  background: var(--se-violet-clair);
+  color: white;
+}
+
+#config-step-content {
+  max-width: 1200px;
+  width: calc(100% - 500px);
+  margin-left: -300px;
+}
+
+#footer-buttons {
+  position: relative;
+  z-index: 10;
+}
+
+#footer-buttons .btn-primary, #step5-navigation .btn-primary {
+  background: var(--se-orange);
+}
+
+#footer-buttons .btn-primary i, #step5-navigation .btn-primary i {
+  color: var(--se-violet-clair);
+}
+
+#footer-buttons .btn-primary:hover, #step5-navigation .btn-primary:hover {
+  background: var(--se-violet-clair);
+}
+
+#footer-buttons .btn-primary:hover i, #step5-navigation .btn-primary:hover i {
+  color: white;
+}
+
 input[type="checkbox"] { height: 20px!important; width: 20px!important; }
 
 /* Icônes FontAwesome grisées par défaut */
@@ -26,17 +125,6 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
   filter: none;
 }
 
-/* Couleurs spécifiques par icône quand active */
-.nav-tabs .nav-link .icon-internet.active { color: #007bff; } /* Bleu pour Internet */
-.nav-tabs .nav-link .icon-mobile.active { color: #28a745; }   /* Vert pour Mobile */
-.nav-tabs .nav-link .icon-centrex.active { color: #ffc107; }  /* Jaune pour Centrex */
-.nav-tabs .nav-link .icon-frais.active { color: #dc3545; }    /* Rouge pour Frais */
-
-/* Classes FontAwesome */
-.icon-internet { font-family: "Font Awesome 5 Free"; }
-.icon-mobile { font-family: "Font Awesome 5 Free"; }
-.icon-centrex { font-family: "Font Awesome 5 Free"; }
-.icon-frais { font-family: "Font Awesome 5 Free"; }
 
 .icon-info { width: 25px; }
 
@@ -77,7 +165,164 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
   }
 }
 
+/****** NAV ADRESSES *****/
+#nav-adresses  {
+  gap: 5px;
+}
+
+#nav-adresses .nav-link {
+  border-radius: 0!important;
+  border-top-left-radius: 20px!important;
+  border-top-right-radius: 20px!important;
+  background: var(--se-violet);
+  color: white;
+  border: none;
+  border-bottom: 1px solid white;
+}
+
+#nav-adresses .nav-link:hover {
+  background: var(--se-violet-clair);
+}
+
+#nav-adresses .nav-link.active {
+  background: white;
+  color: var(--se-violet);
+}
+
+/****** SIDEBAR *****/
+.sidebar { 
+  min-height: 100vh; 
+  max-width: 300px; 
+  position: fixed;
+  top: 38px;
+  right: 0;
+}
+
+#config-sidebar {
+  top: 0px;
+  right: 0;
+  position: sticky;
+  font-size: 13px;
+}
+
+#config-sidebar .checkbox-wrapper .cbx span:first-child {
+  width: 18px;
+  height: 18px;
+}
+
+#config-sidebar .checkbox-wrapper .cbx span:first-child svg {
+  top: 1px;
+  left: 1px;
+}
+
+#config-sidebar .blockParameter {
+  background: var(--se-mauve-clair);
+}
+
+#config-sidebar .blockParameter .title {
+  display: flex;
+  gap: 10px;
+  font-size: 1.7em;
+  color: var(--se-violet);
+  text-transform: uppercase;
+}
+
+#config-sidebar .blockParameter .title img {
+  width: 26px;
+}
+
+#config-sidebar .blockParameter .form-label {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+#config-sidebar .blockRecap {
+  background: var(--se-mauve-clair);
+}
+
+#config-sidebar-total {
+  color: var(--se-violet);
+  font-size: 1rem;
+}
+
+#config-sidebar-total small {
+  line-height: 1rem;
+}
+
+#config-sidebar-total .text-muted {
+  color: var(--se-violet);
+  font-size: 0.7rem;
+}
+
+#config-sidebar #reassurance li {
+  list-style: none;
+  padding: 4px 0;
+  vertical-align: middle;
+  display: flex;
+  gap: 8px;
+}
+
+#config-sidebar #reassurance li span {
+  display: inline-block;
+  font-weight: 500;
+}
+
+#config-sidebar #reassurance li i {
+  color: white;
+  font-size: 0.7rem;
+  padding: 4px;
+  background: var(--se-violet);
+  border-radius: 50px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+#config-recapitulatif .accordion-button {
+  padding: 8px!important;
+  font-size: 0.8rem;
+  background: white;
+  color: var(--se-violet);
+  border-radius: 5px!important;
+}
+
+#config-recapitulatif .accordion-button:after {
+  width: 15px!important;
+  height: 15px!important;
+  background-size: 12px;
+}
+
+#config-recapitulatif .accordion-button[aria-expanded="true"] {
+  background: var(--se-violet-clair);
+  color: white;
+}
+
+#config-recapitulatif .accordion-body {
+  padding: 15px;
+}
+
+#config-recapitulatif h6 {
+  font-size: 0.8rem;
+}
+
+
 /****** ITEM PRODUCT *****/
+
+.card {
+  border-radius: 20px;
+}
+
+.card-body {
+  /* box-shadow: 0 8px 40px var(--se-violet-clair); */
+  z-index: 1;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: var(--se-violet);
+  font-weight: 700!important;
+}
+
 .item-product {
   display: flex;
   align-items: center;
@@ -92,17 +337,116 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 40px
+  gap: 40px;
 }
 
-.item-product .price, .item-product .product-title {
-  font-size: 1.2rem;
+.item-product .price, .item-frais .price {
+  font-size: 1rem;
   color: var(--se-violet);
   font-weight: bold;
   margin: 0;
 }
 
+.item-product .product-title {
+  font-size: 1rem;
+  color: var(--se-violet);
+  font-weight: bold;
+  margin: 0;
+}
+
+.item-product .text-muted {
+  font-size: 0.9rem;
+}
+
 .item-product .img-responsive {
   max-width: 100px;
-  padding: 10px;
+  padding: 0 10px;
+}
+
+@media (max-width: 767px) { 
+  .item-product {
+    padding: 1.5rem  1rem 1rem;
+    flex-wrap: wrap;
+    box-shadow: 0 8px 40px #65598359;
+    flex-direction: column;
+    align-items: center;
+  }
+  .item-product .checkbox-wrapper {
+    flex-direction: column;
+    align-items: center;
+  } 
+  .item-product .text-muted {
+    text-align: center;
+    display: block;
+  }
+  .item-product .bloc-price-end {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .item-product .bloc-price-end .prix-affiche {
+    display: none;
+  }
+  .item-product .price, .item-product .product-title, .item-frais .price {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .item-product .img-responsive {
+    max-width: 160px;
+  }
+}
+
+
+
+/****** STEP 1 *****/
+#liste-adresses .list-group li {
+  background: var(--se-mauve-clair);
+  border: none;
+}
+
+.btn-remove-adresse {
+  padding: 0!important;
+  background: transparent!important;
+}
+
+.btn-remove-adresse i {
+  color: var(--se-rouge);
+  font-size: 1.5rem;
+}
+
+/****** STEP 5 *****/
+.step-5 .frais-total {
+  font-size: 1rem;
+  background: var(--se-violet)!important;
+}
+
+
+/****** STEP 6 *****/
+.step-6 table .colProduct { width: 70%; }
+.step-6 table .colQty, .step-6 table .colPrice { width: 10%; }
+
+.step-6 #btn-commander {
+  background: var(--se-orange);
+}
+.step-6 #btn-commander:hover {
+  background: var(--se-green);
+}
+.step-6 #btn-commander img {
+  width: 20px;
+  margin-right: 5px;
+}
+
+.step-6 .accordion-button {
+  border-radius: 5px;
+  background-color: var(--se-gris-clair);
+  color: var(--se-violet);
+}
+
+.step-6 .accordion-button[aria-expanded="true"] {
+  border-radius: 5px;
+  background-color: var(--se-violet);
+  color: white;
 }

@@ -20,10 +20,24 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
 ?>
 
 <div class="config-step step-4 container py-4">
-  <h2 class="mb-4">4. Téléphonie Fixe – Centrex</h2>
+  
+  <div class="header-configurateur">
+    <?php get_template_part('configurateur/header'); ?>
+
+    <ul class="config-steps nav nav-pills justify-content-center py-5">
+      <li class="nav-item"><a class="nav-link completed" data-step="1" href="#">1. Adresses</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="2" href="#">2. Internet</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="3" href="#">3. Téléphone mobile</a></li>
+      <li class="nav-item"><span class="nav-link active">4. Téléphonie fixe</span></li>
+      <li class="nav-item"><span class="nav-link">5. Frais d'installation</span></li>
+      <li class="nav-item"><span class="nav-link">6. Récapitulatif</span></li>
+    </ul>
+
+    <h2 class="mb-4 title-step"><span>4</span> Téléphonie Fixe – Centrex</h2>
+  </div>
 
   <?php if (!empty($adresses)): ?>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="nav nav-tabs mb-3 <?php if(count($adresses) <= 1) : ?>d-none<?php endif; ?>" id="nav-adresses">
       <?php foreach ($adresses as $i => $adresse): ?>
         <li class="nav-item">
           <button class="nav-link <?php echo $i === 0 ? 'active' : ''; ?>" data-bs-toggle="tab"
@@ -39,8 +53,8 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
         <div class="tab-pane fade <?php echo $i === 0 ? 'show active' : ''; ?>" id="tab-<?php echo $i; ?>">
 
           <!-- === 1. Licences utilisateurs === -->
-          <div class="card item-list-product mt-4">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">1. Licences utilisateurs</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -103,7 +117,7 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
                             <polyline points="1 5 4 8 11 1"></polyline>
                           </svg>
                         </span>
-                        <div class="col-md-9">
+                        <div class="col">
                           <h3 class="product-title"><?php the_title(); ?></h3>
                           <span class="text-muted"><?php echo get_the_excerpt(); ?></span>
                         </div>
@@ -137,8 +151,8 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
           </div>
 
           <!-- === 2. Services complémentaires === -->
-          <div class="card item-list-product mt-4">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">2. Services complémentaires</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -218,8 +232,8 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
 
 
           <!-- === 3. Postes téléphoniques === -->
-          <div class="card item-list-product mt-4">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">3. Postes Téléphoniques</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -301,8 +315,8 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
           </div>
 
           <!-- === 4. Switchs réseau === -->
-          <div class="card item-list-product mt-4 bloc-switch d-none">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3 bloc-switch d-none">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">4. Switchs réseau</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -388,8 +402,8 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
           </div>
 
           <!-- === 5. Accessoires === -->
-          <div class="card item-list-product mt-4">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">5. Accessoires</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -476,9 +490,9 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
       <?php endforeach; ?>
     </div>
 
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-3" id="footer-buttons">
       <button class="btn btn-outline-secondary btn-precedent" data-step="3">← Étape précédente</button>
-      <button class="btn btn-primary btn-suivant" data-step="5">Étape suivante →</button>
+      <button class="btn btn-primary btn-suivant" data-step="5">Étape suivante <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   <?php else: ?>

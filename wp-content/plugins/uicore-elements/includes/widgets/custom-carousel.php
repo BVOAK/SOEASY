@@ -243,7 +243,7 @@ class CustomCarousel extends UiCoreNestedWidget
         }
 
 ?>
-        <div class="ui-e-carousel swiper">
+        <div class="ui-e-carousel ui-e-nested swiper">
 
             <div class='swiper-wrapper'>
                 <?php echo $carousel_items; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -335,7 +335,7 @@ class CustomCarousel extends UiCoreNestedWidget
             next=elementor.helpers.renderIcon( view, settings.next_arrow, { 'aria-hidden' : true }, 'i' , 'object' );
             #>
 
-            <div class="ui-e-carousel swiper {{ elementorFrontend.config.swiperClass }}">
+            <div class="ui-e-carousel ui-e-nested swiper {{ elementorFrontend.config.swiperClass }}">
                 <div class='swiper-wrapper'> </div>
             </div>
 

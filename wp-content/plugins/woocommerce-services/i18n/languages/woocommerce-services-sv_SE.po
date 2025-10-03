@@ -103,7 +103,7 @@ msgstr ""
 msgid "WC Services store notices"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:121
+#: classes/class-wc-connect-taxjar-integration.php:131
 msgid "Tax"
 msgstr ""
 
@@ -326,16 +326,16 @@ msgstr ""
 
 #. translators: 1: full state and country name, 2: anchor opening with link, 3:
 #. anchor closing
-#: classes/class-wc-connect-taxjar-integration.php:331
+#: classes/class-wc-connect-taxjar-integration.php:341
 msgid "Your tax rates are now automatically calculated for %1$s. Automated taxes uses your store address as your \"tax nexus\". If you want to charge tax for any other state, you can add a %2$stax rate%3$s for that state in addition to using automated taxes. %4$sLearn more about Tax Nexus here%5$s."
 msgstr ""
 
 #. translators: 1: full state and country name
-#: classes/class-wc-connect-taxjar-integration.php:327
+#: classes/class-wc-connect-taxjar-integration.php:337
 msgid "Your tax rates and settings will be automatically configured for %1$s. Automated taxes uses your store address as your \"tax nexus\". If you want to charge tax for any other state, you can add a %2$stax rate%3$s for that state in addition to using automated taxes. %4$sLearn more about Tax Nexus here%5$s."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:266
+#: classes/class-wc-connect-taxjar-integration.php:276
 msgid "Automated taxes take over from the WooCommerce core tax settings. This means that \"Display prices\" will be set to Excluding tax and tax will be Calculated using Customer shipping address. %1$sLearn more about Automated taxes here.%2$s"
 msgstr ""
 
@@ -355,7 +355,7 @@ msgstr ""
 msgid "Service Selection"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:493
+#: classes/class-wc-connect-taxjar-integration.php:503
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s is not formatted correctly."
 msgstr "%s är inte formaterat korrekt."
@@ -372,11 +372,11 @@ msgstr ""
 msgid "Tax Rates"
 msgstr "Momssatser"
 
-#: classes/class-wc-connect-taxjar-integration.php:271
+#: classes/class-wc-connect-taxjar-integration.php:281
 msgid "Your existing tax rates will be backed-up to a CSV that you can download %1$shere%2$s."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:268
+#: classes/class-wc-connect-taxjar-integration.php:278
 msgid "Your previous tax rates were backed up and can be downloaded %1$shere%2$s."
 msgstr ""
 
@@ -436,7 +436,7 @@ msgstr ""
 msgid "Delete California tax rates"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:270
+#: classes/class-wc-connect-taxjar-integration.php:280
 msgid "Enabling this option overrides any tax rates you have manually added."
 msgstr ""
 
@@ -709,7 +709,7 @@ msgctxt "The WooCommerce Shipping brandname"
 msgid "WooCommerce Shipping"
 msgstr "WooCommerce Shipping"
 
-#: classes/class-wc-connect-taxjar-integration.php:485 i18n/strings.php:166
+#: classes/class-wc-connect-taxjar-integration.php:495 i18n/strings.php:166
 #: i18n/strings.php:228
 msgid "ZIP/Postal code"
 msgstr "Postnummer"
@@ -1574,12 +1574,12 @@ msgstr "Det finns inga platser som matchar dessa parametrar."
 msgid "2 character continent code."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:495
+#: classes/class-wc-connect-taxjar-integration.php:505
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "Invalid %s entered."
 msgstr "Ogiltigt %s angivet."
 
-#: classes/class-wc-connect-taxjar-integration.php:491
+#: classes/class-wc-connect-taxjar-integration.php:501
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s does not match the selected state."
 msgstr "%s matchar inte den valda delstaten."
@@ -1764,15 +1764,15 @@ msgstr "Delstatskod"
 msgid "Country Code"
 msgstr "Landskod"
 
-#: classes/class-wc-connect-taxjar-integration.php:293
+#: classes/class-wc-connect-taxjar-integration.php:303
 msgid "Enable automated taxes"
 msgstr "Aktivera automatisk moms"
 
-#: classes/class-wc-connect-taxjar-integration.php:292
+#: classes/class-wc-connect-taxjar-integration.php:302
 msgid "Disable automated taxes"
 msgstr "Inaktivera automatisk moms"
 
-#: classes/class-wc-connect-taxjar-integration.php:284
+#: classes/class-wc-connect-taxjar-integration.php:294
 msgid "Automated taxes"
 msgstr "Automatisk moms"
 

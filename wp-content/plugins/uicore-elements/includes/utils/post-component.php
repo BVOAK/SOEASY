@@ -131,6 +131,17 @@ trait Post_Trait
                 'default' => 'no'
             ]
         );
+        $this->add_control(
+            'global_link',
+            [
+                'label' => __('Global Wrapper Link', 'uicore-elements'),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'no',
+                'condition' => [
+                    'box_style' => 'overlay'
+                ]
+            ]
+        );
 
         if ($section) {
             $this->end_controls_section();
@@ -689,6 +700,21 @@ trait Post_Trait
                 'selector' => '{{WRAPPER}} .ui-e-post-content',
             ]
         );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'content_background_hover',
+                'selector' => '{{WRAPPER}} .ui-e-item:hover .ui-e-post-content',
+                'fields_options' => [
+                    'background' => [
+                        'label' => esc_html__('Hover Background', 'uicore-elements'),
+                    ],
+                ],
+                'condition' => [
+                    'box_style' => 'overlay',
+                ]
+            ]
+        );
         $this->add_responsive_control(
             'content_padding',
             [
@@ -909,6 +935,7 @@ trait Post_Trait
                 'options' => [
                     '' => __('None', 'uicore-elements'),
                     'ui-e-title-anim-underline' => __('Underline', 'uicore-elements'),
+                    'ui-e-title-anim-show' => __('Show', 'uicore-elements'),
                 ],
                 'prefix_class'       => '',
             ]
@@ -1086,7 +1113,7 @@ trait Post_Trait
         </a>
     <?php
     }
-    function get_post_meta($position)
+    function get_post_meta($position, $product_id = null)
     {
         $meta_list = $this->get_settings_for_display($position . '_meta');
         if (!isset($meta_list[0]) || $meta_list[0]['type'] == '') {
@@ -1097,7 +1124,7 @@ trait Post_Trait
         echo '<div class="ui-e-post-meta ui-e-' . esc_attr($position) . '">';
         foreach ($meta_list as $meta) {
             if ($meta['type'] != 'none') {
-                $this->display_meta($meta);
+                $this->display_meta($meta, $product_id);
 
                 if (next($meta_list) && $this->get_settings_for_display($position . '_meta_separator')) {
                     echo '<span class="ui-e-separator">' . esc_html($this->get_settings_for_display($position . '_meta_separator')) . '</span>';
@@ -1227,13 +1254,21 @@ trait Post_Trait
                 <?php } ?>
 
                 <div class="<?php echo esc_attr(implode(' ', $item_classes)); ?>">
-
                     <article <?php post_class(); ?>>
                         <div class="ui-e-post-top">
                             <?php $this->get_post_image(); ?>
                             <?php $this->get_post_meta('top'); ?>
                         </div>
+
+                        <?php if ($this->is_option('global_link', 'yes')) : ?>
+                            <a href="<?php echo esc_url(get_permalink()); ?>"
+                                class="ui-e-global-link"
+                                aria-label="<?php echo esc_attr__('View Post:', 'uicore-elements') . esc_html(the_title_attribute(['echo' => false])); ?>"
+                                title="<?php echo esc_attr__('View Post:', 'uicore-elements') . esc_html(the_title_attribute(['echo' => false])); ?>"> </a>
+                        <?php endif; ?>
+
                         <div class="ui-e-post-content">
+
                             <?php $this->get_post_meta('before_title'); ?>
                             <?php
                             if ($this->is_option('title', 'yes'))
@@ -1263,7 +1298,6 @@ trait Post_Trait
                             ?>
                         </div>
                     </article>
-
                 </div>
 
                 <?php if ($carousel) { ?>

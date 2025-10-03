@@ -49,7 +49,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                                             <i class="fas fa-map-marker-alt me-2"></i>
                                             <?php echo esc_html($address); ?>
                                         </h4>
-                                        <div class="address-actions">
+                                        <!-- <div class="address-actions">
                                             <button type="button" class="btn btn-outline-primary btn-sm me-2" 
                                                     onclick="modifierConfiguration('<?php echo esc_js($address); ?>')">
                                                 <i class="fas fa-edit me-1"></i>Modifier
@@ -58,7 +58,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                                                     onclick="supprimerAdresse('<?php echo esc_js($address); ?>')">
                                                 <i class="fas fa-trash me-1"></i>Supprimer
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     
                                     <!-- Grouper par catégorie pour cette adresse -->

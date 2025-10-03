@@ -17,10 +17,23 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
 ?>
 
 <div class="config-step step-3 container py-4">
-  <h2 class="mb-4">3. Téléphonie Mobile</h2>
+  <div class="header-configurateur">
+    <?php get_template_part('configurateur/header'); ?>
 
-  <?php if (!empty($adresses)): ?>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="config-steps nav nav-pills justify-content-center py-5">
+      <li class="nav-item"><a class="nav-link completed" data-step="1" href="#">1. Adresses</a></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="2" href="#">2. Internet</a></li>
+      <li class="nav-item"><span class="nav-link active">3. Téléphone mobile</span></li>
+      <li class="nav-item"><span class="nav-link">4. Téléphonie fixe</span></li>
+      <li class="nav-item"><span class="nav-link">5. Frais d'installation</span></li>
+      <li class="nav-item"><span class="nav-link">6. Récapitulatif</span></li>
+    </ul>
+
+    <h2 class="mb-4 title-step"><span>3</span> Téléphonie Mobile</h2>
+  </div>
+
+  <?php if (!empty($adresses) ): ?>
+    <ul class="nav nav-tabs mb-3 <?php if(count($adresses) <= 1) : ?>d-none<?php endif; ?>" id="nav-adresses">
       <?php foreach ($adresses as $i => $adresse): ?>
         <li class="nav-item">
           <button class="nav-link <?php echo $i === 0 ? 'active' : ''; ?>" data-bs-toggle="tab"
@@ -37,7 +50,7 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
 
           <!-- === Forfaits Mobile === -->
           <div class="card item-list-product">
-            <div class="card-body p-5">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">1. Forfaits mobiles</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -134,8 +147,8 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
 
 
           <!-- === Forfaits Data === -->
-          <div class="card item-list-product mt-4">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">2. Forfaits Data</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -232,8 +245,8 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
 
 
           <!-- === Équipements Mobiles === -->
-          <div class="card item-list-product mt-4">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">3. Équipements Mobiles</h5>
               <div class="row p-0 gap-3">
                 <?php
@@ -320,9 +333,9 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
       <?php endforeach; ?>
     </div>
 
-    <div class="d-flex justify-content-between mt-4">
-      <button class="btn btn-outline-secondary btn-precedent" data-step="2">← Étape précédente</button>
-      <button class="btn btn-primary btn-suivant" data-step="4">Étape suivante →</button>
+    <div class="d-flex justify-content-between mt-3" id="footer-buttons">
+      <button class="btn btn-outline-secondary btn-precedent" data-step="2">Étape précédente</button>
+      <button class="btn btn-primary btn-suivant" data-step="4">Étape suivante <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   <?php else: ?>

@@ -16,10 +16,23 @@ $adresses = soeasy_get_adresses_configurateur();
 ?>
 
 <div class="config-step step-2 container py-4">
-  <h2 class="mb-4">2. Choix de la connexion Internet</h2>
+  <div class="header-configurateur">
+    <?php get_template_part('configurateur/header'); ?>
+
+    <ul class="config-steps nav nav-pills justify-content-center py-5">
+      <li class="nav-item"><a class="nav-link completed" data-step="1" href="#">1. Adresses</a></li>
+      <li class="nav-item"><span class="nav-link active">2. Internet</span></li>
+      <li class="nav-item"><span class="nav-link">3. Téléphone mobile</span></li>
+      <li class="nav-item"><span class="nav-link">4. Téléphonie fixe</span></li>
+      <li class="nav-item"><span class="nav-link">5. Frais d'installation</span></li>
+      <li class="nav-item"><span class="nav-link">6. Récapitulatif</span></li>
+    </ul>
+
+    <h2 class="mb-4 title-step"><span>2</span> Forfait Internet</h2>
+  </div>
 
   <?php if (!empty($adresses)): ?>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="nav nav-tabs mb-3 <?php if(count($adresses) <= 1) : ?>d-none<?php endif; ?>" id="nav-adresses">
       <?php foreach ($adresses as $i => $adresse): ?>
         <li class="nav-item">
           <button class="nav-link <?php echo $i === 0 ? 'active' : ''; ?>" data-bs-toggle="tab"
@@ -36,9 +49,9 @@ $adresses = soeasy_get_adresses_configurateur();
 
           <!-- FORFAIT INTERNET PRINCIPAL -->
           <div class="card item-list-product">
-            <div class="card-body p-5">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">1. Forfait Internet</h5>
-              <div class="row p-0 gap-3">
+              <div class="row p-0 gap-2">
                 <?php
                 $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
                 $loop = new WP_Query($args);
@@ -119,10 +132,10 @@ $adresses = soeasy_get_adresses_configurateur();
 
 
           <!-- FORFAIT INTERNET DE SECOURS (caché par défaut) -->
-          <div class="card item-list-product mt-4 bloc-secours d-none">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3 bloc-secours d-none">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">2. Connexion de secours</h5>
-              <div class="row p-0 gap-3">
+              <div class="row p-0 gap-2">
                 <?php
                 $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'forfait-internet'];
                 $loop = new WP_Query($args);
@@ -168,10 +181,10 @@ $adresses = soeasy_get_adresses_configurateur();
 
 
           <!-- MATÉRIEL INTERNET (caché par défaut) -->
-          <div class="card item-list-product mt-4 bloc-equipements d-none">
-            <div class="card-body p-5">
+          <div class="card item-list-product mt-3 bloc-equipements d-none">
+            <div class="card-body p-md-5 p-4">
               <h5 class="mb-3 card-title">3. Matériel Internet</h5>
-              <div class="row p-0 gap-3">
+              <div class="row p-0 gap-2">
                 <?php
                 $args = ['post_type' => 'product', 'posts_per_page' => -1, 'product_cat' => 'internet-routeurs'];
                 $loop = new WP_Query($args);
@@ -195,7 +208,7 @@ $adresses = soeasy_get_adresses_configurateur();
                   $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), 'single-post-thumbnail' );
                   $infos = get_field( "tooltip-infos");
                   ?>
-                  <div class="equipement" data-equipement-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
+                  <div class="equipement p-0" data-equipement-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
                     <label class="item-product" data-prix-comptant="<?php echo esc_attr($prix_comptant); ?>" 
                       <?php foreach ([0, 24, 36, 48, 63] as $d): ?>data-prix-leasing-<?php echo $d; ?>="<?php echo esc_attr($prix_leasing_map[$d]); ?>"<?php endforeach; ?>>
                       <div class="col checkbox-wrapper">
@@ -237,9 +250,9 @@ $adresses = soeasy_get_adresses_configurateur();
       <?php endforeach; ?>
     </div>
 
-    <div class="d-flex justify-content-between mt-4">
-      <button class="btn btn-outline-secondary btn-precedent" data-step="1">← Étape précédente</button>
-      <button class="btn btn-primary btn-suivant" data-step="3">Étape suivante →</button>
+    <div class="d-flex justify-content-between mt-3" id="footer-buttons">
+      <button class="btn btn-outline-secondary btn-precedent" data-step="1">Étape précédente</button>
+      <button class="btn btn-primary btn-suivant" data-step="3">Étape suivante <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
     <?php

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import * as PropTypes from 'prop-types';
 import { Stack, CircularProgress, Box } from '@elementor/ui';
 import { __ } from '@wordpress/i18n';
@@ -12,6 +12,23 @@ import { useKitCustomizationTaxonomies } from '../hooks/use-kit-customization-ta
 import { useKitCustomizationCustomPostTypes } from '../hooks/use-kit-customization-custom-post-types';
 import { isHighTier } from '../hooks/use-tier';
 import { UpgradeVersionBanner } from './upgrade-version-banner';
+import { transformValueForAnalytics } from '../utils/analytics-transformer';
+
+const transformAnalyticsData = ( payload, pageOptions, taxonomyOptions, customPostTypes ) => {
+	const optionsArray = [
+		{ key: 'pages', options: pageOptions },
+		{ key: 'taxonomies', options: taxonomyOptions },
+		{ key: 'customPostTypes', options: customPostTypes },
+	];
+
+	const transformed = {};
+
+	for ( const [ key, value ] of Object.entries( payload ) ) {
+		transformed[ key ] = transformValueForAnalytics( key, value, optionsArray );
+	}
+
+	return transformed;
+};
 
 export function KitContentCustomizationDialog( {
 	open,
@@ -26,8 +43,6 @@ export function KitContentCustomizationDialog( {
 	const { isLoading: isPagesLoading, pageOptions, isLoaded: isPagesLoaded } = useKitCustomizationPages( { open, data } );
 	const { isLoading: isTaxonomiesLoading, taxonomyOptions, isLoaded: isTaxonomiesLoaded } = useKitCustomizationTaxonomies( { open, data } );
 	const { customPostTypes } = useKitCustomizationCustomPostTypes( { data } );
-
-	const unselectedValues = useRef( data.analytics?.customization?.content || [] );
 
 	const [ settings, setSettings ] = useState( () => {
 		if ( data.customization.content ) {
@@ -183,11 +198,6 @@ export function KitContentCustomizationDialog( {
 				settingKey="pages"
 				title={ __( 'Site pages', 'elementor' ) }
 				onSettingChange={ ( selectedPages ) => {
-					const isAllselected = selectedPages.length === pageOptions.length;
-					unselectedValues.current = isAllselected
-						? ( unselectedValues.current = unselectedValues.current.filter( ( val ) => 'pages' !== val ) )
-						: [ ...unselectedValues.current, 'pages' ];
-
 					handleSettingsChange( 'pages', selectedPages );
 				} }
 				settings={ settings.pages }
@@ -212,10 +222,6 @@ export function KitContentCustomizationDialog( {
 				settingKey="menus"
 				tooltip={ ! isHighTier() }
 				onSettingChange={ ( key, isChecked ) => {
-					unselectedValues.current = isChecked
-						? unselectedValues.current.filter( ( value ) => value !== key )
-						: [ ...unselectedValues.current, key ];
-
 					handleSettingsChange( key, isChecked );
 				} }
 			/>
@@ -248,10 +254,6 @@ export function KitContentCustomizationDialog( {
 								disabled={ ! isHighTier() }
 								tooltip={ ! isHighTier() }
 								onSettingChange={ ( key, isChecked ) => {
-									unselectedValues.current = isChecked
-										? unselectedValues.current.filter( ( val ) => taxonomy.value !== val )
-										: [ ...unselectedValues.current, taxonomy.value ];
-
 									setSettings( ( prevState ) => {
 										const selectedTaxonomies = isChecked
 											? [ ...prevState.taxonomies, taxonomy.value ]
@@ -278,7 +280,8 @@ export function KitContentCustomizationDialog( {
 			handleClose={ handleClose }
 			handleSaveChanges={ () => {
 				const hasEnabledCustomization = settings.pages.length > 0 || settings.menus || settings.customPostTypes.length > 0 || settings.taxonomies.length > 0;
-				handleSaveChanges( 'content', settings, hasEnabledCustomization, unselectedValues.current );
+				const transformedAnalytics = transformAnalyticsData( settings, pageOptions, taxonomyOptions, customPostTypes );
+				handleSaveChanges( 'content', settings, hasEnabledCustomization, transformedAnalytics );
 			} }
 		>
 			<Stack sx={ { position: 'relative' } } gap={ 2 }>
@@ -300,16 +303,6 @@ export function KitContentCustomizationDialog( {
 								settingKey="customPostTypes"
 								title={ __( 'Custom post types', 'elementor' ) }
 								onSettingChange={ ( selectedCustomPostTypes ) => {
-									const filteredUnselectedValues = unselectedValues.current.filter( ( value ) => ! customPostTypes.includes( value ) );
-									const isAllChecked = selectedCustomPostTypes.length === customPostTypes.length;
-
-									unselectedValues.current = isAllChecked
-										? filteredUnselectedValues.filter( ( value ) => value !== 'customPostTypes' )
-										: [
-											...filteredUnselectedValues,
-											...customPostTypes.filter( ( cpt ) => ! selectedCustomPostTypes.includes( cpt ) ).map( ( { value } ) => value ),
-											'customPostTypes',
-										];
 									handleSettingsChange( 'customPostTypes', selectedCustomPostTypes );
 								} }
 								settings={ settings.customPostTypes }

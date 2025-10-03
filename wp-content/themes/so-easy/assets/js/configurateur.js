@@ -635,7 +635,7 @@ jQuery(document).ready(function ($) {
 
       const equipementsIds = $input.data('equipements') || [];
       const secoursIds = $input.data('secours') || [];
-      const $produit = $input.closest('.border');
+      const $produit = $input.closest('.item-product');
 
       const prix = parseFloat($produit.find('.prix-affiche').data('unit')) || 0;
       const prixLeasing0 = parseFloat($input.data('prix-leasing-0')) || 0;
@@ -659,7 +659,7 @@ jQuery(document).ready(function ($) {
 
       setTimeout(() => {
         $(`[data-equipement-index="${index}"] .equipement-checkbox[data-obligatoire="1"]`).each(function () {
-          if ($(this).is(':visible')) {
+          if ($(`[data-equipement-index="${index}"]`).is(':visible')) {
             $(this).prop('checked', true).trigger('change');
           }
         });
@@ -675,7 +675,7 @@ jQuery(document).ready(function ($) {
       const produits = [{
         id: prdID,
         type: 'internet',
-        nom: $produit.find('strong').text().trim(),
+        nom: $produit.find('.product-title').text().trim(),
         description: $produit.find('.text-muted').text().trim(),
         quantite: 1,
         prixUnitaire: prix,
@@ -704,6 +704,7 @@ jQuery(document).ready(function ($) {
       $(`input[name="equipement_${index}[]"]`).each(function () {
         const $checkbox = $(this);
         const $label = $checkbox.closest('label');
+        console.log("On change !")
         const id = $checkbox.data('id');
 
         const isVisible = $checkbox.closest('.equipement').is(':visible');
@@ -721,7 +722,7 @@ jQuery(document).ready(function ($) {
         produits.push({
           id: parseInt(id),
           type: 'equipement-internet',
-          nom: $label.find('strong').text().trim(),
+          nom: $label.find(".product-title").text().trim(),
           description: $label.find('.text-muted').text().trim(),
           quantite: 1,
           prixUnitaire,
@@ -888,8 +889,8 @@ jQuery(document).ready(function ($) {
         const typeAttr = $input.data('type');
         if (!typeAttr || qty <= 0) return;
 
-        const $produit = $input.closest('.border');
-        const nom = $produit.find('label').text().trim();
+        const $produit = $input.closest('.item-product');
+        const nom = $produit.find('.product-title').text().trim();
         const desc = $produit.find('.text-muted').first().text().trim();
         const prix = parseFloat($produit.find('.prix-total').data('unit')) || 0;
 
@@ -1136,8 +1137,8 @@ jQuery(document).ready(function ($) {
 
         if (!typeAttr || qty <= 0) return;
 
-        const $produit = $input.closest('.border');
-        const nom = $produit.find('label').text().trim();
+        const $produit = $input.closest('.item-product');
+        const nom = $produit.find('.product-title').text().trim();
         const desc = $produit.find('.text-muted').first().text().trim();
         const prix = parseFloat($produit.find('.prix-total').data('unit')) || 0;
 
@@ -1500,18 +1501,13 @@ jQuery(document).ready(function ($) {
       $accordionBody.find('.totaux-adresse').remove();
 
       // Ajouter les nouveaux totaux
-      const $totauxDiv = $('<div class="totaux-adresse mt-4 p-3 bg-light rounded"></div>');
+      const $totauxDiv = $('<div class="totaux-adresse d-flex flex-column align-items-end mb-4"></div>');
 
       if (mode === 'comptant') {
         $totauxDiv.append(`
-        <div class="row">
-          <div class="col-md-6">
-            <strong>Total mensuel (abonnements) : ${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</strong>
-          </div>
-          <div class="col-md-6">
-            <strong>Total comptant (équipements + frais) : ${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</strong>
-          </div>
-        </div>
+            <div><small>Total mensuel (abonnements) : </small><strong>${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</strong></div>
+            <div><small>Total comptant (équipements + frais) : </small><strong>${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</strong></div>
+        
       `);
       } else {
         $totauxDiv.append(`

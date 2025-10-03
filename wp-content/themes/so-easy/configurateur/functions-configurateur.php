@@ -183,10 +183,10 @@ function ajax_soeasy_add_adresse_configurateur()
 
     ob_start();
     foreach ($updated as $i => $adr) {
-        echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
+        echo '<li class="list-group-item d-flex justify-content-between align-items-center p-3 mb-1">';
         //echo '<span>' . esc_html($adr['adresse']) . ' — <em>Services : ' . implode(', ', $adr['services']) . '</em></span>';
         echo '<span>' . esc_html($adr['adresse']) . '</span>';
-        echo '<button class="btn btn-sm btn-outline-danger btn-remove-adresse" data-index="' . $i . '">Supprimer</button>';
+        echo '<button class="btn btn-sm btn-remove-adresse" data-index="' . $i . '"><i class="fa-solid fa-circle-xmark"></i></button>';
         echo '</li>';
     }
     wp_send_json_success(['html' => ob_get_clean()]);

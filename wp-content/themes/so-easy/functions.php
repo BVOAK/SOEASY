@@ -438,6 +438,10 @@ function soeasy_enqueue_assets() {
         true
 	);
 	wp_enqueue_style(
+        'custom',
+        get_template_directory_uri() . '/assets/css/custom.css',
+    );
+	wp_enqueue_style(
         'input',
         get_template_directory_uri() . '/assets/css/input.css',
     );

@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.32.0 - 16-09-2025 */
+/*! elementor-pro - v3.32.0 - 29-09-2025 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -2135,8 +2135,26 @@ var _useKitCustomizationTaxonomies = __webpack_require__(/*! ../hooks/use-kit-cu
 var _useKitCustomizationCustomPostTypes = __webpack_require__(/*! ../hooks/use-kit-customization-custom-post-types */ "../core/app/modules/import-export-customization/assets/js/hooks/use-kit-customization-custom-post-types.js");
 var _useTier = __webpack_require__(/*! ../hooks/use-tier */ "../core/app/modules/import-export-customization/assets/js/hooks/use-tier.js");
 var _upgradeVersionBanner = __webpack_require__(/*! ./upgrade-version-banner */ "../core/app/modules/import-export-customization/assets/js/components/upgrade-version-banner.js");
+var _analyticsTransformer = __webpack_require__(/*! ../utils/analytics-transformer */ "../core/app/modules/import-export-customization/assets/js/utils/analytics-transformer.js");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const transformAnalyticsData = (payload, pageOptions, taxonomyOptions, customPostTypes) => {
+  const optionsArray = [{
+    key: 'pages',
+    options: pageOptions
+  }, {
+    key: 'taxonomies',
+    options: taxonomyOptions
+  }, {
+    key: 'customPostTypes',
+    options: customPostTypes
+  }];
+  const transformed = {};
+  for (const [key, value] of Object.entries(payload)) {
+    transformed[key] = (0, _analyticsTransformer.transformValueForAnalytics)(key, value, optionsArray);
+  }
+  return transformed;
+};
 function KitContentCustomizationDialog(_ref) {
   let {
     open,
@@ -2169,7 +2187,6 @@ function KitContentCustomizationDialog(_ref) {
   } = (0, _useKitCustomizationCustomPostTypes.useKitCustomizationCustomPostTypes)({
     data
   });
-  const unselectedValues = (0, _react.useRef)(data.analytics?.customization?.content || []);
   const [settings, setSettings] = (0, _react.useState)(() => {
     if (data.customization.content) {
       return data.customization.content;
@@ -2282,8 +2299,6 @@ function KitContentCustomizationDialog(_ref) {
       settingKey: "pages",
       title: (0, _i18n.__)('Site pages', 'elementor'),
       onSettingChange: selectedPages => {
-        const isAllselected = selectedPages.length === pageOptions.length;
-        unselectedValues.current = isAllselected ? unselectedValues.current = unselectedValues.current.filter(val => 'pages' !== val) : [...unselectedValues.current, 'pages'];
         handleSettingsChange('pages', selectedPages);
       },
       settings: settings.pages,
@@ -2304,7 +2319,6 @@ function KitContentCustomizationDialog(_ref) {
       settingKey: "menus",
       tooltip: !(0, _useTier.isHighTier)(),
       onSettingChange: (key, isChecked) => {
-        unselectedValues.current = isChecked ? unselectedValues.current.filter(value => value !== key) : [...unselectedValues.current, key];
         handleSettingsChange(key, isChecked);
       }
     });
@@ -2336,7 +2350,6 @@ function KitContentCustomizationDialog(_ref) {
         disabled: !(0, _useTier.isHighTier)(),
         tooltip: !(0, _useTier.isHighTier)(),
         onSettingChange: (key, isChecked) => {
-          unselectedValues.current = isChecked ? unselectedValues.current.filter(val => taxonomy.value !== val) : [...unselectedValues.current, taxonomy.value];
           setSettings(prevState => {
             const selectedTaxonomies = isChecked ? [...prevState.taxonomies, taxonomy.value] : prevState.taxonomies.filter(value => value !== taxonomy.value);
             return {
@@ -2354,7 +2367,8 @@ function KitContentCustomizationDialog(_ref) {
     handleClose: handleClose,
     handleSaveChanges: () => {
       const hasEnabledCustomization = settings.pages.length > 0 || settings.menus || settings.customPostTypes.length > 0 || settings.taxonomies.length > 0;
-      handleSaveChanges('content', settings, hasEnabledCustomization, unselectedValues.current);
+      const transformedAnalytics = transformAnalyticsData(settings, pageOptions, taxonomyOptions, customPostTypes);
+      handleSaveChanges('content', settings, hasEnabledCustomization, transformedAnalytics);
     }
   }, /*#__PURE__*/_react.default.createElement(_ui.Stack, {
     sx: {
@@ -2369,14 +2383,6 @@ function KitContentCustomizationDialog(_ref) {
     settingKey: "customPostTypes",
     title: (0, _i18n.__)('Custom post types', 'elementor'),
     onSettingChange: selectedCustomPostTypes => {
-      const filteredUnselectedValues = unselectedValues.current.filter(value => !customPostTypes.includes(value));
-      const isAllChecked = selectedCustomPostTypes.length === customPostTypes.length;
-      unselectedValues.current = isAllChecked ? filteredUnselectedValues.filter(value => value !== 'customPostTypes') : [...filteredUnselectedValues, ...customPostTypes.filter(cpt => !selectedCustomPostTypes.includes(cpt)).map(_ref5 => {
-        let {
-          value
-        } = _ref5;
-        return value;
-      }), 'customPostTypes'];
       handleSettingsChange('customPostTypes', selectedCustomPostTypes);
     },
     settings: settings.customPostTypes,
@@ -2488,8 +2494,16 @@ var _kitCustomizationDialog = __webpack_require__(/*! ./kit-customization-dialog
 var _upgradeNoticeBanner = __webpack_require__(/*! ./upgrade-notice-banner */ "../core/app/modules/import-export-customization/assets/js/components/upgrade-notice-banner.js");
 var _useTier = __webpack_require__(/*! ../hooks/use-tier */ "../core/app/modules/import-export-customization/assets/js/hooks/use-tier.js");
 var _upgradeVersionBanner = __webpack_require__(/*! ./upgrade-version-banner */ "../core/app/modules/import-export-customization/assets/js/components/upgrade-version-banner.js");
+var _analyticsTransformer = __webpack_require__(/*! ../utils/analytics-transformer */ "../core/app/modules/import-export-customization/assets/js/utils/analytics-transformer.js");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const transformAnalyticsData = payload => {
+  const transformed = {};
+  for (const [key, value] of Object.entries(payload)) {
+    transformed[key] = (0, _analyticsTransformer.transformValueForAnalytics)(key, value, []);
+  }
+  return transformed;
+};
 function KitSettingsCustomizationDialog(_ref) {
   let {
     open,
@@ -2548,7 +2562,6 @@ function KitSettingsCustomizationDialog(_ref) {
     };
   }, [data.includes, data?.uploadedData?.manifest, data?.customization?.settings, isImport, isOldExport]);
   const initialState = data.includes.includes('settings');
-  const unselectedValues = (0, _react.useRef)(data.analytics?.customization?.settings || []);
   const [settings, setSettings] = (0, _react.useState)(() => {
     if (data.customization.settings) {
       return data.customization.settings;
@@ -2570,8 +2583,7 @@ function KitSettingsCustomizationDialog(_ref) {
       window.elementorModules?.appsEventTracking?.AppsEventTracking?.sendPageViewsWebsiteTemplates(elementorCommon.eventsManager.config.secondaryLocations.kitLibrary.kitExportCustomizationEdit);
     }
   }, [open]);
-  const handleToggleChange = (settingKey, isChecked) => {
-    unselectedValues.current = isChecked ? unselectedValues.current.filter(val => settingKey !== val) : [...unselectedValues.current, settingKey];
+  const handleToggleChange = settingKey => {
     setSettings(prev => ({
       ...prev,
       [settingKey]: !prev[settingKey]
@@ -2583,7 +2595,8 @@ function KitSettingsCustomizationDialog(_ref) {
     handleClose: handleClose,
     handleSaveChanges: () => {
       const hasEnabledCustomization = settings.theme || settings.globalColors || settings.globalFonts || settings.themeStyleSettings || settings.generalSettings || settings.experiments || settings.customFonts || settings.customIcons || settings.customCode;
-      handleSaveChanges('settings', settings, hasEnabledCustomization, unselectedValues.current);
+      const transformedAnalytics = transformAnalyticsData(settings);
+      handleSaveChanges('settings', settings, hasEnabledCustomization, transformedAnalytics);
     }
   }, /*#__PURE__*/_react.default.createElement(_ui.Stack, {
     sx: {
@@ -2700,8 +2713,16 @@ var _upgradeNoticeBanner = __webpack_require__(/*! ./upgrade-notice-banner */ ".
 var _useTier = __webpack_require__(/*! ../hooks/use-tier */ "../core/app/modules/import-export-customization/assets/js/hooks/use-tier.js");
 var _themeBuilderCustomization = __webpack_require__(/*! ./theme-builder-customization */ "../core/app/modules/import-export-customization/assets/js/components/theme-builder-customization.js");
 var _upgradeVersionBanner = __webpack_require__(/*! ./upgrade-version-banner */ "../core/app/modules/import-export-customization/assets/js/components/upgrade-version-banner.js");
+var _analyticsTransformer = __webpack_require__(/*! ../utils/analytics-transformer */ "../core/app/modules/import-export-customization/assets/js/utils/analytics-transformer.js");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const transformAnalyticsData = payload => {
+  const transformed = {};
+  for (const [key, value] of Object.entries(payload)) {
+    transformed[key] = (0, _analyticsTransformer.transformValueForAnalytics)(key, value, []);
+  }
+  return transformed;
+};
 const hasTemplatesForExportGroup = (exportGroup, manifest) => {
   if (!manifest?.templates) {
     return false;
@@ -2727,7 +2748,6 @@ function KitTemplatesCustomizationDialog(_ref) {
     isOldElementorVersion
   } = _ref;
   const initialState = data.includes.includes('templates');
-  const unselectedValues = (0, _react.useRef)(data.analytics?.customization?.templates || []);
   const getState = (0, _react.useCallback)(parentInitialState => {
     if (!data.includes.includes('templates')) {
       return {
@@ -2784,7 +2804,6 @@ function KitTemplatesCustomizationDialog(_ref) {
     }
   }, [open]);
   const handleToggleChange = (settingKey, isChecked) => {
-    unselectedValues.current = isChecked ? unselectedValues.current.filter(val => settingKey !== val) : [...unselectedValues.current, settingKey];
     setTemplates(prev => ({
       ...prev,
       [settingKey]: {
@@ -2799,7 +2818,8 @@ function KitTemplatesCustomizationDialog(_ref) {
     handleClose: handleClose,
     handleSaveChanges: () => {
       const hasEnabledCustomization = templates.siteTemplates?.enabled || templates.themeBuilder?.enabled || templates.globalWidgets?.enabled;
-      handleSaveChanges('templates', templates, hasEnabledCustomization, unselectedValues.current);
+      const transformedAnalytics = transformAnalyticsData(templates);
+      handleSaveChanges('templates', templates, hasEnabledCustomization, transformedAnalytics);
     },
     minHeight: "auto"
   }, /*#__PURE__*/_react.default.createElement(_ui.Stack, {
@@ -3769,6 +3789,59 @@ class Module {
   }
 }
 exports["default"] = Module;
+
+/***/ }),
+
+/***/ "../core/app/modules/import-export-customization/assets/js/utils/analytics-transformer.js":
+/*!************************************************************************************************!*\
+  !*** ../core/app/modules/import-export-customization/assets/js/utils/analytics-transformer.js ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.transformValueForAnalytics = exports.getTotalAvailableCount = exports.ANALYTICS_TRANSFORM_RULES = void 0;
+const ANALYTICS_TRANSFORM_RULES = exports.ANALYTICS_TRANSFORM_RULES = {
+  STRING: value => value,
+  BOOLEAN: value => value,
+  EMPTY_ARRAY: () => 'None',
+  FULL_ARRAY: () => 'All',
+  PARTIAL_ARRAY: () => 'Partial'
+};
+const getTotalAvailableCount = (key, optionsArray) => {
+  const optionsMap = optionsArray.reduce((map, _ref) => {
+    let {
+      key: optionKey,
+      options
+    } = _ref;
+    map[optionKey] = options.length;
+    return map;
+  }, {});
+  return optionsMap[key] || 0;
+};
+exports.getTotalAvailableCount = getTotalAvailableCount;
+const transformValueForAnalytics = (key, value, optionsArray) => {
+  if ('string' === typeof value || 'boolean' === typeof value) {
+    return ANALYTICS_TRANSFORM_RULES[(typeof value).toUpperCase()](value);
+  }
+  if ('object' === typeof value && value !== null && !Array.isArray(value) && 'enabled' in value) {
+    return value.enabled;
+  }
+  if (Array.isArray(value)) {
+    if (0 === value.length) {
+      return ANALYTICS_TRANSFORM_RULES.EMPTY_ARRAY();
+    }
+    const totalAvailable = getTotalAvailableCount(key, optionsArray);
+    const isFullSelection = value.length === totalAvailable;
+    return isFullSelection ? ANALYTICS_TRANSFORM_RULES.FULL_ARRAY() : ANALYTICS_TRANSFORM_RULES.PARTIAL_ARRAY();
+  }
+  return value;
+};
+exports.transformValueForAnalytics = transformValueForAnalytics;
 
 /***/ }),
 
