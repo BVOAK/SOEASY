@@ -167,7 +167,7 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
                     $attr = $v['attributes']['attribute_pa_duree-dengagement'] ?? '';
                     $duree_var = null;
 
-                    if (stripos($attr, 'sans') !== false || empty($attr)) {
+                    if (stripos($attr, 'sans') !== false  || stripos($attr, 'engagement') !== false || empty($attr)) {
                       $duree_var = 0;
                     } else {
                       $duree_var = intval(preg_replace('/[^0-9]/', '', $attr));
@@ -200,8 +200,7 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
 
                   $infos = get_field("tooltip-infos");
                   ?>
-                  <div class="item-product" data-prix-leasing-0="<?php echo esc_attr($prix); ?>" <?php echo $data_attrs; ?>
-                    data-prix-comptant="<?php echo esc_attr($prix); ?>">
+                  <div class="item-product" data-prix-leasing-0="<?php echo esc_attr($prix); ?>" <?php echo $data_attrs; ?>>
                     <div class="col-md-6 checkbox-wrapper">
                       <input class="form-check-input forfait-checkbox mobile-checkbox inp-cbx" type="checkbox"
                         id="data-checkbox-<?php echo $product_id; ?>" data-type="data" data-id="<?php echo $product_id; ?>"

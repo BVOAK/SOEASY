@@ -73,7 +73,7 @@ $adresses = soeasy_get_adresses_configurateur();
 
                   $variations = $product->get_available_variations();
                   $data_attrs = '';
-                  $prix_affiche = 0;
+                  $prix = 0;
 
                   $infos = get_field( "tooltip-infos");
 
@@ -84,7 +84,7 @@ $adresses = soeasy_get_adresses_configurateur();
                       $prix_var = $variation['display_price'];
                       $data_attrs .= ' data-prix-leasing-' . $duree_var . '="' . esc_attr($prix_var) . '"';
                       if ($duree == $duree_var) {
-                        $prix_affiche = $prix_var;
+                        $prix = $prix_var;
                       }
                     }
                   }
@@ -113,8 +113,8 @@ $adresses = soeasy_get_adresses_configurateur();
                     </div>
                     <span class="text-muted col"><?php echo get_the_excerpt(); ?></span>
                     <div class="col bloc-price-end">
-                      <div class="prix-affiche price" data-unit="<?php echo esc_attr($prix_affiche); ?>">
-                        <?php echo wc_price($prix_affiche); ?> / mois
+                      <div class="prix-affiche price" data-unit="<?php echo esc_attr($prix); ?>">
+                        <?php echo wc_price($prix); ?> / mois
                       </div>
                       <?php if ($infos): ?>
                         <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -143,13 +143,28 @@ $adresses = soeasy_get_adresses_configurateur();
                   $loop->the_post();
                   $product = wc_get_product(get_the_ID());
                   $product_id = $product->get_id();
-                  $prix = floatval($product->get_price());
+
+                  $variations = $product->get_available_variations();
+                  $data_attrs = '';
+                  $prix = 0;
+
+                  foreach ($variations as $variation) {
+                    $attr = $variation['attributes']['attribute_pa_duree-dengagement'] ?? '';
+                    $duree_var = (stripos($attr, 'sans') !== false || empty($attr)) ? 0 : intval(preg_replace('/[^0-9]/', '', $attr));
+                    if (!is_null($duree_var)) {
+                      $prix_var = $variation['display_price'];
+                      $data_attrs .= ' data-prix-leasing-' . $duree_var . '="' . esc_attr($prix_var) . '"';
+                      if ($duree == $duree_var) {
+                        $prix = $prix_var;
+                      }
+                    }
+                  }
 
                   $infos = get_field( "tooltip-infos");
                   ?>
                   <label class="item-product forfait-secours" data-secours-index="<?= $i; ?>" data-id="<?= $product_id; ?>">
                     <div class="col checkbox-wrapper">
-                      <input type="checkbox" name="forfait_secours_<?php echo $i; ?>[]" value="<?= $product_id; ?>"
+                      <input type="checkbox" name="forfait_secours_<?php echo $i; ?>[]" value="<?= $product_id; ?>" <?= $data_attrs ?>
                         class="me-2 forfait-secours-checkbox inp-cbx" data-index="<?php echo $i; ?>" style="display: none;" />
                       <div class="cbx">
                         <span>
@@ -162,8 +177,8 @@ $adresses = soeasy_get_adresses_configurateur();
                     </div>
                     <span class="text-muted col"><?php echo get_the_excerpt(); ?></span>
                     <div class="col bloc-price-end">
-                      <div class="prix-affiche price" data-unit="<?php echo esc_attr($prix_affiche); ?>">
-                        <?php echo wc_price($prix_affiche); ?> / mois
+                      <div class="prix-affiche price" data-unit="<?php echo esc_attr($prix); ?>">
+                        <?php echo wc_price($prix); ?> / mois
                       </div>
                       <?php if ($infos): ?>
                         <div class="icon-info" data-bs-toggle="tooltip" data-bs-placement="top"

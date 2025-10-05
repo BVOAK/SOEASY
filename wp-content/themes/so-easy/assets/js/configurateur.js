@@ -192,7 +192,7 @@ jQuery(document).ready(function ($) {
       $input.val(0);
     }
 
-    // CORRECTION : Recalcul immédiat avec nouveaux prix
+    // Recalcul immédiat avec nouveaux prix
     updatePrixTotal($input);
     updateSidebarTotauxRecap();
   });
@@ -207,7 +207,7 @@ jQuery(document).ready(function ($) {
     // Synchroniser checkbox avec quantité
     $checkbox.prop('checked', quantity > 0);
 
-    // CORRECTION : Recalcul immédiat avec nouveaux prix
+    // Recalcul immédiat avec nouveaux prix
     updatePrixTotal($input);
     updateSidebarTotauxRecap();
   });
@@ -1021,6 +1021,7 @@ jQuery(document).ready(function ($) {
             $checkbox.prop('checked', prod.quantite > 0);
           }
         });
+        setTimeout(() => filtrerSwitchsCentrex(index), 50);
       });
     }
 
@@ -1101,11 +1102,6 @@ jQuery(document).ready(function ($) {
 
     $(document).on('input change', 'input[name^="quantite_poste_"]', function () {
       const index = $(this).data('index');
-      filtrerSwitchsCentrex(index);
-    });
-
-    $('[id^="tab-"]').each(function () {
-      const index = $(this).attr('id').split('-')[1];
       filtrerSwitchsCentrex(index);
     });
 
