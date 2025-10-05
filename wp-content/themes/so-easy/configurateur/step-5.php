@@ -31,19 +31,9 @@ $adresses = soeasy_get_adresses_configurateur();
 
     <h2 class="mb-4 title-step"><span>5</span> Frais d'installation</h2>
   </div>
-  
-  <!-- Loader pendant génération JavaScript -->
-  <div id="step5-loader">
-    <div class="d-flex flex-column align-items-center justify-content-center py-5">
-      <div class="spinner-border text-primary mb-3" role="status">
-        <span class="visually-hidden">Chargement...</span>
-      </div>
-      <p class="text-muted">Génération des frais d'installation...</p>
-    </div>
-  </div>
-  
+    
   <!-- Contenu généré par JavaScript -->
-  <div id="step5-content" style="display: none;"></div>
+  <div id="step5-content"></div>
   
   <!-- Navigation -->
   <div id="step5-navigation" class="d-flex justify-content-between mt-0" style="display: none;">

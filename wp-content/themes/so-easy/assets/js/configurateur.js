@@ -204,16 +204,10 @@ jQuery(document).ready(function ($) {
     showStepLoader(step);
 
     if (parseInt(step) === 5) {
-      showStepLoaderWithProgress(5, "Récupération de la configuration...");
 
       const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
 
-      // Mise à jour progressive pour step 5
-      setTimeout(() => updateLoaderProgress("Calcul des frais d'installation...", 30), 200);
-      setTimeout(() => updateLoaderProgress("Synchronisation des données...", 60), 400);
-
-      // Synchronisation session en arrière-plan (non bloquante)
-      Object.keys(config).forEach(index => {
+      Object.keys(config).forEach((index, i) => {
         setTimeout(() => {
           if (typeof saveCentrexQuantites === 'function') {
             console.log(`🔄 Recalcul Centrex pour adresse ${index}`);
@@ -222,7 +216,7 @@ jQuery(document).ready(function ($) {
 
           const frais = config[index]?.fraisInstallation || [];
           if (frais.length > 0) {
-            syncFraisToSession(index, frais); // fonction non bloquante
+            syncFraisToSession(index, frais);
           }
           // Progression basée sur le nombre d'adresses
           const progress = 60 + (40 * (i + 1) / Object.keys(config).length);
@@ -1435,58 +1429,52 @@ jQuery(document).ready(function ($) {
   window.initStep5Events = function () {
     console.log('🎯 Initialisation Step 5 Events avec localStorage');
 
-    // 1. Vérifier si on a des données disponibles
-    function checkDataAndGenerate() {
-      const localConfig = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
-      const sessionConfig = window.step5Data?.sessionConfig || {};
+    // Fonction pour générer le contenu Step 5
+    function generateStep5Content() {
+    try {
+      console.log('🔄 Génération contenu Step 5...');
+      
+      const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+      const adresses = window.step5Data?.adresses || [];
 
-      console.log('🔍 Vérification données - localStorage:', Object.keys(localConfig).length, 'session:', Object.keys(sessionConfig).length);
-
-      // Si on a des données (localStorage OU session), générer le contenu
-      if (Object.keys(localConfig).length > 0 || Object.keys(sessionConfig).length > 0) {
-        console.log('✅ Données trouvées, génération du contenu');
-        generateStep5Content();
-      } else {
-        console.log('⚠️ Aucune donnée trouvée, affichage message d\'aide');
-        // Afficher un message d'aide si vraiment aucune donnée
+      // 1. Vérifier qu'on a des données
+      if (Object.keys(config).length === 0) {
         $('#step5-content').html(`
-        <div class="alert alert-info">
-          <h5>🏗️ Configuration en cours</h5>
-          <p>Il semble que vous n'ayez pas encore configuré de produits.</p>
-          <p><a href="#" onclick="loadStep(1)" class="btn btn-primary">Commencer la configuration</a></p>
-        </div>
-      `).show();
-        $('#step5-loader').hide();
-        $('#step5-navigation').show();
+          <div class="alert alert-info">
+            <h5>🏗️ Configuration en cours</h5>
+            <p>Il semble que vous n'ayez pas encore configuré de produits.</p>
+            <p><a href="#" onclick="loadStep(1)" class="btn btn-primary">Commencer la configuration</a></p>
+          </div>
+        `);
+        return;
       }
+
+      // 2. Générer le HTML pour chaque adresse
+      let html = '';
+      Object.keys(config).forEach(index => {
+        const adresseData = config[index];
+        const adresseInfo = adresses[index];
+        html += generateAdresseBlock(index, adresseData, adresseInfo);
+      });
+
+      // 3. Injecter dans le DOM
+      $('#step5-content').html(html);
+
+      // 4. Initialiser les totaux pour chaque adresse
+      Object.keys(config).forEach(index => {
+        updateFraisTotal(index);
+      });
+
+      console.log('✅ Contenu Step 5 généré avec succès');
+
+    } catch (error) {
+      console.error('❌ Erreur génération Step 5:', error);
+      $('#step5-content').html('<div class="alert alert-danger">Erreur lors du chargement. Veuillez recharger la page.</div>');
     }
+  }
 
-    // 2. Essayer immédiatement, puis avec un délai de sécurité
-    checkDataAndGenerate();
-
-    // 3. Si ça n'a pas marché (loader toujours visible), réessayer après 500ms
-    setTimeout(() => {
-      if ($('#step5-loader').is(':visible')) {
-        console.log('🔄 Retry génération Step 5 après délai');
-        checkDataAndGenerate();
-      }
-    }, 500);
-
-    // 4. Timeout de sécurité après 3 secondes
-    setTimeout(() => {
-      if ($('#step5-loader').is(':visible')) {
-        console.log('⏰ Timeout Step 5 - affichage forcé');
-        $('#step5-content').html(`
-        <div class="alert alert-warning">
-          <h5>⚠️ Chargement des données</h5>
-          <p>Le chargement prend plus de temps que prévu.</p>
-          <p><button onclick="generateStep5Content()" class="btn btn-primary">Réessayer</button></p>
-        </div>
-      `).show();
-        $('#step5-loader').hide();
-        $('#step5-navigation').show();
-      }
-    }, 3000);
+    // Génération immédiate du contenu
+    generateStep5Content();
 
     // 5. Événements sur les checkboxes de frais
     $(document).on('change', '.frais-checkbox', function () {
