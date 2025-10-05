@@ -98,6 +98,100 @@ jQuery(document).ready(function ($) {
     }
   });
 
+  /**
+ * GESTION DU LOADER POUR LES ÉTAPES
+ */
+
+  // Messages de chargement par étape
+  const LOADER_MESSAGES = {
+    1: "Chargement des adresses...",
+    2: "Chargement des offres Internet...",
+    3: "Chargement des forfaits mobiles...",
+    4: "Chargement de la téléphonie fixe...",
+    5: "Calcul des frais d'installation...",
+    6: "Préparation du récapitulatif..."
+  };
+
+  /**
+   * Affiche le loader pour une étape
+   * @param {number} step - Numéro de l'étape
+   * @param {string} customMessage - Message personnalisé (optionnel)
+   */
+  function showStepLoader(step, customMessage = null) {
+    const message = customMessage || LOADER_MESSAGES[step] || "Chargement en cours...";
+
+    const loaderHTML = `
+    <div class="step-loader-overlay" id="step-loader">
+      <div class="step-loader-container">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <h5>Étape ${step}</h5>
+        <p class="loader-message">${message}</p>
+      </div>
+    </div>
+  `;
+
+    // Injecter le loader dans le conteneur de l'étape
+    $('#config-step-content').css('position', 'relative').append(loaderHTML);
+  }
+
+  /**
+   * Cache le loader avec animation
+   * @param {function} callback - Fonction à exécuter après la disparition
+   */
+  function hideStepLoader(callback = null) {
+    const $loader = $('#step-loader');
+
+    if ($loader.length) {
+      $loader.addClass('fade-out');
+
+      setTimeout(() => {
+        $loader.remove();
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      }, 300);
+    } else if (callback) {
+      callback();
+    }
+  }
+
+  /**
+   * Loader avec progression pour les étapes complexes
+   * @param {number} step - Numéro de l'étape
+   * @param {string} message - Message initial
+   */
+  function showStepLoaderWithProgress(step, message) {
+    const loaderHTML = `
+    <div class="step-loader-overlay" id="step-loader">
+      <div class="step-loader-container">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <h5>Étape ${step}</h5>
+        <p class="loader-message" id="loader-message">${message}</p>
+        <div class="progress mt-2" style="height: 3px;">
+          <div class="progress-bar" id="loader-progress" role="progressbar" 
+               style="width: 0%; background-color: var(--se-violet);"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+    $('#config-step-content').css('position', 'relative').append(loaderHTML);
+  }
+
+  /**
+   * Met à jour le message et la progression du loader
+   * @param {string} message - Nouveau message
+   * @param {number} progress - Progression (0-100)
+   */
+  function updateLoaderProgress(message, progress) {
+    $('#loader-message').text(message);
+    $('#loader-progress').css('width', progress + '%');
+  }
+
   // Rechargement automatique de l'étape mémorisée
   const currentStep = localStorage.getItem('soeasyCurrentStep') || '1';
   loadStep(currentStep);
@@ -106,33 +200,52 @@ jQuery(document).ready(function ($) {
   function loadStep(step) {
     localStorage.setItem('soeasyCurrentStep', step);
 
-    // Pour le step 5, on garde la synchronisation session en arrière-plan (optionnel)
-    // mais on n'attend plus - le contenu se génère depuis localStorage
+    // Afficher le loader immédiatement
+    showStepLoader(step);
+
     if (parseInt(step) === 5) {
+      showStepLoaderWithProgress(5, "Récupération de la configuration...");
+
       const config = JSON.parse(localStorage.getItem('soeasyConfig') || '{}');
+
+      // Mise à jour progressive pour step 5
+      setTimeout(() => updateLoaderProgress("Calcul des frais d'installation...", 30), 200);
+      setTimeout(() => updateLoaderProgress("Synchronisation des données...", 60), 400);
 
       // Synchronisation session en arrière-plan (non bloquante)
       Object.keys(config).forEach(index => {
-        if (typeof saveCentrexQuantites === 'function') {
-          console.log(`🔄 Recalcul Centrex pour adresse ${index}`);
-          saveCentrexQuantites(index);
-        }
+        setTimeout(() => {
+          if (typeof saveCentrexQuantites === 'function') {
+            console.log(`🔄 Recalcul Centrex pour adresse ${index}`);
+            saveCentrexQuantites(index);
+          }
 
-        const frais = config[index]?.fraisInstallation || [];
-        if (frais.length > 0) {
-          syncFraisToSession(index, frais); // fonction non bloquante
-        }
+          const frais = config[index]?.fraisInstallation || [];
+          if (frais.length > 0) {
+            syncFraisToSession(index, frais); // fonction non bloquante
+          }
+          // Progression basée sur le nombre d'adresses
+          const progress = 60 + (40 * (i + 1) / Object.keys(config).length);
+          updateLoaderProgress("Finalisation...", progress);
+        }, 100 * i);
       });
     }
 
     // Affichage immédiat pour toutes les étapes (y compris step 5)
-    renderStep(step);
+    setTimeout(() => {
+      renderStep(step);
+    }, parseInt(step) === 5 ? 800 : 400);
   }
 
   function renderStep(step) {
     renderNavPills(parseInt(step));
 
     $('#config-step-content').load(soeasyVars.themeUrl + '/configurateur/step-' + step + '.php?step=' + step, function () {
+
+      // Cacher le loader une fois le contenu chargé
+      hideStepLoader(() => {
+        console.log(`✅ Étape ${step} chargée avec succès`);
+      });
 
       // Réinitialisation sélection engagement/financement
       initFinancementSelection();
