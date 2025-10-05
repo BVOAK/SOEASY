@@ -99,6 +99,54 @@ jQuery(document).ready(function ($) {
   });
 
 
+  /**
+ * Gestion du loader global pour les transitions d'étapes
+ */
+  const StepLoader = {
+    show(stepNumber, message = null) {
+      const etapeMessages = {
+        1: 'Chargement des adresses...',
+        2: 'Configuration Internet...',
+        3: 'Configuration Mobile...',
+        4: 'Configuration Centrex...',
+        5: 'Calcul des frais d\'installation...',
+        6: 'Génération du récapitulatif...'
+      };
+
+      const displayMessage = message || etapeMessages[stepNumber] || 'Chargement en cours...';
+
+      if (!$('#global-step-loader').length) {
+        $('body').append(`
+        <div id="global-step-loader" class="position-fixed w-100 h-100 d-flex align-items-center justify-content-center" 
+             style="top: 0; left: 0; background: rgba(255, 255, 255, 0.95); z-index: 10000;">
+          <div class="step-loader-container text-center p-4">
+            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <h5 class="loader-title mb-2">Étape ${stepNumber}</h5>
+            <p class="loader-message text-muted mb-0">${displayMessage}</p>
+            <small class="text-muted d-block mt-2">Veuillez patienter...</small>
+          </div>
+        </div>
+      `);
+      } else {
+        $('#global-step-loader .loader-title').text(`Étape ${stepNumber}`);
+        $('#global-step-loader .loader-message').text(displayMessage);
+        $('#global-step-loader').show();
+      }
+    },
+
+    hide(delay = 300) {
+      setTimeout(() => {
+        $('#global-step-loader').fadeOut(200);
+      }, delay);
+    },
+
+    updateMessage(message) {
+      $('#global-step-loader .loader-message').text(message);
+    }
+  };
+
   // Rechargement automatique de l'étape mémorisée
   const currentStep = localStorage.getItem('soeasyCurrentStep') || '1';
   loadStep(currentStep);
@@ -106,6 +154,9 @@ jQuery(document).ready(function ($) {
   // Fonction de chargement des étapes
   function loadStep(step) {
     localStorage.setItem('soeasyCurrentStep', step);
+
+    // 1. Afficher le loader immédiatement
+    StepLoader.show(step);
 
     // Pour le step 5, on garde la synchronisation session en arrière-plan (optionnel)
     // mais on n'attend plus - le contenu se génère depuis localStorage
@@ -133,48 +184,79 @@ jQuery(document).ready(function ($) {
   function renderStep(step) {
     renderNavPills(parseInt(step));
 
-    $('#config-step-content').load(soeasyVars.themeUrl + '/configurateur/step-' + step + '.php?step=' + step, function () {
+    $('#config-step-content').load(
+      soeasyVars.themeUrl + '/configurateur/step-' + step + '.php?step=' + step,
+      function (response, status, xhr) {
 
-      // Réinitialisation sélection engagement/financement
-      initFinancementSelection();
-      initEngagementSelection();
+        if (status === "error") {
+          console.error(`❌ Erreur chargement étape ${step}:`, xhr.status, xhr.statusText);
 
-      // Fonction essentielle pour l'affichage des villes (étape 1)
-      setTimeout(() => {
-        if (typeof afficherVillesDansOnglets === 'function') {
-          afficherVillesDansOnglets();
+          // Afficher message d'erreur et masquer loader
+          $('#config-step-content').html(`
+          <div class="alert alert-danger">
+            <h5><i class="fas fa-exclamation-triangle me-2"></i>Erreur de chargement</h5>
+            <p>Impossible de charger l'étape ${step}. Veuillez réessayer.</p>
+            <button class="btn btn-primary" onclick="loadStep(${step})">
+              <i class="fas fa-redo me-2"></i>Réessayer
+            </button>
+          </div>
+        `);
+
+          StepLoader.hide(100);
+          return;
         }
-      }, 100);
 
-      // Appel des fonctions d'initialisation spécifiques à chaque étape
-      const stepInitializers = {
-        '1': window.initStep1Events,
-        '2': window.initStep2Events,
-        '3': window.initStep3Events,
-        '4': window.initStep4Events,
-        '5': window.initStep5Events,
-        '6': window.initStep6Events
-      };
+        // 4. Contenu chargé avec succès
+        console.log(`✅ Étape ${step} chargée`);
 
-      if (stepInitializers[step]) {
-        stepInitializers[step]();
-      }
+        // Mettre à jour le message du loader
+        StepLoader.updateMessage('Initialisation...');
 
-      // Mise à jour des prix et totaux pour toutes les étapes
-      setTimeout(() => {
-        updatePrices(); // Inclut updateAllPrixTotaux()
-        updatePrixProduits();
-        updateSidebarProduitsRecap();
-        updateSidebarTotauxRecap();
-        initBootstrapTooltips();
+        // Réinitialisation sélection engagement/financement
+        initFinancementSelection();
+        initEngagementSelection();
 
-        if (parseInt(step) === 6) {
-          updateRecapitulatif();
+        // Fonction essentielle pour l'affichage des villes (étape 1)
+        setTimeout(() => {
+          if (typeof afficherVillesDansOnglets === 'function') {
+            afficherVillesDansOnglets();
+          }
+        }, 100);
+
+        // Appel des fonctions d'initialisation spécifiques à chaque étape
+        const stepInitializers = {
+          '1': window.initStep1Events,
+          '2': window.initStep2Events,
+          '3': window.initStep3Events,
+          '4': window.initStep4Events,
+          '5': window.initStep5Events,
+          '6': window.initStep6Events
+        };
+
+        if (stepInitializers[step]) {
+          StepLoader.updateMessage('Configuration des événements...');
+          stepInitializers[step]();
         }
-      }, 200);
 
-      updateRecapitulatif();
-    });
+        // Mise à jour des prix et totaux pour toutes les étapes
+        setTimeout(() => {
+          StepLoader.updateMessage('Mise à jour des prix...');
+
+          updatePrices();
+          updatePrixProduits();
+          updateSidebarProduitsRecap();
+          updateSidebarTotauxRecap();
+          initBootstrapTooltips();
+
+          if (parseInt(step) === 6) {
+            updateRecapitulatif();
+          }
+
+          StepLoader.hide(200);
+        }, 200);
+
+        updateRecapitulatif();
+      });
   }
 
   // 1. Checkbox cochée/décochée → synchroniser quantité et recalculer
@@ -213,10 +295,22 @@ jQuery(document).ready(function ($) {
   });
 
   // Navigation entre les étapes
-  $(document).on('click', '.btn-suivant, .btn-precedent, .config-steps .nav-link', function () {
+  $(document).off('click', '.btn-suivant, .btn-precedent').on('click', '.btn-suivant, .btn-precedent', function (e) {
+    e.preventDefault();
     const nextStep = $(this).data('step');
-    localStorage.setItem('soeasyCurrentStep', nextStep);
-    loadStep(nextStep);
+
+    if (nextStep) {
+      loadStep(nextStep);
+    }
+  });
+
+  $(document).off('click', '.config-steps [data-go-step]').on('click', '.config-steps [data-go-step]', function (e) {
+    e.preventDefault();
+    const targetStep = parseInt($(this).data('go-step'));
+
+    if (!isNaN(targetStep)) {
+      loadStep(targetStep);
+    }
   });
 
 
