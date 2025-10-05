@@ -194,8 +194,9 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
   min-height: 100vh; 
   max-width: 300px; 
   position: fixed;
-  top: 38px;
+  top: 35px;
   right: 0;
+  z-index: 20;
 }
 
 #config-sidebar {
@@ -252,30 +253,6 @@ input[type="checkbox"] { height: 20px!important; width: 20px!important; }
 #config-sidebar-total .text-muted {
   color: var(--se-violet);
   font-size: 0.7rem;
-}
-
-#config-sidebar #reassurance li {
-  list-style: none;
-  padding: 4px 0;
-  vertical-align: middle;
-  display: flex;
-  gap: 8px;
-}
-
-#config-sidebar #reassurance li span {
-  display: inline-block;
-  font-weight: 500;
-}
-
-#config-sidebar #reassurance li i {
-  color: white;
-  font-size: 0.7rem;
-  padding: 4px;
-  background: var(--se-violet);
-  border-radius: 50px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
 }
 
 #config-recapitulatif .accordion-button {

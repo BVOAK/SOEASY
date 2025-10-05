@@ -499,46 +499,6 @@ function soeasy_enqueue_configurateur_assets_conditionnel() {
 }
 add_action('wp_enqueue_scripts', 'soeasy_enqueue_configurateur_assets_conditionnel');
 
-
-/**
- * Enqueue assets pour pages panier/checkout
- */
-function soeasy_enqueue_cart_assets() {
-    
-    if ( is_cart() || is_checkout() ) {
-        
-        // CSS panier
-        wp_enqueue_style( 
-            'soeasy-cart', 
-            get_template_directory_uri() . '/assets/css/cart.css',
-            array( 'woocommerce-general' ),
-            filemtime( get_template_directory() . '/assets/css/cart.css' )
-        );
-        
-        // JS panier
-        wp_enqueue_script( 
-            'soeasy-cart', 
-            get_template_directory_uri() . '/assets/js/cart.js', 
-            array( 'jquery', 'woocommerce' ), 
-            filemtime( get_template_directory() . '/assets/js/cart.js' ), 
-            true 
-        );
-        
-        // Variables JS
-        wp_localize_script( 'soeasy-cart', 'soeasyCartVars', array(
-            'ajaxurl' => admin_url( 'admin-ajax.php' ),
-            'security' => wp_create_nonce( 'soeasy_cart_action' ),
-            'configurateur_url' => get_permalink( get_page_by_path( 'configurateur' ) ),
-            'messages' => array(
-                'confirm_remove_address' => 'Êtes-vous sûr de vouloir supprimer tous les produits pour cette adresse ?',
-                'error_generic' => 'Une erreur est survenue. Veuillez réessayer.',
-                'success_updated' => 'Panier mis à jour avec succès'
-            )
-        ) );
-    }
-}
-add_action( 'wp_enqueue_scripts', 'soeasy_enqueue_cart_assets' );
-
 function soeasy_force_cart_template($template) {
     
     if (is_cart()) {

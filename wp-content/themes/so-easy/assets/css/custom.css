@@ -28,3 +28,27 @@
   margin-top: -100px;
   padding-top: 100px;
 }
+
+#reassurance li {
+  list-style: none;
+  padding: 4px 0;
+  vertical-align: middle;
+  display: flex;
+  gap: 8px;
+}
+
+#reassurance li span {
+  display: inline-block;
+  font-weight: 500;
+}
+
+#reassurance li i {
+  color: white;
+  font-size: 13px;
+  padding: 4px;
+  background: var(--se-violet);
+  border-radius: 50px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
