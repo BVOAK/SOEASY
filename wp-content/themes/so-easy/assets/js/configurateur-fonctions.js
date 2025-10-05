@@ -63,21 +63,32 @@ function updateEngagementVisibility() {
   }
 }
 
+//Fonction helper pour obtenir le nom d'affichage d'une adresse
+function getAdresseDisplayName(index, format = 'long') {
+  const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
+  const adresseData = adresses[index];
+
+  if (!adresseData) {
+    return `Adresse #${parseInt(index) + 1}`;
+  }
+
+  if (format === 'short' && adresseData.ville_courte) {
+    return adresseData.ville_courte;
+  }
+
+  if (format === 'long' && adresseData.ville_longue) {
+    return adresseData.ville_longue;
+  }
+
+  // Fallback vers l'adresse complète
+  return adresseData.adresse || `Adresse #${parseInt(index) + 1}`;
+}
 
 /**
  * Fonction centrale de récupération des adresses
  */
 function getAdresseByIndex(index) {
-  const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
-
-  // Gestion du format : [{ adresse: '12 rue Voltaire, Paris', ... }]
-  const adresseObj = adresses[index];
-  if (adresseObj && typeof adresseObj === 'object') {
-    if (adresseObj.adresse) return adresseObj.adresse;
-    if (adresseObj.nom) return adresseObj.nom;
-  }
-
-  return `Adresse #${parseInt(index) + 1}`;
+  return getAdresseDisplayName(index, 'long');
 }
 
 
@@ -447,332 +458,325 @@ jQuery(document).ready(function ($) {
   }
 
   // Mise en forme du récap de l'étape 6
-  function updateRecapitulatif() {
-    const recapData = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
-    const mode = getSelectedFinancementMode();
-    const engagement = getSelectedEngagement();
+function updateRecapitulatif() {
+  console.log('🔄 updateRecapitulatif() - Version responsive avec logique prix corrigée');
 
-    Object.entries(recapData).forEach(([adresseId, data]) => {
-      const $adresseBlock = jQuery(`#collapse-${adresseId}`);
+  const recapData = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
+  const mode = getSelectedFinancementMode();
+  const engagement = getSelectedEngagement();
 
-      // — abonnements
-      const abonnementsTbody = $adresseBlock.find('.recap-abonnements tbody');
-      abonnementsTbody.empty();
-      (data.abonnements || []).forEach(item => {
-        abonnementsTbody.append(`
-        <tr>
-          <td>${item.nom} <small class="d-block">${item.description || ''}</small></td>
-          <td>${item.quantite}</td>
-          <td>${(item.prixUnitaire ?? 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</td>
-          <td>${((item.prixUnitaire ?? 0) * item.quantite).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</td>
-        </tr>
-      `);
-      });
+  console.log(`📋 Mode: ${mode}, Engagement: ${engagement} mois`);
 
-      // — matériels
-      const materielsTbody = $adresseBlock.find('.recap-materiels tbody');
-      materielsTbody.empty();
-      (data.materiels || []).forEach(item => {
-        materielsTbody.append(`
-        <tr>
-          <td>${item.nom} <small class="d-block">${item.description || ''}</small></td>
-          <td>${item.quantite}</td>
-          <td>${(item.prixUnitaire ?? 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</td>
-          <td>${((item.prixUnitaire ?? 0) * item.quantite).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</td>
-        </tr>
-      `);
-      });
-
-      // — frais d'installation (version propre)
-      const fraisTbody = $adresseBlock.find('.recap-installations tbody');
-      fraisTbody.empty();
-
-      (data.fraisInstallation || []).forEach(item => {
-        const qty = parseInt(item.quantite) || 0;
-        let unit = 0;
-
-        if (mode === 'leasing') {
-          unit = parseFloat(
-            item[`prixLeasing${engagement}`] ??
-            item.prixLeasing24 ??
-            item.prixLeasing36 ??
-            item.prixLeasing48 ??
-            item.prixLeasing63 ??
-            0
-          );
-        } else {
-          unit = parseFloat(item.prixComptant) || 0;
-        }
-
-        const total = unit * qty;
-        const suffix = mode === 'leasing' ? ' € / mois' : ' €';
-
-        fraisTbody.append(`
-          <tr>
-            <td>${item.nom}</td>
-            <td>${qty}</td>
-            <td>${unit.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}${suffix}</td>
-            <td>${total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}${suffix}</td>
-          </tr>
-        `);
-      });
-
-    });
+  if (Object.keys(recapData).length === 0) {
+    console.log('⚠️ Aucune configuration trouvée');
+    return;
   }
 
+  Object.entries(recapData).forEach(([adresseId, data]) => {
+    console.log(`📋 Génération récap pour adresse ${adresseId}:`, data);
 
-  /**
- * Fonction améliorée pour afficher les villes dans les onglets
- */
-  function afficherVillesDansOnglets() {
-    console.log('🏷️ Application des noms de villes dans les onglets');
-
-    // Sélecteurs pour les onglets
-    const selecteurs = [
-      '.nav-tabs .nav-link[data-bs-target^="#tab-"]',
-      '.nav-tabs .nav-link[href^="#tab-"]',
-      '.nav-pills .nav-link[data-bs-target^="#tab-"]',
-      '.nav-pills .nav-link[href^="#tab-"]'
-    ];
-
-    let ongletsTraites = 0;
-    let $ongletsATtraiter = $();
-
-    // 1. D'abord, identifier tous les onglets à traiter
-    selecteurs.forEach(selecteur => {
-      $(selecteur).each(function () {
-        const $onglet = $(this);
-        let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
-        if (!target) return;
-
-        const index = parseInt(target.replace('#tab-', ''));
-        if (isNaN(index)) return;
-
-        $ongletsATtraiter = $ongletsATtraiter.add($onglet);
+    // 1. ✅ ABONNEMENTS
+    const $abonnementsContainer = $(`#collapse-${adresseId} .abonnements-grid .products-list`);
+    $abonnementsContainer.empty();
+    
+    if (data.abonnements && data.abonnements.length > 0) {
+      data.abonnements.forEach(item => {
+        $abonnementsContainer.append(generateProductRowCorrect(item, 'abonnement', mode, engagement));
       });
-    });
-
-    if ($ongletsATtraiter.length === 0) {
-      console.log('⚠️ Aucun onglet trouvé');
-      return;
+    } else {
+      $abonnementsContainer.append('<div class="no-products">Aucun abonnement sélectionné</div>');
     }
 
-    // 2. Masquer temporairement les onglets (opacity pour éviter le décalage)
-    $ongletsATtraiter.css('opacity', '0');
-
-    // 3. Traiter tous les onglets
-    setTimeout(() => {
-      $ongletsATtraiter.each(function () {
-        const $onglet = $(this);
-        let target = $onglet.attr('data-bs-target') || $onglet.attr('href');
-        const index = parseInt(target.replace('#tab-', ''));
-
-        const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
-        const adresseComplete = adresses[index]?.adresse || `Adresse ${index + 1}`;
-        const ville = extraireVille(adresseComplete);
-
-        $onglet.text(ville);
-        ongletsTraites++;
+    // 2. ✅ MATÉRIELS  
+    const $materielsContainer = $(`#collapse-${adresseId} .materiels-grid .products-list`);
+    $materielsContainer.empty();
+    
+    if (data.materiels && data.materiels.length > 0) {
+      data.materiels.forEach(item => {
+        $materielsContainer.append(generateProductRowCorrect(item, 'materiel', mode, engagement));
       });
+    } else {
+      $materielsContainer.append('<div class="no-products">Aucun matériel sélectionné</div>');
+    }
 
-      // 4. Réafficher tous les onglets en même temps
-      $ongletsATtraiter.css('opacity', '1');
+    // 3. ✅ FRAIS D'INSTALLATION
+    const $installationsContainer = $(`#collapse-${adresseId} .installations-grid .products-list`);
+    $installationsContainer.empty();
+    
+    if (data.fraisInstallation && data.fraisInstallation.length > 0) {
+      data.fraisInstallation.forEach(item => {
+        $installationsContainer.append(generateProductRowCorrect(item, 'frais', mode, engagement));
+      });
+    } else {
+      $installationsContainer.append('<div class="no-products">Aucun frais d\'installation</div>');
+    }
+  });
 
-      console.log(`✅ ${ongletsTraites} onglets traités sans flash`);
-    }, 50);
-  }
+  console.log('✅ Récapitulatif responsive généré avec prix corrects');
+}
+
 
   /**
-   * Fonction d'extraction de ville améliorée
+   * ✅ NOUVELLE fonction : Génère une ligne de produit responsive
    */
-  function extraireVille(adresseComplete) {
-    if (!adresseComplete) return 'Adresse';
+  function generateProductRowCorrect(item, type, mode, engagement) {
+  const quantite = parseInt(item.quantite) || 0;
+  
+  // ✅ CORRECTION : Logique prix selon le type et mode (comme l'ancien code)
+  let prixUnitaire = 0;
+  let suffix = '';
 
-    const parties = adresseComplete.split(',').map(p => p.trim());
-
-    if (parties.length >= 3) {
-      // "Rue, Ville, Pays" → prendre la ville (avant-dernière)
-      return parties[parties.length - 2];
-    } else if (parties.length === 2) {
-      // "Rue, Ville" → prendre la ville (dernière)
-      return parties[parties.length - 1];
+  if (type === 'abonnement') {
+    // ✅ ABONNEMENTS : Toujours mensuels, prix selon engagement
+    prixUnitaire = parseFloat(item.prixUnitaire) || 0; // Déjà mis à jour par updatePrixProduits()
+    suffix = ' / mois';
+    
+  } else if (type === 'materiel') {
+    // ✅ MATÉRIELS : Prix selon mode ET engagement
+    if (mode === 'comptant') {
+      prixUnitaire = parseFloat(item.prixComptant) || parseFloat(item.prixUnitaire) || 0;
+      suffix = '';
+    } else if (mode === 'leasing' && engagement) {
+      prixUnitaire = parseFloat(item[`prixLeasing${engagement}`]) || parseFloat(item.prixUnitaire) || 0;
+      suffix = ' / mois';
     }
-
-    // Fallback : prendre les 20 premiers caractères
-    return adresseComplete.length > 20
-      ? adresseComplete.substring(0, 20) + '...'
-      : adresseComplete;
+    
+  } else if (type === 'frais') {
+    // ✅ FRAIS D'INSTALLATION : Même logique que matériels
+    if (mode === 'leasing') {
+      prixUnitaire = parseFloat(
+        item[`prixLeasing${engagement}`] ??
+        item.prixLeasing24 ??
+        item.prixLeasing36 ??
+        item.prixLeasing48 ??
+        item.prixLeasing63 ??
+        0
+      );
+      suffix = ' / mois';
+    } else {
+      prixUnitaire = parseFloat(item.prixComptant) || 0;
+      suffix = '';
+    }
   }
+
+  const total = prixUnitaire * quantite;
+  
+  // Format des prix
+  const prixFormate = prixUnitaire.toLocaleString('fr-FR', { 
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2 
+  });
+  const totalFormate = total.toLocaleString('fr-FR', { 
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2 
+  });
+
+  console.log(`💰 ${item.nom}: ${prixUnitaire}€${suffix} x ${quantite} = ${total}€${suffix}`);
+
+  return `
+    <div class="product-row">
+      <!-- Info produit -->
+      <div class="product-info">
+        <div class="product-name">${escapeHtml(item.nom)}</div>
+        ${item.description ? `<div class="product-description">${escapeHtml(item.description)}</div>` : ''}
+      </div>
+      
+      <!-- Desktop: colonnes -->
+      <div class="unit-price d-none d-md-block">${prixFormate} €${suffix}</div>
+      <div class="quantity d-none d-md-block">${quantite}</div>
+      <div class="total-price d-none d-md-block">${totalFormate} €${suffix}</div>
+      
+      <!-- Mobile: layout flexible -->
+      <div class="mobile-details d-md-none">
+        <div class="detail-item">
+          <div class="detail-label">Quantité</div>
+          <div class="detail-value quantity">${quantite}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Prix unit.</div>
+          <div class="detail-value">${prixFormate} €${suffix}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Total</div>
+          <div class="detail-value total-price">${totalFormate} €${suffix}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 
   /**
-   * Fonction pour afficher les villes dans la sidebar de récap
+   * Mise à jour des totaux par adresse
    */
-  function afficherVillesDansSidebar() {
-    console.log('🏷️ Application des noms de villes dans la sidebar');
+  function updateRecapTotals() {
+  const config = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
+  const mode = getSelectedFinancementMode();
+  const engagement = getSelectedEngagement();
 
-    // Sélecteurs pour les accordéons de la sidebar
-    const selecteurs = [
-      '#config-recapitulatif .accordion-button',
-      '#accordionSidebarRecap .accordion-button',
-      '.accordion-header .accordion-button'
-    ];
+  Object.entries(config).forEach(([index, data]) => {
+    let totalComptant = 0;
+    let totalMensuel = 0;
 
-    let ongletsTraites = 0;
-    let $elementsATtraiter = $();
+    // ✅ CORRECTION : Reprendre la logique exacte de initStep6Events
 
-    // 1. Identifier tous les éléments à traiter
-    selecteurs.forEach(selecteur => {
-      $(selecteur).each(function () {
-        const $bouton = $(this);
-
-        // Vérifier si c'est bien un bouton d'accordéon avec une adresse
-        const texteActuel = $bouton.text().trim();
-        if (texteActuel && texteActuel.length > 10) { // Filtre de base
-          $elementsATtraiter = $elementsATtraiter.add($bouton);
-        }
-      });
+    // 3a. Abonnements (toujours mensuels)
+    (data.abonnements || []).forEach(item => {
+      const prix = parseFloat(item.prixUnitaire) || 0;
+      const qty = parseInt(item.quantite) || 0;
+      totalMensuel += prix * qty;
     });
 
-    if ($elementsATtraiter.length === 0) {
-      console.log('⚠️ Aucun élément sidebar trouvé');
-      return;
-    }
+    // 3b. Matériels
+    (data.materiels || []).forEach(item => {
+      const qty = parseInt(item.quantite) || 0;
 
-    // 2. Masquer temporairement pour éviter le flash
-    $elementsATtraiter.css('opacity', '0');
+      // Prix comptant toujours calculé
+      const prixComptant = parseFloat(item.prixComptant) || 0;
+      totalComptant += prixComptant * qty;
 
-    // 3. Traiter tous les éléments
-    setTimeout(() => {
-      $elementsATtraiter.each(function () {
-        const $bouton = $(this);
-        const texteActuel = $bouton.text().trim();
+      // Prix leasing si mode leasing
+      if (mode === 'leasing' && engagement) {
+        const prixLeasing = parseFloat(item[`prixLeasing${engagement}`]) || 0;
+        totalMensuel += prixLeasing * qty;
+      }
+    });
 
-        // Extraire l'index depuis les attributs data ou depuis l'ID
-        let index = null;
+    // 3c. Frais d'installation
+    (data.fraisInstallation || []).forEach(item => {
+      const qty = parseInt(item.quantite) || 0;
 
-        // Essayer de récupérer l'index depuis les attributs
-        const target = $bouton.attr('data-bs-target') || $bouton.attr('aria-controls');
-        if (target) {
-          const match = target.match(/sidebar-collapse-(\d+)|accordion-(\d+)/);
-          if (match) {
-            index = parseInt(match[1] || match[2]);
-          }
-        }
+      // Prix comptant toujours calculé
+      const prixComptant = parseFloat(item.prixComptant) || 0;
+      totalComptant += prixComptant * qty;
 
-        // Si on n'a pas trouvé l'index, essayer de le déduire depuis le texte ou la position
-        if (index === null) {
-          // Compter la position dans la liste des accordéons
-          index = $elementsATtraiter.index($bouton);
-        }
+      // Prix leasing si mode leasing
+      if (mode === 'leasing' && engagement) {
+        const prixLeasing = parseFloat(item[`prixLeasing${engagement}`]) || 0;
+        totalMensuel += prixLeasing * qty;
+      }
+    });
 
-        // Récupérer l'adresse correspondante
-        const adresses = JSON.parse(localStorage.getItem('soeasyAdresses') || '[]');
-        const adresseComplete = adresses[index]?.adresse || texteActuel;
+    // ✅ AFFICHAGE : Reprendre la logique exacte
+    const $accordionBody = $(`#collapse-${index} .accordion-body`);
+    $accordionBody.find('.totaux-adresse').remove();
 
-        // Extraire la ville
-        const ville = extraireVille(adresseComplete);
+    const $totauxDiv = $('<div class="totaux-adresse border mt-3 p-3 rounded"></div>');
 
-        // Mettre à jour si différent
-        if (texteActuel !== ville) {
-          $bouton.text(ville);
-          ongletsTraites++;
-          console.log(`🏷️ Sidebar accordion ${index} mis à jour: "${ville}"`);
-        }
-      });
-
-      // 4. Réafficher tous les éléments
-      $elementsATtraiter.css('opacity', '1');
-
-      console.log(`✅ ${ongletsTraites} éléments sidebar traités`);
-    }, 50);
-  }
-
-  // Mise en forme du récap de la sidebar des produits
-  function updateSidebarProduitsRecap() {
-    const recapData = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
-    const adressesData = JSON.parse(localStorage.getItem('soeasyAdresses')) || {};
-    const $container = $('#config-recapitulatif');
-    $container.empty();
-
-    const engagement = getSelectedEngagement();
-    const mode = getSelectedFinancementMode();
-
-    if (Object.keys(recapData).length === 0) {
-      $container.append('<p>Aucune sélection pour le moment.</p>');
-      return;
-    }
-
-    Object.entries(recapData).forEach(([index, config]) => {
-      const adresse = adressesData[index]?.adresse || `Adresse #${parseInt(index) + 1}`;
-      const abonnements = config.abonnements || [];
-      const materiels = config.materiels || [];
-      const frais = config.fraisInstallation || [];
-
-      const $accordion = $(`
-        <div class="accordion mb-2" id="accordion-${index}">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="sidebar-heading-${index}">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#sidebar-collapse-${index}" aria-expanded="false" aria-controls="sidebar-collapse-${index}">
-                ${adresse}
-              </button>
-            </h2>
-            <div id="sidebar-collapse-${index}" class="accordion-collapse collapse" aria-labelledby="heading-${index}">
-              <div class="accordion-body">
-                <h6 class="mt-0 mb-1">Abonnements</h6>
-                <ul class="list-unstyled small recap-abonnements"></ul>
-                <h6 class="mt-2 mb-1">Équipements</h6>
-                <ul class="list-unstyled small recap-materiels"></ul>
-                <h6 class="mt-2 mb-1">Frais d'installation</h6>
-                <ul class="list-unstyled small recap-frais-installation m-0"></ul>
-              </div>
-            </div>
-          </div>
+    if (mode === 'comptant') {
+      $totauxDiv.append(`
+        <div class="d-flex justify-content-between">
+          <small>Total mensuel (abonnements) :</small>
+          <strong>${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</strong>
+        </div>
+        <div class="d-flex justify-content-between">
+          <small>Total comptant (équipements + frais) :</small>
+          <strong>${totalComptant.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</strong>
         </div>
       `);
+    } else {
+      $totauxDiv.append(`
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Total mensuel :</strong>
+          <strong class="h5 mb-0">${totalMensuel.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € / mois</strong>
+        </div>
+      `);
+    }
 
-      const $abonnements = $accordion.find('.recap-abonnements');
-      abonnements.forEach(item => {
-        const total = (item.prixUnitaire || 0) * item.quantite;
-        $abonnements.append(`
-          <li>${item.nom} × ${item.quantite} <span class="float-end">${total.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span></li>
-        `);
-      });
+    $accordionBody.append($totauxDiv);
+  });
+}
 
-      const $materiels = $accordion.find('.recap-materiels');
-      materiels.forEach(item => {
-        const total = (item.prixUnitaire || 0) * item.quantite;
-        $materiels.append(`
-          <li>${item.nom} × ${item.quantite} <span class="float-end">${total.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span></li>
-        `);
-      });
-
-      // Frais d'installation (SEUL le total)
-      const $fraisList = $accordion.find('.recap-frais-installation');
-      let totalFrais = 0;
-      if (!Array.isArray(frais)) return;
-      frais.forEach(item => {
-        const unit = mode === 'leasing'
-          ? (item[`prixLeasing${engagement}`] ?? item.prixLeasing0)
-          : item.prixComptant;
-        totalFrais += unit * item.quantite;
-      });
-      const suffix = mode === 'leasing' ? ' € / mois' : ' €';
-      $fraisList.append(`
-      <li>Total frais d'installation <span class="float-end">${totalFrais.toLocaleString('fr-FR', { minimumFractionDigits: 2 })}${suffix}</span></li>
-     `);
-
-      $container.append($accordion);
-
-      setTimeout(() => {
-        afficherVillesDansSidebar();
-      }, 100);
-
-      updateSidebarTotauxRecap()
-
-    });
+  /**
+   * ✅ Helper pour échapper le HTML
+   */
+  function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
   }
+
+  function updateSidebarProduitsRecap() {
+  const recapData = JSON.parse(localStorage.getItem('soeasyConfig')) || {};
+  const adressesData = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
+  const $container = $('#config-recapitulatif');
+  $container.empty();
+
+  const engagement = getSelectedEngagement();
+  const mode = getSelectedFinancementMode();
+
+  if (Object.keys(recapData).length === 0) {
+    $container.append('<p>Aucune sélection pour le moment.</p>');
+    return;
+  }
+
+  Object.entries(recapData).forEach(([index, config]) => {
+    // ✅ NOUVEAU : Utiliser ville_longue depuis les données enrichies
+    const adresseData = adressesData[index];
+    let displayName;
+    
+    if (adresseData && adresseData.ville_longue) {
+      displayName = adresseData.ville_longue;
+    } else if (adresseData && adresseData.adresse) {
+      displayName = adresseData.adresse;
+    } else {
+      displayName = `Adresse #${parseInt(index) + 1}`;
+    }
+
+    const abonnements = config.abonnements || [];
+    const materiels = config.materiels || [];
+    const frais = config.fraisInstallation || [];
+
+    const $accordion = $(`
+      <div class="accordion-item mb-2">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                  data-bs-target="#sidebar-collapse-${index}" aria-expanded="false">
+            ${displayName}
+          </button>
+        </h2>
+        <div id="sidebar-collapse-${index}" class="accordion-collapse collapse">
+          <div class="accordion-body p-2">
+            <div class="products-recap"></div>
+          </div>
+        </div>
+      </div>
+    `);
+
+    // Reste du code inchangé...
+    const $body = $accordion.find('.products-recap');
+    
+    if (abonnements.length > 0) {
+      $body.append('<h6 class="text-primary mb-1">Abonnements</h6>');
+      abonnements.forEach(item => {
+        $body.append(`<div class="small mb-1">${item.nom} <span class="float-end">${item.quantite}x</span></div>`);
+      });
+    }
+
+    if (materiels.length > 0) {
+      $body.append('<h6 class="text-primary mb-1 mt-2">Matériels</h6>');
+      materiels.forEach(item => {
+        $body.append(`<div class="small mb-1">${item.nom} <span class="float-end">${item.quantite}x</span></div>`);
+      });
+    }
+
+    if (frais.length > 0) {
+      $body.append('<h6 class="text-primary mb-1 mt-2">Frais installation</h6>');
+      frais.forEach(item => {
+        $body.append(`<div class="small mb-1">${item.nom} <span class="float-end">${item.quantite}x</span></div>`);
+      });
+    }
+
+    $container.append($accordion);
+  });
+}
+
 
 
   // Mise en forme du récap de la sidebar des totaux
@@ -1041,41 +1045,41 @@ jQuery(document).ready(function ($) {
  * Ajoute les attributs de variation à tous les produits de la config
  */
   function enrichConfigWithVariations(config) {
-  const engagement = getSelectedEngagement();
-  const financement = getSelectedFinancementMode();
-  
-  console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
-  
-  // Format correct : ajouter "-mois"
-  let engagementValue;
-  if (!engagement || engagement === 0 || engagement === '0') {
-    engagementValue = 'sans-engagement';
-  } else {
-    engagementValue = engagement + '-mois';
-  }
-  
-  // ✅ CORRECTION FINALE : pa_duree-dengagement (avec le "d")
-  const attributes = {
-    'pa_duree-dengagement': engagementValue
-  };
-  
-  console.log('🎯 Attributes à ajouter:', attributes);
-  
-  Object.keys(config).forEach(adresseIndex => {
-    ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
-      if (Array.isArray(config[adresseIndex][section])) {
-        config[adresseIndex][section].forEach(produit => {
-          if (!produit.attributes) {
-            produit.attributes = { ...attributes };
-            console.log(`✅ Attributes ajoutés pour ${produit.nom}: ${engagementValue}`);
-          }
-        });
-      }
+    const engagement = getSelectedEngagement();
+    const financement = getSelectedFinancementMode();
+
+    console.log(`🔧 enrichConfigWithVariations - engagement=${engagement}, financement=${financement}`);
+
+    // Format correct : ajouter "-mois"
+    let engagementValue;
+    if (!engagement || engagement === 0 || engagement === '0') {
+      engagementValue = 'sans-engagement';
+    } else {
+      engagementValue = engagement + '-mois';
+    }
+
+    // ✅ CORRECTION FINALE : pa_duree-dengagement (avec le "d")
+    const attributes = {
+      'pa_duree-dengagement': engagementValue
+    };
+
+    console.log('🎯 Attributes à ajouter:', attributes);
+
+    Object.keys(config).forEach(adresseIndex => {
+      ['abonnements', 'materiels', 'fraisInstallation'].forEach(section => {
+        if (Array.isArray(config[adresseIndex][section])) {
+          config[adresseIndex][section].forEach(produit => {
+            if (!produit.attributes) {
+              produit.attributes = { ...attributes };
+              console.log(`✅ Attributes ajoutés pour ${produit.nom}: ${engagementValue}`);
+            }
+          });
+        }
+      });
     });
-  });
-  
-  return config;
-}
+
+    return config;
+  }
 
   /**
 * Fonction de validation finale et envoi vers le panier WooCommerce
@@ -1200,6 +1204,7 @@ jQuery(document).ready(function ($) {
   window.updatePrices = updatePrices;
   window.addAdresseToSession = addAdresseToSession;
   window.updateRecapitulatif = updateRecapitulatif;
+  window.updateRecapTotals = updateRecapTotals;
   window.updateSidebarProduitsRecap = updateSidebarProduitsRecap;
   window.updateSidebarTotauxRecap = updateSidebarTotauxRecap;
   window.updateFraisTotal = updateFraisTotal;
@@ -1209,7 +1214,5 @@ jQuery(document).ready(function ($) {
   window.generateFraisItem = generateFraisItem;
   window.syncFraisToSession = syncFraisToSession;
   window.escapeHtml = escapeHtml;
-  window.afficherVillesDansOnglets = afficherVillesDansOnglets;
-  window.afficherVillesDansSidebar = afficherVillesDansSidebar;
 
 });

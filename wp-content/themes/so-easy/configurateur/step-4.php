@@ -42,7 +42,7 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
         <li class="nav-item">
           <button class="nav-link <?php echo $i === 0 ? 'active' : ''; ?>" data-bs-toggle="tab"
             data-bs-target="#tab-<?php echo $i; ?>">
-            <?php echo esc_html($adresse['adresse']); ?>
+            <?php echo esc_html(soeasy_get_ville_courte($adresse['adresse'])); ?>
           </button>
         </li>
       <?php endforeach; ?>
@@ -281,9 +281,9 @@ $accessoires = soeasy_session_get('soeasy_accessoires_centrex', []);
                         </span>
                         <img src="<?php echo $image[0]; ?>" data-id="<?php echo $product_id; ?>" class="img-responsive"
                           alt="<?php echo get_the_excerpt(); ?>">
-                        <div>
+                        <div class="col">
                           <h3 class="product-title"><?php the_title(); ?></h3>
-                          <span class="text-muted"><?php echo get_the_excerpt(); ?></span>
+                          <small class="text-muted"><?php echo get_the_excerpt(); ?></small>
                         </div>
                       </label>
                     </div>

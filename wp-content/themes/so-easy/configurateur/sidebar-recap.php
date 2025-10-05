@@ -1,4 +1,4 @@
-<div class="d-none d-lg-block sidebar p-0 bg-light">
+<div class="d-none d-lg-block sidebar p-0">
   <div id="config-sidebar">
     <div class="blockParameter p-4">
       <h5 class="mb-3 title">
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="blockRecap bg-light p-4">
+    <div class="blockRecap p-4">
       <!-- Résumé dynamique -->
       <div id="config-recapitulatif">
         <div id="accordionSidebarRecap">

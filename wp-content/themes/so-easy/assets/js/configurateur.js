@@ -213,7 +213,7 @@ jQuery(document).ready(function ($) {
   });
 
   // Navigation entre les étapes
-  $(document).on('click', '.btn-suivant, .btn-precedent', function () {
+  $(document).on('click', '.btn-suivant, .btn-precedent, .config-steps .nav-link', function () {
     const nextStep = $(this).data('step');
     localStorage.setItem('soeasyCurrentStep', nextStep);
     loadStep(nextStep);
@@ -410,16 +410,16 @@ jQuery(document).ready(function ($) {
     initGoogleAutocomplete();
 
     function checkAdressesAndToggleButton() {
-        const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
-        const hasAddresses = adresses.length > 0 || $('#liste-adresses ul li').length > 0;
-        
-        if (hasAddresses) {
-            $('.btn-suivant').removeClass('disabled');
-            console.log('✅ Adresses existantes détectées - bouton activé');
-        } else {
-            $('.btn-suivant').addClass('disabled');
-            console.log('⚠️ Aucune adresse - bouton désactivé');
-        }
+      const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
+      const hasAddresses = adresses.length > 0 || $('#liste-adresses ul li').length > 0;
+
+      if (hasAddresses) {
+        $('.btn-suivant').removeClass('disabled');
+        console.log('✅ Adresses existantes détectées - bouton activé');
+      } else {
+        $('.btn-suivant').addClass('disabled');
+        console.log('⚠️ Aucune adresse - bouton désactivé');
+      }
     }
 
     // Appeler la vérification au chargement de l'étape
@@ -462,6 +462,10 @@ jQuery(document).ready(function ($) {
             $('#adresse').val('');
             $('input[name="services[]"]').prop('checked', false);
 
+            if (response.data.addresses_enriched) {
+              localStorage.setItem('soeasyAdresses', JSON.stringify(response.data.addresses_enriched));
+            }
+
             // MàJ du localStorage
             const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
             adresses.push({ adresse: adresse });
@@ -498,7 +502,6 @@ jQuery(document).ready(function ($) {
           const adresses = JSON.parse(localStorage.getItem('soeasyAdresses')) || [];
           adresses.splice(index, 1);
           localStorage.setItem('soeasyAdresses', JSON.stringify(adresses));
-
           location.reload();
         },
         error: function () {
@@ -902,12 +905,12 @@ jQuery(document).ready(function ($) {
         const prixLeasing63 = parseFloat($produit.data('prix-leasing-63')) || 0;
 
         let typeCorrect = typeAttr;
-          if (name.includes('forfait_mobile')) {
-            typeCorrect = 'forfait-mobile';  // Pas 'mobile'
-          } else if (name.includes('forfait_data')) {
-            typeCorrect = 'forfait-data';    // Pas 'forfait'
-          } else if (name.includes('equipement')) {
-            typeCorrect = 'equipement-mobile';
+        if (name.includes('forfait_mobile')) {
+          typeCorrect = 'forfait-mobile';  // Pas 'mobile'
+        } else if (name.includes('forfait_data')) {
+          typeCorrect = 'forfait-data';    // Pas 'forfait'
+        } else if (name.includes('equipement')) {
+          typeCorrect = 'equipement-mobile';
         }
 
         const produit = {
@@ -1432,7 +1435,6 @@ jQuery(document).ready(function ($) {
    */
 
   window.initStep6Events = function () {
-    console.log('🎯 Initialisation Step 6 - Récapitulatif final (VERSION CORRIGÉE)');
 
     // 1. Forcer la mise à jour immédiate des prix
     updatePrices();
@@ -1440,6 +1442,7 @@ jQuery(document).ready(function ($) {
     // 2. Générer le contenu des tableaux
     setTimeout(() => {
       updateRecapitulatif();
+      updateRecapTotals();
       updateSidebarTotauxRecap();
     }, 100);
 
@@ -1517,32 +1520,17 @@ jQuery(document).ready(function ($) {
     });
 
     // 4. Gestion du bouton "Valider ma configuration"
-    $('#btn-commander').off('click.step6').on('click.step6', function (e) {
+    $(document).off('click', '#btn-commander').on('click', '#btn-commander', function (e) {
       e.preventDefault();
 
-      console.log('🛒 Clic sur bouton Commander');
-
-      // Validation basique
-      if (Object.keys(config).length === 0) {
-        showToastError('Aucune configuration trouvée. Veuillez configurer au moins une adresse.');
-        return;
-      }
-
-      if (adresses.length === 0) {
-        showToastError('Aucune adresse configurée. Retournez à l\'étape 1.');
-        return;
-      }
-
-      // Appeler la fonction sendToCart() (doit être définie dans configurateur-fonctions.js)
       if (typeof sendToCart === 'function') {
         sendToCart();
       } else {
-        console.error('❌ Fonction sendToCart() non trouvée');
-        showToastError('Erreur technique : fonction de commande non disponible.');
+        console.warn('⚠️ Fonction sendToCart non trouvée');
+        alert('Fonction de validation non disponible');
       }
     });
 
-    console.log('✅ Step 6 initialisé avec succès (version corrigée)');
   };
 
 });

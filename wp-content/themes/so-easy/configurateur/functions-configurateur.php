@@ -41,20 +41,51 @@ function soeasy_session_delete($key)
 /**
  * Fonctions générales
  */
-function soeasy_get_adresses_configurateur()
-{
-    return soeasy_session_get('soeasy_config_adresses', []);
+function soeasy_get_adresses_configurateur() {
+    $adresses = soeasy_session_get('soeasy_config_adresses', []);
+    
+    // ✅ NOUVEAU : Auto-enrichissement si pas déjà fait
+    $enriched = [];
+    foreach ($adresses as $adresse) {
+        if (is_array($adresse) && isset($adresse['ville_courte'])) {
+            // Déjà enrichie
+            $enriched[] = $adresse;
+        } else {
+            // À enrichir
+            $adresse_text = is_array($adresse) ? $adresse['adresse'] : $adresse;
+            $enriched[] = [
+                'adresse' => $adresse_text,
+                'services' => is_array($adresse) ? ($adresse['services'] ?? []) : [],
+                'ville_courte' => soeasy_get_ville_courte($adresse_text),
+                'ville_longue' => soeasy_get_ville_longue($adresse_text)
+            ];
+        }
+    }
+    
+    return $enriched;
 }
 
-function soeasy_add_adresse_configurateur($adresse, $services)
-{
-    $adresses = soeasy_get_adresses_configurateur();
-    $adresses[] = [
-        'adresse' => sanitize_text_field($adresse),
-        'services' => array_map('sanitize_text_field', $services)
+function soeasy_add_adresse_configurateur($adresse, $services = []) {
+    $adresses = soeasy_session_get('soeasy_config_adresses', []);
+    
+    // ✅ NOUVEAU : Enrichir directement lors de l'ajout
+    $nouvelle_adresse = [
+        'adresse' => $adresse,
+        'services' => $services,
+        'ville_courte' => soeasy_get_ville_courte($adresse),
+        'ville_longue' => soeasy_get_ville_longue($adresse)
     ];
+    
+    $adresses[] = $nouvelle_adresse;
     soeasy_session_set('soeasy_config_adresses', $adresses);
+    
     return $adresses;
+}
+
+// Helper pour page-configurateur.php
+function soeasy_get_adresses_json_enriched() {
+    $adresses = soeasy_get_adresses_configurateur();
+    return json_encode($adresses);
 }
 
 function soeasy_get_selected_services($index)
@@ -181,6 +212,16 @@ function ajax_soeasy_add_adresse_configurateur()
         wp_send_json_error('Adresse ou services manquants');
     $updated = soeasy_add_adresse_configurateur($adresse, $services);
 
+    $enriched_addresses = [];
+    foreach ($updated as $i => $adr) {
+        $enriched_addresses[] = [
+            'adresse' => $adr['adresse'],
+            'services' => $adr['services'],
+            'ville_courte' => soeasy_get_ville_courte($adr['adresse']),
+            'ville_longue' => soeasy_get_ville_longue($adr['adresse'])
+        ];
+    }
+
     ob_start();
     foreach ($updated as $i => $adr) {
         echo '<li class="list-group-item d-flex justify-content-between align-items-center p-3 mb-1">';
@@ -189,7 +230,11 @@ function ajax_soeasy_add_adresse_configurateur()
         echo '<button class="btn btn-sm btn-remove-adresse" data-index="' . $i . '"><i class="fa-solid fa-circle-xmark"></i></button>';
         echo '</li>';
     }
-    wp_send_json_success(['html' => ob_get_clean()]);
+
+    wp_send_json_success([
+        'html' => ob_get_clean(),
+        'addresses_enriched' => $enriched_addresses // ✅ NOUVEAU : Pour le localStorage
+    ]);
 }
 
 function ajax_soeasy_remove_adresse_configurateur()
@@ -205,6 +250,166 @@ function ajax_soeasy_remove_adresse_configurateur()
         wp_send_json_success($adresses);
     }
     wp_send_json_error('Adresse non trouvée');
+}
+
+function soeasy_extraire_ville($adresse_complete, $max_length = 25) {
+    if (empty($adresse_complete)) {
+        return 'Adresse';
+    }
+
+    // Nettoyer l'adresse
+    $adresse_complete = trim($adresse_complete);
+    
+    // Séparer par les virgules
+    $parties = array_map('trim', explode(',', $adresse_complete));
+    
+    if (count($parties) >= 3) {
+        // Format "Rue, Ville, Pays" → prendre la ville (avant-dernière partie)
+        $ville = $parties[count($parties) - 2];
+    } elseif (count($parties) === 2) {
+        // Format "Rue, Ville" → prendre la ville (dernière partie)
+        $ville = $parties[count($parties) - 1];
+    } else {
+        // Pas de virgule, essayer d'extraire intelligemment
+        $ville = soeasy_extraire_ville_intelligente($adresse_complete);
+    }
+    
+    // Nettoyer le résultat
+    $ville = trim($ville);
+    
+    // Si trop long, tronquer avec des points de suspension
+    if (strlen($ville) > $max_length) {
+        $ville = substr($ville, 0, $max_length - 3) . '...';
+    }
+    
+    // Si vide après nettoyage, fallback
+    if (empty($ville)) {
+        $ville = strlen($adresse_complete) > $max_length 
+            ? substr($adresse_complete, 0, $max_length - 3) . '...'
+            : $adresse_complete;
+    }
+    
+    return $ville;
+}
+
+/**
+ * Extraction intelligente de ville sans virgules
+ * Cherche des patterns typiques d'adresses françaises
+ */
+function soeasy_extraire_ville_intelligente($adresse) {
+    // Patterns typiques à exclure (début d'adresse)
+    $patterns_rue = [
+        '/^\d+[a-z]?\s+/', // Numéro de rue
+        '/^(rue|avenue|boulevard|place|square|impasse|allée|chemin|route)\s+/i',
+        '/^(bis|ter|quater)\s+/i'
+    ];
+    
+    $adresse_sans_rue = $adresse;
+    
+    // Supprimer les patterns de rue du début
+    foreach ($patterns_rue as $pattern) {
+        $adresse_sans_rue = preg_replace($pattern, '', $adresse_sans_rue);
+    }
+    
+    $adresse_sans_rue = trim($adresse_sans_rue);
+    
+    // Si on a réussi à isoler quelque chose, le retourner
+    if (!empty($adresse_sans_rue) && $adresse_sans_rue !== $adresse) {
+        return $adresse_sans_rue;
+    }
+    
+    // Fallback : prendre les derniers mots (supposés être la ville)
+    $mots = explode(' ', $adresse);
+    if (count($mots) > 2) {
+        // Prendre les 2 derniers mots maximum pour la ville
+        return implode(' ', array_slice($mots, -2));
+    }
+    
+    return $adresse;
+}
+
+/**
+ * Fonction helper pour obtenir la ville d'une adresse par son index
+ * 
+ * @param int $index Index de l'adresse dans le tableau des adresses
+ * @return string Le nom de la ville
+ */
+function soeasy_get_ville_par_index($index) {
+    $adresses = soeasy_get_adresses_configurateur();
+    
+    if (isset($adresses[$index]['adresse'])) {
+        return soeasy_extraire_ville($adresses[$index]['adresse']);
+    }
+    
+    return "Adresse " . ($index + 1);
+}
+
+/**
+ * Version courte pour les onglets (max 20 caractères)
+ */
+function soeasy_get_ville_courte($adresse_complete) {
+    return soeasy_extraire_ville($adresse_complete, 20);
+}
+
+/**
+ * Version longue pour les accordéons (max 35 caractères)
+ */
+function soeasy_get_ville_longue($adresse_complete) {
+    return soeasy_extraire_ville($adresse_complete, 35);
+}
+
+// Tests unitaires (à supprimer en production)
+function soeasy_test_extraction_ville() {
+    $tests = [
+        "12 rue Voltaire, Paris, France" => "Paris",
+        "Avenue des Champs-Élysées, Paris" => "Paris",
+        "Lyon" => "Lyon",
+        "123 Boulevard Saint-Germain, 75006 Paris, France" => "75006 Paris",
+        "Marseille, France" => "Marseille",
+        "Une très très longue adresse qui dépasse la limite" => "Une très très long...",
+        "" => "Adresse"
+    ];
+    
+    foreach ($tests as $input => $expected) {
+        $result = soeasy_extraire_ville($input);
+        echo "Input: '$input' => Result: '$result' (Expected: '$expected')\n";
+    }
+}
+
+/**
+ * Génère les options d'adresses pour un select
+ */
+function soeasy_get_adresses_options() {
+    $adresses = soeasy_get_adresses_configurateur();
+    $options = [];
+    
+    foreach ($adresses as $i => $adresse) {
+        $ville = soeasy_get_ville_courte($adresse['adresse']);
+        $options[] = [
+            'value' => $i,
+            'text' => $ville,
+            'title' => $adresse['adresse'] // Pour tooltip
+        ];
+    }
+    
+    return $options;
+}
+
+// Pour les meta données (génération JSON côté PHP)
+function soeasy_get_adresses_json_for_js() {
+    $adresses = soeasy_get_adresses_configurateur();
+    $adresses_js = [];
+    
+    foreach ($adresses as $i => $adresse) {
+        $adresses_js[] = [
+            'index' => $i,
+            'adresse_complete' => $adresse['adresse'],
+            'ville_courte' => soeasy_get_ville_courte($adresse['adresse']),
+            'ville_longue' => soeasy_get_ville_longue($adresse['adresse'])
+        ];
+    }
+    
+    return json_encode($adresses_js);
 }
 
 /**
@@ -590,29 +795,6 @@ add_action('wp_ajax_nopriv_soeasy_ajouter_au_panier_multi', 'soeasy_ajouter_au_p
 
 
 /**
- * FONCTION DE DEBUG TEMPORAIRE - À SUPPRIMER APRÈS
- */
-function debug_variations_produit($product_id)
-{
-    $product = wc_get_product($product_id);
-    if (!$product || !$product->is_type('variable')) {
-        return;
-    }
-
-    /** @var WC_Product_Variable $product */
-    $variations = $product->get_available_variations('array');
-
-    error_log("=== DEBUG VARIATIONS PRODUIT #{$product_id} ===");
-    foreach ($variations as $var) {
-        error_log("Variation #{$var['variation_id']}:");
-        error_log("  - Attributes: " . print_r($var['attributes'], true));
-        error_log("  - Prix: {$var['display_price']}");
-    }
-    error_log("=== FIN DEBUG ===");
-}
-
-
-/**
  * Fonction helper pour ajouter un produit au panier WC
  */
 function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie)
@@ -662,8 +844,6 @@ function ajouter_produit_au_panier($produit_data, $nom_adresse, $categorie)
         // ✅ RÉCUPÉRATION UNIQUE des variations disponibles
         /** @var WC_Product_Variable $product */
         $available_variations = $product->get_available_variations('array');
-
-        debug_variations_produit($product_id);
 
         if (empty($available_variations)) {
             error_log("SoEasy: ⚠️ Produit #{$product_id} est variable mais n'a aucune variation disponible");

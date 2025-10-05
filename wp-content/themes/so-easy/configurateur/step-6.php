@@ -1,6 +1,7 @@
 <?php
 /**
- * Étape 5 – Récapitulatif de la configuration et validation commande
+ * NOUVEAU step-6.php responsive avec flexbox/grid
+ * Remplace les tableaux par des structures flexibles
  */
 
 if (!function_exists('get_template_directory')) {
@@ -23,7 +24,7 @@ $mode = soeasy_get_selected_financement();
       <li class="nav-item"><a class="nav-link completed" data-step="2" href="#">2. Internet</a></li>
       <li class="nav-item"><a class="nav-link completed" data-step="3" href="#">3. Téléphone mobile</a></li>
       <li class="nav-item"><a class="nav-link completed" data-step="4" href="#">4. Téléphonie fixe</a></li>
-      <li class="nav-item"><span class="nav-link completed">5. Frais d'installation</span></li>
+      <li class="nav-item"><a class="nav-link completed" data-step="5" href="#">5. Frais d'installation</a></li>
       <li class="nav-item"><span class="nav-link active">6. Récapitulatif</span></li>
     </ul>
 
@@ -35,67 +36,71 @@ $mode = soeasy_get_selected_financement();
       <?php foreach ($adresses as $i => $adresse) : ?>
         <div class="accordion-item">
           <h2 class="accordion-header" id="heading-<?php echo $i; ?>">
-            <button class="accordion-button <?php echo $i !== 0 ? 'collapsed' : ''; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo $i; ?>" aria-expanded="<?php echo $i === 0 ? 'true' : 'false'; ?>" aria-controls="collapse-<?php echo $i; ?>">
-              <?php echo esc_html($adresse['adresse']); ?>
+            <button class="accordion-button <?php echo $i !== 0 ? 'collapsed' : ''; ?>" type="button" 
+                    data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo $i; ?>" 
+                    aria-expanded="<?php echo $i === 0 ? 'true' : 'false'; ?>" aria-controls="collapse-<?php echo $i; ?>">
+              <i class="fas fa-map-marker-alt me-1"></i> <?php echo esc_html(soeasy_get_ville_longue($adresse['adresse'])); ?>
             </button>
           </h2>
-          <div id="collapse-<?php echo $i; ?>" class="accordion-collapse collapse <?php echo $i === 0 ? 'show' : ''; ?>" aria-labelledby="heading-<?php echo $i; ?>">
+          <div id="collapse-<?php echo $i; ?>" class="accordion-collapse collapse <?php echo $i === 0 ? 'show' : ''; ?>" 
+               aria-labelledby="heading-<?php echo $i; ?>">
             <div class="accordion-body">
 
-              <div class="recap-abonnements mb-2">
-                <h5>Abonnements</h5>
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="colProduct">Produit</th>
-                        <th class="colQty">Quantité</th>
-                        <th class="colPrice">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                        <th class="colPrice">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- À remplir dynamiquement via JS -->
-                    </tbody>
-                  </table>
+              <!-- ✅ NOUVEAU : Abonnements en Flexbox -->
+              <div class="recap-section recap-abonnements mb-3">
+                <h5 class="section-title">Abonnements</h5>
+                <div class="products-grid abonnements-grid">
+                  <!-- En-tête responsive -->
+                  <div class="grid-header d-none d-md-grid">
+                    <div class="col-product">Produit</div>
+                    <div class="col-unit-price">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></div>
+                    <div class="col-qty justify-content-center">Qté</div>
+                    <div class="col-total-price justify-content-end">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></div>
+                  </div>
+                  <!-- Contenu généré par JS -->
+                  <div class="products-list">
+                    <!-- À remplir dynamiquement -->
+                  </div>
                 </div>
               </div>
 
-              <div class="recap-materiels mb-2">
-                <h5>Matériels & Accessoires</h5>
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="colProduct">Produit</th>
-                        <th class="colQty">Quantité</th>
-                        <th class="th-prix-unitaire colPrice">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                        <th class="th-prix-total colPrice">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- À remplir dynamiquement via JS -->
-                    </tbody>
-                  </table>
+              <!-- ✅ NOUVEAU : Matériels en Flexbox -->
+              <div class="recap-section recap-materiels mb-3">
+                <h5 class="section-title">
+                  Matériels & Accessoires
+                </h5>
+                <div class="products-grid materiels-grid">
+                  <!-- En-tête responsive -->
+                  <div class="grid-header d-none d-md-grid">
+                    <div class="col-product">Produit</div>
+                    <div class="col-unit-price">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></div>
+                    <div class="col-qty justify-content-center">Qté</div>
+                    <div class="col-total-price justify-content-end">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></div>
+                  </div>
+                  <!-- Contenu généré par JS -->
+                  <div class="products-list">
+                    <!-- À remplir dynamiquement -->
+                  </div>
                 </div>
               </div>
 
-              <div class="recap-installations mb-1">
-                <h5>Frais de mise en service / Installation</h5>
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="colProduct">Produit</th>
-                        <th class="colQty">Quantité</th>
-                        <th class="th-prix-unitaire colPrice">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                        <th class="th-prix-total colPrice">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- À remplir dynamiquement via JS -->
-                    </tbody>
-                  </table>
+              <!-- ✅ NOUVEAU : Frais d'installation en Flexbox -->
+              <div class="recap-section recap-installations mb-3">
+                <h5 class="section-title">
+                  Frais de mise en service / Installation
+                </h5>
+                <div class="products-grid installations-grid">
+                  <!-- En-tête responsive -->
+                  <div class="grid-header d-none d-md-grid">
+                    <div class="col-product">Produit</div>
+                    <div class="col-unit-price">Prix unitaire<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></div>
+                    <div class="col-qty justify-content-center">Qté</div>
+                    <div class="col-total-price justify-content-end">Total<?php echo ($mode === 'leasing') ? '/mois' : ''; ?></div>
+                  </div>
+                  <!-- Contenu généré par JS -->
+                  <div class="products-list">
+                    <!-- À remplir dynamiquement -->
+                  </div>
                 </div>
               </div>
 
@@ -103,24 +108,31 @@ $mode = soeasy_get_selected_financement();
           </div>
         </div>
       <?php endforeach; ?>
-    </div>
+    </div>  
 
-    <div class="recap-global mt-3">
+    <div class="validation-section mt-3">
       <div class="d-flex flex-column flex-md-row justify-content-between gap-2" id="footer-buttons">
-        <button class="btn btn-outline-secondary btn-precedent" data-step="5">Étape précédente</button>
-        <button id="btn-commander" class="btn btn-primary btn-success"><img src="<?php echo get_template_directory_uri() ?>/assets/img/shopping-cart.svg" /> Valider ma configuration</button>
+        <button class="btn btn-outline-secondary btn-precedent" data-step="5">
+          Étape précédente
+        </button>
+        <div class="summary-info d-flex gap-4 align-items-center">
+          <p class="mb-0">
+            <i class="fas fa-check-circle text-success"></i>
+            Configuration validée 
+          </p>
+          <button id="btn-commander" class="btn btn-success btn-primary mt-2">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/shopping-cart.svg" alt="">
+            Commander
+          </button>
+        </div>
       </div>
     </div>
-  <?php else : ?>
-    <p>Aucune configuration trouvée.</p>
-  <?php endif; ?>
-</div>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
-  <div id="toast-error" class="toast align-items-center text-white bg-danger border-0" role="alert">
-    <div class="d-flex">
-      <div class="toast-body"></div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
+  <?php else: ?>
+    <div class="alert alert-warning">
+      <h5><i class="fas fa-exclamation-triangle me-2"></i>Aucune adresse configurée</h5>
+      <p class="mb-0">Veuillez retourner à l'étape 1 pour ajouter au moins une adresse.</p>
     </div>
-  </div>
+  <?php endif; ?>
+
 </div>

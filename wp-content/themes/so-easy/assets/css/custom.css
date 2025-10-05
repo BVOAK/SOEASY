@@ -14,19 +14,19 @@
   /*var(--se-violet);*/
 }
 
+.text-primary {
+    color: var(--se-violet)!important;
+}
+
+.text-success {
+    color: var(--se-green)!important;
+}
+
 /****** COMMUNS ******/
 #elementor-menu-cart__toggle_button {
   padding: 0!important;
   background: transparent!important;
   height: 24px!important;
-}
-
-.configurateur-wrapper {
-  background: #36006b;
-  background: radial-gradient(circle, rgba(42, 0, 71, 1) 0%, rgba(13, 0, 21, 1) 80%);
-  min-height: 100vh;
-  margin-top: -100px;
-  padding-top: 100px;
 }
 
 #reassurance li {
@@ -44,7 +44,7 @@
 
 #reassurance li i {
   color: white;
-  font-size: 13px;
+  font-size: 0.7rem;
   padding: 4px;
   background: var(--se-violet);
   border-radius: 50px;

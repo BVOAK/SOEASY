@@ -38,7 +38,7 @@ $equipements_mobile = soeasy_session_get('soeasy_equipements_mobile', []);
         <li class="nav-item">
           <button class="nav-link <?php echo $i === 0 ? 'active' : ''; ?>" data-bs-toggle="tab"
             data-bs-target="#tab-<?php echo $i; ?>">
-            <?php echo esc_html($adresse['adresse']); ?>
+            <?php echo esc_html(soeasy_get_ville_courte($adresse['adresse'])); ?>
           </button>
         </li>
       <?php endforeach; ?>
